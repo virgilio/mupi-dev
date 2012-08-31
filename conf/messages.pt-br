@@ -1,0 +1,154 @@
+# Override default Play's validation messages
+
+# --- Constraints
+constraint.required=Exigido
+constraint.min=Valor mínimo: {0}
+constraint.max=Valor máximo: {0}
+constraint.minLength=Duração mínima: {0}
+constraint.maxLength=Comprimento máximo: {0}
+constraint.email=E-mail
+
+# --- Formats
+format.date=Data ('' {0}'')
+format.numeric=Numérico
+format.real=Real
+
+# --- Errors
+error.invalid=Valor inválido
+error.required=Este campo é necessário
+error.number=Valor numérico esperado
+error.real=Valor de número real esperado
+error.min=Deve ser maior ou igual a {0}
+error.max=Deve ser menor ou igual a {0}
+error.minLength=Comprimento mínimo é {0}
+error.maxLength=O comprimento máximo é {0}
+error.email=Email válido
+error.pattern=Deve satisfazer {0}
+
+### --- play-authenticate START
+
+# play-authenticate: Initial translations
+
+playauthenticate.accounts.link.success=Conta vinculada com sucesso
+playauthenticate.accounts.merge.success=Contas mesclados com êxito
+
+playauthenticate.verify_email.error.already_validated=Seu e-mail já foi validado.
+playauthenticate.verify_email.error.set_email_first=Você precisa definir um endereço de e-mail primeiro.
+playauthenticate.verify_email.message.instructions_sentto=Instruções sobre como verificar o seu endereço de e-mail foi enviado para {0}.
+playauthenticate.verify_email.success=E-mail ({0}) verificado com êxito.
+
+playauthenticate.reset_password.message.instructions_sent.=Instruções sobre como redefinir sua senha foram enviados para {0}.
+playauthenticate.reset_password.message.email_not_verifiedi=Sua conta não foi verificada, ainda. Um e-mail com instruções sobre como verificar que foi enviado. Repetir redefinir sua senha depois.
+playauthenticate.reset_password.message.no_password_account=Seu usuário ainda não foi criado para o uso de senha.
+playauthenticate.reset_password.message.success.auto_login=Sua senha foi redefinida.
+playauthenticate.reset_password.message.success.manual_login=Sua senha foi redefinida. Por favor, agora faça o login usando sua nova senha.
+
+playauthenticate.change_password.error.passwords_not_same=As senhas não coincidem.
+playauthenticate.change_password.success=Senha foi alterada com sucesso.
+playauthenticate.password.signup.error.passwords_not_same=As senhas não coincidem.
+playauthenticate.password.login.unknown_user_or_pw=Usuário desconhecido ou senha.
+
+playauthenticate.password.verify_signup.subject=Mupi: Complete sua inscrição
+playauthenticate.password.verify_email.subject=Mupi: Confirme o seu endereço de e-mail
+playauthenticate.password.reset_email.subject=Mupi: Como redefinir sua senha
+
+# play-authenticate: Additional translations
+
+playauthenticate.login.email.placeholder=O seu endereço de e-mail
+playauthenticate.login.password.placeholder=Escolha uma senha
+playauthenticate.login.password.repeat=Repita a senha escolhida
+playauthenticate.login.title=Login
+playauthenticate.login.password.placeholder=Senha
+playauthenticate.login.now=Entre agora
+playauthenticate.login.forgot.password=Esqueceu sua senha?
+playauthenticate.login.oauth=ou fazer login usando um dos seguintes fornecedores:
+
+playauthenticate.signup.title=Inscrição
+playauthenticate.signup.name=Seu nome
+playauthenticate.signup.now=Registe-se já
+playauthenticate.signup.oauth=ou inscreva-se através de um dos seguintes fornecedores:
+
+playauthenticate.verify.account.title=E-mail de verificação necessária
+playauthenticate.verify.account.before=Antes de definir uma senha, você precisa
+playauthenticate.verify.account.first=primeiro verificar o seu endereço de e-mail
+
+playauthenticate.change.password.title=Mude sua senha aqui
+playauthenticate.change.password.cta=Alterar minha senha
+
+playauthenticate.merge.accounts.title=Mesclar contas
+playauthenticate.merge.accounts.question=Você quer fundir sua conta corrente ({0}) com essa conta: {1}?
+playauthenticate.merge.accounts.true=Sim, mesclar essas duas contas
+playauthenticate.merge.accounts.false=Não, sair da minha sessão atual e entrar como um novo usuário
+playauthenticate.merge.accounts.ok=Ok
+
+playauthenticate.link.account.title=Vincular conta
+playauthenticate.link.account.question=Link ({0}) com o seu usuário?
+playauthenticate.link.account.true=Sim, vincular essa conta
+playauthenticate.link.account.false=Não, sair e criar um novo usuário com essa conta
+playauthenticate.link.account.ok=Ok
+
+# play-authenticate: Signup folder translations
+
+playauthenticate.verify.email.title=Verifique o seu e-mail
+playauthenticate.verify.email.requirement=Antes de usar o Mupi, você precisa verificar o seu endereço de e-mail.
+playauthenticate.verify.email.cta=Um e-mail foi enviado para o endereço cadastrado. Por favor, siga o link embutido para ativar sua conta.
+
+playauthenticate.password.reset.title=Redefinir a senha
+playauthenticate.password.reset.cta=Redefinir minha senha
+
+playauthenticate.password.forgot.title=Esqueceu a senha
+playauthenticate.password.forgot.cta=Enviar instruções de redefinição
+
+playauthenticate.oauth.access.denied.title=OAuth acesso negado
+playauthenticate.oauth.access.denied.explanation=Se você quiser usar o Mupi com OAuth, você deve aceitar a conexão.
+playauthenticate.oauth.access.denied.alternative=Se não, em vez gostaria de fazer isso, você também pode
+playauthenticate.oauth.access.denied.alternative.cta=se inscrever com um nome de usuário e senha em vez
+
+playauthenticate.token.error.title=De símbolos de erro
+playauthenticate.token.error.message=O token dado expirou ou não existe.
+
+playauthenticate.user.exists.title=Usuário existe
+playauthenticate.user.exists.message=Este usuário já existe.
+
+# play-authenticate: Navigation
+playauthenticate.navigation.profile=Perfil
+playauthenticate.navigation.link_more=Vincular mais fornecedores
+playauthenticate.navigation.logout=Sair
+playauthenticate.navigation.login=Entrar
+playauthenticate.navigation.home=Início
+playauthenticate.navigation.restricted=Página restrita
+playauthenticate.navigation.signup=Registe-se
+
+# play-authenticate: Handler
+playauthenticate.handler.loginfirst=Você precisa fazer login em primeiro lugar, para ver'' {0}''
+
+# play-authenticate: Profile
+playauthenticate.profile.title=Perfil do usuário
+playauthenticate.profile.mail=Seu nome é {0} e seu endereço de e-mail é {1}!
+playauthenticate.profile.unverified=não verificadas - clique para verificar
+playauthenticate.profile.verified=verificado
+playauthenticate.profile.providers_many=Existem {0} fornecedores relacionados com a sua conta:
+playauthenticate.profile.providers_one=Há um fornecedor relacionada com a sua conta:
+playauthenticate.profile.logged=Você está conectado no momento com:
+playauthenticate.profile.session=Seu ID de usuário é {0} e sua sessão irá expirar em {1}
+playauthenticate.profile.session_endless=Seu ID de usuário é {0} e sua sessão não irá expirar, como é infinita
+playauthenticate.profile.password_change=Alterar / definir uma senha para a sua conta
+
+# play-authenticate - sample: Index page
+playauthenticate.index.title=Bem-vindo ao Mupi
+playauthenticate.index.intro=O que você aprendeu hoje?
+playauthenticate.index.intro_2=Encontre com quem quem você quer estudar perto de você
+playauthenticate.index.intro_3=O que você aprendeu hoje 2?
+playauthenticate.index.heading=Mupi
+playauthenticate.index.details=Ver detalhes
+
+# play-authenticate - sample: Restricted page
+playauthenticate.restricted.secrets=Segredos, em todos os lugares!
+
+
+### --- play-authenticate END
+
+
+
+
+
