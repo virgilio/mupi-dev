@@ -4,7 +4,8 @@ import PlayProject._
 
 object ApplicationBuild extends Build {
 
-    val appName         = "Mupi - O que você aprendeu hoje?"
+//    val appName         = "Mupi - O que você aprendeu hoje?"
+    val appName         = "mupi"
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
