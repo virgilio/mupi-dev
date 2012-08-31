@@ -46,59 +46,70 @@
 //	@Id
 //	public User user;
 //
-//	first_name
-//	last_name
-//	birth_date
-//	picture
-//	about
-//	created
-//	modified
+//	
+//	public String firsName;
+//	
+//	public String lastName;
+//	
+//	@Formats.DateTime(pattern = "yyyy-MM-dd")
+//	public Date birthDate;
 //	
 //	
+//	public String picture;
 //	
-//	@Email
-//	// if you make this unique, keep in mind that users *must* merge/link their
-//	// accounts then on signup with additional providers
-//	// @Column(unique = true)
-//	public String email;
-//
-//	public String name;
-//
-//	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-//	public Date lastLogin;
-//
-//	public boolean active;
-//
-//	public boolean emailValidated;
+//	public String about;
 //	
 //	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 //	public Date created;
 //	
 //	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-//	public Date lastModified;
-//
-//	@ManyToMany
-//	public List<SecurityRole> roles;
-//
-//	@OneToMany(cascade = CascadeType.ALL)
-//	public List<LinkedAccount> linkedAccounts;
-//
-//	@ManyToMany
-//	public List<UserPermission> permissions;
+//	public Date modified;
+//	
 //
 //	public static final Finder<Long, Profile> find = new Finder<Long, Profile>(
 //			Long.class, Profile.class);
 //
-//	@Override
-//	public List<? extends Role> getRoles() {
-//		return roles;
-//	}
+//	
+//	
+//	public static Profile create(final AuthUser authUser) {
+//		final Profile user = new Profile();
+//		user.roles = Collections.singletonList(SecurityRole
+//				.findByRoleName(controllers.Application.USER_ROLE));
+//		// user.permissions = new ArrayList<UserPermission>();
+//		// user.permissions.add(UserPermission.findByValue("printers.edit"));
+//		user.active = true;
+//		user.lastLogin = new Date();
+//		user.linkedAccounts = Collections.singletonList(LinkedAccount
+//				.create(authUser));
+//		
+//		user.created = new Date();
+//		user.lastModified = new Date();
 //
-//	@Override
-//	public List<? extends Permission> getPermissions() {
-//		return permissions;
-//	}
+//		if (authUser instanceof EmailIdentity) {
+//			final EmailIdentity identity = (EmailIdentity) authUser;
+//			// Remember, even when getting them from FB & Co., emails should be
+//			// verified within the application as a security breach there might
+//			// break your security as well!
+//			user.email = identity.getEmail();
+//			user.emailValidated = false;
+//		}
 //
+//		if (authUser instanceof NameIdentity) {
+//			final NameIdentity identity = (NameIdentity) authUser;
+//			final String name = identity.getName();
+//			if (name != null) {
+//				user.name = name;
+//			}
+//		}
+//
+//		user.save();
+//		user.saveManyToManyAssociations("roles");
+//		// user.saveManyToManyAssociations("permissions");
+//		return user;
+//	}
+//	
+//	
+//	
 //	public static boolean existsByAuthUserIdentity(
 //			final AuthUserIdentity identity) {
 //		final ExpressionList<Profile> exp;
@@ -150,42 +161,7 @@
 //		Ebean.save(Arrays.asList(new Profile[] { otherUser, this }));
 //	}
 //
-//	public static Profile create(final AuthUser authUser) {
-//		final Profile user = new Profile();
-//		user.roles = Collections.singletonList(SecurityRole
-//				.findByRoleName(controllers.Application.USER_ROLE));
-//		// user.permissions = new ArrayList<UserPermission>();
-//		// user.permissions.add(UserPermission.findByValue("printers.edit"));
-//		user.active = true;
-//		user.lastLogin = new Date();
-//		user.linkedAccounts = Collections.singletonList(LinkedAccount
-//				.create(authUser));
-//		
-//		user.created = new Date();
-//		user.lastModified = new Date();
-//
-//		if (authUser instanceof EmailIdentity) {
-//			final EmailIdentity identity = (EmailIdentity) authUser;
-//			// Remember, even when getting them from FB & Co., emails should be
-//			// verified within the application as a security breach there might
-//			// break your security as well!
-//			user.email = identity.getEmail();
-//			user.emailValidated = false;
-//		}
-//
-//		if (authUser instanceof NameIdentity) {
-//			final NameIdentity identity = (NameIdentity) authUser;
-//			final String name = identity.getName();
-//			if (name != null) {
-//				user.name = name;
-//			}
-//		}
-//
-//		user.save();
-//		user.saveManyToManyAssociations("roles");
-//		// user.saveManyToManyAssociations("permissions");
-//		return user;
-//	}
+//	
 //
 //	public static void merge(final AuthUser oldUser, final AuthUser newUser) {
 //		Profile.findByAuthUserIdentity(oldUser).merge(

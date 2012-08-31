@@ -65,7 +65,7 @@ public class User extends Model implements RoleHolder {
 	public Date created;
 	
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date lastModified;
+	public Date modified;
 
 	@ManyToMany
 	public List<SecurityRole> roles;
@@ -152,7 +152,7 @@ public class User extends Model implements RoleHolder {
 				.create(authUser));
 		
 		user.created = new Date();
-		user.lastModified = new Date();
+		user.modified = new Date();
 
 		if (authUser instanceof EmailIdentity) {
 			final EmailIdentity identity = (EmailIdentity) authUser;
@@ -206,7 +206,7 @@ public class User extends Model implements RoleHolder {
 	
 	public static void setLastModified(final AuthUser knownUser) {
 		final User u = User.findByAuthUserIdentity(knownUser);
-		u.lastModified = new Date();
+		u.modified = new Date();
 		u.save();
 	}
 
