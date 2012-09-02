@@ -3,6 +3,24 @@
 
 # --- !Ups
 
+create table interests (
+  id                        bigint not null,
+  name                      varchar(255),
+  description               varchar(255),
+  created                   timestamp,
+  modified                  timestamp,
+  constraint pk_interests primary key (id))
+;
+
+create table interests_user (
+  id                        bigint not null,
+  interest_id               bigint,
+  user_id                   bigint,
+  created                   timestamp,
+  modified                  timestamp,
+  constraint pk_interests_user primary key (id))
+;
+
 create table linked_account (
   id                        bigint not null,
   user_id                   bigint,
@@ -71,6 +89,10 @@ create table users_user_permission (
   user_permission_id             bigint not null,
   constraint pk_users_user_permission primary key (users_id, user_permission_id))
 ;
+create sequence interests_seq;
+
+create sequence interests_user_seq;
+
 create sequence linked_account_seq;
 
 create sequence profiles_seq;
@@ -102,6 +124,10 @@ alter table users_user_permission add constraint fk_users_user_permission_user_0
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists interests;
+
+drop table if exists interests_user;
+
 drop table if exists linked_account;
 
 drop table if exists profiles;
@@ -119,6 +145,10 @@ drop table if exists users_user_permission;
 drop table if exists user_permission;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists interests_seq;
+
+drop sequence if exists interests_user_seq;
 
 drop sequence if exists linked_account_seq;
 

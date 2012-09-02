@@ -5,6 +5,7 @@ import java.util.Date;
 
 import models.User;
 import play.Routes;
+import play.api.templates.Html;
 import play.data.Form;
 import play.mvc.*;
 import play.mvc.Http.Session;
@@ -29,6 +30,51 @@ public class Application extends Controller {
 		return ok(index.render());
 	}
 
+	/**
+	 * TODO Home controller
+	 * @return
+	 */
+	public static Result home(){
+		return ok(main.render("Home", "nav",
+				new Html("<h1>This is the user home page</h1>" +
+						"<p>Here we gonna have feed and menu options</p>" +
+						"<p>Only for authenticated users</p>")));
+	}
+
+	/**
+	 * 
+	 * TODO Interests controller
+	 * @return
+	 */
+	public static Result interests(){
+		return ok(main.render("Home", "nav",
+				new Html("<h1>This is the user interests page</h1>" +
+						"<p>Here we gonna have feed and menu options</p>" +
+						"<p>Only for authenticated users</p>")));
+	}
+
+	/**
+	 * TODO config controller
+	 * @return
+	 */
+	public static Result config(){
+		return ok(main.render("Home", "nav",
+				new Html("<h1>This is the user config page</h1>" +
+						"<p>Here we gonna have configuration and menu options</p>" +
+						"<p>Only for authenticated users</p>")));
+	}
+
+	/**
+	 * TODO config controller
+	 * @return
+	 */
+	public static Result wizard(){
+		return ok(main.render("Home", "nav",
+				new Html("<h1>This is the user wizard page</h1>" +
+						"<p>Here the user chooses the first interests</p>" +
+						"<p>Only for authenticated users</p>")));
+	}
+	
 	public static User getLocalUser(final Session session) {
 		final User localUser = User.findByAuthUserIdentity(PlayAuthenticate
 				.getUser(session));
@@ -71,7 +117,7 @@ public class Application extends Controller {
 		return ok(
 				Routes.javascriptRouter("jsRoutes",
 						controllers.routes.javascript.Signup.forgotPassword()))
-				.as("text/javascript");
+						.as("text/javascript");
 	}
 
 	public static Result doSignup() {

@@ -117,7 +117,7 @@ playauthenticate.navigation.logout=Sair
 playauthenticate.navigation.login=Entrar
 playauthenticate.navigation.home=Início
 playauthenticate.navigation.restricted=Página restrita
-playauthenticate.navigation.signup=Registe-se
+playauthenticate.navigation.signup=Registre-se
 
 # play-authenticate: Handler
 playauthenticate.handler.loginfirst=Você precisa fazer login em primeiro lugar, para ver'' {0}''
