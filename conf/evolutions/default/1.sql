@@ -11,6 +11,18 @@ create table linked_account (
   constraint pk_linked_account primary key (id))
 ;
 
+create table profiles (
+  id                        bigint not null,
+  firs_name                 varchar(255),
+  last_name                 varchar(255),
+  birth_date                timestamp,
+  picture                   varchar(255),
+  about                     varchar(255),
+  created                   timestamp,
+  modified                  timestamp,
+  constraint pk_profiles primary key (id))
+;
+
 create table security_role (
   id                        bigint not null,
   role_name                 varchar(255),
@@ -37,7 +49,7 @@ create table users (
   active                    boolean,
   email_validated           boolean,
   created                   timestamp,
-  last_modified             timestamp,
+  modified                  timestamp,
   constraint pk_users primary key (id))
 ;
 
@@ -60,6 +72,8 @@ create table users_user_permission (
   constraint pk_users_user_permission primary key (users_id, user_permission_id))
 ;
 create sequence linked_account_seq;
+
+create sequence profiles_seq;
 
 create sequence security_role_seq;
 
@@ -90,6 +104,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists linked_account;
 
+drop table if exists profiles;
+
 drop table if exists security_role;
 
 drop table if exists token_action;
@@ -105,6 +121,8 @@ drop table if exists user_permission;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists linked_account_seq;
+
+drop sequence if exists profiles_seq;
 
 drop sequence if exists security_role_seq;
 

@@ -65,7 +65,7 @@ playauthenticate.login.oauth=ou fazer login usando um dos seguintes fornecedores
 
 playauthenticate.signup.title=Inscrição
 playauthenticate.signup.name=Seu nome
-playauthenticate.signup.now=Registe-se já
+playauthenticate.signup.now=Registre-se já
 playauthenticate.signup.oauth=ou inscreva-se através de um dos seguintes fornecedores:
 
 playauthenticate.verify.account.title=E-mail de verificação necessária
