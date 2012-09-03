@@ -41,6 +41,29 @@ create table profiles (
   constraint pk_profiles primary key (id))
 ;
 
+create table publications (
+  id                        bigint not null,
+  interest_id               bigint,
+  user_id                   bigint,
+  localization_id           bigint,
+  type_id                   bigint,
+  title                     varchar(255),
+  body                      varchar(255),
+  created                   timestamp,
+  modified                  timestamp,
+  constraint pk_publications primary key (id))
+;
+
+create table publication_comments (
+  id                        bigint not null,
+  publication_id            bigint,
+  user_id                   bigint,
+  body                      varchar(255),
+  created                   timestamp,
+  modified                  timestamp,
+  constraint pk_publication_comments primary key (id))
+;
+
 create table security_role (
   id                        bigint not null,
   role_name                 varchar(255),
@@ -97,6 +120,10 @@ create sequence linked_account_seq;
 
 create sequence profiles_seq;
 
+create sequence publications_seq;
+
+create sequence publication_comments_seq;
+
 create sequence security_role_seq;
 
 create sequence token_action_seq;
@@ -132,6 +159,10 @@ drop table if exists linked_account;
 
 drop table if exists profiles;
 
+drop table if exists publications;
+
+drop table if exists publication_comments;
+
 drop table if exists security_role;
 
 drop table if exists token_action;
@@ -153,6 +184,10 @@ drop sequence if exists interests_user_seq;
 drop sequence if exists linked_account_seq;
 
 drop sequence if exists profiles_seq;
+
+drop sequence if exists publications_seq;
+
+drop sequence if exists publication_comments_seq;
 
 drop sequence if exists security_role_seq;
 

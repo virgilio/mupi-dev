@@ -35,10 +35,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result home(){
-		return ok(main.render("Home", "nav",
-				new Html("<h1>This is the user home page</h1>" +
-						"<p>Here we gonna have feed and menu options</p>" +
-						"<p>Only for authenticated users</p>")));
+		return TODO;
+//		return ok(main.render("Home", "nav",
+//				new Html("<h1>This is the user home page</h1>" +
+//						"<p>Here we gonna have feed and menu options</p>" +
+//						"<p>Only for authenticated users</p>")));
 	}
 
 	/**
@@ -47,10 +48,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result interests(){
-		return ok(main.render("Home", "nav",
-				new Html("<h1>This is the user interests page</h1>" +
-						"<p>Here we gonna have feed and menu options</p>" +
-						"<p>Only for authenticated users</p>")));
+		return TODO;
+//		return ok(main.render("Home", "nav",
+//				new Html("<h1>This is the user interests page</h1>" +
+//						"<p>Here we gonna have feed and menu options</p>" +
+//						"<p>Only for authenticated users</p>")));
 	}
 
 	/**
@@ -58,10 +60,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result config(){
-		return ok(main.render("Home", "nav",
-				new Html("<h1>This is the user config page</h1>" +
-						"<p>Here we gonna have configuration and menu options</p>" +
-						"<p>Only for authenticated users</p>")));
+		return TODO;
+//		return ok(main.render("Home", "nav",
+//				new Html("<h1>This is the user config page</h1>" +
+//						"<p>Here we gonna have configuration and menu options</p>" +
+//						"<p>Only for authenticated users</p>")));
 	}
 
 	/**
@@ -69,10 +72,12 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result wizard(){
-		return ok(main.render("Home", "nav",
-				new Html("<h1>This is the user wizard page</h1>" +
-						"<p>Here the user chooses the first interests</p>" +
-						"<p>Only for authenticated users</p>")));
+		return ok(views.html.wizard.render());
+
+//		return ok(main.render("Home", "nav",
+//				new Html("<h1>This is the user wizard page</h1>" +
+//						"<p>Here the user chooses the first interests</p>" +
+//						"<p>Only for authenticated users</p>")));
 	}
 	
 	public static User getLocalUser(final Session session) {
