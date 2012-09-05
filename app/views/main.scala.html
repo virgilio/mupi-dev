@@ -17,7 +17,7 @@
     <!-- Le scripts -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="@routes.Assets.at("js/bootstrap.min.js")"></script>
-	<script src="@routes.Application.jsRoutes" defer="defer"></script>
+	<script src="@routes.Mupi.jsRoutes" defer="defer"></script>
 	
     <!-- Le styles -->
     <link href="@routes.Assets.at("stylesheets/main.min.css")" rel="stylesheet">
@@ -41,35 +41,35 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="@routes.Application.index()">Play! Authenticate</a>
+          <a class="brand" href="@routes.Mupi.index()">Play! Authenticate</a>
           
           <div class="btn-group pull-right">
           @if(Deadbolt.viewRoleHolderPresent()) {
-          	@defining(Application.getLocalUser(session())) { user =>
+          	@defining(Mupi.getLocalUser(session())) { user =>
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
               <i class="icon-user"></i> @user.name
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="@routes.Application.profile()">@Messages("playauthenticate.navigation.profile")</a></li>
+              <li><a href="@routes.Mupi.profile()">@Messages("playauthenticate.navigation.profile")</a></li>
 <!--               <li><a href="@routes.Account.link()">@Messages("playauthenticate.navigation.link_more")</a></li> -->
               <li class="divider"></li>
               <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a></li>
             </ul>
             }
           } else {
-            <a href="@routes.Application.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Messages("playauthenticate.navigation.login")</a>
+            <a href="@routes.Mupi.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Messages("playauthenticate.navigation.login")</a>
           }
           </div>
 
           
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="@("active".when(nav == ""))"><a href="@routes.Application.index()">@Messages("playauthenticate.navigation.home")</a></li>
-<!--               <li class="@("active".when(nav == "restricted"))"><a href="@routes.Application.restricted()">@Messages("playauthenticate.navigation.restricted")</a></li> -->
+              <li class="@("active".when(nav == ""))"><a href="@routes.Mupi.index()">@Messages("playauthenticate.navigation.home")</a></li>
+<!--               <li class="@("active".when(nav == "restricted"))"><a href="@routes.Mupi.restricted()">@Messages("playauthenticate.navigation.restricted")</a></li> -->
                 
                 @if(!Deadbolt.viewRoleHolderPresent()) {
-			    	<li class="@("active".when(nav == "signup"))"><a href="@routes.Application.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
+			    	<li class="@("active".when(nav == "signup"))"><a href="@routes.Mupi.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
 			    }
             </ul>
           </div><!--/.nav-collapse -->
@@ -78,14 +78,14 @@
     </div>
 
     <div class="container">
-	    @if(flash.contains(Application.FLASH_ERROR_KEY)) {
+	    @if(flash.contains(Mupi.FLASH_ERROR_KEY)) {
 	      <div class="alert alert-error">
-	      	@flash().get(Application.FLASH_ERROR_KEY)
+	      	@flash().get(Mupi.FLASH_ERROR_KEY)
 	      </div>
 	    }
-	    @if(flash.contains(Application.FLASH_MESSAGE_KEY)) {
+	    @if(flash.contains(Mupi.FLASH_MESSAGE_KEY)) {
 	      <div class="alert alert-success">
-	      	@flash().get(Application.FLASH_MESSAGE_KEY)
+	      	@flash().get(Mupi.FLASH_MESSAGE_KEY)
 	      </div>
 	    }
 		@content

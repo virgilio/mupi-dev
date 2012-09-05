@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import models.TokenAction.Type;
@@ -37,8 +38,10 @@ public class Profile extends Model {
 	@Id
 	public Long id;
 	
+	@OneToOne
 	public User user;
-	public String firsName;
+	
+	public String firstName;
 	public String lastName;
 	
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
@@ -65,7 +68,7 @@ public class Profile extends Model {
 		final Profile p = new Profile();
 		p.user = new User();
 		p.user.roles = Collections.singletonList(SecurityRole
-				.findByRoleName(controllers.Application.USER_ROLE));
+				.findByRoleName(controllers.Mupi.USER_ROLE));
 		// user.permissions = new ArrayList<UserPermission>();
 		// user.permissions.add(UserPermission.findByValue("printers.edit"));
 		p.user.active = true;

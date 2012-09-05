@@ -1,22 +1,20 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
+# This file defines all Mupi routes (Higher priority routes first)
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
-GET     /restricted                 controllers.Application.restricted
-GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
+GET     /                           controllers.Mupi.index
+GET     /restricted                 controllers.Mupi.restricted
+GET     /assets/javascript/routes.js    controllers.Mupi.jsRoutes
 
-GET     /profile                    controllers.Application.profile
-
-GET     /login                      controllers.Application.login
-POST    /login                      controllers.Application.doLogin
+GET     /login                      controllers.Mupi.login
+POST    /login                      controllers.Mupi.doLogin
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 
-GET     /signup                     controllers.Application.signup
-POST    /signup                     controllers.Application.doSignup
+GET     /signup                     controllers.Mupi.signup
+POST    /signup                     controllers.Mupi.doSignup
 
 GET     /accounts/unverified        controllers.Signup.unverified
 GET     /authenticate/:provider/denied     controllers.Signup.oAuthDenied(provider: String)
@@ -46,8 +44,9 @@ POST    /login/password/forgot     controllers.Signup.doForgotPassword
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-# Application Pages
-GET		/home						controllers.Application.home
-GET		/start						controllers.Application.wizard
-GET		/config						controllers.Application.config
-GET		/interests					controllers.Application.interests
+# Mupi Pages
+GET   /profile            controllers.Mupi.profile
+GET		/home						    controllers.Mupi.home
+GET		/wizard						  controllers.Mupi.wizard
+GET		/config						  controllers.Mupi.config
+GET		/interests					controllers.Mupi.interests

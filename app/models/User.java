@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import models.TokenAction.Type;
@@ -76,6 +77,13 @@ public class User extends Model implements RoleHolder {
 	@ManyToMany
 	public List<UserPermission> permissions;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	public List<Interest> interests;
+	
+	@OneToOne
+	public Profile profile;
+	
+	
 	public static final Finder<Long, User> find = new Finder<Long, User>(
 			Long.class, User.class);
 
@@ -143,7 +151,7 @@ public class User extends Model implements RoleHolder {
 	public static User create(final AuthUser authUser) {
 		final User user = new User();
 		user.roles = Collections.singletonList(SecurityRole
-				.findByRoleName(controllers.Application.USER_ROLE));
+				.findByRoleName(controllers.Mupi.USER_ROLE));
 		// user.permissions = new ArrayList<UserPermission>();
 		// user.permissions.add(UserPermission.findByValue("printers.edit"));
 		user.active = true;

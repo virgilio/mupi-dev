@@ -54,30 +54,30 @@ public class Account extends Controller {
 		return ok(link.render());
 	}
 
-	@Restrict(Application.USER_ROLE)
+	@Restrict(Mupi.USER_ROLE)
 	public static Result verifyEmail() {
-		final User user = Application.getLocalUser(session());
+		final User user = Mupi.getLocalUser(session());
 		if (user.emailValidated) {
 			// E-Mail has been validated already
-			flash(Application.FLASH_MESSAGE_KEY,
+			flash(Mupi.FLASH_MESSAGE_KEY,
 					Messages.get("playauthenticate.verify_email.error.already_validated"));
 		} else if(user.email != null && !user.email.trim().isEmpty()){
-			flash(Application.FLASH_MESSAGE_KEY, Messages.get(
+			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get(
 					"playauthenticate.verify_email.message.instructions_sent",
 					user.email));
 			MyUsernamePasswordAuthProvider.getProvider()
 					.sendVerifyEmailMailingAfterSignup(user, ctx());
 		} else {
-			flash(Application.FLASH_MESSAGE_KEY, Messages.get(
+			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get(
 					"playauthenticate.verify_email.error.set_email_first",
 					user.email));
 		}
-		return redirect(routes.Application.profile());
+		return redirect(routes.Mupi.profile());
 	}
 
-	@Restrict(Application.USER_ROLE)
+	@Restrict(Mupi.USER_ROLE)
 	public static Result changePassword() {
-		final User u = Application.getLocalUser(session());
+		final User u = Mupi.getLocalUser(session());
 
 		if (!u.emailValidated) {
 			return ok(unverified.render());
@@ -86,7 +86,7 @@ public class Account extends Controller {
 		}
 	}
 
-	@Restrict(Application.USER_ROLE)
+	@Restrict(Mupi.USER_ROLE)
 	public static Result doChangePassword() {
 		final Form<Account.PasswordChange> filledForm = PASSWORD_CHANGE_FORM
 				.bindFromRequest();
@@ -94,13 +94,13 @@ public class Account extends Controller {
 			// User did not select whether to link or not link
 			return badRequest(password_change.render(filledForm));
 		} else {
-			final User user = Application.getLocalUser(session());
+			final User user = Mupi.getLocalUser(session());
 			final String newPassword = filledForm.get().password;
 			user.changePassword(new MyUsernamePasswordAuthUser(newPassword),
 					true);
-			flash(Application.FLASH_MESSAGE_KEY,
+			flash(Mupi.FLASH_MESSAGE_KEY,
 					Messages.get("playauthenticate.change_password.success"));
-			return redirect(routes.Application.profile());
+			return redirect(routes.Mupi.profile());
 		}
 	}
 
@@ -109,7 +109,7 @@ public class Account extends Controller {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
-			return redirect(routes.Application.index());
+			return redirect(routes.Mupi.index());
 		}
 		return ok(ask_link.render(ACCEPT_FORM, u));
 	}
@@ -119,7 +119,7 @@ public class Account extends Controller {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
-			return redirect(routes.Application.index());
+			return redirect(routes.Mupi.index());
 		}
 
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
@@ -130,7 +130,7 @@ public class Account extends Controller {
 			// User made a choice :)
 			final boolean link = filledForm.get().accept;
 			if (link) {
-				flash(Application.FLASH_MESSAGE_KEY,
+				flash(Mupi.FLASH_MESSAGE_KEY,
 						Messages.get("playauthenticate.accounts.link.success"));
 			}
 			return PlayAuthenticate.link(ctx(), link);
@@ -146,7 +146,7 @@ public class Account extends Controller {
 		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
 		if (bUser == null) {
 			// user to merge with could not be found, silently redirect to login
-			return redirect(routes.Application.index());
+			return redirect(routes.Mupi.index());
 		}
 
 		// You could also get the local user object here via
@@ -163,7 +163,7 @@ public class Account extends Controller {
 		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
 		if (bUser == null) {
 			// user to merge with could not be found, silently redirect to login
-			return redirect(routes.Application.index());
+			return redirect(routes.Mupi.index());
 		}
 
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
@@ -174,7 +174,7 @@ public class Account extends Controller {
 			// User made a choice :)
 			final boolean merge = filledForm.get().accept;
 			if (merge) {
-				flash(Application.FLASH_MESSAGE_KEY,
+				flash(Mupi.FLASH_MESSAGE_KEY,
 						Messages.get("playauthenticate.accounts.merge.success"));
 			}
 			return PlayAuthenticate.merge(ctx(), merge);

@@ -1,39 +1,55 @@
 import java.util.Arrays;
 
 import models.SecurityRole;
+import models.User;
+import play.mvc.Http.Session;
+
+import be.objectify.deadbolt.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.PlayAuthenticate.Resolver;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
 
+import controllers.Mupi;
 import controllers.routes;
 
 import play.Application;
 import play.GlobalSettings;
 import play.mvc.Call;
+import views.html.index;
+import views.html.wizard;
 
-public class Global extends GlobalSettings {
+public class Global extends GlobalSettings{
 
+	public static final String USER_ROLE = "user";
+	
 	public void onStart(Application app) {
 		PlayAuthenticate.setResolver(new Resolver() {
 
 			@Override
 			public Call login() {
 				// Your login page
-				return routes.Application.login();
+				return routes.Mupi.login();
 			}
 
+			
 			@Override
+			/**
+			 * Intercept a redirection after an authorization
+			 */
 			public Call afterAuth() {
-				// The user will be redirected to this page after authentication
-				// if no original URL was saved
-				return routes.Application.index();
+				// If the user has already registered at least one interest, go to profile
+				if (Mupi.hasInterests())
+					return routes.Mupi.profile();
+				// Otherwise go to the interests wizard
+				else
+					return routes.Mupi.wizard();
 			}
 
 			@Override
 			public Call afterLogout() {
-				return routes.Application.index();
+				return routes.Mupi.index();
 			}
 
 			@Override
@@ -73,7 +89,7 @@ public class Global extends GlobalSettings {
 	private void initialData() {
 		if (SecurityRole.find.findRowCount() == 0) {
 			for (final String roleName : Arrays
-					.asList(controllers.Application.USER_ROLE)) {
+					.asList(controllers.Mupi.USER_ROLE)) {
 				final SecurityRole role = new SecurityRole();
 				role.roleName = roleName;
 				role.save();

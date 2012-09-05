@@ -5,6 +5,7 @@
 
 create table interests (
   id                        bigint not null,
+  user_id                   bigint not null,
   name                      varchar(255),
   description               varchar(255),
   created                   timestamp,
@@ -31,7 +32,8 @@ create table linked_account (
 
 create table profiles (
   id                        bigint not null,
-  firs_name                 varchar(255),
+  user_id                   bigint,
+  first_name                varchar(255),
   last_name                 varchar(255),
   birth_date                timestamp,
   picture                   varchar(255),
@@ -39,29 +41,6 @@ create table profiles (
   created                   timestamp,
   modified                  timestamp,
   constraint pk_profiles primary key (id))
-;
-
-create table publications (
-  id                        bigint not null,
-  interest_id               bigint,
-  user_id                   bigint,
-  localization_id           bigint,
-  type_id                   bigint,
-  title                     varchar(255),
-  body                      varchar(255),
-  created                   timestamp,
-  modified                  timestamp,
-  constraint pk_publications primary key (id))
-;
-
-create table publication_comments (
-  id                        bigint not null,
-  publication_id            bigint,
-  user_id                   bigint,
-  body                      varchar(255),
-  created                   timestamp,
-  modified                  timestamp,
-  constraint pk_publication_comments primary key (id))
 ;
 
 create table security_role (
@@ -91,6 +70,7 @@ create table users (
   email_validated           boolean,
   created                   timestamp,
   modified                  timestamp,
+  profile_id                bigint,
   constraint pk_users primary key (id))
 ;
 
@@ -120,10 +100,6 @@ create sequence linked_account_seq;
 
 create sequence profiles_seq;
 
-create sequence publications_seq;
-
-create sequence publication_comments_seq;
-
 create sequence security_role_seq;
 
 create sequence token_action_seq;
@@ -132,10 +108,20 @@ create sequence users_seq;
 
 create sequence user_permission_seq;
 
-alter table linked_account add constraint fk_linked_account_user_1 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_linked_account_user_1 on linked_account (user_id);
-alter table token_action add constraint fk_token_action_targetUser_2 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
-create index ix_token_action_targetUser_2 on token_action (target_user_id);
+alter table interests add constraint fk_interests_users_1 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_interests_users_1 on interests (user_id);
+alter table interests_user add constraint fk_interests_user_interest_2 foreign key (interest_id) references interests (id) on delete restrict on update restrict;
+create index ix_interests_user_interest_2 on interests_user (interest_id);
+alter table interests_user add constraint fk_interests_user_user_3 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_interests_user_user_3 on interests_user (user_id);
+alter table linked_account add constraint fk_linked_account_user_4 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_linked_account_user_4 on linked_account (user_id);
+alter table profiles add constraint fk_profiles_user_5 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_profiles_user_5 on profiles (user_id);
+alter table token_action add constraint fk_token_action_targetUser_6 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
+create index ix_token_action_targetUser_6 on token_action (target_user_id);
+alter table users add constraint fk_users_profile_7 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
+create index ix_users_profile_7 on users (profile_id);
 
 
 
@@ -159,10 +145,6 @@ drop table if exists linked_account;
 
 drop table if exists profiles;
 
-drop table if exists publications;
-
-drop table if exists publication_comments;
-
 drop table if exists security_role;
 
 drop table if exists token_action;
@@ -184,10 +166,6 @@ drop sequence if exists interests_user_seq;
 drop sequence if exists linked_account_seq;
 
 drop sequence if exists profiles_seq;
-
-drop sequence if exists publications_seq;
-
-drop sequence if exists publication_comments_seq;
 
 drop sequence if exists security_role_seq;
 

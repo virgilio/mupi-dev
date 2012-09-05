@@ -61,7 +61,7 @@ public class Signup extends Controller {
 			// We don't want to expose whether a given email address is signed
 			// up, so just say an email has been sent, even though it might not
 			// be true - that's protecting our user privacy.
-			flash(Application.FLASH_MESSAGE_KEY,
+			flash(Mupi.FLASH_MESSAGE_KEY,
 					Messages.get(
 							"playauthenticate.reset_password.message.instructions_sent",
 							email));
@@ -85,7 +85,7 @@ public class Signup extends Controller {
 					// with the password reset, as a "bad" user could then sign
 					// up with a fake email via OAuth and get it verified by an
 					// a unsuspecting user that clicks the link.
-					flash(Application.FLASH_MESSAGE_KEY,
+					flash(Mupi.FLASH_MESSAGE_KEY,
 							Messages.get("playauthenticate.reset_password.message.email_not_verified"));
 
 					// You might want to re-send the verification email here...
@@ -93,7 +93,7 @@ public class Signup extends Controller {
 				}
 			}
 
-			return redirect(routes.Application.index());
+			return redirect(routes.Mupi.index());
 		}
 	}
 
@@ -147,24 +147,24 @@ public class Signup extends Controller {
 				u.resetPassword(new MyUsernamePasswordAuthUser(newPassword),
 						false);
 			} catch (final RuntimeException re) {
-				flash(Application.FLASH_MESSAGE_KEY,
+				flash(Mupi.FLASH_MESSAGE_KEY,
 						Messages.get("playauthenticate.reset_password.message.no_password_account"));
 			}
 			final boolean login = MyUsernamePasswordAuthProvider.getProvider()
 					.isLoginAfterPasswordReset();
 			if (login) {
 				// automatically log in
-				flash(Application.FLASH_MESSAGE_KEY,
+				flash(Mupi.FLASH_MESSAGE_KEY,
 						Messages.get("playauthenticate.reset_password.message.success.auto_login"));
 
 				return PlayAuthenticate.loginAndRedirect(ctx(),
 						new MyLoginUsernamePasswordAuthUser(u.email));
 			} else {
 				// send the user to the login page
-				flash(Application.FLASH_MESSAGE_KEY,
+				flash(Mupi.FLASH_MESSAGE_KEY,
 						Messages.get("playauthenticate.reset_password.message.success.manual_login"));
 			}
-			return redirect(routes.Application.login());
+			return redirect(routes.Mupi.login());
 		}
 	}
 
@@ -183,12 +183,12 @@ public class Signup extends Controller {
 		}
 		final String email = ta.targetUser.email;
 		User.verify(ta.targetUser);
-		flash(Application.FLASH_MESSAGE_KEY,
+		flash(Mupi.FLASH_MESSAGE_KEY,
 				Messages.get("playauthenticate.verify_email.success", email));
-		if (Application.getLocalUser(session()) != null) {
-			return redirect(routes.Application.index());
+		if (Mupi.getLocalUser(session()) != null) {
+			return redirect(routes.Mupi.wizard());
 		} else {
-			return redirect(routes.Application.login());
+			return redirect(routes.Mupi.login());
 		}
 	}
 }
