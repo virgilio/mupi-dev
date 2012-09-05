@@ -8,7 +8,7 @@
     <p>
     Your name is @localUser.name and your email address is @localUser.email!
     <i>
-    @if(!localUser.emailValidated) {
+    @if(localUser.status == 0) {
       (<a href="@routes.Account.verifyEmail">unverified - click to verify</a>)
     } else {
       (verified)

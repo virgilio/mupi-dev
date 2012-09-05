@@ -85,7 +85,7 @@ public class Profile extends Model {
 			// verified within the application as a security breach there might
 			// break your security as well!
 			p.user.email = identity.getEmail();
-			p.user.emailValidated = false;
+			p.user.status = 0;
 		}
 
 		if (authUser instanceof NameIdentity) {
@@ -204,7 +204,7 @@ public class Profile extends Model {
 
 	public static void verify(final Profile unverified) {
 		// You might want to wrap this into a transaction
-		unverified.user.emailValidated = true;
+		unverified.user.status = 1;
 		unverified.save();
 		TokenAction.deleteByUser(unverified.user, Type.EMAIL_VERIFICATION);
 	}

@@ -116,6 +116,7 @@ playauthenticate.navigation.link_more=Vincular mais fornecedores
 playauthenticate.navigation.logout=Sair
 playauthenticate.navigation.login=Entrar
 playauthenticate.navigation.home=Início
+playauthenticate.navigation.wizard=Assistente
 playauthenticate.navigation.restricted=Página restrita
 playauthenticate.navigation.signup=Registre-se
 
@@ -149,6 +150,9 @@ playauthenticate.restricted.secrets=Segredos, em todos os lugares!
 ### --- play-authenticate END
 
 
+###--- START MUPI
 
+mupi.wizard.welcome_message=Olá {0}, este é o seu primeiro acesso ao Mupi. Atualize seus dados de perfil e interesses para melhor aproveitar a plataforma!  
 
+### --- START MUPI
 

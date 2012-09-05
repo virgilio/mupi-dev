@@ -72,11 +72,8 @@ public class Mupi extends Controller {
 	 * @return
 	 */
 	public static Result wizard(){
-		return ok(views.html.wizard.render());
-//		return ok(main.render("Home", "nav",
-//				new Html("<h1>This is the user wizard page</h1>" +
-//						"<p>Here the user chooses the first interests</p>" +
-//						"<p>Only for authenticated users</p>")));
+		final User user = getLocalUser(session());
+		return ok(views.html.wizard.render(user));
 	}
 	
 	public static User getLocalUser(final Session session) {

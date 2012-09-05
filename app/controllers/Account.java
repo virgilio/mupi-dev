@@ -57,7 +57,7 @@ public class Account extends Controller {
 	@Restrict(Mupi.USER_ROLE)
 	public static Result verifyEmail() {
 		final User user = Mupi.getLocalUser(session());
-		if (user.emailValidated) {
+		if (user.status == 1) {
 			// E-Mail has been validated already
 			flash(Mupi.FLASH_MESSAGE_KEY,
 					Messages.get("playauthenticate.verify_email.error.already_validated"));
@@ -79,7 +79,7 @@ public class Account extends Controller {
 	public static Result changePassword() {
 		final User u = Mupi.getLocalUser(session());
 
-		if (!u.emailValidated) {
+		if (u.status == 0) {
 			return ok(unverified.render());
 		} else {
 			return ok(password_change.render(PASSWORD_CHANGE_FORM));

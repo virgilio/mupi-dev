@@ -67,7 +67,7 @@ create table users (
   name                      varchar(255),
   last_login                timestamp,
   active                    boolean,
-  email_validated           boolean,
+  status                    integer,
   created                   timestamp,
   modified                  timestamp,
   profile_id                bigint,

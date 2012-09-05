@@ -60,7 +60,7 @@ public class User extends Model implements RoleHolder {
 
 	public boolean active;
 
-	public boolean emailValidated;
+	public int status;
 	
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date created;
@@ -168,7 +168,7 @@ public class User extends Model implements RoleHolder {
 			// verified within the application as a security breach there might
 			// break your security as well!
 			user.email = identity.getEmail();
-			user.emailValidated = false;
+			user.status = 0;
 		}
 
 		if (authUser instanceof NameIdentity) {
@@ -232,7 +232,7 @@ public class User extends Model implements RoleHolder {
 
 	public static void verify(final User unverified) {
 		// You might want to wrap this into a transaction
-		unverified.emailValidated = true;
+		unverified.status = 1;
 		unverified.save();
 		TokenAction.deleteByUser(unverified, Type.EMAIL_VERIFICATION);
 	}

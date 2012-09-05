@@ -74,7 +74,7 @@ public class Signup extends Controller {
 				final MyUsernamePasswordAuthProvider provider = MyUsernamePasswordAuthProvider
 						.getProvider();
 				// User exists
-				if (user.emailValidated) {
+				if (user.status == 1) {
 					provider.sendPasswordResetMailing(user, ctx());
 					// In case you actually want to let (the unknown person)
 					// know whether a user was found/an email was sent, use,

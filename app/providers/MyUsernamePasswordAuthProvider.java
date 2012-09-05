@@ -123,7 +123,7 @@ public class MyUsernamePasswordAuthProvider
 	protected SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
 		final User u = User.findByEmail(user.getEmail());
 		if (u != null) {
-			if (u.emailValidated) {
+			if (u.status == 1) {
 				// This user exists, has its email validated and is active
 				return SignupResult.USER_EXISTS;
 			} else {
@@ -149,7 +149,7 @@ public class MyUsernamePasswordAuthProvider
 		if (u == null) {
 			return LoginResult.NOT_FOUND;
 		} else {
-			if (!u.emailValidated) {
+			if (u.status == 0) {
 				return LoginResult.USER_UNVERIFIED;
 			} else {
 				for (final LinkedAccount acc : u.linkedAccounts) {
