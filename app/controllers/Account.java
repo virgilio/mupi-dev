@@ -72,7 +72,7 @@ public class Account extends Controller {
 					"playauthenticate.verify_email.error.set_email_first",
 					user.email));
 		}
-		return redirect(routes.Mupi.profile());
+		return redirect(routes.Profile.profile());
 	}
 
 	@Restrict(Mupi.USER_ROLE)
@@ -100,7 +100,7 @@ public class Account extends Controller {
 					true);
 			flash(Mupi.FLASH_MESSAGE_KEY,
 					Messages.get("playauthenticate.change_password.success"));
-			return redirect(routes.Mupi.profile());
+			return redirect(routes.Profile.profile());
 		}
 	}
 

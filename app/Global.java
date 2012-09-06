@@ -41,7 +41,7 @@ public class Global extends GlobalSettings{
 			public Call afterAuth() {
 				// If the user has already registered at least one interest, go to profile
 				if (Mupi.hasInterests())
-					return routes.Mupi.profile();
+					return routes.Profile.profile();
 				// Otherwise go to the interests wizard
 				else
 					return routes.Mupi.wizard();

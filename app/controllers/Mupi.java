@@ -88,11 +88,7 @@ public class Mupi extends Controller {
 		return ok(restricted.render(localUser));
 	}
 
-	@Restrict(Mupi.USER_ROLE)
-	public static Result profile() {
-		final User localUser = getLocalUser(session());
-		return ok(profile.render(localUser));
-	}
+	
 
 	@Restrict(Mupi.USER_ROLE)
 	public static boolean hasInterests() {
@@ -138,7 +134,15 @@ public class Mupi extends Controller {
 			// Everything was filled
 			// do something with your part of the form before handling the user
 			// signup
-			return UsernamePasswordAuthProvider.handleSignup(ctx());
+			
+			Result ret = UsernamePasswordAuthProvider.handleSignup(ctx());
+
+			// TODO: How to do an ACID operation here? if there's a problem on handleSignup we need 
+			// to remove the profile. For now, resolved with the return of Profile.create
+			if(models.Profile.create(getLocalUser(session())) == null)
+				return Controller.badRequest();
+			
+			return ret;
 		}
 	}
 

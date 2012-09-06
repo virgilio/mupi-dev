@@ -45,8 +45,9 @@ POST    /login/password/forgot     controllers.Signup.doForgotPassword
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # Mupi Pages
-GET   /profile            controllers.Mupi.profile
-GET		/home						    controllers.Mupi.home
-GET		/wizard						  controllers.Mupi.wizard
-GET		/config						  controllers.Mupi.config
-GET		/interests					controllers.Mupi.interests
+GET    /profile           controllers.Profile.profile
+POST   /profile           controllers.Profile.doProfile
+GET		 /home						  controllers.Mupi.home
+GET		 /wizard						controllers.Mupi.wizard
+GET		 /config						controllers.Mupi.config
+GET		 /interests					controllers.Mupi.interests

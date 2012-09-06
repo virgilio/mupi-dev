@@ -147,6 +147,13 @@ public class User extends Model implements RoleHolder {
 		otherUser.active = false;
 		Ebean.save(Arrays.asList(new User[] { otherUser, this }));
 	}
+	
+	public static User updateName(final User user, final String name) {
+		final User u = findByEmail(user.email);
+		u.name = name;
+		u.update();
+		return u;
+	}
 
 	public static User create(final AuthUser authUser) {
 		final User user = new User();

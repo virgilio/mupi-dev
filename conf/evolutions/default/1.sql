@@ -38,6 +38,7 @@ create table profiles (
   birth_date                timestamp,
   picture                   varchar(255),
   about                     varchar(255),
+  gender                    integer,
   created                   timestamp,
   modified                  timestamp,
   constraint pk_profiles primary key (id))
