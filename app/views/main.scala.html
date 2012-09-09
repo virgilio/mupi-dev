@@ -11,18 +11,38 @@
     <!-- Le meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Play Authenticate - an authentication module for the Play! Framework 2.0">
-    <meta name="author" content="The Play Authenticate Team">
+    <meta name="description" content="Mupi! O que você aprendeu hoje?">
+    <meta name="author" content="Matchbox Ideas">
+       
     
     <!-- Le scripts -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="@routes.Assets.at("js/bootstrap.min.js")"></script>
-	<script src="@routes.Mupi.jsRoutes" defer="defer"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="@routes.Assets.at("js/bootstrap.min.js")"></script>
+		<script src="@routes.Mupi.jsRoutes" defer="defer"></script>
+	
+	
 	
     <!-- Le styles -->
     <link href="@routes.Assets.at("stylesheets/main.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href=@routes.Assets.at("img/favicon.ico")>
+
+
+
+   <!-- MUPI SCRIPTS -->
+    <script type="text/javascript"  src="@routes.Assets.at("js/mupiFileUpload.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("js/sliding.form.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-inputmask.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("js/interests-wizard.js")"></script>
+
+    <!-- MUPI STYLES -->
+    <link href="@routes.Assets.at("css/jasny-bootstrap.css")" rel="stylesheet">
+    <link href="@routes.Assets.at("css/mupiMain.css")" rel="stylesheet">
+    <link rel="stylesheet" href="@routes.Assets.at("css/wizard.css")" type="text/css" media="screen"/>
+    <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
+    <link href="@routes.Assets.at("css/bootstrap-responsive.css")" rel="stylesheet">
+    
+    
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -32,16 +52,17 @@
   </head>
 
   <body>
-
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar-container">
+    <div class="navbar navbar-fixed-top mupi-navbar">
       <div class="navbar-inner">
-        <div class="container">
+        <div class="container" >
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="@routes.Mupi.index()">Play! Authenticate</a>
+          
+          <a class="pull-right logo" href="@routes.Mupi.index()" alt="mupi"></a>
           
           <div class="btn-group pull-right">
           @if(Deadbolt.viewRoleHolderPresent()) {
@@ -76,6 +97,7 @@
           </div><!--/.nav-collapse -->
         </div>
       </div>
+    </div>
     </div>
 
     <div class="container">

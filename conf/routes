@@ -51,3 +51,7 @@ GET		 /home						  controllers.Mupi.home
 GET		 /wizard						controllers.Mupi.wizard
 GET		 /config						controllers.Mupi.config
 GET		 /interests					controllers.Mupi.interests
+GET    /interestManager   controllers.Interest.interestManager
+POST   /interestManaget   controllers.Interest.doUpdateInterests
+GET    /addInterest       controllers.Interest.addInterest
+POST   /addInterest       controllers.Interest.doAddInterest

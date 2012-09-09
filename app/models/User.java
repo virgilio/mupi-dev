@@ -77,7 +77,7 @@ public class User extends Model implements RoleHolder {
 	@ManyToMany
 	public List<UserPermission> permissions;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Interest> interests;
 	
 	@OneToOne

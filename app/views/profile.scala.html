@@ -1,25 +1,72 @@
-@(profileForm: Form[models.Profile])
+@(profileForm: Form[controllers.Profile.ProfileForm]) 
 
-@import helper._
+@import helper._ 
 @import helper.twitterBootstrap._
 @import mupiHelpers._
 
+
+
+
+
 @main(Messages("playauthenticate.profile.title"),"profile") {
+	<script type="text/javascript">
+	  jQuery('.inputmask').inputmask();
+	</script>
 
-  @form(routes.Profile.doProfile) {
-  
-    @helper.inputText(profileForm("firstName"))
-    @helper.inputText(profileForm("lastName"))
-    @textarea(field = profileForm("about"), args = 'rows -> 3, 'cols -> 50)
-    @hiddenInput(field = profileForm("picture"))
-    
-    <input type="submit" value="@Messages("mupi.profile.update")" class="btn btn-primary">
-  }
-  
-  
-  <ul>
-    <li><a href="@routes.Account.changePassword">@Messages("playauthenticate.profile.password_change")</a></li>
-  </ul>
+  <div class="container" id="content" >
+    <div id="steps">
+      @form(routes.Profile.doProfile, 'enctype -> "multipart/form-data") {
+      
+        <fieldset class="step">
+          
+          @mupiFormImageUpload(field=profileForm("picture"), "profilePictures/blank_profile.jpg")
+          
+          <div class="span5">
+          
+          
+            @mupiFormInput(
+		          field=profileForm("firstName"),
+		          typ="text",
+		          label="First Name"
+		        )
+		        
+		        @mupiFormInput(
+		          field=profileForm("lastName"),
+		          typ="text",
+		          label="Last Name"
+		        )
+
+		        @mupiFormTextArea(
+		          field=profileForm("about"),
+		          label="About",
+		          ('rows, "4"),
+		          ('cols, "50")
+		        )
+                        
+            @mupiFormSelect(
+              field=profileForm("gender"),
+              label="Gender",
+              (0," "),
+              (1,"Feminino"),
+              (2,"Masculino"),
+              (3,"Outro")
+            )
+            
+            @mupiFormMaskedInput(
+              field=profileForm("birthDate"),
+              label="Birth date",
+              mask="99/99/9999"              
+            )
+            
+          </div>
+          <fieldset >
+
+		    <input type="submit" value="@Messages("mupi.profile.update")" class="btn">
+      }
+    </div>
+  </div>
+<ul>
+  <li><a href="@routes.Account.changePassword">@Messages("playauthenticate.profile.password_change")</a></li>
+</ul>
 }
-
-
+		

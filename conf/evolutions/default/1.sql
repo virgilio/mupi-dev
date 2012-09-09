@@ -5,21 +5,12 @@
 
 create table interests (
   id                        bigint not null,
-  user_id                   bigint not null,
   name                      varchar(255),
   description               varchar(255),
+  picture                   varchar(255),
   created                   timestamp,
   modified                  timestamp,
   constraint pk_interests primary key (id))
-;
-
-create table interests_user (
-  id                        bigint not null,
-  interest_id               bigint,
-  user_id                   bigint,
-  created                   timestamp,
-  modified                  timestamp,
-  constraint pk_interests_user primary key (id))
 ;
 
 create table linked_account (
@@ -82,6 +73,12 @@ create table user_permission (
 ;
 
 
+create table interests_users (
+  interests_id                   bigint not null,
+  users_id                       bigint not null,
+  constraint pk_interests_users primary key (interests_id, users_id))
+;
+
 create table users_security_role (
   users_id                       bigint not null,
   security_role_id               bigint not null,
@@ -93,9 +90,13 @@ create table users_user_permission (
   user_permission_id             bigint not null,
   constraint pk_users_user_permission primary key (users_id, user_permission_id))
 ;
-create sequence interests_seq;
 
-create sequence interests_user_seq;
+create table users_interests (
+  users_id                       bigint not null,
+  interests_id                   bigint not null,
+  constraint pk_users_interests primary key (users_id, interests_id))
+;
+create sequence interests_seq;
 
 create sequence linked_account_seq;
 
@@ -109,22 +110,20 @@ create sequence users_seq;
 
 create sequence user_permission_seq;
 
-alter table interests add constraint fk_interests_users_1 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_interests_users_1 on interests (user_id);
-alter table interests_user add constraint fk_interests_user_interest_2 foreign key (interest_id) references interests (id) on delete restrict on update restrict;
-create index ix_interests_user_interest_2 on interests_user (interest_id);
-alter table interests_user add constraint fk_interests_user_user_3 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_interests_user_user_3 on interests_user (user_id);
-alter table linked_account add constraint fk_linked_account_user_4 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_linked_account_user_4 on linked_account (user_id);
-alter table profiles add constraint fk_profiles_user_5 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_profiles_user_5 on profiles (user_id);
-alter table token_action add constraint fk_token_action_targetUser_6 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
-create index ix_token_action_targetUser_6 on token_action (target_user_id);
-alter table users add constraint fk_users_profile_7 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
-create index ix_users_profile_7 on users (profile_id);
+alter table linked_account add constraint fk_linked_account_user_1 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_linked_account_user_1 on linked_account (user_id);
+alter table profiles add constraint fk_profiles_user_2 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_profiles_user_2 on profiles (user_id);
+alter table token_action add constraint fk_token_action_targetUser_3 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
+create index ix_token_action_targetUser_3 on token_action (target_user_id);
+alter table users add constraint fk_users_profile_4 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
+create index ix_users_profile_4 on users (profile_id);
 
 
+
+alter table interests_users add constraint fk_interests_users_interests_01 foreign key (interests_id) references interests (id) on delete restrict on update restrict;
+
+alter table interests_users add constraint fk_interests_users_users_02 foreign key (users_id) references users (id) on delete restrict on update restrict;
 
 alter table users_security_role add constraint fk_users_security_role_users_01 foreign key (users_id) references users (id) on delete restrict on update restrict;
 
@@ -134,13 +133,17 @@ alter table users_user_permission add constraint fk_users_user_permission_user_0
 
 alter table users_user_permission add constraint fk_users_user_permission_user_02 foreign key (user_permission_id) references user_permission (id) on delete restrict on update restrict;
 
+alter table users_interests add constraint fk_users_interests_users_01 foreign key (users_id) references users (id) on delete restrict on update restrict;
+
+alter table users_interests add constraint fk_users_interests_interests_02 foreign key (interests_id) references interests (id) on delete restrict on update restrict;
+
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists interests;
 
-drop table if exists interests_user;
+drop table if exists interests_users;
 
 drop table if exists linked_account;
 
@@ -156,13 +159,13 @@ drop table if exists users_security_role;
 
 drop table if exists users_user_permission;
 
+drop table if exists users_interests;
+
 drop table if exists user_permission;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists interests_seq;
-
-drop sequence if exists interests_user_seq;
 
 drop sequence if exists linked_account_seq;
 

@@ -1,27 +1,95 @@
+ @main(Messages("playauthenticate.index.title")) {
+<!--End header-->
+<div class="second-header">
+	<div class="container">
+		<div class="sobre">
+			<div class="span2 offset1">
+				<img src="@routes.Assets.at("img/logo.png")" alt="Mupi logo" />
+			</div>
+			<div class="span7">
+				<span class="desc"> @Messages("mupi.index.description") </span>
 
-@main(Messages("playauthenticate.index.title")) {
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h1>@Messages("playauthenticate.index.intro")</h1>
-        <p>@Messages("playauthenticate.index.intro_2") <br/>@Messages("playauthenticate.index.intro_3")</p>
-      </div>
+			</div>
+		</div>
+	</div>
+</div>
 
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="span4">
-          <h2>@Messages("playauthenticate.index.heading")</h2>
-           <p>Cupcake ipsum dolor sit amet. Pastry pie powder biscuit bear claw. Jelly-o chocolate bar sweet roll sugar plum chocolate. Biscuit brownie chupa chups macaroon ice cream halvah sugar plum oat cake ice cream.</p>
-          <p><a class="btn" href="#">@Messages("playauthenticate.index.details") &raquo;</a></p>
-        </div>
-        <div class="span4">
-          <h2>Heading</h2>
-           <p>Applicake macaroon caramels gummi bears pastry. Cake liquorice carrot cake chocolate lollipop dessert. Halvah fruitcake marshmallow pie gummi bears pie marzipan.</p>
-          <p><a class="btn" href="#">@Messages("playauthenticate.index.details") &raquo;</a></p>
-       </div>
-        <div class="span4">
-          <h2>Heading</h2>
-          <p>Wafer halvah jujubes lollipop liquorice jelly-o pastry. Pie halvah toffee. Candy canes donut sugar plum. Chocolate cake powder tart liquorice cotton candy pudding sweet.</p>
-          <p><a class="btn" href="#">@Messages("playauthenticate.index.details") &raquo;</a></p>
-        </div>
-      </div>
-    }
+<div class="container">
+	<div class="row-fluid">
+
+		<div class="span8">
+			<!-- Content-->
+
+			<div class="row-fluid">
+				<div class="span10 offset1">
+					<span class="span12" id="oqueaprendeu">O que você aprendeu hoje?</span>
+					<div class="row-fluid">
+						<div class="span12 txtcenter">
+							<input type="text" class="input-xxlarge" id="inputAprendi"
+								placeholder="Hoje aprendi que...">
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+							<table class="table table-striped">
+								<tbody>
+									<tr>
+										<td>aprendi que o céu é azul</td>
+									</tr>
+									<tr>
+										<td>aprendi que a lua é grande</td>
+									</tr>
+									<tr>
+										<td>aprendi que o sol é gigante</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span12">Infográfico mupi</div>
+			</div>
+		</div>
+
+		<div class="span4">
+			<!-- Sidebar-->
+
+			<div class="row-fluid">
+				<div class="span12">
+					<h4>Nosso time</h4>
+
+					<div class="row-fluid">
+						<div class="span12">
+							<img src="@routes.Assets.at("img/team1.jpg")" class="img-polaroid" alt="Ana Rute" />
+							Ana Rute Mendes
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+							<img src="@routes.Assets.at("img/team2.jpg")" class="img-polaroid" alt="Ana Rute" />
+							Maurício Banduk
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+							<img src="@routes.Assets.at("img/team3.jpg")" class="img-polaroid" alt="Ana Rute" />
+							Paula Furtado
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+							<img src="@routes.Assets.at("img/team4.jpg")" class="img-polaroid" alt="Ana Rute" />
+							Virigílio Santos
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+}

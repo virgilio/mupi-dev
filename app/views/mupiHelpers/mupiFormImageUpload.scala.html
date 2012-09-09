@@ -1,0 +1,27 @@
+
+
+@(field: play.api.data.Field, alternativeImg: String, args: (Symbol,Any)*)
+
+<div class="fileupload fileupload-new span3" data-provides="fileupload">
+  <div class="fileupload-new thumbnail">
+  
+    @path = @{
+		   if(field.value != None){
+		     "profilePictures" + field.value.get
+		   } else{ alternativeImg }
+      
+    }
+    
+        
+    <img class="img-polaroid" src="@routes.Assets.at(path)" />
+    
+  </div>
+  <div class="fileupload-preview fileupload-exists thumbnail"></div>
+  <div>
+    <span class="btn btn-file">
+      Escolher foto
+	    <input value="@field.value" name="@field.name" type="file" />
+	  </span>
+    <a href="#" class="btn" data-dismiss="fileupload">Excluir</a>
+  </div>
+</div>

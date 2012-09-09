@@ -79,7 +79,6 @@ public class Profile extends Model {
 			final Date birthDate,
 			final String picture,
 			final Integer gender,
-			final Date created,
 			final Date modified) {
 		
 				
@@ -91,7 +90,6 @@ public class Profile extends Model {
 		p.picture = picture;
 		p.about = about;
 		p.gender = gender;
-		p.created = created;
 		p.modified = modified;
 		
 		p.update();
@@ -108,6 +106,8 @@ public class Profile extends Model {
 			p.firstName = user.name;
 			p.created = new Date();
 			p.modified = new Date();
+			// TODO: Define a constant or let it hardcoded?
+			p.picture = "/blank_profile.jpg";
 			p.save();
 		}		
 		return p;

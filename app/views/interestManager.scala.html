@@ -1,0 +1,54 @@
+@(uInterests: List[models.Interest], allInterests: List[models.Interest], iForm: Form[models.Interest])
+
+@import helper._ 
+@import helper.twitterBootstrap._
+@import mupiHelpers._
+
+
+
+@main(Messages("playauthenticate.interestManager.title"),"interestManager") {
+  <fieldset class="step">
+     <legend>Escolha seus interesses</legend>
+     
+     @form(routes.Interest.doUpdateInterests) {
+     
+	     <div class="row">
+	         <div id="chosen_interests" class="span12">
+	             <h4>Escolhidos</h4>
+	             @for(uInterest <- uInterests) {
+	                 @mupiFormImgCheckbox(uInterest.id.toString, uInterest.id.toString, uInterest.name, uInterest.picture, true)
+	               }
+	         </div>
+	     </div>
+	     <div class="row">
+	         <div id="all_interests" class="span12">
+	             <h4>Lista de interesses</h4>
+							   @for(allInterest <- allInterests) {
+	                 @mupiFormImgCheckbox(allInterest.id.toString, allInterest.id.toString, allInterest.name, allInterest.picture)
+	               }
+	         </div>
+	     </div>
+	     
+	     <div class="row">
+	         <div class="span3 offset4" >
+	             <button type="button" class="btn" data-toggle="collapse" data-target="#form_interesse">
+                  Sugerir interesse
+               </button>
+	             <input type="submit" class="btn btn-primary" value="Salvar"/>
+	             
+	             
+	         </div>
+	         
+	     </div>
+     }
+     
+     <div class="row">
+		    <div class="span12">		
+		        <div id="form_interesse" class="collapse">
+		            @addInterest(iForm)
+		        </div>
+		    </div>
+		 </div>
+		 
+ </fieldset>
+}

@@ -3,7 +3,6 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import models.InterestUser;
 import models.User;
 import play.Routes;
 import play.data.Form;
@@ -93,7 +92,7 @@ public class Mupi extends Controller {
 	@Restrict(Mupi.USER_ROLE)
 	public static boolean hasInterests() {
 		final User localUser = getLocalUser(session());
-		final int interests = InterestUser.countInterestByUser(localUser.id);
+		final int interests = localUser.interests.size();
 		return interests > 0;
 	}
 

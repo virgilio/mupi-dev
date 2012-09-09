@@ -1,0 +1,18 @@
+
+
+@(field: play.api.data.Field, label: String, mask: String, args: (Symbol,Any)*)
+
+<p>
+  <label for="@field.name">
+    @label
+  </label> 
+  <input id="@field.id" 
+         name="@field.name"
+         class="inputMask"
+         data-mask="@mask"
+         value="@field.value"
+         type="text"
+         @toHtmlArgs(args.filter(
+            !_._1.name.startsWith("_") ).toMap)
+  />
+</p>

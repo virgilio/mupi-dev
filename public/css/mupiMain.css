@@ -1,0 +1,68 @@
+body{
+	padding-top: 0;
+    background: url('../img/bg.jpg') 0 0 repeat;
+    font-family:"Century Gothic", Helvetica, sans-serif;
+}
+
+.navbar-container{
+	height: 55px;
+}
+
+.mupi-navbar{
+    background-color: #1a100b;
+    -moz-box-shadow: 0 0 5px 2px #888;
+    -webkit-box-shadow: 0 0 5px 2px #888;
+    box-shadow: 0 0 5px 2px #888;
+}
+.logo{
+    background: url('../img/logomini.png') 0 0 no-repeat;
+    display: block;
+    float: right;
+    height: 30px;
+    margin: 5px;
+    padding: 0;
+    width: 30px;
+}
+
+body{
+    background: url('../img/bg.jpg') 0 0 repeat;
+    font-family:"Century Gothic", Helvetica, sans-serif;
+}
+
+#oqueaprendeu{
+    font-size: 2.5em;
+    color: #009999;
+    text-align: center;
+    text-shadow: 1px 1px white;
+}
+#inputAprendi{
+/*    background-color: #eae7dc;*/
+    height: 30px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.txtcenter{
+    text-align: center;
+}
+.second-header{
+/*    background-color: #eae7dc;*/
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+.desc{
+    display: block;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 2em;
+    font-weight: 300;
+    line-height: 1em;
+    padding-left: 35px;
+    padding-top: 25px;
+    text-align: left;
+}
+
+.sobre{
+    margin: 20px 0;
+}

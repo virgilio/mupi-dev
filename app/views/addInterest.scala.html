@@ -1,0 +1,48 @@
+@(iForm: Form[models.Interest])
+
+@import helper._ 
+@import helper.twitterBootstrap._
+@import mupiHelpers._
+
+<div class="container" id="content">
+	<div id="steps">
+		@form(routes.Interest.doAddInterest, 'enctype -> "multipart/form-data") {
+
+		<fieldset class="step">
+
+			<div class="span5">
+
+				<p>Deixe sua sugestão de interesse abaixo e, caso possua, envie
+					uma imagem ao lado para representar sua sugestão.</p>
+
+				@mupiFormInput( 
+				  field =iForm("name"),
+				  typ   ="text",
+				  label ="Interest Name" )
+				  
+				@mupiFormTextArea(
+				  field  = iForm("description"),
+				  label="Description",
+				  ('rows, "4"),
+				  ('cols, "50") 
+				)
+
+	      
+	     <input type="submit" value="Salvar" class="btn">
+      
+			</div>
+
+			<div class="span4">
+				@mupiFormImageUpload(field=iForm("picture"), "interestPictures/blank_interest.gif")
+			</div>
+
+			
+		</fieldset>
+		}
+	</div>
+</div>
+
+
+
+
+

@@ -1,0 +1,17 @@
+
+
+@(id: String, name: String, title: String, picture:String, checked:Boolean=false)
+
+<div class="interest" >
+    <div class="btn_favorite"></div>
+    @if(checked){
+      <input type="checkbox" checked class="select_interest" name="@name" id="@id"/>
+    }else{
+      <input type="checkbox" class="select_interest" name="@name" id="@id"/>
+    }
+    <div class="btn_delete"></div>
+    <div class="interest_img_container">
+      <img src="@routes.Assets.at(picture)" class="thumbnail" />
+    </div>
+    <label>@title</label>
+</div>

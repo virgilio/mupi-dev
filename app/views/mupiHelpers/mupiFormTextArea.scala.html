@@ -1,0 +1,14 @@
+
+
+@(field: play.api.data.Field, label: String, args: (Symbol,Any)*)
+
+<p>
+  <label for="@field.name">
+    @label
+  </label> 
+  <textarea id="@field.id" 
+         name="@field.name"
+         @toHtmlArgs(args.filter(
+            !_._1.name.startsWith("_") ).toMap)
+  >@field.value</textarea>
+</p>

@@ -1,0 +1,19 @@
+
+
+@(field: play.api.data.Field, label: String, options: (Integer, String)*)
+@v = @{field.value.map(_.toInt).getOrElse(0) } 
+
+<p>
+  <label for="@field.name">
+    @label
+  </label> 
+  <select id="@field.id" name="@field.name">    
+    @for((option, index) <- options.zipWithIndex) {
+      @if(v == index){
+		    <option value="@option._1" selected="selected">@option._2</option>
+		  }else{
+		    <option value="@option._1">@option._2</option>
+		  }
+		} 
+  </select>
+</p>
