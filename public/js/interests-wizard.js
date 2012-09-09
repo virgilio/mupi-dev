@@ -20,10 +20,7 @@ jQuery(function() {
 
         //                    Shrinks the image div
         jQuery(this).parent().fadeOut('fast',function(){
-            jQuery(this).css({
-                'height':'100px',
-                'width':'80px'
-            }).appendTo('#chosen_interests').fadeIn()
+            jQuery(this).removeClass('interest_normal').addClass('interest_thumb').appendTo('#chosen_interests').fadeIn()
             });
 
 
@@ -41,10 +38,7 @@ jQuery(function() {
 
 
         jQuery(this).parent().fadeOut('fast',function(){
-            jQuery(this).css({
-                'height':'155px',
-                'width':'150px'
-            }).appendTo('#all_interests').fadeIn()
+            jQuery(this).removeClass('interest_thumb').addClass('interest_normal').appendTo('#all_interests').fadeIn()
             });
 
         jQuery(this).siblings('.btn_delete').show();

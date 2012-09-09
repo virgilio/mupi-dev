@@ -1,5 +1,5 @@
 body{
-	padding-top: 0;
+    padding-top: 0;
     background: url('../img/bg.jpg') 0 0 repeat;
     font-family:"Century Gothic", Helvetica, sans-serif;
 }
@@ -8,12 +8,6 @@ body{
 	height: 55px;
 }
 
-.mupi-navbar{
-    background-color: #1a100b;
-    -moz-box-shadow: 0 0 5px 2px #888;
-    -webkit-box-shadow: 0 0 5px 2px #888;
-    box-shadow: 0 0 5px 2px #888;
-}
 .logo{
     background: url('../img/logomini.png') 0 0 no-repeat;
     display: block;
