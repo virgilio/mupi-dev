@@ -10,13 +10,12 @@
   <fieldset class="step">
      <legend>Escolha seus interesses</legend>
      
-     @form(routes.Interest.doUpdateInterests) {
-     
+    
 	     <div class="row">
 	         <div id="chosen_interests" class="span12">
 	             <h4>Escolhidos</h4>
 	             @for(uInterest <- uInterests) {
-	                 @mupiFormImgCheckbox(uInterest.id.toString, uInterest.id.toString, uInterest.name, uInterest.picture, true)
+	                 @mupiFormImgCheckbox(uInterest.id.toString, "interests["+uInterest.id.toString+"]", uInterest.name, uInterest.picture, uInterest.description, true)
 	               }
 	         </div>
 	     </div>
@@ -24,23 +23,21 @@
 	         <div id="all_interests" class="span12">
 	             <h4>Lista de interesses</h4>
 							   @for(allInterest <- allInterests) {
-	                 @mupiFormImgCheckbox(allInterest.id.toString, allInterest.id.toString, allInterest.name, allInterest.picture)
+	                 @mupiFormImgCheckbox(allInterest.id.toString, "interests["+allInterest.id.toString+"]", allInterest.name, allInterest.picture, allInterest.description)
 	               }
 	         </div>
 	     </div>
 	     
 	     <div class="row">
 	         <div class="span3 offset4" >
-	             <button type="button" class="btn" data-toggle="collapse" data-target="#form_interesse">
+	             <button type="button" class="btn dropdown-toggle" data-toggle="collapse" data-target="#form_interesse">
                   Sugerir interesse
+                  <span class="caret"></span>
                </button>
-	             <input type="submit" class="btn btn-primary" value="Salvar"/>
-	             
-	             
 	         </div>
 	         
 	     </div>
-     }
+
      
      <div class="row">
 		    <div class="span12">		

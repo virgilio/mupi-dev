@@ -154,6 +154,22 @@ public class User extends Model implements RoleHolder {
 		u.update();
 		return u;
 	}
+	
+	public static void checkInterest(final User user, final Long interest) {
+		final User u = findByEmail(user.email);
+		u.interests.add(models.Interest.find.byId(interest));
+		u.update();
+	}
+	
+	public static void uncheckInterest(final User user, final Long interest) {
+		final User u = findByEmail(user.email);
+		u.interests.remove(models.Interest.find.byId(interest));
+		u.update();
+	}
+	
+	public static void ignoreInterest(final User user, final Long interest) {
+		
+	}
 
 	public static User create(final AuthUser authUser) {
 		final User user = new User();

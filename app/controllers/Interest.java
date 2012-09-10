@@ -2,8 +2,10 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import models.User;
 
@@ -12,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 
 import controllers.Profile.ProfileForm;
 
+import play.data.DynamicForm;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -35,6 +38,44 @@ public class Interest extends Controller {
 		return ok(interestManager.render(uInterests, allInterests, form));
 	}
 	
+	public static Result checkInterest(Long id){
+		System.out.println("SE");
+		final User user = Mupi.getLocalUser(session());	
+		User.checkInterest(user, id);
+		return ok("The interest was added to your interests list!");
+	}
+	
+	public static Result uncheckInterest(Long id){
+		final User user = Mupi.getLocalUser(session());	
+		User.uncheckInterest(user, id);
+		return ok("The interest was removed from your interests list!");
+	}
+	public static Result ignoreInterest(Long id){
+		return ok("The interest was ignored! You can find it by searching it by name!");
+	}
+	
+	
+	
+//	public static class InterestsForm{
+//		public ArrayList<Long> interests;
+//	}
+	
+//	public static Result doUpdateInterests() {
+//		final User user = Mupi.getLocalUser(session());
+//		Form<InterestsForm> interestForm = form(InterestsForm.class).bindFromRequest();	
+//		
+//		for (Long interest : interestForm.get().interests) {
+//			System.out.print("AEE : " + interest + ",  ");
+//		}
+//		
+//		final List<models.Interest> uInterests = user.interests;
+//		final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
+//		
+//		Form<models.Interest> form = INTEREST_FORM;
+//		return ok(interestManager.render(uInterests, allInterests, form));
+//	}
+	
+	private static final Form<models.Interest> INTEREST_FORM = form(models.Interest.class);
 	
 	public static Result addInterest() {
 		final User user = Mupi.getLocalUser(session());		
@@ -42,19 +83,6 @@ public class Interest extends Controller {
 		Form<models.Interest> form = INTEREST_FORM;
 
   		return ok(addInterest.render(form));
-	}
-	
-	private static final Form<models.Interest> INTEREST_FORM = form(models.Interest.class);
-	
-	public static Result doUpdateInterests() {
-		final User user = Mupi.getLocalUser(session());
-		Form<models.Interest> form = INTEREST_FORM;
-		final List<models.Interest> uInterests = user.interests;
-		final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
-		
-		
-		
-		return ok(interestManager.render(uInterests, allInterests, form));
 	}
 	
 	public static Result doAddInterest() {
@@ -105,63 +133,4 @@ public class Interest extends Controller {
 			return ok(interestManager.render(uInterests, allInterests, form));
 		}
 	}
-//	public static Result doProfile() {
-//		final Form<ProfileForm> filledForm = PROFILE_FORM.bindFromRequest();
-//		final User user = Mupi.getLocalUser(session());	
-//		
-//		try {
-//			MultipartFormData body = request().body().asMultipartFormData();
-//			FilePart picture = body.getFile("picture");
-//			String picturePath = BLANK_PIC;
-//			
-//			if (picture != null) {
-//			    String fileName = picture.getFilename();
-//			    File file = picture.getFile();
-//			    
-//			    //TODO: If we allow the user to change e-mail, we need to take care of it!!
-//			    File destinationFile = new File(play.Play.application().path().toString() + "//public//profilePictures//"
-//			        + user.email.hashCode() + "//" + fileName);
-//	
-//		    	FileUtils.copyFile(file, destinationFile);
-//		    	
-//		    	picturePath = "/" + user.email.hashCode() + "/" + fileName;
-//			}else{
-//				if(filledForm.get().picture == null){
-//					picturePath = models.Profile.findByUserId(user.id).picture;
-//				}else if(filledForm.get().picture.compareTo(BLANK_PIC) == 0){
-//					picturePath = BLANK_PIC;
-//				}
-//			}
-//			
-//			Date parsedDate = null;
-//			if(filledForm.get().birthDate != null && filledForm.get().birthDate.matches("(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)")){
-//				parsedDate = format.parse(filledForm.get().birthDate);
-//			}
-//		    	
-//			models.Profile.update(
-//					Mupi.getLocalUser(session()),
-//					filledForm.get().firstName,
-//					filledForm.get().lastName,
-//					filledForm.get().about,
-//					parsedDate,
-//					picturePath,
-//					filledForm.get().gender,
-//					new Date()
-//			);
-//				
-//			
-//			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.profile.updated"));
-//
-//			return redirect(routes.Profile.profile());
-//			
-//		} catch (ParseException e) {
-//			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.profile.errorParsingDate"));
-//			e.printStackTrace();
-//			return redirect(routes.Profile.profile());
-//		} catch (IOException e){
-//			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.profile.errorParsingDate"));
-//			e.printStackTrace();
-//			return redirect(routes.Profile.profile());
-//		}
-//	}
 }

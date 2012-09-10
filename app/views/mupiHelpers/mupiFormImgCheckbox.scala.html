@@ -1,17 +1,29 @@
 
 
-@(id: String, name: String, title: String, picture:String, checked:Boolean=false)
+@(id: String, name: String, title: String, picture:String, description: String, checked:Boolean=false)
 
-<div class="interest" >
+
+
+<div class="interest @if(checked){interest_thumb}else{interest_normal} " id="@id">
     <div class="btn_favorite"></div>
-    @if(checked){
-      <input type="checkbox" checked class="select_interest" name="@name" id="@id"/>
-    }else{
-      <input type="checkbox" class="select_interest" name="@name" id="@id"/>
-    }
+    
+    <input 
+      type="checkbox" 
+      class="select_interest"
+      name="@name"
+      value="@id"
+      data-content="@description" 
+      data-original-title="@title"
+      @if(checked){ checked }
+    />
+    <input type="hidden" name="_@name" value="false" />
+    
+    
+    
+  
     <div class="btn_delete"></div>
     <div class="interest_img_container">
-      <img src="@routes.Assets.at(picture)" class="thumbnail" />
+      <img src="@routes.Assets.at(picture)" class="img-polaroid" />
     </div>
     <label>@title</label>
 </div>

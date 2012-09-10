@@ -118,9 +118,13 @@ public class Mupi extends Controller {
 
 	public static Result jsRoutes() {
 		return ok(
-				Routes.javascriptRouter("jsRoutes",
-						controllers.routes.javascript.Signup.forgotPassword()))
-						.as("text/javascript");
+			Routes.javascriptRouter("jsRoutes",
+					controllers.routes.javascript.Signup.forgotPassword(),
+					controllers.routes.javascript.Interest.checkInterest(),
+					controllers.routes.javascript.Interest.uncheckInterest(),
+					controllers.routes.javascript.Interest.ignoreInterest()
+			))
+			.as("text/javascript");
 	}
 
 	public static Result doSignup() {
