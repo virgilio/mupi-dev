@@ -7,15 +7,48 @@
     text-align: center;
 }
 
-.interest_normal{
-    height: 155px;   
+.btn_favorite{
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    left: 8px;
+    position: absolute;
+    top: 6px;
 }
 
+.interest_normal{
+    height: 155px;
+}
+.interest_normal .btn_favorite{
+    background:transparent url(../img/favorite.png) no-repeat;
+}
+
+.interest_normal .btn_delete{
+    background:transparent url(../img/delete.png) no-repeat;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    right: 8px;
+    position: absolute;
+    top: 8px;
+}
+.interest_normal .btn_favorite:hover{
+    background:transparent url(../img/favorite-hover.png) no-repeat;
+}
+
+.interest_normal .btn_delete:hover{
+    background:transparent url(../img/delete-hover.png) no-repeat;
+}
 .interest_thumb{
     height:100px;
     width:80px;
 }
-
+.interest_thumb .btn_favorite{
+    background:transparent url(../img/favorite-hover.png) no-repeat;
+}
+.interest_thumb .btn_delete{
+    display: none;
+}
 .interest_img_container{
 	height: 125px;
 	overflow: hidden;
@@ -25,30 +58,6 @@
     width: 140px;
 }
 
-.btn_favorite{
-    background:transparent url(../img/favorite.png) no-repeat;
-    cursor: pointer;
-    height: 25px;
-    width: 25px;
-    left: 8px;
-    position: absolute;
-    top: 6px;
-}
-.btn_favorite:hover{
-    background:transparent url(../img/favorite-hover.png) no-repeat;
-}
-.btn_delete{
-    background:transparent url(../img/delete.png) no-repeat;
-    cursor: pointer;
-    height: 25px;
-    width: 25px;
-    right: 8px;
-    position: absolute;
-    top: 8px;
-}
-.btn_delete:hover{
-    background:transparent url(../img/delete-hover.png) no-repeat;
-}
 .select_interest{
     display: none;
 }
