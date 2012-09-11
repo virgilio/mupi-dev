@@ -155,16 +155,23 @@ public class User extends Model implements RoleHolder {
 		return u;
 	}
 	
-	public static void checkInterest(final User user, final Long interest) {
+	public static boolean checkInterest(final User user, final Long interest) {
 		final User u = findByEmail(user.email);
-		u.interests.add(models.Interest.find.byId(interest));
-		u.update();
+		if (u != null && u.interests.add(models.Interest.find.byId(interest))){
+			u.update();
+			return true;
+		}
+		return false;
 	}
 	
-	public static void uncheckInterest(final User user, final Long interest) {
+	public static boolean uncheckInterest(final User user, final Long interest) {
 		final User u = findByEmail(user.email);
-		u.interests.remove(models.Interest.find.byId(interest));
-		u.update();
+		final Interest i = models.Interest.find.byId(interest);
+		if (u != null && i != null && u.interests.remove(i)){
+			u.update();
+			return true;
+		}
+		return false;
 	}
 	
 	public static void ignoreInterest(final User user, final Long interest) {

@@ -184,8 +184,12 @@ span.error{
     float: left;
     margin-bottom: 9px;
     width: 200px;
-    height: 200px;
 }
+
+.modal-body{
+	background-color: #fcfcfc;
+}
+
 .fileupload-preview{
 	 clear: both;
    height: 200px;

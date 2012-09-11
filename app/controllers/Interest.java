@@ -39,17 +39,21 @@ public class Interest extends Controller {
 	}
 	
 	public static Result checkInterest(Long id){
-		System.out.println("SE");
 		final User user = Mupi.getLocalUser(session());	
-		User.checkInterest(user, id);
-		return ok("The interest was added to your interests list!");
+		if(User.checkInterest(user, id))
+			return ok("The interest was added to your interests list!");
+		else
+			return ok("The interest was NOT added to your interests list!");
 	}
 	
 	public static Result uncheckInterest(Long id){
 		final User user = Mupi.getLocalUser(session());	
-		User.uncheckInterest(user, id);
-		return ok("The interest was removed from your interests list!");
+		if(User.uncheckInterest(user, id))
+			return ok("The interest was removed from your interests list!");
+		else
+			return ok("The interest was NOT removed from your interests list!");
 	}
+	
 	public static Result ignoreInterest(Long id){
 		return ok("The interest was ignored! You can find it by searching it by name!");
 	}
@@ -82,7 +86,7 @@ public class Interest extends Controller {
 		
 		Form<models.Interest> form = INTEREST_FORM;
 
-  		return ok(addInterest.render(form));
+  		return ok();
 	}
 	
 	public static Result doAddInterest() {

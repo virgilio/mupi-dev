@@ -29,23 +29,10 @@
 	     </div>
 	     
 	     <div class="row">
-	         <div class="span3 offset4" >
-	             <button type="button" class="btn dropdown-toggle" data-toggle="collapse" data-target="#form_interesse">
-                  Sugerir interesse
-                  <span class="caret"></span>
-               </button>
-	         </div>
-	         
+          <a id="openModal" href="#suggestInterestModal" role="button" class="btn" data-toggle="modal">Suggest Interest</a>
 	     </div>
 
-     
-     <div class="row">
-		    <div class="span12">		
-		        <div id="form_interesse" class="collapse">
-		            @addInterest(iForm)
-		        </div>
-		    </div>
-		 </div>
+       @addInterest(iForm)
 		 
  </fieldset>
 }
