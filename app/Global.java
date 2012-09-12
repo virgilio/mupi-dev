@@ -1,10 +1,10 @@
 import java.util.Arrays;
 
+import models.Location;
 import models.SecurityRole;
-import models.User;
-import play.mvc.Http.Session;
-
-import be.objectify.deadbolt.actions.Restrict;
+import play.Application;
+import play.GlobalSettings;
+import play.mvc.Call;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.PlayAuthenticate.Resolver;
@@ -13,12 +13,6 @@ import com.feth.play.module.pa.exceptions.AuthException;
 
 import controllers.Mupi;
 import controllers.routes;
-
-import play.Application;
-import play.GlobalSettings;
-import play.mvc.Call;
-import views.html.index;
-import views.html.wizard;
 
 public class Global extends GlobalSettings{
 
@@ -88,12 +82,14 @@ public class Global extends GlobalSettings{
 
 	private void initialData() {
 		if (SecurityRole.find.findRowCount() == 0) {
-			for (final String roleName : Arrays
-					.asList(controllers.Mupi.USER_ROLE)) {
+			for (final String roleName : Arrays.asList(controllers.Mupi.USER_ROLE, controllers.Mupi.ADMIN_ROLE)) {
 				final SecurityRole role = new SecurityRole();
 				role.roleName = roleName;
 				role.save();
 			}
 		}
+		Location.create("Campinas (SP)", "");
+		Location.create("São Paulo (SP)", "");
+		Location.create("Araçatuba (SP)", "");
 	}
 }

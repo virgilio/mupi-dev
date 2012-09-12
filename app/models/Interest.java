@@ -1,6 +1,5 @@
 package models;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -8,19 +7,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.feth.play.module.pa.user.AuthUser;
-import com.feth.play.module.pa.user.EmailIdentity;
-import com.feth.play.module.pa.user.NameIdentity;
-
-import controllers.Profile.ProfileForm;
-
-import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
-import play.data.Form;
 import play.data.format.Formats;
+import play.db.ebean.Model;
 
 @Entity
 @Table(name = "interests")

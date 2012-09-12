@@ -1,6 +1,7 @@
 package security;
 
 import models.User;
+import play.i18n.Messages;
 import play.mvc.Http;
 import play.mvc.Result;
 import be.objectify.deadbolt.AbstractDeadboltHandler;
@@ -27,8 +28,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 			final String originalUrl = PlayAuthenticate
 					.storeOriginalUrl(context);
 
-			context.flash().put("error",
-					"You need to log in first, to view '" + originalUrl + "'");
+			context.flash().put("error", Messages.get("playauthenticate.handler.loginfirst", originalUrl));
 			return redirect(PlayAuthenticate.getResolver().login());
 		}
 	}

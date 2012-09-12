@@ -1,10 +1,10 @@
-@(profileForm: Form[controllers.Profile.ProfileForm]) 
+@(profileForm: Form[models.Profile], 
+  uLocations: List[Location] , 
+  locations: List[Location]) 
 
 @import helper._ 
 @import helper.twitterBootstrap._
 @import mupiHelpers._
-
-
 
 
 
@@ -56,6 +56,14 @@
               field=profileForm("birthDate"),
               label="Birth date",
               mask="99/99/9999"              
+            )
+            
+            
+            @mupiFormAutoCompleteInput(
+              field=profileForm("locations"),
+              label="Locations",
+              uLocations=uLocations,
+              locations=locations
             )
             
           </div>
