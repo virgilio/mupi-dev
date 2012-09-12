@@ -2,19 +2,13 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import models.User;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 
-import controllers.Profile.ProfileForm;
-
-import play.data.DynamicForm;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -22,22 +16,24 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import views.html.interestManager;
-import views.html.addInterest;
+import be.objectify.deadbolt.actions.Restrict;
 
 public class Interest extends Controller {
 	// TODO: Change the way we're getting this image
 	static String BLANK_PIC = "interestPictures/blank_interest.gif";
 	
+	@Restrict(Mupi.USER_ROLE)
 	public static Result interestManager() {
 		final User user = Mupi.getLocalUser(session());		
 		final List<models.Interest> uInterests = user.interests;
-		final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
+		final List<models.Interest> allInterests = (List<models.Interest>) CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 		
 		Form<models.Interest> form = INTEREST_FORM;
 		
 		return ok(interestManager.render(uInterests, allInterests, form));
 	}
 	
+	@Restrict(Mupi.USER_ROLE)
 	public static Result checkInterest(Long id){
 		final User user = Mupi.getLocalUser(session());	
 		if(User.checkInterest(user, id))
@@ -46,6 +42,7 @@ public class Interest extends Controller {
 			return ok("The interest was NOT added to your interests list!");
 	}
 	
+	@Restrict(Mupi.USER_ROLE)
 	public static Result uncheckInterest(Long id){
 		final User user = Mupi.getLocalUser(session());	
 		if(User.uncheckInterest(user, id))
@@ -54,40 +51,13 @@ public class Interest extends Controller {
 			return ok("The interest was NOT removed from your interests list!");
 	}
 	
+	@Restrict(Mupi.USER_ROLE)
 	public static Result ignoreInterest(Long id){
 		return ok("The interest was ignored! You can find it by searching it by name!");
 	}
 	
 	
-	
-//	public static class InterestsForm{
-//		public ArrayList<Long> interests;
-//	}
-	
-//	public static Result doUpdateInterests() {
-//		final User user = Mupi.getLocalUser(session());
-//		Form<InterestsForm> interestForm = form(InterestsForm.class).bindFromRequest();	
-//		
-//		for (Long interest : interestForm.get().interests) {
-//			System.out.print("AEE : " + interest + ",  ");
-//		}
-//		
-//		final List<models.Interest> uInterests = user.interests;
-//		final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
-//		
-//		Form<models.Interest> form = INTEREST_FORM;
-//		return ok(interestManager.render(uInterests, allInterests, form));
-//	}
-	
 	private static final Form<models.Interest> INTEREST_FORM = form(models.Interest.class);
-	
-	public static Result addInterest() {
-		final User user = Mupi.getLocalUser(session());		
-		
-		Form<models.Interest> form = INTEREST_FORM;
-
-  		return ok();
-	}
 	
 	public static Result doAddInterest() {
 		final User user = Mupi.getLocalUser(session());
@@ -115,13 +85,11 @@ public class Interest extends Controller {
 				picturePath = BLANK_PIC;
 			}
 			
-			
 			models.Interest.create(
 				filledForm.get().name,
 				picturePath,
 				filledForm.get().description
 			);
-				
 			
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.profile.updated"));
 			

@@ -24,6 +24,7 @@ public class Mupi extends Controller {
 	public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "user";
+	public static final String ADMIN_ROLE = "admin";
 
 	public static Result index() {
 		return ok(index.render());
@@ -46,6 +47,7 @@ public class Mupi extends Controller {
 	 * TODO Interests controller
 	 * @return
 	 */
+	@Restrict(Mupi.USER_ROLE)
 	public static Result interests(){
 		return TODO;
 //		return ok(main.render("Home", "nav",
@@ -70,6 +72,7 @@ public class Mupi extends Controller {
 	 * TODO config controller
 	 * @return
 	 */
+	@Restrict(Mupi.USER_ROLE)
 	public static Result wizard(){
 		final User user = getLocalUser(session());
 		return ok(views.html.wizard.render(user));
@@ -80,13 +83,6 @@ public class Mupi extends Controller {
 				.getUser(session));
 		return localUser;
 	}
-
-	@Restrict(Mupi.USER_ROLE)
-	public static Result restricted() {
-		final User localUser = getLocalUser(session());
-		return ok(restricted.render(localUser));
-	}
-
 	
 
 	@Restrict(Mupi.USER_ROLE)
@@ -151,6 +147,49 @@ public class Mupi extends Controller {
 
 	public static String formatTimestamp(final long t) {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
+	}
+	
+	public static Result about(){
+		return ok(about.render());
+	}
+	public static Result contact(){
+		return ok(contact.render());
+	}
+	public static Result help(){
+		return ok(help.render());
+	}
+	public static Result media(){
+		return ok(media.render());
+	}
+	public static Result privacyPolicies(){
+		return ok(privacyPolicies.render());
+	}
+	public static Result statistics(){
+		return ok(statistics.render());
+	}
+	public static Result terms(){
+		return ok(terms.render());
+	}
+
+	@Restrict(Mupi.USER_ROLE)
+	public static Result feed(){
+		final User user = getLocalUser(session());
+		return ok(views.html.feed.render(user));
+	}
+	@Restrict(Mupi.USER_ROLE)
+	public static Result configuration(){
+		final User user = getLocalUser(session());
+		return ok(views.html.configuration.render(user));
+	}
+	@Restrict(Mupi.USER_ROLE)
+	public static Result inbox(){
+		final User user = getLocalUser(session());
+		return ok(views.html.inbox.render(user));
+	}
+	@Restrict(Mupi.USER_ROLE)
+	public static Result notifications(){
+		final User user = getLocalUser(session());
+		return ok(views.html.notifications.render(user));
 	}
 
 }

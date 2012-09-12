@@ -4,7 +4,6 @@
 
 # Home page
 GET     /                            controllers.Mupi.index
-GET     /restricted                  controllers.Mupi.restricted
 GET     /assets/javascript/routes   controllers.Mupi.jsRoutes
 
 GET     /login                      controllers.Mupi.login
@@ -62,5 +61,20 @@ POST   /ignoreInterest/:id  controllers.Interest.ignoreInterest(id: Long)
 GET    /interestManager   controllers.Interest.interestManager
 #POST   /interestManager   controllers.Interest.doUpdateInterests
 
-GET    /addInterest       controllers.Interest.addInterest
 POST   /addInterest       controllers.Interest.doAddInterest
+
+
+GET /about            controllers.Mupi.about
+GET /contact          controllers.Mupi.contact
+GET /help             controllers.Mupi.help
+GET /media            controllers.Mupi.media
+GET /privacyPolicies  controllers.Mupi.privacyPolicies
+GET /statistics       controllers.Mupi.statistics
+GET /terms            controllers.Mupi.terms
+GET /signup           controllers.Mupi.signup
+GET /feed             controllers.Mupi.feed
+GET /configuration    controllers.Mupi.configuration
+GET /inbox            controllers.Mupi.inbox
+GET /notifications    controllers.Mupi.notifications
+
+

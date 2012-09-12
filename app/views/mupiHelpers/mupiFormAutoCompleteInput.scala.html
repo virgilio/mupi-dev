@@ -1,0 +1,41 @@
+@(field: play.api.data.Field, label: String, 
+  uLocations: List[models.Location], 
+  locations: List[Location], 
+  args: (Symbol,Any)*)
+
+@import helper._ 
+@import helper.twitterBootstrap._
+@import mupiHelpers._
+@import play.libs._
+
+
+<p>
+  <label for="@field.name">
+    @label
+  </label>
+
+
+  @{
+    val json = locations.map(loc => "{'id': " + loc.id + ", 'name' : " + loc.name + "}")
+  }
+
+  <input type="text" id="locationSelector" data-provide="typeahead"/>
+  <script>
+  jQuery('#locationSelector').typeahead({
+    	property: "name"
+    });
+  </script>
+  
+  @for( location <- uLocations ){
+	  <input id="location_@field.id" 
+	         name="@field.name"
+	         value="@location.name"
+	         type="text"
+	         @toHtmlArgs(args.filter(
+	            !_._1.name.startsWith("_") ).toMap)
+	  />
+  }
+
+  
+  
+</p>
