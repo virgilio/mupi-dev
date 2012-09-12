@@ -26,7 +26,7 @@ public class Mupi extends Controller {
 	public static final String USER_ROLE = "user";
 
 	public static Result index() {
-		return ok(index.render());
+		return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
 	}
 
 	/**

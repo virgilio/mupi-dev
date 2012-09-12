@@ -7,32 +7,34 @@
 
 
 @main(Messages("playauthenticate.interestManager.title"),"interestManager") {
-  <fieldset class="step">
-     <legend>Escolha seus interesses</legend>
-     
-    
-	     <div class="row">
-	         <div id="chosen_interests" class="span12">
-	             <h4>Escolhidos</h4>
-	             @for(uInterest <- uInterests) {
-	                 @mupiFormImgCheckbox(uInterest.id.toString, "interests["+uInterest.id.toString+"]", uInterest.name, uInterest.picture, uInterest.description, true)
-	               }
-	         </div>
-	     </div>
-	     <div class="row">
-	         <div id="all_interests" class="span12">
-	             <h4>Lista de interesses</h4>
-							   @for(allInterest <- allInterests) {
-	                 @mupiFormImgCheckbox(allInterest.id.toString, "interests["+allInterest.id.toString+"]", allInterest.name, allInterest.picture, allInterest.description)
-	               }
-	         </div>
-	     </div>
+  <div class="container">
+	  <fieldset class="step">
+	     <legend>Escolha seus interesses</legend>
 	     
-	     <div class="row">
-          <a id="openModal" href="#suggestInterestModal" role="button" class="btn" data-toggle="modal">Suggest Interest</a>
-	     </div>
-
-       @addInterest(iForm)
-		 
- </fieldset>
+	    
+		     <div class="row">
+		         <div id="chosen_interests" class="span12">
+		             <h4>Escolhidos</h4>
+		             @for(uInterest <- uInterests) {
+		                 @mupiFormImgCheckbox(uInterest.id.toString, "interests["+uInterest.id.toString+"]", uInterest.name, uInterest.picture, uInterest.description, true)
+		               }
+		         </div>
+		     </div>
+		     <div class="row">
+		         <div id="all_interests" class="span12">
+		             <h4>Lista de interesses</h4>
+								   @for(allInterest <- allInterests) {
+		                 @mupiFormImgCheckbox(allInterest.id.toString, "interests["+allInterest.id.toString+"]", allInterest.name, allInterest.picture, allInterest.description)
+		               }
+		         </div>
+		     </div>
+		     
+		     <div class="row">
+	          <a id="openModal" href="#suggestInterestModal" role="button" class="btn" data-toggle="modal">Suggest Interest</a>
+		     </div>
+	
+	       @addInterest(iForm)
+			 
+	 </fieldset>
+ </div>
 }

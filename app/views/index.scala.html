@@ -1,8 +1,11 @@
- @main(Messages("playauthenticate.index.title")) {
+@(loginForm: Form[_]) 
+@main(Messages("playauthenticate.index.title")) {
+
 <!--End header-->
+
 <div class="second-header">
 	<div class="container">
-		<div class="sobre">
+		<div class="row-fluid sobre">
 			<div class="span2 offset1">
 				<img src="@routes.Assets.at("img/logo.png")" alt="Mupi logo" />
 			</div>
@@ -21,26 +24,28 @@
 			<!-- Content-->
 
 			<div class="row-fluid">
-				<div class="span10 offset1">
+				<div class="span12">
 					<span class="span12" id="oqueaprendeu">O que você aprendeu hoje?</span>
 					<div class="row-fluid">
 						<div class="span12 txtcenter">
-							<input type="text" class="input-xxlarge" id="inputAprendi"
-								placeholder="Hoje aprendi que...">
-						</div>
+                            <input type="text" class="input-xxlarge" id="inputAprendi" placeholder="Hoje aprendi que...">
+							<button type="submit" id="btn_oqueaprendeu">
+								<i class="icon-arrow-right"></i>
+							</button>
+                        </div>
 					</div>
 					<div class="row-fluid">
 						<div class="span12">
 							<table class="table table-striped">
 								<tbody>
 									<tr>
-										<td>aprendi que o céu é azul</td>
+										<td>aprendi que o veio daqui eh muito chato</td>
 									</tr>
 									<tr>
-										<td>aprendi que a lua é grande</td>
+										<td>aprendi que bla bla</td>
 									</tr>
 									<tr>
-										<td>aprendi que o sol é gigante</td>
+										<td>aprendi que sou uma ninja do mortal kombat</td>
 									</tr>
 								</tbody>
 							</table>
@@ -52,43 +57,17 @@
 				<div class="span12">Infográfico mupi</div>
 			</div>
 		</div>
-
 		<div class="span4">
-			<!-- Sidebar-->
+			<!-- Content-->
 
 			<div class="row-fluid">
 				<div class="span12">
-					<h4>Nosso time</h4>
-
-					<div class="row-fluid">
-						<div class="span12">
-							<img src="@routes.Assets.at("img/team1.jpg")" class="img-polaroid" alt="Ana Rute" />
-							Ana Rute Mendes
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span12">
-							<img src="@routes.Assets.at("img/team2.jpg")" class="img-polaroid" alt="Ana Rute" />
-							Maurício Banduk
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span12">
-							<img src="@routes.Assets.at("img/team3.jpg")" class="img-polaroid" alt="Ana Rute" />
-							Paula Furtado
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span12">
-							<img src="@routes.Assets.at("img/team4.jpg")" class="img-polaroid" alt="Ana Rute" />
-							Virigílio Santos
-						</div>
-					</div>
-
+				CAIXA DE LOGIN
+<!-- 					arroba login(loginForm) -->
 				</div>
 			</div>
-
 		</div>
+
 	</div>
 
 </div>
