@@ -91,14 +91,27 @@
 	          
 	          <div class="nav-collapse">
 	            <ul class="nav">
+		            <!-- MENU TO SHOW ALWAYS -->
 	              <li class="@("active".when(nav == ""))"><a href="@routes.Mupi.index()">@Messages("playauthenticate.navigation.home")</a></li>
-	              @if(!Deadbolt.viewRoleHolderPresent()) {
-					    	   <li class="@("active".when(nav == "signup"))"><a href="@routes.Mupi.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
-					      }else{ 
-	                <!-- remove this!!! -->
-					        <li class="@("active".when(nav == "wizard"))"><a href="@routes.Mupi.wizard()">@Messages("playauthenticate.navigation.wizard")</a></li>
-					        <li class="@("active".when(nav == "wizard"))"><a href="@routes.Interest.interestManager()">@Messages("playauthenticate.navigation.interestManager")</a></li>
-					      }
+                @if(!Deadbolt.viewRoleHolderPresent()) {
+	                <!-- MENU TO SHOW WHEN NOT LOGGED -->
+	                <li class="@("active".when(nav == "signup"))"><a href="@routes.Mupi.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
+	                <li class="@("active".when(nav == "about"))"><a href="@routes.Mupi.about()">@Messages("mupi.navigation.about.title")</a></li>
+	                <li class="@("active".when(nav == "contact"))"><a href="@routes.Mupi.contact()">@Messages("mupi.navigation.contact.title")</a></li>
+	                <li class="@("active".when(nav == "help"))"><a href="@routes.Mupi.help()">@Messages("mupi.navigation.help.title")</a></li>
+	                <li class="@("active".when(nav == "media"))"><a href="@routes.Mupi.media()">@Messages("mupi.navigation.media.title")</a></li>
+	                <li class="@("active".when(nav == "privacyPolicies"))"><a href="@routes.Mupi.privacyPolicies()">@Messages("mupi.navigation.privacyPolicies.title")</a></li>
+	                <li class="@("active".when(nav == "statistics"))"><a href="@routes.Mupi.statistics()">@Messages("mupi.navigation.statistics.title")</a></li>
+	                <li class="@("active".when(nav == "terms"))"><a href="@routes.Mupi.terms()">@Messages("mupi.navigation.terms.title")</a></li>
+                }else{ 
+	                <!-- MENU TO SHOW WHEN LOGGED -->
+	                <li class="@("active".when(nav == "wizard"))"><a href="@routes.Mupi.wizard()">@Messages("playauthenticate.navigation.wizard")</a></li>
+	                <li class="@("active".when(nav == "interestManager"))"><a href="@routes.Interest.interestManager()">@Messages("mupi.navigation.interestManager")</a></li>
+	                <li class="@("active".when(nav == "feed"))"><a href="@routes.Mupi.feed()">@Messages("mupi.navigation.feed")</a></li>
+	                <li class="@("active".when(nav == "configuration"))"><a href="@routes.Mupi.configuration()">@Messages("mupi.navigation.configuration")</a></li>
+	                <li class="@("active".when(nav == "inbox"))"><a href="@routes.Mupi.inbox()">@Messages("mupi.navigation.inbox")</a></li>
+	                <li class="@("active".when(nav == "notifications"))"><a href="@routes.Mupi.notifications()">@Messages("mupi.navigation.notifications")</a></li>
+	              }
 	            </ul>
 	          </div><!--/.nav-collapse -->
 	        </div>

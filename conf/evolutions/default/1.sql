@@ -21,6 +21,13 @@ create table linked_account (
   constraint pk_linked_account primary key (id))
 ;
 
+create table locations (
+  id                        bigint not null,
+  name                      varchar(255),
+  geohash                   varchar(255),
+  constraint pk_locations primary key (id))
+;
+
 create table profiles (
   id                        bigint not null,
   user_id                   bigint,
@@ -79,6 +86,18 @@ create table interests_users (
   constraint pk_interests_users primary key (interests_id, users_id))
 ;
 
+create table locations_profiles (
+  locations_id                   bigint not null,
+  profiles_id                    bigint not null,
+  constraint pk_locations_profiles primary key (locations_id, profiles_id))
+;
+
+create table profiles_locations (
+  profiles_id                    bigint not null,
+  locations_id                   bigint not null,
+  constraint pk_profiles_locations primary key (profiles_id, locations_id))
+;
+
 create table users_security_role (
   users_id                       bigint not null,
   security_role_id               bigint not null,
@@ -99,6 +118,8 @@ create table users_interests (
 create sequence interests_seq;
 
 create sequence linked_account_seq;
+
+create sequence locations_seq;
 
 create sequence profiles_seq;
 
@@ -125,6 +146,14 @@ alter table interests_users add constraint fk_interests_users_interests_01 forei
 
 alter table interests_users add constraint fk_interests_users_users_02 foreign key (users_id) references users (id) on delete restrict on update restrict;
 
+alter table locations_profiles add constraint fk_locations_profiles_locatio_01 foreign key (locations_id) references locations (id) on delete restrict on update restrict;
+
+alter table locations_profiles add constraint fk_locations_profiles_profile_02 foreign key (profiles_id) references profiles (id) on delete restrict on update restrict;
+
+alter table profiles_locations add constraint fk_profiles_locations_profile_01 foreign key (profiles_id) references profiles (id) on delete restrict on update restrict;
+
+alter table profiles_locations add constraint fk_profiles_locations_locatio_02 foreign key (locations_id) references locations (id) on delete restrict on update restrict;
+
 alter table users_security_role add constraint fk_users_security_role_users_01 foreign key (users_id) references users (id) on delete restrict on update restrict;
 
 alter table users_security_role add constraint fk_users_security_role_securi_02 foreign key (security_role_id) references security_role (id) on delete restrict on update restrict;
@@ -147,7 +176,13 @@ drop table if exists interests_users;
 
 drop table if exists linked_account;
 
+drop table if exists locations;
+
+drop table if exists locations_profiles;
+
 drop table if exists profiles;
+
+drop table if exists profiles_locations;
 
 drop table if exists security_role;
 
@@ -168,6 +203,8 @@ SET REFERENTIAL_INTEGRITY TRUE;
 drop sequence if exists interests_seq;
 
 drop sequence if exists linked_account_seq;
+
+drop sequence if exists locations_seq;
 
 drop sequence if exists profiles_seq;
 
