@@ -1,20 +1,22 @@
 jQuery(function() {
-	// Error and success messages for ajax calls
+	// Error and success messages for ajax calls	
 	var succErrMsg = {
-			success: function(data) {
-		    	if(jQuery('.alert').size() == 0){
-		    		console.log(jQuery('.alert'))
-		    		jQuery('.navbar-container').next().prepend("<div class='alert'> </div>");
-		    	}
-		    	if(data) jQuery('.alert').addClass('alert-success').html(data);
-		    	else jQuery('.alert').addClass('alert-error').html(data);
-		    },
-		    error: function() {
-		    	if(jQuery('.alert').size() == 0){ jQuery('.navbar-container').next().prepend("<div class='alert'> </div>");}
-		    	jQuery('.alert').addClass('alert-error').html("<div class='alert alert-error'> Server error, please try again later! </div>");
-		    }
-	}
-	
+			success : function(data) {
+				if (jQuery('.alert').size() == 0) {
+					jQuery('.navbar-container').next().prepend("<div class='alert alert-success'> </div>");
+				}
+				if (data)
+					jQuery('.alert').attr('class', 'alert alert-success').html(data);
+			},
+			error : function() {
+				if (jQuery('.alert').size() == 0) {
+					jQuery('.navbar-container').next().prepend("<div class='alert-error'> </div>");
+				}
+				jQuery('.alert')
+						.addClass('alert-error')
+						.html("Server error, please try again later!");
+			}
+		}
 	
     jQuery('.fileupload').fileupload('image');
 

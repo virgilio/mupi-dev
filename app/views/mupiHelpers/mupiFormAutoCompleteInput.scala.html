@@ -1,41 +1,52 @@
 @(field: play.api.data.Field, label: String, 
   uLocations: List[models.Location], 
-  locations: List[Location], 
+  locations: List[models.Location],
   args: (Symbol,Any)*)
 
 @import helper._ 
 @import helper.twitterBootstrap._
 @import mupiHelpers._
-@import play.libs._
+@import play.libs.Json
+
+@allLocs = @{Html(Json.stringify(Json.toJson(locations)))}
 
 
-<p>
-  <label for="@field.name">
-    @label
-  </label>
+<div class="row">
+	<div class="span3">
+	  <label for="@field.name">
+	    @label
+	  </label>
+	  
+	  @for( location <- uLocations ){
+      <span id="@location.id" >@location.name</span>
+      <button location="@location.id" id="removeLocation">x</button>
+    }   
+	
+	  <input type="text" id="locationSelector" data-provide="typeahead" AUTOCOMPLETE="OFF" />
+	  <button id="addLocation">+</button>
+	  
+	  
+	</div>
+</div>
 
-
-  @{
-    val json = locations.map(loc => "{'id': " + loc.id + ", 'name' : " + loc.name + "}")
-  }
-
-  <input type="text" id="locationSelector" data-provide="typeahead"/>
-  <script>
-  jQuery('#locationSelector').typeahead({
-    	property: "name"
-    });
-  </script>
-  
-  @for( location <- uLocations ){
-	  <input id="location_@field.id" 
-	         name="@field.name"
-	         value="@location.name"
-	         type="text"
-	         @toHtmlArgs(args.filter(
-	            !_._1.name.startsWith("_") ).toMap)
-	  />
-  }
-
-  
-  
-</p>
+<script>
+    jQuery(function(){
+    	 jQuery('#locationSelector').keypress(function(e) {
+    	        if(e.which == 13) {
+    	            jQuery(this).blur();
+    	            registerLocation(@allLocs);
+    	        }
+    	    });
+       jQuery('#addLocation').live('click', function(){registerLocation(@allLocs)});
+       
+       jQuery('#locationSelector').typeahead({
+         property: "name",
+         source: @allLocs,
+         itemLabel: "name"
+       });
+       
+       jQuery('#removeLocation').live('click', function(){
+    	   removeLocation(jQuery(this).attr('location'));
+    	 });
+    })
+ </script>

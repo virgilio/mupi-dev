@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import play.data.format.Formats;
-import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 /**
@@ -146,7 +145,13 @@ public class Profile extends Model {
 			return true;
 		}
 		return false;
-		
-		
+	}
+	
+	public String getLocationJsonArray(){
+		String json = "[";
+		for (Location location : this.locations) {
+			json = json.concat("{'id':" + location.id + ", name:" + location.name + "}");
+		}
+		return json.replace("}{", "},{").concat("]");
 	}
 }

@@ -66,6 +66,14 @@ public class Location extends Model {
 		return locations;		
 	}
 	
+	public static String getAllAsJsonArray(){
+		String json = "[";
+		for (Location location : find.all()) {
+			json = json.concat("{'id':" + location.id + ", name:" + location.name + "}");
+		}
+		return json.replace("}{", "},{").concat("]");
+	}
+	
 //	public static List<Location> getNameIdJson() {
 //		// TODO: Is there a different query to optimize it?
 //		final List<Location> locations = new ArrayList<Location>();

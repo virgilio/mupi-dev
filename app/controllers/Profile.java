@@ -5,21 +5,19 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.FileUtils;
-
-import be.objectify.deadbolt.actions.Restrict;
-
 import models.Location;
 import models.User;
+
+import org.apache.commons.io.FileUtils;
+
 import play.data.Form;
 import play.i18n.Messages;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import views.html.profile;
+import be.objectify.deadbolt.actions.Restrict;
 
 public class Profile extends Controller {
 	static String BLANK_PIC = "/blank_profile.jpg";
@@ -37,13 +35,15 @@ public class Profile extends Controller {
 		else{
 			
 			final Form<models.Profile> form = PROFILE_FORM.fill(p);
+			final List<Location> notSelected = Location.find.all();
+//			final String allLocationsJson = Location.getAllAsJsonArray();
+			final List<Location> selected = p.locations;
 			
-			final List<Location> notSelected = (List<Location>)CollectionUtils.subtract(Location.find.all(), p.locations);
-			
-			return ok(profile.render(form, p.locations, notSelected));
+			return ok(profile.render(form, selected, notSelected));
 		}
 	}
-	
+
+	@Restrict(Mupi.USER_ROLE)
 	public static Result doProfile() {
 		final Form<models.Profile> filledForm = PROFILE_FORM.bindFromRequest();
 		final User user = Mupi.getLocalUser(session());	
@@ -99,4 +99,48 @@ public class Profile extends Controller {
 			return redirect(routes.Profile.profile());
 		}
 	}
+	
+	@Restrict(Mupi.USER_ROLE)
+	public static Result changeLocation(Integer op, Long id){
+		if(op == 0) return addLocation(id) ;
+		else if(op == 1) return removeLocation(id);
+		return badRequest();
+	}
+	
+	@Restrict(Mupi.USER_ROLE)
+	public static Result addLocation(Long id){
+		final User user = Mupi.getLocalUser(session());
+		final models.Profile profile = models.Profile.findByUserId(user.id);
+		final Location location = Location.find.byId(id);
+		
+		if(location != null){
+			if(profile.locations != null && profile.locations.contains(location)){
+				return ok("You already has this location registered!");
+			}else{
+				profile.locations.add(location);
+				profile.update();
+				return ok("Location successfully registered!");
+			}
+		}else{
+			return badRequest("This location dos not exist in our database. If you want this location to be ther click in 'Suggest Location'!");
+		}
+	}
+	
+	@Restrict(Mupi.USER_ROLE)
+	public static Result removeLocation(Long id){
+		final User user = Mupi.getLocalUser(session());
+		final models.Profile profile = models.Profile.findByUserId(user.id);
+		final Location location = Location.find.byId(id);
+				
+		if(location != null){
+			if(profile.locations != null){
+				profile.locations.remove(location);
+				profile.update();
+			}
+			return ok("You have successfully removed this location!");
+		}else{
+			return play.mvc.Results.badRequest("This location dos not exist in our database. If you want this location to be ther click in 'Suggest Location'!");
+		}
+	}
+	
 }

@@ -118,7 +118,8 @@ public class Mupi extends Controller {
 					controllers.routes.javascript.Signup.forgotPassword(),
 					controllers.routes.javascript.Interest.checkInterest(),
 					controllers.routes.javascript.Interest.uncheckInterest(),
-					controllers.routes.javascript.Interest.ignoreInterest()
+					controllers.routes.javascript.Interest.ignoreInterest(),
+					controllers.routes.javascript.Profile.changeLocation()
 			))
 			.as("text/javascript");
 	}
