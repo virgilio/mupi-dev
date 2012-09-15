@@ -61,9 +61,9 @@ POST   /ignoreInterest/:id  controllers.Interest.ignoreInterest(id: Long)
 
 
 GET    /interestManager   controllers.Interest.interestManager
-#POST  /interestManager   controllers.Interest.doUpdateInterests
 
 POST   /addInterest       controllers.Interest.doAddInterest
+GET    /addInterest       controllers.Interest.interestManager
 
 GET /about            controllers.Mupi.about
 GET /contact          controllers.Mupi.contact

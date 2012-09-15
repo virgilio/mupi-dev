@@ -159,6 +159,7 @@ mupi.profile.updated=Perfil atualizado com sucesso!
 mupi.errorParsingDate=Houve um erro ao atualizar seu perfil, tente novamente mais tarde
 mupi.errorSendingFile=Houve um erro ao enviar sua imagem, tente uma outra imagem
 mupi.interestManager.title=Seleção de interesses
+mupi.interestManager.added=Interesse sugerido! Você receberá um e-mail assim que sua sugestão for avaliada! 
 
 mupi.navigation.about.title=Sobre
 mupi.navigation.contact.title=Contato

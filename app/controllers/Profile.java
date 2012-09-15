@@ -16,6 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import utils.AjaxResponse;
 import views.html.profile;
 import be.objectify.deadbolt.actions.Restrict;
 
@@ -104,7 +105,7 @@ public class Profile extends Controller {
 	public static Result changeLocation(Integer op, Long id){
 		if(op == 0) return addLocation(id) ;
 		else if(op == 1) return removeLocation(id);
-		return badRequest();
+		return AjaxResponse.build(1, "Server Error!");
 	}
 	
 	@Restrict(Mupi.USER_ROLE)
@@ -115,14 +116,14 @@ public class Profile extends Controller {
 		
 		if(location != null){
 			if(profile.locations != null && profile.locations.contains(location)){
-				return ok("You already has this location registered!");
+				return AjaxResponse.build(2, "You already has this location registered!");
 			}else{
 				profile.locations.add(location);
 				profile.update();
-				return ok("Location successfully registered!");
+				return AjaxResponse.build(0, "Location successfully registered!");
 			}
 		}else{
-			return badRequest("This location dos not exist in our database. If you want this location to be ther click in 'Suggest Location'!");
+			return AjaxResponse.build(1, "This location dos not exist in our database. If you want this location to be ther click in 'Suggest Location'!");
 		}
 	}
 	
@@ -137,9 +138,9 @@ public class Profile extends Controller {
 				profile.locations.remove(location);
 				profile.update();
 			}
-			return ok("You have successfully removed this location!");
+			return AjaxResponse.build(0, "You have successfully removed this location!");
 		}else{
-			return play.mvc.Results.badRequest("This location dos not exist in our database. If you want this location to be ther click in 'Suggest Location'!");
+			return AjaxResponse.build(2, "This location does not exist in our database!");
 		}
 	}
 	

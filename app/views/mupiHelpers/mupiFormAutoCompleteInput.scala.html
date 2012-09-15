@@ -17,10 +17,14 @@
 	    @label
 	  </label>
 	  
-	  @for( location <- uLocations ){
-      <span id="@location.id" >@location.name</span>
-      <button location="@location.id" id="removeLocation">x</button>
-    }   
+	  <ul class="selectedLocations">
+		  @for( location <- uLocations ){
+		    <li class="selectedLocation">
+		      <span id="loc_@location.id" >@location.name</span>
+		      <button location="@location.id" class="removeLocation">x</button>
+	      </li>
+	    }
+    </ul>
 	
 	  <input type="text" id="locationSelector" data-provide="typeahead" AUTOCOMPLETE="OFF" />
 	  <button id="addLocation">+</button>
@@ -45,7 +49,7 @@
          itemLabel: "name"
        });
        
-       jQuery('#removeLocation').live('click', function(){
+       jQuery('.removeLocation').live('click', function(){
     	   removeLocation(jQuery(this).attr('location'));
     	 });
     })

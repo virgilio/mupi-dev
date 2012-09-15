@@ -9,6 +9,14 @@
 
 
 @main(Messages("playauthenticate.profile.title"),"profile") {
+  <!-- TIRAR ESSE CSS DAQUI!! AS PROPRIEDADES DO FORM TÊM QUE ESTAR NUM CSS GERAL!! -->
+	<link rel="stylesheet" href="@routes.Assets.at("css/wizard.css")" type="text/css" media="screen"/>
+
+  <script type="text/javascript" src="@routes.Assets.at("js/mupiLocation.js")"></script>
+  <script type="text/javascript"  src="@routes.Assets.at("js/extended-bootstrapTypeahead.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-inputmask.js")"></script>
+  
+  
 	<script type="text/javascript">
 	  jQuery('.inputmask').inputmask();
 	</script>
