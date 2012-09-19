@@ -3,10 +3,12 @@
 @import com.feth.play.module.pa.views.html._
 
 @main(Messages("mupi.navigation.about.title"),"feedd") {
+  <link rel="stylesheet" href="@routes.Assets.at("css/mural.css")" type="text/css" media="screen"/>
+  <script type="text/javascript" src="@routes.Assets.at("js/mural'.js")"></script>
+
   @if(user == null){
     <h1>GET OUT!</h1>
   }else{
-    <h1>Hi @user.name !</h1>
-    This is your feed!
+  
   }
 }

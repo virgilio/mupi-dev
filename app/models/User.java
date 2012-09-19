@@ -83,6 +83,9 @@ public class User extends Model implements RoleHolder {
 	@OneToOne
 	public Profile profile;
 	
+	@OneToMany
+	public List<Publication> publications;
+	
 	
 	public static final Finder<Long, User> find = new Finder<Long, User>(
 			Long.class, User.class);

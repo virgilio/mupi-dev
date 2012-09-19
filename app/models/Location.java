@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import play.data.validation.Constraints.Required;
@@ -35,6 +36,9 @@ public class Location extends Model {
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Profile> profiles;
+	
+	@OneToMany
+	public List<Community> communities;
 	
 	public static final Finder<Long, Location> find = new Finder<Long, Location>(
 			Long.class, Location.class);

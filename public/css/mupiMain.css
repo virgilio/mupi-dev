@@ -1,21 +1,43 @@
-body{
-    padding-top: 0;
-    background: url('../img/bg.jpg') 0 0 repeat;
-    font-family:"Century Gothic", Helvetica, sans-serif;
-}
-
-.navbar-container{
-	height: 40px;
-}
-
-.logo{
-    background: url('../img/logomini.png') 0 0 no-repeat;
-    display: block;
-    float: right;
-    height: 30px;
-    margin: 5px;
+* {
     padding: 0;
-    width: 30px;
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body .wrapper {
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -54px;
+    width: 100%;
+}
+
+.mupi-navbar{
+    background-color: #1a100b;
+    -moz-box-shadow: 0 0 5px 2px #888;
+    -webkit-box-shadow: 0 0 5px 2px #888;
+    box-shadow: 0 0 5px 2px #888;
+    height: 40px;
+}
+.mupi_logo{
+    background-color: #1A100B;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    position: fixed;
+    top: 0;
+    z-index: 10000;
+    left: -2px;
+}
+.logo{
+    background: url('../img/logo_header.png') 0 0 no-repeat;
+    display: block;
+    height: 80px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 90px;
 }
 
 body{
@@ -48,10 +70,12 @@ body{
 #btn_oqueaprendeu:hover{
     color: #F1BD9E;
 }
+
 .txtcenter{
     text-align: center;
 }
 .second-header{
+    /*    background-color: #eae7dc;*/
     width: 100%;
     border-bottom: 1px solid #ccc;
     background: rgba(256,256,256, 0.3);
@@ -78,23 +102,14 @@ footer[role="contentinfo"] {
     color: #666;
     background: #f5f5f5;
     padding: 10px 0;
+    clear: both; /*BANDUK*/
 }
 footer[role="contentinfo"] p {
     margin: 0;
 }
-/* Sticky Footer styles begin */
-html, body {
-    height: 100%;
-}
 
 footer[role="contentinfo"] {
     height: 34px; /* accounts for padding */
-}
-body > .wrapper {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -54px;
 }
 
 footer .nav {

@@ -7,9 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import play.data.format.Formats;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
@@ -24,8 +26,11 @@ public class Interest extends Model{
 	@Id
 	public Long id;
 
+	@Required
 	public String name;
+	@Required
 	public String description;
+	@Required
 	public String picture;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -36,6 +41,8 @@ public class Interest extends Model{
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<User> interestedUsers;
 	
+	@OneToMany
+	public List<Community> communities;
 	
 	public static final Finder<Long, Interest> find = new Finder<Long, Interest>(
 			Long.class, Interest.class);
