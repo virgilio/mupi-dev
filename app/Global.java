@@ -38,7 +38,7 @@ public class Global extends GlobalSettings{
 					return routes.Profile.profile();
 				// Otherwise go to the interests wizard
 				else
-					return routes.Mupi.wizard();
+					return routes.Interest.interestManager();
 			}
 
 			@Override
@@ -70,8 +70,7 @@ public class Global extends GlobalSettings{
 					return routes.Signup
 							.oAuthDenied(((AccessDeniedException) e)
 									.getProviderKey());
-				}
-
+				}								
 				// more custom problem handling here...
 				return super.onException(e);
 			}
