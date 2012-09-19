@@ -3,12 +3,111 @@
 @import com.feth.play.module.pa.views.html._
 
 @main(Messages("mupi.navigation.about.title"),"feedd") {
-  <link rel="stylesheet" href="@routes.Assets.at("css/mural.css")" type="text/css" media="screen"/>
-  <script type="text/javascript" src="@routes.Assets.at("js/mural'.js")"></script>
-
   @if(user == null){
     <h1>GET OUT!</h1>
   }else{
+  <link rel="stylesheet" href="@routes.Assets.at("css/font-awesome.css")" type="text/css" media="screen"/>
+  <link rel="stylesheet" href="@routes.Assets.at("css/feed.css")" type="text/css" media="screen"/>
   
+  <script type="text/javascript" src="@routes.Assets.at("js/jquery.autosize-min.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("js/wysihtml5-0.3.0.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-wysihtml5.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("js/feed.js")"></script>
+  
+  
+  
+  <!-- Header -->
+  <div class="navbar mupi-navbar navbar-fixed-top">bla bla</div>
+  <div class="mupi_logo">
+    <a class="logo" href="./index.html" alt="mupi"></a>
+  </div>
+  
+  <!--End header-->
+  
+  <!-- BANDUK -->
+  <div class="sidebar">
+    menu <br /> menu <br /> menu <br /> menu <br /> menu <br /> menu <br />
+    menu <br />
+  </div>
+  <div class="content">
+    <div class="feed_submenu">
+      <i class="icon-globe"></i><span>Você está vendo as atualizações
+        de:</span>
+      <div class="locals">
+        <a class="btn" href="#" id="all_locals"> <i class="icon-check"></i>
+          Todos
+        </a> <a class="btn btn_local" href="#" id="localX"> <i
+          class="icon-check"></i> LOCAL
+        </a>
+      </div>
+    </div>
+    <div class="page_content">
+      <div class="meetups">
+        <div class="btns_meetups">
+          <input class="btn_promote" type="button"
+            value="Quero organizar um encontro" /> <input class="btn_host"
+            type="button" value="Tenho um espaço, quero receber encontros!" />
+        </div>
+        <h3>Próximos eventos</h3>
+        <div class="meetup">
+          <div class="meetup_title_shadow"></div>
+          <img src="img/evento1.jpg" /> <span> título evento</span>
+          <div class="meetup_date">
+            <p>
+              <i class="icon-calendar"></i> 29 de setembro
+            </p>
+            <p>
+              <i class="icon-map-marker"></i> Campinas, SP
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="publications">
+        <h3>Últimas publicações em [local]</h3>
+        <div class="all_publications">
+          <div class="input_publication">
+            <textarea id="input_publication"
+              placeholder="Digite sua publicação"></textarea>
+  
+            <span class="btns"> <span>Você está publicando em: <b>[local]</b></span>
+              <input id="btn_publish" type="submit" value="Publicar"> <input
+              id="btn_promote" type="button" value="Divulgar evento">
+            </span>
+          </div>
+          <div class="publication">
+            <img class="profile-thumb" src="img/profile.jpg" /> <i
+              class="icon-caret-left caret_publication"></i>
+            <p>texto</p>
+            <span class="pub_date">27/08/12 10:33</span>
+            <ul class="pub_interact">
+              <!--                                <li><a class="" href="#"><i class="icon-thumbs-up"></i>3</a></li>
+                                                                          <li><a class="" href="#"><i class="icon-thumbs-down"></i>1</a></a></li>-->
+              <li><a class="comment_lnk" href="#" comments="comments_1"><i
+                  class="icon-comments-alt"></i>2 Comentários</a></li>
+              <!--                                <li><a class="read_lnk" href="#">Ler tudo</a></li>-->
+            </ul>
+            <div class="comments hide" id="comments_1">
+              <div class="comment">
+                <img src="img/miniprofile.jpg" />
+                <p>oi oi</p>
+                <span class="pub_date">27/08/12 10:33</span>
+              </div>
+            </div>
+            <div class="textarea_comment">
+              <textarea name="input_comment" placeholder="Comentar"></textarea>
+              <a href="#">
+                <div class="enter_comment">Comentar</div>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+    <div style="clear: both;"></div>
+  </div>
+  
+  </div>
   }
 }
