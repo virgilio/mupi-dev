@@ -1,0 +1,37 @@
+@(nav: String = "")
+
+@import be.objectify.deadbolt.views.html._
+@import be.objectify.deadbolt.Deadbolt
+
+<link href="@routes.Assets.at("css/logged_header.css")" rel="stylesheet">
+<script type="text/javascript" src="@routes.Assets.at("js/mupi-alertHandler.js")"></script>
+
+
+<div class="navbar mupi-navbar navbar-fixed-top">
+ <div class="btn-group pull-right">
+	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+	  @defining(Mupi.getLocalUser(session())) { user =>
+	    <i class="icon-user"></i> @user.name 
+	    <span class="caret"></span>
+	  }
+	</a>
+	<ul class="dropdown-menu">
+		<li><a href="@routes.Profile.profile()">@Messages("playauthenticate.navigation.profile")</a></li>
+		<li class="divider"></li>
+		<li>
+		    <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">
+		    <i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a>
+		</li>
+	</ul>
+	</div>
+	<div class="nav-collapse">
+		<ul class="nav">
+			<li class="@(" active".when(nav==""))"><a href="@routes.Mupi.index()">@Messages("mupi.navigation.feed")</a></li>
+			<li class="@(" active".when(nav=="interestManager"))"><a href="@routes.Interest.interestManager()">@Messages("mupi.navigation.interestManager")</a></li>
+		</ul>
+	</div>
+</div>
+
+<div class="mupi_logo">
+  <a class="logo" href="@routes.Feed.feed()" alt="mupi"></a>
+</div>

@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,10 +29,7 @@ public class Profile extends Model {
 
 	@Id
 	public Long id;
-	
-	@OneToOne
-	public User user;
-	
+
 	public String firstName;
 	public String lastName;
 	
@@ -41,9 +39,17 @@ public class Profile extends Model {
 	public String about;
 	public Integer gender;
 	
-//	@Required
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Location> locations = new ArrayList<Location>();
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	public List<Interest> interests = new ArrayList<Interest>();
+	
+	@OneToMany
+	public List<Publication> publications = new ArrayList<Publication>();
+	
+	@OneToMany
+	public List<PubComment> pubComments = new ArrayList<PubComment>();
 		
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date created;
@@ -53,10 +59,9 @@ public class Profile extends Model {
 
 	public static final Finder<Long, Profile> find = new Finder<Long, Profile>(
 			Long.class, Profile.class);
-
+	
 	public Profile(User user, String firstName, String lastName, Date birthDate, String picture, 
 			String about, Integer gender, Date created, Date modified, List<Location> locations) {
-		this.user		= user;
 		this.firstName 	= firstName;
         this.lastName 	= lastName;
         this.birthDate 	= birthDate;
@@ -69,6 +74,10 @@ public class Profile extends Model {
     }
 	
 	public Profile() {}
+	
+	public Profile(String name) {
+		this.firstName = name;
+	}
 	
 
 	/**	
@@ -88,56 +97,48 @@ public class Profile extends Model {
 			final List<Location> locations) {
 		
 				
-		final Profile p = findByUserId(user.id);
-		p.user = user;
+		final Profile p = user.profile;
+
 		p.firstName = firstName;
-		p.lastName = lastName;
+		p.lastName 	= lastName;
 		p.birthDate = birthDate;
-		p.picture = picture;
-		p.about = about;
-		p.gender = gender;
+		p.picture 	= picture;
+		p.about 	= about;
+		p.gender 	= gender;
 		p.locations = locations;
-		p.modified = modified;
+		p.modified 	= modified;
 		
 		p.update();
+		
+		
+		
 		User.updateName(user, firstName);
 		
 		return p;
 	}
 	
 	public static Profile create(final User user) {
-		Profile p = null;
-		if(user != null)
-			p = findByUserId(user.id);
-		if(p == null){
-			p = new Profile();
-			p.user = user;
-			p.firstName = user.name;
-			p.created = new Date();
-			p.modified = new Date();
-			p.locations = new ArrayList<Location>();
-			
-			// TODO: Define a constant or let it hardcoded?
-			p.picture = "/blank_profile.jpg";
-			
-			p.save();
-		}		
+		Profile p = new Profile();
+		p.firstName = user.name;
+		p.created = new Date();
+		p.modified = new Date();
+		p.locations = new ArrayList<Location>();
+		
+		// TODO: Define a constant or let it hardcoded?
+		p.picture = "/blank_profile.jpg";
+		
+		p.save();
+		
 		return p;
 	}
 	
 	public static Profile updateFirstName(final User user, final String name) {
-		final Profile p = findByUserId(user.id);
+		final Profile p = user.profile;
 		p.firstName = name;
 		p.update();
 		return p;
 	}
 
-	
-	
-	public static Profile findByUserId(final Long user_id) {
-		return find.where().eq("user_id", user_id).findUnique();
-	}
-	
 	public static boolean setLocations(User user, List<Long> locations){
 		Profile profile = user.profile;
 		if(profile != null){
@@ -154,4 +155,24 @@ public class Profile extends Model {
 		}
 		return json.replace("}{", "},{").concat("]");
 	}
+	
+	public static boolean checkInterest(final User user, final Long interest) {
+		final Profile p = User.findByEmail(user.email).profile;
+		if (p != null && p.interests.add(models.Interest.find.byId(interest))){
+			p.update();
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean uncheckInterest(final User user, final Long interest) {
+		final Profile p = User.findByEmail(user.email).profile;
+		final Interest i = models.Interest.find.byId(interest);
+		if (p != null && i != null && p.interests.remove(i)){
+			p.update();
+			return true;
+		}
+		return false;
+	}
+	
 }

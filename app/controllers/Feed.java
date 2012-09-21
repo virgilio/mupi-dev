@@ -1,147 +1,122 @@
 package controllers;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import models.Location;
+import models.PubComment;
+import models.Publication;
 import models.User;
-
-import org.apache.commons.io.FileUtils;
-
-import play.data.Form;
-import play.i18n.Messages;
 import play.mvc.Controller;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import utils.AjaxResponse;
-import views.html.profile;
+import views.html.feedHelpers.feedContent;
+import views.html.feedHelpers.feedPublications;
 import be.objectify.deadbolt.actions.Restrict;
 
 public class Feed extends Controller {
-	static String BLANK_PIC = "/blank_profile.jpg";
-	
-	private static final Form<models.Profile> PROFILE_FORM = form(models.Profile.class);
 	
 	@Restrict(Mupi.USER_ROLE)
-	public static Result profile() {
-		final User user = Mupi.getLocalUser(session());		
-
-		models.Profile p = models.Profile.create(user);
+	public static Result feed(){
+		final User user = Mupi.getLocalUser(session());
 		
-		if(p == null)
-			return Controller.badRequest();
+		if(!user.profile.interests.isEmpty())
+			return ok(views.html.feed.render(
+				user, 
+				user.profile.interests, 
+				user.profile.locations, 
+				null, 
+				null,
+				Publication.findByInterests(getInterestIds(user.profile.interests), 0).getList()
+			));
+		else 
+			return Interest.interestManager();
+	}
+	
+	@Restrict(Mupi.USER_ROLE)
+	public static Result comment(String body, Long id){
+		
+		System.out.println(id + "   " + body);
+		
+		final models.Profile p = Mupi.getLocalUser(session()).profile;
+		final models.Publication pub = models.Publication.find.byId(id);
+		
+		if(pub != null){
+			PubComment.create(pub, p, body);
+			return ok();
+		}
 		else{
-			
-			final Form<models.Profile> form = PROFILE_FORM.fill(p);
-			final List<Location> notSelected = Location.find.all();
-//			final String allLocationsJson = Location.getAllAsJsonArray();
-			final List<Location> selected = p.locations;
-			
-			return ok(profile.render(form, selected, notSelected));
-		}
-	}
-
-	@Restrict(Mupi.USER_ROLE)
-	public static Result doProfile() {
-		final Form<models.Profile> filledForm = PROFILE_FORM.bindFromRequest();
-		final User user = Mupi.getLocalUser(session());	
-		
-		System.out.println(filledForm);
-		
-		try {
-			MultipartFormData body = request().body().asMultipartFormData();
-			FilePart picture = body.getFile("picture");
-			String picturePath = BLANK_PIC;
-			
-			if (picture != null) {
-			    String fileName = picture.getFilename();
-			    File file = picture.getFile();
-			    
-			    //TODO: If we allow the user to change e-mail, we need to take care of it!!
-			    File destinationFile = new File(play.Play.application().path().toString() + "//public//profilePictures//"
-			        + user.email.hashCode() + "//" + fileName);
-	
-		    	FileUtils.copyFile(file, destinationFile);
-		    	
-		    	picturePath = "/" + user.email.hashCode() + "/" + fileName;
-			}else{
-				if(filledForm.field("picture").value() == null){
-					picturePath = models.Profile.findByUserId(user.id).picture;
-				}else if(filledForm.get().picture.compareTo(BLANK_PIC) == 0){
-					picturePath = BLANK_PIC;
-				}
-			}
-			
-					
-			
-			models.Profile.update(
-					Mupi.getLocalUser(session()),
-					filledForm.get().firstName,
-					filledForm.get().lastName,
-					filledForm.get().about,
-					filledForm.get().birthDate,
-					picturePath,
-					filledForm.get().gender,
-					new Date(),
-					filledForm.get().locations
-			);
-				
-			
-			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.profile.updated"));
-
-			return redirect(routes.Profile.profile());
-			
-		} catch (IOException e){
-			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.errorSendingFile"));
-			e.printStackTrace();
-			return redirect(routes.Profile.profile());
+			return badRequest();
 		}
 	}
 	
 	@Restrict(Mupi.USER_ROLE)
-	public static Result changeLocation(Integer op, Long id){
-		if(op == 0) return addLocation(id) ;
-		else if(op == 1) return removeLocation(id);
-		return AjaxResponse.build(1, "Server Error!");
-	}
-	
-	@Restrict(Mupi.USER_ROLE)
-	public static Result addLocation(Long id){
+	public static Result publish(String body, Long interest, Long location){
 		final User user = Mupi.getLocalUser(session());
-		final models.Profile profile = models.Profile.findByUserId(user.id);
-		final Location location = Location.find.byId(id);
+		final models.Interest i = models.Interest.find.byId(interest);
+		final models.Location l = models.Location.find.byId(location);
 		
-		if(location != null){
-			if(profile.locations != null && profile.locations.contains(location)){
-				return AjaxResponse.build(2, "You already has this location registered!");
-			}else{
-				profile.locations.add(location);
-				profile.update();
-				return AjaxResponse.build(0, "Location successfully registered!");
-			}
-		}else{
-			return AjaxResponse.build(1, "This location dos not exist in our database. If you want this location to be ther click in 'Suggest Location'!");
-		}
+		Publication.create(user.profile, l, i, 0, body);
+		return AjaxResponse.build(0, feedPublications.render(
+				Publication.findByInterestLocation(i.id, l.id, 0).getList(), i,	l
+		).body());
 	}
 	
 	@Restrict(Mupi.USER_ROLE)
-	public static Result removeLocation(Long id){
-		final User user = Mupi.getLocalUser(session());
-		final models.Profile profile = models.Profile.findByUserId(user.id);
-		final Location location = Location.find.byId(id);
-				
-		if(location != null){
-			if(profile.locations != null){
-				profile.locations.remove(location);
-				profile.update();
-			}
-			return AjaxResponse.build(0, "You have successfully removed this location!");
-		}else{
-			return AjaxResponse.build(2, "This location does not exist in our database!");
-		}
+	public static Result renderFeedContent(
+			int status, 
+			List<models.Publication> l_pubs,
+			models.Interest selectedInterest,
+			models.Location selectedLocation){
+		return AjaxResponse.build(status, feedContent.render(l_pubs, selectedInterest, selectedLocation).body());
 	}
+		
+	@Restrict(Mupi.USER_ROLE)
+	public static Result selectFeed(Long interest, Long location){
+		final models.Profile p = Mupi.getLocalUser(session()).profile;
+		if(interest == null || interest == -1){
+			if(location == null || location == -1){
+				return renderFeedContent(
+						0, 
+						Publication.findByInterests(getInterestIds(p.interests), 0).getList(), 
+						null, 
+						null
+				);
+			} else {
+				final models.Location l = models.Location.find.byId(location);
+				return renderFeedContent(
+						0, 
+						Publication.findByInterestsLocation(getInterestIds(p.interests), location, 0).getList(), 
+						null, 
+						l
+				);
+			}
+		} else {
+			final models.Interest i = models.Interest.find.byId(interest);
+			
+			if(location == null || location == -1){
+				return renderFeedContent(
+						0, 
+						Publication.findByInterest(interest, 0).getList(), 
+						i, 
+						null
+				);
+			} else {
+				final models.Location l = models.Location.find.byId(location);
+				return renderFeedContent(
+						0, 
+						Publication.findByInterestLocation(interest, location, 0).getList(), 
+						i, 
+						l
+				);
+			}
+		}
+	}	
 	
+	private static List<Long> getInterestIds(List<models.Interest> i){
+		ArrayList<Long> ids = new ArrayList<Long>();
+		for (models.Interest interest : i) {
+			ids.add(interest.id);
+		}
+		return ids;
+	}
 }

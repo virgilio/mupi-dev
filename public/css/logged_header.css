@@ -1,0 +1,26 @@
+.mupi-navbar{
+    background-color: #1a100b;
+    -moz-box-shadow: 0 0 5px 2px #888;
+    -webkit-box-shadow: 0 0 5px 2px #888;
+    box-shadow: 0 0 5px 2px #888;
+    height: 40px;
+    padding-left: 110px;
+}
+.mupi_logo{
+   background-color: #1A100B;
+   width: 100px;
+   height: 100px;
+   border-radius: 50px;
+   position: fixed;
+   top: 0;
+   left: -2px;
+   z-index: 1030; 
+}
+.logo{
+    background: url('../img/logo_header.png') 0 0 no-repeat;
+    display: block;
+    height: 80px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 90px;
+}

@@ -1,0 +1,24 @@
+@(nav: String = "")
+
+<link href="@routes.Assets.at("css/notLogged_header.css")" rel="stylesheet">
+ 
+<div class="navbar mupi-navbar navbar-fixed-top">
+  <div class="container" >
+  
+  <a class="logo" href="@routes.Mupi.home()" alt="Mupi"></a>
+  <div class="btn-group pull-right">
+    <a href="@routes.Mupi.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Messages("playauthenticate.navigation.login")</a>
+  </div>
+  
+  <div class="nav-collapse">
+    <ul class="nav">
+	    <li class="@("active".when(nav == "signup"))"><a href="@routes.Mupi.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
+	    <li class="@("active".when(nav == ""))"><a href="@routes.Mupi.index()">@Messages("playauthenticate.navigation.home")</a></li>
+    </ul>
+  </div>  
+
+  
+
+  </div>     
+</div>
+		

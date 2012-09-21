@@ -34,11 +34,6 @@ public class Location extends Model {
 	@Required
 	public String geohash;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	public List<Profile> profiles;
-	
-	@OneToMany
-	public List<Community> communities;
 	
 	public static final Finder<Long, Location> find = new Finder<Long, Location>(
 			Long.class, Location.class);

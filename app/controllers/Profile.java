@@ -27,21 +27,14 @@ public class Profile extends Controller {
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result profile() {
-		final User user = Mupi.getLocalUser(session());		
+		final User user = Mupi.getLocalUser(session());	
 
-		models.Profile p = models.Profile.create(user);
+		models.Profile p = user.profile;
+		final Form<models.Profile> form = PROFILE_FORM.fill(p);
 		
-		if(p == null)
-			return Controller.badRequest();
-		else{
-			
-			final Form<models.Profile> form = PROFILE_FORM.fill(p);
-			final List<Location> notSelected = Location.find.all();
-//			final String allLocationsJson = Location.getAllAsJsonArray();
-			final List<Location> selected = p.locations;
-			
-			return ok(profile.render(form, selected, notSelected));
-		}
+		final List<Location> notSelected = Location.find.fetch("id", "name").findList();
+
+		return ok(profile.render(form, p, notSelected));
 	}
 
 	@Restrict(Mupi.USER_ROLE)
@@ -61,22 +54,19 @@ public class Profile extends Controller {
 			    File file = picture.getFile();
 			    
 			    //TODO: If we allow the user to change e-mail, we need to take care of it!!
-			    File destinationFile = new File(play.Play.application().path().toString() + "//public//profilePictures//"
-			        + user.email.hashCode() + "//" + fileName);
+			    File destinationFile = new File(play.Play.application().path().toString() + "//public//profilePictures//" + user.email.hashCode() + "//" + fileName);
 	
 		    	FileUtils.copyFile(file, destinationFile);
 		    	
 		    	picturePath = "/" + user.email.hashCode() + "/" + fileName;
 			}else{
 				if(filledForm.field("picture").value() == null){
-					picturePath = models.Profile.findByUserId(user.id).picture;
+					picturePath = user.profile.picture;
 				}else if(filledForm.get().picture.compareTo(BLANK_PIC) == 0){
 					picturePath = BLANK_PIC;
 				}
 			}
-			
-					
-			
+			System.out.println("AAA");
 			models.Profile.update(
 					Mupi.getLocalUser(session()),
 					filledForm.get().firstName,
@@ -110,8 +100,10 @@ public class Profile extends Controller {
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result addLocation(Long id){
+		
+		
 		final User user = Mupi.getLocalUser(session());
-		final models.Profile profile = models.Profile.findByUserId(user.id);
+		final models.Profile profile = user.profile;
 		final Location location = Location.find.byId(id);
 		
 		if(location != null){
@@ -130,7 +122,7 @@ public class Profile extends Controller {
 	@Restrict(Mupi.USER_ROLE)
 	public static Result removeLocation(Long id){
 		final User user = Mupi.getLocalUser(session());
-		final models.Profile profile = models.Profile.findByUserId(user.id);
+		final models.Profile profile = user.profile;
 		final Location location = Location.find.byId(id);
 				
 		if(location != null){

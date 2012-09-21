@@ -25,8 +25,9 @@ public class Interest extends Controller {
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result interestManager() {
-		final User user = Mupi.getLocalUser(session());		
-		final List<models.Interest> uInterests = user.interests;
+		final User user = Mupi.getLocalUser(session());	
+		
+		final List<models.Interest> uInterests = user.profile.interests;
 		final List<models.Interest> allInterests = (List<models.Interest>) CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 		
 		Form<models.Interest> form = INTEREST_FORM;
@@ -38,7 +39,7 @@ public class Interest extends Controller {
 	public static Result checkInterest(Long id){
 		final User user = Mupi.getLocalUser(session());
 				
-		if(User.checkInterest(user, id))
+		if(models.Profile.checkInterest(user, id))
 			return AjaxResponse.build(0,"The interest was added to your interests list!");
 		else
 			return AjaxResponse.build(1,"A problem occured and the interest was NOT added to your interests list!");
@@ -47,7 +48,7 @@ public class Interest extends Controller {
 	@Restrict(Mupi.USER_ROLE)
 	public static Result uncheckInterest(Long id){
 		final User user = Mupi.getLocalUser(session());	
-		if(User.uncheckInterest(user, id))
+		if(models.Profile.uncheckInterest(user, id))
 			return AjaxResponse.build(0,"The interest was removed from your interests list!");
 		else
 			return AjaxResponse.build(1, "A problem occured and the interest was NOT removed from your interests list!");
@@ -88,6 +89,7 @@ public class Interest extends Controller {
 				picturePath = BLANK_PIC;
 			}
 			
+			
 			models.Interest.create(
 				filledForm.get().name,
 				picturePath,
@@ -96,14 +98,14 @@ public class Interest extends Controller {
 			
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.interestManager.added"));
 			
-			final List<models.Interest> uInterests = user.interests;
+			final List<models.Interest> uInterests = user.profile.interests;
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 			
 			return ok(interestManager.render(uInterests, allInterests, form));
 		} catch (IOException e){
 			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.profile.errorSendingFile"));
 			e.printStackTrace();
-			final List<models.Interest> uInterests = user.interests;
+			final List<models.Interest> uInterests = user.profile.interests;
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 			return ok(interestManager.render(uInterests, allInterests, form));
 		}

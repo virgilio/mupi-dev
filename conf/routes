@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET		/                            controllers.Mupi.index
+GET		  /                           controllers.Mupi.index
 GET     /assets/javascript/routes   controllers.Mupi.jsRoutes
 
 GET     /login                      controllers.Mupi.login
@@ -44,28 +44,36 @@ POST    /login/password/forgot     controllers.Signup.doForgotPassword
 GET   /assets/*file         controllers.Assets.at(path="/public", file)
 
 # Mupi Pages
-GET   /profile           	controllers.Profile.profile
-POST  /profile           	controllers.Profile.doProfile
+# FEED
+GET   /feed                   controllers.Feed.feed
+POST  /feed/select/:i/:l      controllers.Feed.selectFeed(i: Long, l: Long)
+POST  /feed/publish/:t/:i/:l  controllers.Feed.publish(t: String, i: Long, l: Long)
+POST  /feed/comment/:t/:p     controllers.Feed.comment(t: String, p: Long)
+
+GET   /profile           	  controllers.Profile.profile
+POST  /profile           	  controllers.Profile.doProfile
 POST  /profile/:op/:id      controllers.Profile.changeLocation(op: Integer, id: Long)
-GET	  /home					controllers.Mupi.home
-GET	  /config				controllers.Mupi.config
-GET   /interests			controllers.Mupi.interests
+GET	  /home					        controllers.Mupi.home
+GET	  /config				        controllers.Mupi.config
+GET   /interests			      controllers.Mupi.interests
 POST  /checkInterest/:id   	controllers.Interest.checkInterest(id: Long)
 POST  /uncheckInterest/:id	controllers.Interest.uncheckInterest(id: Long)
 POST  /ignoreInterest/:id  	controllers.Interest.ignoreInterest(id: Long)
-GET   /interestManager   	controllers.Interest.interestManager
-POST  /addInterest       	controllers.Interest.doAddInterest
-GET   /addInterest       	controllers.Interest.interestManager
-GET   /about            	controllers.Mupi.about
-GET   /contact          	controllers.Mupi.contact
-GET   /help             	controllers.Mupi.help
-GET   /media            	controllers.Mupi.media
-GET   /privacyPolicies  	controllers.Mupi.privacyPolicies
-GET   /statistics       	controllers.Mupi.statistics
-GET   /terms            	controllers.Mupi.terms
-GET   /signup           	controllers.Mupi.signup
-GET   /feed             	controllers.Mupi.feed
-GET   /inbox            	controllers.Mupi.inbox
+GET   /interestManager   	  controllers.Interest.interestManager
+POST  /interestManager      controllers.Interest.doAddInterest
+GET   /addInterest       	  controllers.Interest.interestManager
+GET   /about            	  controllers.Mupi.about
+GET   /contact          	  controllers.Mupi.contact
+GET   /help             	  controllers.Mupi.help
+GET   /media            	  controllers.Mupi.media
+GET   /privacyPolicies  	  controllers.Mupi.privacyPolicies
+GET   /statistics       	  controllers.Mupi.statistics
+GET   /terms            	  controllers.Mupi.terms
+GET   /signup           	  controllers.Mupi.signup
+GET   /inbox                controllers.Mupi.inbox
+
+
+
 
 # GET   /configuration    	controllers.Mupi.configuration
 # POST   /notifications    	controllers.Mupi.notifications

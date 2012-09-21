@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import models.TokenAction.Type;
 
 import play.data.format.Formats;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import scala.actors.threadpool.Arrays;
 import be.objectify.deadbolt.models.Permission;
@@ -53,6 +54,7 @@ public class User extends Model implements RoleHolder {
 	// @Column(unique = true)
 	public String email;
 
+	@Required
 	public String name;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -77,14 +79,10 @@ public class User extends Model implements RoleHolder {
 	@ManyToMany
 	public List<UserPermission> permissions;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	public List<Interest> interests;
+
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	public Profile profile;
-	
-	@OneToMany
-	public List<Publication> publications;
 	
 	
 	public static final Finder<Long, User> find = new Finder<Long, User>(
@@ -100,8 +98,7 @@ public class User extends Model implements RoleHolder {
 		return permissions;
 	}
 
-	public static boolean existsByAuthUserIdentity(
-			final AuthUserIdentity identity) {
+	public static boolean existsByAuthUserIdentity(final AuthUserIdentity identity) {
 		final ExpressionList<User> exp;
 		if (identity instanceof UsernamePasswordAuthUser) {
 			exp = getUsernamePasswordAuthUserFind((UsernamePasswordAuthUser) identity);
@@ -158,29 +155,7 @@ public class User extends Model implements RoleHolder {
 		return u;
 	}
 	
-	public static boolean checkInterest(final User user, final Long interest) {
-		final User u = findByEmail(user.email);
-		if (u != null && u.interests.add(models.Interest.find.byId(interest))){
-			u.update();
-			return true;
-		}
-		return false;
-	}
 	
-	public static boolean uncheckInterest(final User user, final Long interest) {
-		final User u = findByEmail(user.email);
-		final Interest i = models.Interest.find.byId(interest);
-		if (u != null && i != null && u.interests.remove(i)){
-			u.update();
-			return true;
-		}
-		return false;
-	}
-	
-	public static void ignoreInterest(final User user, final Long interest) {
-		
-	}
-
 	public static User create(final AuthUser authUser) {
 		final User user = new User();
 		user.roles = Collections.singletonList(SecurityRole
@@ -189,12 +164,13 @@ public class User extends Model implements RoleHolder {
 		// user.permissions.add(UserPermission.findByValue("printers.edit"));
 		user.active = true;
 		user.lastLogin = new Date();
-		user.linkedAccounts = Collections.singletonList(LinkedAccount
-				.create(authUser));
+		user.linkedAccounts = Collections.singletonList(LinkedAccount.create(authUser));
+		
+		
 		
 		user.created = new Date();
 		user.modified = new Date();
-
+		
 		if (authUser instanceof EmailIdentity) {
 			final EmailIdentity identity = (EmailIdentity) authUser;
 			// Remember, even when getting them from FB & Co., emails should be
@@ -211,8 +187,10 @@ public class User extends Model implements RoleHolder {
 				user.name = name;
 			}
 		}
-
+		
+		user.profile = new Profile(user.name);
 		user.save();
+		
 		user.saveManyToManyAssociations("roles");
 		// user.saveManyToManyAssociations("permissions");
 		return user;

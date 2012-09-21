@@ -1,32 +1,9 @@
-//var succErrMsg = {
-//	success : function(data) {
-//		var response = data.split("||");
-//		if (jQuery('.alert').size() == 0) {
-//			jQuery('.navbar-container').next().prepend("<div class='alert'> </div>");
-//		}
-//		var messageType = 'warning';
-//		
-//		if (response[0] == 0) messageType = 'success';
-//		else if(response[0] == 1) messageType = 'error';
-//		
-//		jQuery('.alert').addClass('alert-'+messageType).html(response[1]);
-//	},
-//	error : function() {
-//		if (jQuery('.alert').size() == 0) {
-//			jQuery('.navbar-container').next().prepend("<div class='alert alert-error'> </div>");
-//		}
-//		jQuery('.alert')
-//				.addClass('alert-error')
-//				.html("Server error, please try again later!");
-//	}
-//}
-
 function succErrBuilder(f){
 	return({
 		success : function(data) {
 			var response = data.split("||");
 			if (jQuery('.alert').size() == 0) {
-				jQuery('.navbar-container').next().prepend("<div class='alert'> </div>");
+				jQuery('#content').prepend("<div class='alert'> </div>");
 			}
 			var messageType = 'warning';
 			if (response[0] == 0) messageType = 'success';
@@ -37,7 +14,7 @@ function succErrBuilder(f){
 		},
 		error : function() {
 			if (jQuery('.alert').size() == 0) {
-				jQuery('.navbar-container').next().prepend("<div class='alert alert-error'> </div>");
+				jQuery('#content').next().prepend("<div class='alert alert-error'> </div>");
 			}
 			jQuery('.alert')
 				.addClass('alert-error')

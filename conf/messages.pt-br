@@ -163,7 +163,7 @@ mupi.interestManager.added=Interesse sugerido! Você receberá um e-mail assim q
 
 mupi.navigation.about.title=Sobre
 mupi.navigation.contact.title=Contato
-mupi.navigation.help.title=Ajuda
+mupi.navigation.help.title=Como funciona
 mupi.navigation.media.title=Imprensa
 mupi.navigation.privacyPolicies.title=Política de privacidade
 mupi.navigation.statistics.title=Estátísticas
@@ -173,3 +173,6 @@ mupi.navigation.feed=Feed
 mupi.navigation.configuration=Configurações
 mupi.navigation.inbox=Mensagens
 mupi.navigation.notifications=Notificações
+
+
+mupi.feed.noInterests=Você não possui interesses cadastrados!

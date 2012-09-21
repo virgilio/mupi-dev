@@ -1,6 +1,7 @@
 @(profileForm: Form[models.Profile], 
-  uLocations: List[models.Location], 
-  locations: List[models.Location]) 
+  p: models.Profile,
+  allLocations: List[models.Location]
+) 
 
 @import helper._ 
 @import helper.twitterBootstrap._
@@ -9,12 +10,15 @@
 
 
 @main(Messages("playauthenticate.profile.title"),"profile") {
-  <!-- TIRAR ESSE CSS DAQUI!! AS PROPRIEDADES DO FORM TÊM QUE ESTAR NUM CSS GERAL!! -->
+  <!-- TODO: TIRAR ESSE CSS DAQUI!! AS PROPRIEDADES DO FORM TÊM QUE ESTAR NUM CSS GERAL!! -->
+  <link href="@routes.Assets.at("css/jasny-bootstrap.css")" rel="stylesheet" type="text/css" media="screen"/>
 	<link rel="stylesheet" href="@routes.Assets.at("css/wizard.css")" type="text/css" media="screen"/>
 
   <script type="text/javascript" src="@routes.Assets.at("js/mupiLocation.js")"></script>
   <script type="text/javascript"  src="@routes.Assets.at("js/extended-bootstrapTypeahead.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-inputmask.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("js/mupiFileUpload.js")"></script>
+  
   
   
 	<script type="text/javascript">
@@ -81,8 +85,8 @@
     @mupiFormAutoCompleteInput(
         field=profileForm("locations"),
         label="Locations",
-        uLocations=uLocations,
-        locations=locations
+        uLocations=p.locations,
+        locations=allLocations
       )
   </div>
 <ul>

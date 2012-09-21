@@ -1,0 +1,21 @@
+@(locations: List[Location], selectedl: Location = null, selectedi: models.Interest = null)
+
+<div class="feed_submenu">
+  <i class="icon-globe"></i><span>Ver atualizações de:</span>
+  <div id="locals">
+  
+  @if(locations != null){
+   	@for(location <- locations) {
+		  <a class="btn btn_local" id="@location.id">
+			  @if(location == selectedl) {
+			    <i class="icon-check"></i>
+			  } else {
+			    <i class="icon-check-empty"></i>
+			  }
+		    @location.name
+		  </a>
+		}
+  }
+  </div>
+</div>
+  

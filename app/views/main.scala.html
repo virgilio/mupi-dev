@@ -2,6 +2,7 @@
 
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.Deadbolt
+@import mupiHeaders._
 
 <!DOCTYPE html>
 <html lang="@lang().code()">
@@ -13,31 +14,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Mupi! O que você aprendeu hoje?">
     <meta name="author" content="Matchbox Ideas">
-       
-    
+   
     <!-- Le scripts -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="@routes.Assets.at("js/bootstrap.js")"></script>
-	<script src="@routes.Mupi.jsRoutes" defer="defer"></script>
+  	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	  <script src="@routes.Assets.at("js/bootstrap.js")"></script>
+	  <script src="@routes.Mupi.jsRoutes" defer="defer"></script>
 	
     <!-- Le styles -->
     <link href="@routes.Assets.at("stylesheets/main.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/font-awesome.css")" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href=@routes.Assets.at("img/favicon.ico")>
+    <link href="@routes.Assets.at("css/mupiMain.css")" rel="stylesheet">
 
 
 
-   <!-- MUPI SCRIPTS -->
-   <script type="text/javascript" src="@routes.Assets.at("js/mupi-alertHandler.js")"></script>
-<!--     <script type="text/javascript" src="@routes.Assets.at("js/sliding.form.js")"></script> -->
-    
-    <!-- MUPI STYLES -->
-    <link href="@routes.Assets.at("css/jasny-bootstrap.css")" rel="stylesheet">
-    <link href="@routes.Assets.at("css/mupiMain.css")" rel="stylesheet"> 
-    <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
-    <link href="@routes.Assets.at("css/bootstrap-responsive.css")" rel="stylesheet">
-    
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -47,76 +38,38 @@
 
   <body>
   	<div class="wrapper">
-	    <div class="navbar-container">
-		    <div class="navbar navbar-fixed-top">
-		      <div class="navbar-inner">
-		        <div class="container" >	          
-				  <a class="pull-right logo" href="@routes.Mupi.index()" alt="mupi"></a>	          
-		          <div class="btn-group pull-right">
-			          @if(Deadbolt.viewRoleHolderPresent()) {
-			          	@defining(Mupi.getLocalUser(session())) { user =>
-			            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-			              <i class="icon-user"></i> @user.name
-			              <span class="caret"></span>
-			            </a>
-			            <ul class="dropdown-menu">
-							<li><a href="@routes.Profile.profile()">@Messages("playauthenticate.navigation.profile")</a></li>
-							<!-- <li><a href="@routes.Account.link()">@Messages("playauthenticate.navigation.link_more")</a></li> -->
-							<li class="divider"></li>
-							<li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a></li>
-			            </ul>
-			            }
-			          } else {
-			            <a href="@routes.Mupi.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Messages("playauthenticate.navigation.login")</a>
-			          }
-		          </div>	
-	          
-		          <div class="nav-collapse">
-		            <ul class="nav">
-			            <!-- MENU TO SHOW ALWAYS -->
-		              	<li class="@("active".when(nav == ""))"><a href="@routes.Mupi.index()">@Messages("playauthenticate.navigation.home")</a></li>
-	                @if(!Deadbolt.viewRoleHolderPresent()) {
-		                <!-- MENU TO SHOW WHEN NOT LOGGED -->
-		                <li class="@("active".when(nav == "signup"))"><a href="@routes.Mupi.signup()">@Messages("playauthenticate.navigation.signup")</a></li>
-	                }else{ 
-		                <!-- MENU TO SHOW WHEN LOGGED -->
-						<!-- <li class="@("active".when(nav == "feed"))"><a href="@routes.Mupi.feed()">@Messages("mupi.navigation.feed")</a></li> -->
-		                <li class="@("active".when(nav == "interestManager"))"><a href="@routes.Interest.interestManager()">@Messages("mupi.navigation.interestManager")</a></li>	                
-						<!-- <li class="@("active".when(nav == "inbox"))"><a href="@routes.Mupi.inbox()">@Messages("mupi.navigation.inbox")</a></li> -->
-		              }
-		            </ul>
-		          </div><!--/.nav-collapse -->
-	        </div>
-	      </div>
-	    </div>
-	    </div>
-	
-    <div class="content">
-	    @if(flash.contains(Mupi.FLASH_ERROR_KEY)) {
-	      <div class="alert alert-error">
-	      	@flash().get(Mupi.FLASH_ERROR_KEY)
-	      </div>
-	    }
-	    @if(flash.contains(Mupi.FLASH_MESSAGE_KEY)) {
-	      <div class="alert alert-success">
-	      	@flash().get(Mupi.FLASH_MESSAGE_KEY)
-	      </div>
-	    }
-		@content
-	</div> 
-		
-	</div><!-- div wrapper ends so that the footer get sticky to the bottom -->	
-	<footer role="contentinfo">
+	       @if(Deadbolt.viewRoleHolderPresent()) {
+			     @logged_header(nav)
+         } else {
+           @notLogged_header(nav)
+         }
+         
+     <div id="content">
+			  @if(flash.contains(Mupi.FLASH_ERROR_KEY)) {
+			    <div class="alert alert-error">
+			      @flash().get(Mupi.FLASH_ERROR_KEY)
+			    </div>
+			  }
+			  @if(flash.contains(Mupi.FLASH_MESSAGE_KEY)) {
+			    <div class="alert alert-success">
+			      @flash().get(Mupi.FLASH_MESSAGE_KEY)
+			    </div>
+			  }
+			  @content
+			</div>		
+	  </div>
+	  
+	  <footer role="contentinfo">
 	    <div class="container">
-	        <ul class="nav nav-pills">
-				<li class="@("active".when(nav == "about"))"><a href="@routes.Mupi.about()">@Messages("mupi.navigation.about.title")</a></li>
-				<li class="@("active".when(nav == "contact"))"><a href="@routes.Mupi.contact()">@Messages("mupi.navigation.contact.title")</a></li>
-				<li class="@("active".when(nav == "help"))"><a href="@routes.Mupi.help()">@Messages("mupi.navigation.help.title")</a></li>
-				<li class="@("active".when(nav == "media"))"><a href="@routes.Mupi.media()">@Messages("mupi.navigation.media.title")</a></li>
-				<li class="@("active".when(nav == "privacyPolicies"))"><a href="@routes.Mupi.privacyPolicies()">@Messages("mupi.navigation.privacyPolicies.title")</a></li>
-				<li class="@("active".when(nav == "statistics"))"><a href="@routes.Mupi.statistics()">@Messages("mupi.navigation.statistics.title")</a></li>
-				<li class="@("active".when(nav == "terms"))"><a href="@routes.Mupi.terms()">@Messages("mupi.navigation.terms.title")</a></li>
-	        </ul>
+	      <ul class="nav nav-pills">
+					<li class="@("active".when(nav == "about"))"><a href="@routes.Mupi.about()">@Messages("mupi.navigation.about.title")</a></li>
+					<li class="@("active".when(nav == "contact"))"><a href="@routes.Mupi.contact()">@Messages("mupi.navigation.contact.title")</a></li>
+					<li class="@("active".when(nav == "help"))"><a href="@routes.Mupi.help()">@Messages("mupi.navigation.help.title")</a></li>
+<!-- 					<li class="@("active".when(nav == "media"))"><a href="@routes.Mupi.media()">@Messages("mupi.navigation.media.title")</a></li> -->
+					<li class="@("active".when(nav == "privacyPolicies"))"><a href="@routes.Mupi.privacyPolicies()">@Messages("mupi.navigation.privacyPolicies.title")</a></li>
+<!-- 					<li class="@("active".when(nav == "statistics"))"><a href="@routes.Mupi.statistics()">@Messages("mupi.navigation.statistics.title")</a></li> -->
+					<li class="@("active".when(nav == "terms"))"><a href="@routes.Mupi.terms()">@Messages("mupi.navigation.terms.title")</a></li>
+	      </ul>
 	    </div>
     </footer>
   </body>

@@ -5,13 +5,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 @Table(name = "pubComments")
@@ -28,7 +26,7 @@ public class PubComment extends Model {
 	
 	@Required
 	@ManyToOne
-	public User user;
+	public Profile profile;
 	
 	@Required
 	public String body;
@@ -51,16 +49,16 @@ public class PubComment extends Model {
 		
 	
 	
-	public PubComment(Publication publication, User user, String body) {
+	public PubComment(Publication publication, Profile profile, String body) {
 		this.publication = publication;
-		this.user = user;
+		this.profile = profile;
 		this.body = body;
 		this.status = 0;
 		this.modified = new Date();
 	}
 
-	public static void create(Publication publication, User user, String body){
-		PubComment pubComment = new PubComment(publication, user, body);
+	public static void create(Publication publication, Profile profile, String body){
+		PubComment pubComment = new PubComment(publication, profile, body);
 		pubComment.save();
 	}
 	

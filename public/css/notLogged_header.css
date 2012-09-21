@@ -1,0 +1,17 @@
+.logo {
+    background: url("../img/logomini.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: right;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.mupi-navbar{
+    background-color: #1a100b;
+    -moz-box-shadow: 0 0 5px 2px #888;
+    -webkit-box-shadow: 0 0 5px 2px #888;
+    box-shadow: 0 0 5px 2px #888;
+    height: 40px;
+}

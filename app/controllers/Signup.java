@@ -186,7 +186,7 @@ public class Signup extends Controller {
 		flash(Mupi.FLASH_MESSAGE_KEY,
 				Messages.get("playauthenticate.verify_email.success", email));
 		if (Mupi.getLocalUser(session()) != null) {
-			return redirect(routes.Mupi.interests());
+			return redirect(routes.Interest.interestManager());
 		} else {
 			return redirect(routes.Mupi.login());
 		}

@@ -1,8 +1,11 @@
 package controllers;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import models.Publication;
 import models.User;
 import play.Routes;
 import play.data.Form;
@@ -30,7 +33,7 @@ public class Mupi extends Controller {
 		// TODO If logged, redirect to the feed
 		final User user = getLocalUser(session());
 		if(user != null){
-			return feed();
+			return Feed.feed();
 		} else {
 			return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
 		}
@@ -75,15 +78,14 @@ public class Mupi extends Controller {
 	}
 
 	public static User getLocalUser(final Session session) {
-		final User localUser = User.findByAuthUserIdentity(PlayAuthenticate
-				.getUser(session));
+		final User localUser = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session));
 		return localUser;
 	}
 
 	@Restrict(Mupi.USER_ROLE)
 	public static boolean hasInterests() {
 		final User localUser = getLocalUser(session());
-		final int interests = localUser.interests.size();
+		final int interests = localUser.profile.interests.size();
 		return interests > 0;
 	}
 
@@ -109,14 +111,16 @@ public class Mupi extends Controller {
 
 	public static Result jsRoutes() {
 		return ok(
-				Routes.javascriptRouter("jsRoutes",
-						controllers.routes.javascript.Signup.forgotPassword(),
-						controllers.routes.javascript.Interest.checkInterest(),
-						controllers.routes.javascript.Interest.uncheckInterest(),
-						controllers.routes.javascript.Interest.ignoreInterest(),
-						controllers.routes.javascript.Profile.changeLocation()
-						))
-						.as("text/javascript");
+			Routes.javascriptRouter("jsRoutes",
+				controllers.routes.javascript.Signup.forgotPassword(),
+				controllers.routes.javascript.Interest.checkInterest(),
+				controllers.routes.javascript.Interest.uncheckInterest(),
+				controllers.routes.javascript.Interest.ignoreInterest(),
+				controllers.routes.javascript.Profile.changeLocation(),
+				controllers.routes.javascript.Feed.publish(),
+				controllers.routes.javascript.Feed.selectFeed(),
+				controllers.routes.javascript.Feed.comment()
+			)).as("text/javascript");
 	}
 
 	public static Result doSignup() {
@@ -129,15 +133,7 @@ public class Mupi extends Controller {
 			// Everything was filled
 			// do something with your part of the form before handling the user
 			// signup
-
-			Result ret = UsernamePasswordAuthProvider.handleSignup(ctx());
-
-			// TODO: How to do an ACID operation here? if there's a problem on handleSignup we need 
-			// to remove the profile. For now, resolved with the return of Profile.create
-			if(models.Profile.create(getLocalUser(session())) == null)
-				return Controller.badRequest();
-
-			return ret;
+			return UsernamePasswordAuthProvider.handleSignup(ctx());
 		}
 	}
 
@@ -166,15 +162,7 @@ public class Mupi extends Controller {
 	public static Result terms(){
 		return ok(terms.render());
 	}
-
-	@Restrict(Mupi.USER_ROLE)
-	public static Result feed(){
-		final User user = getLocalUser(session());
-		//TODO if(user has interests)
-		return ok(views.html.feed.render(user));
-		//TODO else 
-		//TODO 	return interestsManager()
-	}
+	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result configuration(){
 		final User user = getLocalUser(session());

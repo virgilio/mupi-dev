@@ -3,15 +3,6 @@
 
 # --- !Ups
 
-create table comunities (
-  id                        bigint not null,
-  interest_id               bigint,
-  location_id               bigint,
-  created                   timestamp,
-  modified                  timestamp,
-  constraint pk_comunities primary key (id))
-;
-
 create table interests (
   id                        bigint not null,
   name                      varchar(255),
@@ -39,7 +30,6 @@ create table locations (
 
 create table profiles (
   id                        bigint not null,
-  user_id                   bigint,
   first_name                varchar(255),
   last_name                 varchar(255),
   birth_date                timestamp,
@@ -54,7 +44,7 @@ create table profiles (
 create table pubComments (
   id                        bigint not null,
   publication_id            bigint,
-  user_id                   bigint,
+  profile_id                bigint,
   body                      varchar(255),
   status                    integer,
   created                   timestamp,
@@ -64,8 +54,9 @@ create table pubComments (
 
 create table publications (
   id                        bigint not null,
-  community_id              bigint,
-  user_id                   bigint,
+  interest_id               bigint,
+  location_id               bigint,
+  profile_id                bigint,
   type                      integer,
   body                      varchar(255),
   status                    integer,
@@ -112,22 +103,16 @@ create table user_permission (
 ;
 
 
-create table interests_users (
-  interests_id                   bigint not null,
-  users_id                       bigint not null,
-  constraint pk_interests_users primary key (interests_id, users_id))
-;
-
-create table locations_profiles (
-  locations_id                   bigint not null,
-  profiles_id                    bigint not null,
-  constraint pk_locations_profiles primary key (locations_id, profiles_id))
-;
-
 create table profiles_locations (
   profiles_id                    bigint not null,
   locations_id                   bigint not null,
   constraint pk_profiles_locations primary key (profiles_id, locations_id))
+;
+
+create table profiles_interests (
+  profiles_id                    bigint not null,
+  interests_id                   bigint not null,
+  constraint pk_profiles_interests primary key (profiles_id, interests_id))
 ;
 
 create table users_security_role (
@@ -141,14 +126,6 @@ create table users_user_permission (
   user_permission_id             bigint not null,
   constraint pk_users_user_permission primary key (users_id, user_permission_id))
 ;
-
-create table users_interests (
-  users_id                       bigint not null,
-  interests_id                   bigint not null,
-  constraint pk_users_interests primary key (users_id, interests_id))
-;
-create sequence comunities_seq;
-
 create sequence interests_seq;
 
 create sequence linked_account_seq;
@@ -169,40 +146,32 @@ create sequence users_seq;
 
 create sequence user_permission_seq;
 
-alter table comunities add constraint fk_comunities_interest_1 foreign key (interest_id) references interests (id) on delete restrict on update restrict;
-create index ix_comunities_interest_1 on comunities (interest_id);
-alter table comunities add constraint fk_comunities_location_2 foreign key (location_id) references locations (id) on delete restrict on update restrict;
-create index ix_comunities_location_2 on comunities (location_id);
-alter table linked_account add constraint fk_linked_account_user_3 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_linked_account_user_3 on linked_account (user_id);
-alter table profiles add constraint fk_profiles_user_4 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_profiles_user_4 on profiles (user_id);
-alter table pubComments add constraint fk_pubComments_publication_5 foreign key (publication_id) references publications (id) on delete restrict on update restrict;
-create index ix_pubComments_publication_5 on pubComments (publication_id);
-alter table pubComments add constraint fk_pubComments_user_6 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_pubComments_user_6 on pubComments (user_id);
-alter table publications add constraint fk_publications_community_7 foreign key (community_id) references comunities (id) on delete restrict on update restrict;
-create index ix_publications_community_7 on publications (community_id);
-alter table publications add constraint fk_publications_user_8 foreign key (user_id) references users (id) on delete restrict on update restrict;
-create index ix_publications_user_8 on publications (user_id);
-alter table token_action add constraint fk_token_action_targetUser_9 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
-create index ix_token_action_targetUser_9 on token_action (target_user_id);
-alter table users add constraint fk_users_profile_10 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
-create index ix_users_profile_10 on users (profile_id);
+alter table linked_account add constraint fk_linked_account_user_1 foreign key (user_id) references users (id) on delete restrict on update restrict;
+create index ix_linked_account_user_1 on linked_account (user_id);
+alter table pubComments add constraint fk_pubComments_publication_2 foreign key (publication_id) references publications (id) on delete restrict on update restrict;
+create index ix_pubComments_publication_2 on pubComments (publication_id);
+alter table pubComments add constraint fk_pubComments_profile_3 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
+create index ix_pubComments_profile_3 on pubComments (profile_id);
+alter table publications add constraint fk_publications_interest_4 foreign key (interest_id) references interests (id) on delete restrict on update restrict;
+create index ix_publications_interest_4 on publications (interest_id);
+alter table publications add constraint fk_publications_location_5 foreign key (location_id) references locations (id) on delete restrict on update restrict;
+create index ix_publications_location_5 on publications (location_id);
+alter table publications add constraint fk_publications_profile_6 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
+create index ix_publications_profile_6 on publications (profile_id);
+alter table token_action add constraint fk_token_action_targetUser_7 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
+create index ix_token_action_targetUser_7 on token_action (target_user_id);
+alter table users add constraint fk_users_profile_8 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
+create index ix_users_profile_8 on users (profile_id);
 
 
-
-alter table interests_users add constraint fk_interests_users_interests_01 foreign key (interests_id) references interests (id) on delete restrict on update restrict;
-
-alter table interests_users add constraint fk_interests_users_users_02 foreign key (users_id) references users (id) on delete restrict on update restrict;
-
-alter table locations_profiles add constraint fk_locations_profiles_locatio_01 foreign key (locations_id) references locations (id) on delete restrict on update restrict;
-
-alter table locations_profiles add constraint fk_locations_profiles_profile_02 foreign key (profiles_id) references profiles (id) on delete restrict on update restrict;
 
 alter table profiles_locations add constraint fk_profiles_locations_profile_01 foreign key (profiles_id) references profiles (id) on delete restrict on update restrict;
 
 alter table profiles_locations add constraint fk_profiles_locations_locatio_02 foreign key (locations_id) references locations (id) on delete restrict on update restrict;
+
+alter table profiles_interests add constraint fk_profiles_interests_profile_01 foreign key (profiles_id) references profiles (id) on delete restrict on update restrict;
+
+alter table profiles_interests add constraint fk_profiles_interests_interes_02 foreign key (interests_id) references interests (id) on delete restrict on update restrict;
 
 alter table users_security_role add constraint fk_users_security_role_users_01 foreign key (users_id) references users (id) on delete restrict on update restrict;
 
@@ -212,29 +181,21 @@ alter table users_user_permission add constraint fk_users_user_permission_user_0
 
 alter table users_user_permission add constraint fk_users_user_permission_user_02 foreign key (user_permission_id) references user_permission (id) on delete restrict on update restrict;
 
-alter table users_interests add constraint fk_users_interests_users_01 foreign key (users_id) references users (id) on delete restrict on update restrict;
-
-alter table users_interests add constraint fk_users_interests_interests_02 foreign key (interests_id) references interests (id) on delete restrict on update restrict;
-
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists comunities;
-
 drop table if exists interests;
-
-drop table if exists interests_users;
 
 drop table if exists linked_account;
 
 drop table if exists locations;
 
-drop table if exists locations_profiles;
-
 drop table if exists profiles;
 
 drop table if exists profiles_locations;
+
+drop table if exists profiles_interests;
 
 drop table if exists pubComments;
 
@@ -250,13 +211,9 @@ drop table if exists users_security_role;
 
 drop table if exists users_user_permission;
 
-drop table if exists users_interests;
-
 drop table if exists user_permission;
 
 SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists comunities_seq;
 
 drop sequence if exists interests_seq;
 
