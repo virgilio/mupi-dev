@@ -1,5 +1,10 @@
 jQuery(function(){	
-   
+	function htmlEncode(value){
+	  return $('<div/>').text(value || '').html();
+	}
+	function htmlDecode(value){
+	  return $('<div/>').html(value || '').text();
+	}
 	
 	jQuery(".comment_lnk").live('click', function (){
 		if(jQuery("#" + jQuery(this).attr("comments")).is(':visible'))
@@ -18,21 +23,22 @@ jQuery(function(){
     });
 	
     jQuery('.btn_local').live('click', function(){
-        if(jQuery(this).children('i').hasClass('icon-check')){
+    	if(jQuery(this).children('i').hasClass('icon-check')){
             jQuery(this).children('i').removeClass('icon-check').addClass('icon-check-empty');
             getFeed(jQuery("#selectedInterest").val(), -1);
         } else {
+        	jQuery('.icon-check').removeClass('icon-check').addClass('icon-check-empty');
             jQuery(this).children('i').removeClass('icon-check-empty').addClass('icon-check');
             getFeed(jQuery("#selectedInterest").val(), jQuery(this).attr('id'));
         };
     });
     
     jQuery('.interestIcon').live('click', function(){
-    	getFeed(jQuery(this).attr('id'), -1);
+    	getFeed(jQuery(this).attr('id'), jQuery("#selectedLocation").val());
     });
     
     jQuery('.commentPub').live('click', function(){
-    	jsRoutes.controllers.Feed.comment(jQuery(this).prev('textarea').val(),jQuery(this).attr('publication')).ajax({
+    	jsRoutes.controllers.Feed.comment(htmlEncode(encodeURIComponent(jQuery(this).prev('textarea').val())),jQuery(this).attr('publication')).ajax({
     		success : function(data) {
     			getFeed(jQuery("#selectedInterest").val(), jQuery("#selectedLocation").val());
     		},
@@ -58,6 +64,7 @@ jQuery(function(){
     			success : function(data) {
     				var response = data.split("||");
     				if(response[0] == 0) jQuery('#publications').html(response[1]);
+    				loadEditor();
     			},
         		error : function() {
     				if (jQuery('.alert').size() == 0) {

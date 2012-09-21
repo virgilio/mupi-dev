@@ -34,9 +34,6 @@ public class Feed extends Controller {
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result comment(String body, Long id){
-		
-		System.out.println(id + "   " + body);
-		
 		final models.Profile p = Mupi.getLocalUser(session()).profile;
 		final models.Publication pub = models.Publication.find.byId(id);
 		

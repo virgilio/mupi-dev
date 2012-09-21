@@ -347,3 +347,8 @@ ul.wysihtml5-toolbar {
 	margin: 0 auto;
 	width: 300px;
 }
+
+#feeds{
+  margin: 0;
+  padding: 0
+}

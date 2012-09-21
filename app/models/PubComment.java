@@ -54,6 +54,7 @@ public class PubComment extends Model {
 		this.profile = profile;
 		this.body = body;
 		this.status = 0;
+		this.created = new Date();
 		this.modified = new Date();
 	}
 

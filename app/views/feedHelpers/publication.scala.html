@@ -1,5 +1,8 @@
 @(publication : Publication)
 
+@import collection.JavaConversions._
+@import collection.JavaConverters._
+
 <div class="publication">
   <div class="profile-thumb">
     <img src="@routes.Assets.at("profilePictures/393435068/me.jpg")" />
@@ -15,13 +18,15 @@
   </ul>
 
   <div class="comments hide" id="comments_@publication.id">
-    @for(comment <- publication.comments){
-     <div class="comment">
+    @if(publication.comments.size() > 0){
+	    @for(comment <- publication.comments.asScala.sortBy(_.created).reverse){
+	     <div class="comment">
 <!-- 	        TODO: get picture -->
 <!--        <img src="@routes.Assets.at("profilePictures/393435068/me.jpg")" /> -->
-       <p>@comment.body</p>
-       <span class="pub_date">@comment.created</span>
-     </div>
+	       <p>@comment.body</p>
+	       <span class="pub_date">@comment.created.format("dd/MMM - hh:mm")</span>
+	     </div>
+	   }
    }
   </div>
   <div class="textarea_comment">

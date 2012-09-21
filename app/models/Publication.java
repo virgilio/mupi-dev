@@ -45,7 +45,7 @@ public class Publication extends Model {
 	public Profile profile;
 	
 	@OneToMany
-	public List<PubComment> comments;
+	public List<PubComment> comments = new ArrayList<PubComment>();
 	
 	@Required
 	public Integer type	;
