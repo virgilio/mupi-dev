@@ -192,7 +192,7 @@ ul.wysihtml5-toolbar {
 }
 /*EVENT IMAGE LOADER*/
 #event_image {
-	display: table;
+    float: none;
 }
 
 #event_image img {

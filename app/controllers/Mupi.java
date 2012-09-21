@@ -35,7 +35,7 @@ public class Mupi extends Controller {
 		if(user != null){
 			return Feed.feed();
 		} else {
-			return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
+			return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
 		}
 	}
 

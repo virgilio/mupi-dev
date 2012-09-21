@@ -1,9 +1,11 @@
 body{
     background: url('../img/bg.jpg') 0 0 repeat;
     font-family:"Century Gothic", Helvetica, sans-serif;
-    padding-top: 40px;
+    padding: 0;
 }
-
+#content{
+	padding-top: 40px;
+}
 .txtcenter{
     text-align: center;
 }

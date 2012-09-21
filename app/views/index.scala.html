@@ -1,4 +1,8 @@
-@(loginForm: Form[_]) 
+@(loginForm: Form[_], signupForm: Form[_]) 
+
+@import helper._
+@import helper.twitterBootstrap._
+
 @main(Messages("playauthenticate.index.title"), "") {
 <link href="@routes.Assets.at("css/landing_page.css")" rel="stylesheet">
 
@@ -19,7 +23,7 @@
 <div class="container">
 	<div class="row-fluid">
 
-		<div class="span8">
+		<div class="span9">
 			<!-- Content-->
 
 			<div class="row-fluid">
@@ -56,13 +60,32 @@
 				<div class="span12">Infográfico mupi</div>
 			</div>
 		</div>
-		<div class="span4">
+		<div class="span3">
 			<!-- Content-->
 
 			<div class="row-fluid">
-				<div class="span12">
-				CAIXA DE LOGIN
-<!-- 					arroba login(loginForm) -->
+				<div class="span12" id="login_box">
+					@* Display proprietary login form *@
+			    	@helper.form(routes.Mupi.doLogin) {
+			    	
+			        @if(loginForm.hasGlobalErrors) { 
+			          <p class="error">
+			            <span class="label label-important">@loginForm.globalError.message</span>
+			          </p>
+			        }
+			        
+			        @_emailPartial(loginForm)
+			          
+			        @inputPassword(
+			          loginForm("password"),
+			          '_showConstraints -> false,
+			          '_label -> Messages("playauthenticate.login.password.placeholder")
+			        )
+			        
+			        <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();">@Messages("playauthenticate.login.forgot.password")</a>  
+			        <input type="submit" value="@Messages("playauthenticate.login.now")" class="btn">       
+			
+			    	}
 				</div>
 			</div>
 		</div>
