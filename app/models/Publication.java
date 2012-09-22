@@ -142,5 +142,10 @@ public class Publication extends Model {
 				.getPage(page);
 	}
 	
-	
+	public static Profile getProfilePicById(Long id){
+		System.out.println(id);
+		System.out.println(find.byId(id).profile.id);
+		
+		return Profile.find.byId(find.byId(id).profile.id);
+	}
 }

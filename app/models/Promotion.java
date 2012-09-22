@@ -77,8 +77,7 @@ public class Promotion extends Model {
 			String title, String address, Date date, Date time, String description, String link, String image) {
 		
 		
-		String publicationBody = "O evento " + title + " foi divulgado por " + profile.firstName;
-		if(profile.lastName != null) publicationBody = publicationBody + " " + profile.lastName;
+		String publicationBody = "O evento " + title + " foi divulgado por ";
 		
 		Publication pub = Publication.create(profile, location, interest, 1, publicationBody);
 		

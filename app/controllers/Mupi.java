@@ -22,6 +22,7 @@ import views.html.privacyPolicies;
 import views.html.signup;
 import views.html.statistics;
 import views.html.terms;
+import views.html.promotion;
 import be.objectify.deadbolt.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;

@@ -2,7 +2,8 @@
 
 @import collection.JavaConverters._
 
-@publisherPic = @{"profile/picture" + pub.profile.picture}
+
+@publisherPic = @{"profile/picture" + pub.profile.getPicture}
 
 <div class="publication">
   @if(pub.pub_typ == 0){
@@ -10,8 +11,8 @@
 	    <img src="@routes.Assets.at(publisherPic)" />
 	  </div>
 	  <i class="icon-caret-left caret_publication"></i>
-	  <span class="publisher_name">@pub.profile.firstName @pub.profile.lastName</span>
-	  <span class="pub_date">@pub.created.format("dd/MMM - hh:mm")</span>
+	  <span class="publisher_name">@pub.profile.getFirstName @pub.profile.getLastName</span>
+	  <span class="pub_date">@pub.created.format("dd/MMM - HH:mm")</span>
 	  <p>@Html(pub.body)</p>
 	  <ul class="pub_interact">
 	    <li class="comment_lnk" comments="comments_@pub.id">
@@ -21,13 +22,12 @@
 	
 	  <div class="comments hide" id="comments_@pub.id">
 	    @if(pub.comments.size() > 0){
-		    @for(comment <- pub.comments.asScala.sortBy(_.created).reverse){
+		    @for(comment <- pub.comments.asScala.sortBy(_.created)){
 		     <div class="comment">
-	<!-- 	        TODO: get picture -->
-	<!--        <img src="@routes.Assets.at("profilePictures/393435068/me.jpg")" /> -->
-	         <span class="commenter_name">@comment.profile.firstName @comment.profile.lastName</span>
-	         <span class="pub_date">@comment.created.format("dd/MMM - hh:mm")</span>
-		       <p>@Html(comment.body)</p>
+	         <img src="@routes.Assets.at("profile/picture" + comment.getProfile.getPicture)" />
+	         <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
+	         <span class="pub_date">@comment.created.format("dd/MMM - HH:mm")</span>
+		       <p>@comment.body</p>
 		     </div>
 		   }
 	   }
@@ -35,15 +35,15 @@
 	  <div class="textarea_comment">
 	    <textarea name="input_comment" placeholder="Comentar"></textarea>
 	    <div class="btns_comment hide">
-		    <a href="#" class="commentPub" publication="@pub.id">
+		    <a href="#" class="commentPub sendComent" publication="@pub.id">
 		      <div class="enter_comment">Comentar</div>
 		    </a>
 		    <div class="commentPub enter_cancel">Cancelar</div>
 	    </div>
 	  </div>
 	}else{
-	 <span class="prom_pub">@Html(pub.body)</span>
-	 <span class="pub_date">@pub.created.format("dd/MMM - hh:mm")</span>
+	 <span class="prom_pub">@Html(pub.body) @pub.profile.getFirstName @pub.profile.getLastName</span>
+	 <span class="pub_date">@pub.created.format("dd/MMM - HH:mm")</span>
 	}
 	
 </div>

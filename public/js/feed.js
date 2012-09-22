@@ -42,12 +42,12 @@ jQuery(function(){
     	jsRoutes.controllers.Feed.selectFeed(i, l).ajax(loadFeed(i, l));
     });
     
-    jQuery('.commentPub').live('click', function(){
+    jQuery('.sendComent').live('click', function(){
     	var i = jQuery("#selectedInterest").val();
 		var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.comment(
 			i,l,
-			encodeURIComponent(jQuery(this).prev('textarea').val()),
+			encodeURIComponent(jQuery(this).parent().prev('textarea').val()),
 			jQuery(this).attr('publication')
 		).ajax(loadFeed(i,l))
     });
@@ -90,22 +90,6 @@ jQuery(function(){
     	});
     	
     });
-    
-    
-//    jQuery('#btn_confirm_promotion').live('click', function(){
-//    	var p = jQuery("#promotion_form").serializeArray();
-//    	var i = jQuery("#selectedInterest").val();
-//    	var l = jQuery("#selectedLocation").val();
-//    	
-//    	jsRoutes.controllers.Feed.promote(
-//    			i,l,
-//    			findByName(p, "title"),
-//    			findByName(p, "local"),
-//    			findByName(p, "date"),
-//    			findByName(p, "time"),
-//    			findByName(p, "description")
-//    	).ajax(loadFeed(i,l));
-//    })
 
     var loadFeed = function(i, l){
     	return {

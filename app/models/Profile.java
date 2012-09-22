@@ -179,5 +179,52 @@ public class Profile extends Model {
 		}
 		return false;
 	}
-	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+//
+//	public Date getBirthDate() {
+//		return birthDate;
+//	}
+//
+	public String getPicture() {
+		return picture;
+	}
+//
+//	public String getAbout() {
+//		return about;
+//	}
+//
+//	public Integer getGender() {
+//		return gender;
+//	}
+//
+//	public List<Location> getLocations() {
+//		return locations;
+//	}
+//
+//	public List<Interest> getInterests() {
+//		return interests;
+//	}
+//
+//	public List<Publication> getPublications() {
+//		return publications;
+//	}
+//
+//	public List<PubComment> getPubComments() {
+//		return pubComments;
+//	}
+//
+//	public Date getCreated() {
+//		return created;
+//	}
+//
+//	public Date getModified() {
+//		return modified;
+//	}	
 }

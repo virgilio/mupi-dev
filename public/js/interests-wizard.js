@@ -1,7 +1,4 @@
 jQuery(function() {
-	jQuery('.fileupload').fileupload('image');
-
-	
     jQuery('.interest_normal > .btn_delete').live('click', function(){
         jsRoutes.controllers.Interest.ignoreInterest(jQuery(this).parent().attr('id')).ajax(succErrBuilder());
         jQuery(this).parent().hide('slow');

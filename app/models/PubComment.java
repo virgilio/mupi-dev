@@ -71,4 +71,30 @@ public class PubComment extends Model {
 		pubComment.modified = new Date();
 		pubComment.update();
 	}
+
+	public Publication getPublication() {
+		return publication;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+	
+	
 }
