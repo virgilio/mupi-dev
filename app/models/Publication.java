@@ -11,14 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.util.CollectionUtils;
-
-import com.avaje.ebean.Page;
-import com.avaje.ebean.PagingList;
-
 import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+
+import com.avaje.ebean.Page;
 
 @Entity
 @Table(name = "publications")
@@ -49,7 +46,7 @@ public class Publication extends Model {
 	public List<PubComment> comments = new ArrayList<PubComment>();
 	
 	@Required
-	public Integer type	;
+	public Integer pub_typ;
 	
 	@Required
 	@Column(columnDefinition = "TEXT")
@@ -69,27 +66,27 @@ public class Publication extends Model {
 	public static final Finder<Long, Publication> find = new Finder<Long, Publication>(
 			Long.class, Publication.class);
 	
-	public Publication(Profile profile, Location location, Interest interest, Integer type, String body){
+	public Publication(Profile profile, Location location, Interest interest, Integer pub_typ, String body){
 		this.profile   	= profile;
 		this.location	= location;
 		this.interest	= interest;
-		this.type   	= type;
+		this.pub_typ   	= pub_typ;
 		this.body	 	= body;
 		this.status  	= 0;
 		this.created 	= new Date();
 		this.modified 	= new Date();
 	}
 	
-	public static Publication create(Profile profile, Location location, Interest interest, Integer type, String body){
-		Publication pub = new Publication(profile, location, interest, type, body);
+	public static Publication create(Profile profile, Location location, Interest interest, Integer pType, String body){
+		Publication pub = new Publication(profile, location, interest, pType, body);
 		pub.save();
 		return pub;
 	}
 	
-	public static void update(Long id, Integer type, String body, Integer status){
+	public static void update(Long id, Integer pub_typ, String body, Integer status){
 		Publication pub = find.byId(id);
 		if(pub!= null){
-			if(type != null) pub.type = type;
+			if(pub_typ != null) pub.pub_typ = pub_typ;
 			if(body != null) pub.body = body;
 			if(status != null) pub.status = status;
 			pub.modified = new Date();

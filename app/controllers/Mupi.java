@@ -1,22 +1,27 @@
 package controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import models.Publication;
 import models.User;
 import play.Routes;
 import play.data.Form;
-import play.mvc.*;
+import play.mvc.Controller;
 import play.mvc.Http.Session;
+import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
-
-import views.html.*;
-
+import views.html.about;
+import views.html.contact;
+import views.html.help;
+import views.html.index;
+import views.html.login;
+import views.html.media;
+import views.html.privacyPolicies;
+import views.html.signup;
+import views.html.statistics;
+import views.html.terms;
 import be.objectify.deadbolt.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;

@@ -4,7 +4,8 @@
 @import helper.twitterBootstrap._
 @import mupiHelpers._
 
-
+<script type="text/javascript"  src="@routes.Assets.at("js/extended-bootstrapTypeahead.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/bootstrap-inputmask.js")"></script>
 
 
 <span class="btns">
@@ -37,7 +38,7 @@
       @mupiFormImageUpload(field=promoteForm("picture"), "event/picture", "/blank_event.jpg")
                
       @mupiFormInput(
-        field=promoteForm("location"),
+        field=promoteForm("address"),
         typ="text",
         label="Endereço"
       )
@@ -50,8 +51,14 @@
        
        @mupiFormMaskedInput(
          field=promoteForm("time"),
-         label="Data",
-         mask="99:99"              
+         label="Hora",
+         mask="99:99"
+       )
+       
+       @mupiFormInput(
+         field=promoteForm("link"),
+         typ="text",
+         label="Site"
        )
        
        @mupiFormTextArea(
@@ -61,13 +68,13 @@
          ('cols, "50")
        )
        
-       <input type="hidden" name="interest" value="@interest.id"/>
-       <input type="hidden" name="location" value="@location.id"/>
+       <input type="hidden" name="int" value="@interest.id"/>
+       <input type="hidden" name="loc" value="@location.id"/>
     
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Editar</a>
-        <input type="submit" value="Divuulgar" class="btn" id="btn_confirm_promotion">
+        <input type="submit" value="Divulgar" class="btn" id="btn_confirm_promotion">
     </div>
   }
 </div>

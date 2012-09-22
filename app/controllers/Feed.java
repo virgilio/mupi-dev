@@ -124,19 +124,15 @@ public class Feed extends Controller {
 //	TODO: , String img
 	@Restrict(Mupi.USER_ROLE)
 	public static Result promote(){
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart picture = body.getFile("picture");
+		String picturePath = BLANK_EVT;
 		
-		try {
-			MultipartFormData body = request().body().asMultipartFormData();
-			FilePart picture = body.getFile("picture");
-			String picturePath = BLANK_EVT;
+		DynamicForm bindedForm = form().bindFromRequest();
+		final models.Interest iObj = models.Interest.find.byId(Long.valueOf(bindedForm.get("int")));
+		final models.Location lObj = models.Location.find.byId(Long.valueOf(bindedForm.get("loc")));
 
-			final Form<models.Promotion> filledForm = form(models.Promotion.class).bindFromRequest();
-			final models.Profile p = Mupi.getLocalUser(session()).profile;
-			
-			DynamicForm bindedForm = form().bindFromRequest();
-			final models.Interest iObj = models.Interest.find.byId(Long.valueOf(bindedForm.get("interest")));
-			final models.Location lObj = models.Location.find.byId(Long.valueOf(bindedForm.get("location")));
-			
+		try {
 			if (picture != null) {
 			    String fileName = picture.getFilename();
 			    File file = picture.getFile();
@@ -153,24 +149,28 @@ public class Feed extends Controller {
 		    	
 			}else{picturePath = BLANK_EVT;}
 			
+			final Form<models.Promotion> filledForm = form(models.Promotion.class).bindFromRequest();			
+			final models.Profile p = Mupi.getLocalUser(session()).profile;
 			
 			models.Promotion.create(
 					p,
-					models.Location.find.byId(lObj.id),
-					models.Interest.find.byId(iObj.id),
+					lObj,
+					iObj,
 					filledForm.get().title, 
 					filledForm.get().address, 
 					filledForm.get().date, 
 					filledForm.get().time, 
 					filledForm.get().description, 
+					filledForm.get().link,
 					picturePath);
+			
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.promotion.created"));
 
-			return redirect(routes.Feed.feed());
+			return feed();
 			
 		}catch (Exception e) {
-			// TODO: handle exception
-			return badRequest();
+			flash(Mupi.FLASH_ERROR_KEY, "Erro ao divulgar evento, por favor contate-nos para que possamos resolver este problema.");
+			return feed();
 		}
 	}
 	

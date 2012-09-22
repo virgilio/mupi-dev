@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import controllers.Mupi;
+import org.hibernate.validator.constraints.URL;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
@@ -16,7 +16,7 @@ import play.db.ebean.Model;
 @Table(name = "promotions")
 public class Promotion extends Model {
 	private static final long serialVersionUID = 1L;
-	private static final int PER_PAGE = 10;
+//	private static final int PER_PAGE = 10;
 
 	@Id
 	public Long id;
@@ -40,17 +40,18 @@ public class Promotion extends Model {
 	@Required
 	public String description;
 
-	@Required
-	public String image;
 
-	@Required
+	public String picture;
+
+	@URL
+	public String link;
+	
 	public Integer status;
 	
-	@Required
+	
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date created;
 
-	@Required
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date modified;
 
@@ -58,38 +59,42 @@ public class Promotion extends Model {
 			Long.class, Promotion.class);
 
 	public Promotion(Publication publication, String title, String address,
-			Date date, Date time, String description, String image) {
+			Date date, Date time, String description, String picture, String link) {
 		this.publication = publication;
 		this.title = title;
 		this.address = address;
 		this.date = date;
 		this.time = time;
 		this.description = description;
-		this.image = image;
+		this.picture = picture;
 		this.status = 0;
+		this.link = link;
 		this.created = new Date();
 		this.modified = new Date();
 	}
 
 	public static void create(Profile profile, Location location, Interest interest, 
-			String title, String address, Date date, Date time, String description, String image) {
+			String title, String address, Date date, Date time, String description, String link, String image) {
 		
-		String publicationBody = "O evento " + title + " foi divulgado por " + profile.firstName + " " + profile.lastName;
+		
+		String publicationBody = "O evento " + title + " foi divulgado por " + profile.firstName;
+		if(profile.lastName != null) publicationBody = publicationBody + " " + profile.lastName;
+		
 		Publication pub = Publication.create(profile, location, interest, 1, publicationBody);
 		
-		Promotion prom = new Promotion(pub, title, address, date, time, description, image);
+		Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);
 		prom.save();
 	}
 
 	public static void update(Long id, String title, String address, Date date,
-			String description, String image) {
+			String description, String picture) {
 		Promotion prom = find.byId(id);
 		if (prom != null) {
 			prom.title = title;
 			prom.address = address;
 			prom.date = date;
 			prom.description = description;
-			prom.image = image;
+			prom.picture = picture;
 			prom.modified = new Date();
 			prom.update();
 		}
