@@ -80,7 +80,15 @@ jQuery(function(){
     
     jQuery('.textarea_comment > textarea').live('focus', function(){
     	jQuery(this).autosize();
-    })
+    });
+    jQuery('.textarea_comment > textarea').live('click', function(){
+    	jQuery(this).next('.btns_comment').slideDown();
+    });
+    jQuery('.enter_cancel').live('click', function(){
+    	jQuery('.textarea_comment > textarea').val('');
+    	jQuery(this).parent().slideUp();
+    });
+    
     
 //    jQuery('#btn_confirm_promotion').live('click', function(){
 //    	var p = jQuery("#promotion_form").serializeArray();

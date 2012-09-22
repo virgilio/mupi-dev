@@ -16,11 +16,11 @@
     width: 20px;
 }
 #all_interests{
-	background: rgba(256, 256, 256, 0.3);
+	background: rgba(256, 256, 256, 0.1);
 	border-radius: 8px;
 }
 #chosen_interests h4{
-	background: rgba(256, 256, 256, 0.3);
+	background: rgba(256, 256, 256, 0.1);
 	padding: 6px;
 	margin: 0;
 }
@@ -31,7 +31,7 @@ legend{
   height: 155px;
 }
 .interest_normal .btn_favorite{
-    background: rgba(0, 0, 0, 0.3) url(../img/favorite.png) 3px 3px no-repeat;
+    background: rgba(0, 0, 0, 0.1) url(../img/favorite.png) 3px 3px no-repeat;
 	border-radius: 4px;
 	box-shadow: 0px 0px 1px #999;
 }
@@ -43,7 +43,7 @@ legend{
 	right: 8px;
 	position: absolute;
 	top: 8px;
-	background: rgba(0, 0, 0, 0.3) url(../img/delete.png) 3px 3px no-repeat;
+	background: rgba(0, 0, 0, 0.1) url(../img/delete.png) 3px 3px no-repeat;
 	border-radius: 4px;
 	box-shadow: 0px 0px 1px #999;
 }
