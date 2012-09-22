@@ -18,13 +18,13 @@
 
 
   <div class="container">
-	  <fieldset class="step">
+	  <fieldset>
 	     <legend>Escolha seus interesses</legend>
 	     
 	    
 		     <div class="row">
 		         <div id="chosen_interests" class="span12">
-		             <h4>Escolhidos</h4>
+		             <h4>Interesses escolhidos</h4>
 		             @for(uInterest <- uInterests) {
 		                 @mupiFormImgCheckbox(uInterest.id.toString, "interests["+uInterest.id.toString+"]", uInterest.name, uInterest.picture, uInterest.description, true)
 		               }
@@ -40,11 +40,13 @@
 		     </div>
 		     
 		     <div class="row">
-	          <a id="openModal" href="#suggestInterestModal" role="button" class="btn" data-toggle="modal">Suggest Interest</a>
+	          <a id="openModal" href="#suggestInterestModal" role="button" data-toggle="modal">Sugerir interesse</a>
 		     </div>
 	
 	       @addInterest(iForm)
 			 
 	 </fieldset>
+	 
  </div>
+ <div style="clear:both"></div>
 }
