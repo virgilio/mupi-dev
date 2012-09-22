@@ -54,11 +54,11 @@ jQuery(function(){
     
     jQuery('#btn_confirm_publication').live('click', function(){
     	var i = jQuery("#selectedInterest").val();
-		var l = jQuery("#selectedLocation").val();
+	var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.publish(
-			jQuery('#body_publication').val(),
+			encodeURIComponent(jQuery('#body_publication').val()),
 			i,l
-		).ajax(loadFeed(i,l));
+	).ajax(loadFeed(i,l));
     });
 
     jQuery("#btn_publish").live('click', function(){
