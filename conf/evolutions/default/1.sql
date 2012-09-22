@@ -55,7 +55,7 @@ create table promotions (
   constraint pk_promotions primary key (id))
 ;
 
-create table pubComments (
+create table pub_comments (
   id                        bigint not null,
   publication_id            bigint,
   profile_id                bigint,
@@ -63,7 +63,7 @@ create table pubComments (
   status                    integer,
   created                   timestamp,
   modified                  timestamp,
-  constraint pk_pubComments primary key (id))
+  constraint pk_pub_comments primary key (id))
 ;
 
 create table publications (
@@ -150,7 +150,7 @@ create sequence profiles_seq;
 
 create sequence promotions_seq;
 
-create sequence pubComments_seq;
+create sequence pub_comments_seq;
 
 create sequence publications_seq;
 
@@ -164,10 +164,10 @@ create sequence user_permission_seq;
 
 alter table linked_account add constraint fk_linked_account_user_1 foreign key (user_id) references users (id) on delete restrict on update restrict;
 create index ix_linked_account_user_1 on linked_account (user_id);
-alter table pubComments add constraint fk_pubComments_publication_2 foreign key (publication_id) references publications (id) on delete restrict on update restrict;
-create index ix_pubComments_publication_2 on pubComments (publication_id);
-alter table pubComments add constraint fk_pubComments_profile_3 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
-create index ix_pubComments_profile_3 on pubComments (profile_id);
+alter table pub_comments add constraint fk_pub_comments_publication_2 foreign key (publication_id) references publications (id) on delete restrict on update restrict;
+create index ix_pub_comments_publication_2 on pub_comments (publication_id);
+alter table pub_comments add constraint fk_pub_comments_profile_3 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
+create index ix_pub_comments_profile_3 on pub_comments (profile_id);
 alter table publications add constraint fk_publications_interest_4 foreign key (interest_id) references interests (id) on delete restrict on update restrict;
 create index ix_publications_interest_4 on publications (interest_id);
 alter table publications add constraint fk_publications_location_5 foreign key (location_id) references locations (id) on delete restrict on update restrict;
@@ -215,7 +215,7 @@ drop table if exists profiles_interests;
 
 drop table if exists promotions;
 
-drop table if exists pubComments;
+drop table if exists pub_comments;
 
 drop table if exists publications;
 
@@ -243,7 +243,7 @@ drop sequence if exists profiles_seq;
 
 drop sequence if exists promotions_seq;
 
-drop sequence if exists pubComments_seq;
+drop sequence if exists pub_comments_seq;
 
 drop sequence if exists publications_seq;
 

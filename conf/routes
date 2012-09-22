@@ -61,13 +61,13 @@ POST  /profile/:op/:id        controllers.Profile.changeLocation(op: Integer, id
 POST  /interest/checkInterest/:id    controllers.Interest.checkInterest(id: Long)
 POST  /interest/uncheckInterest/:id  controllers.Interest.uncheckInterest(id: Long)
 POST  /interest/ignoreInterest/:id   controllers.Interest.ignoreInterest(id: Long)
-GET   /interest/interestManager      controllers.Interest.interestManager
-POST  /interest/interestManager      controllers.Interest.doAddInterest
+GET   /interest/manager              controllers.Interest.interestManager
+POST  /interest/manager              controllers.Interest.doAddInterest
 
 GET	  /home					        controllers.Mupi.home
 GET	  /config				        controllers.Mupi.config
 
-GET   /addInterest       	  controllers.Interest.interestManager
+
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
 GET   /help             	  controllers.Mupi.help

@@ -50,6 +50,8 @@ public class Profile extends Controller {
 			FilePart picture = body.getFile("picture");
 			String picturePath = BLANK_PIC;
 			
+			System.out.println(picture);
+			
 			if (picture != null) {
 			    String fileName = picture.getFilename();
 			    File file = picture.getFile();

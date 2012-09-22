@@ -33,8 +33,8 @@ public class Interest extends Controller {
 		
 		final List<models.Interest> uInterests = user.profile.interests;
 		final List<models.Interest> allInterests = (List<models.Interest>) CollectionUtils.subtract(models.Interest.find.all(), uInterests);
-		
-		Form<models.Interest> form = INTEREST_FORM;
+				
+		final Form<models.Interest> form = INTEREST_FORM;
 		
 		return ok(interestManager.render(uInterests, allInterests, form));
 	}
@@ -70,8 +70,7 @@ public class Interest extends Controller {
 	public static Result doAddInterest() {
 		final Form<models.Interest> filledForm = INTEREST_FORM.bindFromRequest();
 		final User user = Mupi.getLocalUser(session());
-		final Form<models.Interest> form = INTEREST_FORM;
-				
+		
 		try{
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");
@@ -106,13 +105,13 @@ public class Interest extends Controller {
 			final List<models.Interest> uInterests = user.profile.interests;
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 			
-			return ok(interestManager.render(uInterests, allInterests, form));
+			return interestManager();
 		} catch (IOException e){
 			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.profile.errorSendingFile"));
 			e.printStackTrace();
 			final List<models.Interest> uInterests = user.profile.interests;
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
-			return ok(interestManager.render(uInterests, allInterests, form));
+			return interestManager();
 		}
 	}
 
