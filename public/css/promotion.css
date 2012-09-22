@@ -1,0 +1,26 @@
+#promotion_header{
+	position: relative;
+	background-color: white;
+	height: 240px;
+}
+#promotion_header h1{
+	background-color: blue;
+	position: absolute;
+	width: 100%;
+	bottom: 20px;
+}
+#promotion_header div{
+	position: absolute;
+}
+#promotion_date{
+	background-color: blue;
+	width: 120px;
+	right: 40px;
+	height: 120px;
+}
+#promotion_body div span{
+	float: left;	
+}
+#promotion_body div label{
+	float: none;	
+}

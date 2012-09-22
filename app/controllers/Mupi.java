@@ -137,6 +137,9 @@ public class Mupi extends Controller {
 	public static Result help(){
 		return ok(help.render());
 	}
+	public static Result promotion(){
+		return ok(promotion.render());
+	}
 	public static Result media(){
 		return ok(media.render());
 	}

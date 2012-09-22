@@ -1,0 +1,43 @@
+@import com.feth.play.module.pa.views.html._
+
+@main(Messages("mupi.navigation.promotion.title"),"promotion") {
+
+<link rel="stylesheet" href="@routes.Assets.at("css/promotion.css")" type="text/css" media="screen"/>
+
+<div class="container">
+	<div class="row">
+		<div id="promotion_header" class="span10 offset1">
+			<h1>titulo</h1>
+			<div id="promotion_date">
+				<span class="pday">23</span>
+				<span class="pmonth">set</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div id="promotion_body" class="span10 offset1">
+			<div id="promotion_promoter">
+				<label>Promovido por</label>
+				<span>Fulaninho Campiao</span>
+			</div>
+			<div id="promotion_link">
+				<label>Data completa</label>
+				<span>23 de setembro, quinta às 10h</span>
+			</div>
+			<div id="promotion_local">
+				<label>Local</label>
+				<span>Rua bla bla bla - Campinas, SP</span>
+			</div>
+			<div id="promotion_link">
+				<label>Link externo</label>
+				<span>http://lindeza.com</span>
+			</div>
+			<div id="promotion_description">
+				<label></label>
+				<p></p>
+			</div>
+			<div id="promotion_comments"></div>
+		</div>
+	</div>
+</div>
+}
