@@ -1,4 +1,10 @@
-@(interest: models.Interest, location: models.Location)
+@(interest: models.Interest, location: models.Location, promoteForm: Form[models.Promotion])
+
+@import helper._ 
+@import helper.twitterBootstrap._
+@import mupiHelpers._
+
+
 
 
 <span class="btns">
@@ -15,35 +21,55 @@
 </div>
 
  <div id="promote_event" class="modal fade hide">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Divulgar evento</h3>
-    </div>
-    <div class="modal-body">
-        <label>Título</label>
-        <input type="text" placeholder="Título do evento">
-        <div id="event_image" class="fileupload fileupload-new span3" data-provides="fileupload">
-            <div class="fileupload-new thumbnail" ><img src="" /></div>
-            <div class="fileupload-preview fileupload-exists thumbnail" ></div>
-            <div>
-                <span class="btn btn-file"><span class="fileupload-new">Escolher foto</span>
-                    <span class="fileupload-exists">Trocar</span><input type="file" /></span>
-                <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remover</a>
-            </div>
-        </div>
-        <label>Data</label>
-        <input type="text" placeholder="dd//mm/aaaa">
-        <label>Hora</label>
-        <input type="text" placeholder="hh:mm">
-        <label>Descrição</label>
-        <input type="text" placeholder="Detalhes do evento">
-
-
+    @form(routes.Feed.promote, 'enctype -> "multipart/form-data") {
+	    <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h3>Divulgar evento</h3>
+	    </div>
+	    <div class="modal-body">
+    
+      @mupiFormInput(
+        field=promoteForm("title"),
+        typ="text",
+        label="Título"
+      )
+      
+      @mupiFormImageUpload(field=promoteForm("picture"), "event/picture/blank_event.jpg")
+               
+      @mupiFormInput(
+        field=promoteForm("location"),
+        typ="text",
+        label="Endereço"
+      )
+      
+      @mupiFormMaskedInput(
+         field=promoteForm("date"),
+         label="Data",
+         mask="99/99/9999"              
+       )
+       
+       @mupiFormMaskedInput(
+         field=promoteForm("time"),
+         label="Data",
+         mask="99:99"              
+       )
+       
+       @mupiFormTextArea(
+         field=promoteForm("description"),
+         label="Descrição",
+         ('rows, "4"),
+         ('cols, "50")
+       )
+       
+       <input type="hidden" name="interest" value="@interest.id"/>
+       <input type="hidden" name="location" value="@location.id"/>
+    
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Editar</a>
-        <a href="#" class="btn btn-primary">Confirmar</a>
+        <input type="submit" value="Divuulgar" class="btn" id="btn_confirm_promotion">
     </div>
+  }
 </div>
 
 <div id="preview_publication" class="modal fade hide">
@@ -54,6 +80,6 @@
     <div class="modal-body"></div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Editar</a>
-        <a href="#" class="btn btn-primary" data-dismiss="modal" interest="@interest.id" location="@location.id" id="btn_confirm_publication">Confirmar</a>
+        <a href="#" class="btn btn-primary" data-dismiss="modal" id="btn_confirm_publication">Confirmar</a>
     </div>
 </div> 

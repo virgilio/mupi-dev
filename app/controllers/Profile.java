@@ -2,6 +2,9 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
@@ -42,8 +45,6 @@ public class Profile extends Controller {
 		final Form<models.Profile> filledForm = PROFILE_FORM.bindFromRequest();
 		final User user = Mupi.getLocalUser(session());	
 		
-		System.out.println(filledForm);
-		
 		try {
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");
@@ -53,12 +54,14 @@ public class Profile extends Controller {
 			    String fileName = picture.getFilename();
 			    File file = picture.getFile();
 			    
-			    //TODO: If we allow the user to change e-mail, we need to take care of it!!
-			    File destinationFile = new File(play.Play.application().path().toString() + "//public//profilePictures//" + user.email.hashCode() + "//" + fileName);
-	
+			    String hashTime = getMD5(System.currentTimeMillis());
+			    String hashUser = getMD5(user.email);
+			    
+			    File destinationFile = new File(play.Play.application().path().toString() +
+			    		"//public//profile//picture//" + hashUser +
+			    		"//" + hashTime + fileName);
 		    	FileUtils.copyFile(file, destinationFile);
-		    	
-		    	picturePath = "/" + user.email.hashCode() + "/" + fileName;
+		    	picturePath = "/" + hashUser + "/" + hashTime + fileName;
 			}else{
 				if(filledForm.field("picture").value() == null){
 					picturePath = user.profile.picture;
@@ -66,7 +69,7 @@ public class Profile extends Controller {
 					picturePath = BLANK_PIC;
 				}
 			}
-			System.out.println("AAA");
+			
 			models.Profile.update(
 					Mupi.getLocalUser(session()),
 					filledForm.get().firstName,
@@ -134,6 +137,17 @@ public class Profile extends Controller {
 		}else{
 			return AjaxResponse.build(2, "This location does not exist in our database!");
 		}
+	}
+	
+	private static String getMD5(Object input){
+	    try {
+			return new BigInteger(1, MessageDigest.getInstance("MD5")
+					.digest(String.valueOf(input).getBytes())).toString(16);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+	    
 	}
 	
 }

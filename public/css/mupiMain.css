@@ -42,6 +42,10 @@ footer .nav {
     margin:0;
 }
 
+.img-polaroid{
+	background-image: url('../profile/picture/blank_profile.jpg');
+}
+
 /**, .wrapper, .content, body, html {
     height: 100%;
 }*/

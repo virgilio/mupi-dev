@@ -78,9 +78,10 @@ public class Publication extends Model {
 		this.modified 	= new Date();
 	}
 	
-	public static void create(Profile profile, Location location, Interest interest, Integer type, String body){
+	public static Publication create(Profile profile, Location location, Interest interest, Integer type, String body){
 		Publication pub = new Publication(profile, location, interest, type, body);
 		pub.save();
+		return pub;
 	}
 	
 	public static void update(Long id, Integer type, String body, Integer status){
@@ -96,7 +97,7 @@ public class Publication extends Model {
 	
 	public static void unpublish(Long id){
 		Publication pub = find.byId(id);
-		pub.status = 0;
+		pub.status = 1;
 		pub.update();
 	}
 	

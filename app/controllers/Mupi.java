@@ -52,20 +52,6 @@ public class Mupi extends Controller {
 	}
 
 	/**
-	 * 
-	 * TODO Interests controller
-	 * @return
-	 */
-	@Restrict(Mupi.USER_ROLE)
-	public static Result interests(){
-		return TODO;
-		//		return ok(main.render("Home", "nav",
-		//				new Html("<h1>This is the user interests page</h1>" +
-		//						"<p>Here we gonna have feed and menu options</p>" +
-		//						"<p>Only for authenticated users</p>")));
-	}
-
-	/**
 	 * TODO config controller
 	 * @return
 	 */
@@ -119,7 +105,8 @@ public class Mupi extends Controller {
 				controllers.routes.javascript.Profile.changeLocation(),
 				controllers.routes.javascript.Feed.publish(),
 				controllers.routes.javascript.Feed.selectFeed(),
-				controllers.routes.javascript.Feed.comment()
+				controllers.routes.javascript.Feed.comment(),
+				controllers.routes.javascript.Feed.promote()
 			)).as("text/javascript");
 	}
 

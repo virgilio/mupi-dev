@@ -21,7 +21,7 @@ import be.objectify.deadbolt.actions.Restrict;
 
 public class Interest extends Controller {
 	// TODO: Change the way we're getting this image
-	static String BLANK_PIC = "interestPictures/blank_interest.gif";
+	static String BLANK_PIC = "interest/picture/blank_interest.jpg";
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result interestManager() {
@@ -79,12 +79,12 @@ public class Interest extends Controller {
 			    File file = picture.getFile();
 			    
 			    //TODO: If we allow the user to change e-mail, we need to take care of it!!
-			    File destinationFile = new File(play.Play.application().path().toString() + "//public//interestPictures//"
+			    File destinationFile = new File(play.Play.application().path().toString() + "//public//interest//picture//"
 			        + filledForm.get().name.hashCode() + "//" + fileName);
 	
 		    	FileUtils.copyFile(file, destinationFile);
 		    	
-		    	picturePath = "interestPictures/" + filledForm.get().name.hashCode() + "/" + fileName;
+		    	picturePath = "/" + filledForm.get().name.hashCode() + "/" + fileName;
 			}else{
 				picturePath = BLANK_PIC;
 			}

@@ -191,13 +191,26 @@ ul.wysihtml5-toolbar {
 	margin-right: -6px;
 }
 /*EVENT IMAGE LOADER*/
-#event_image {
-    float: none;
+#promote_event{
+  text-align: center;
 }
-
-#event_image img {
-	width: 360px;
-	height: 140px;
+#promote_event label{
+  text-align: left;
+  margin-left: 10%;
+}
+#promote_event input, #promote_event textarea{
+    width: 80%;
+}
+#event_image{
+    float:none;
+     margin-left: 10%;
+}
+#event_image  {
+  text-align: left;
+}
+#event_image img{
+    width: 360px;
+    height: 140px;
 }
 /*COMMENTS*/
 .comment {

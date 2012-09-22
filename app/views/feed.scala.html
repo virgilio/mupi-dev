@@ -4,7 +4,8 @@
   locations: List[models.Location],
   selectedi: models.Interest = null,
   selectedl: models.Location = null,
-  publications: List[models.Publication]
+  publications: List[models.Publication],
+  promoteForm: Form[models.Promotion]
 )
 
 @import com.feth.play.module.pa.views.html._
@@ -40,7 +41,7 @@
     @feedSubmenu(locations, selectedl, selectedi)
     
     <div id="feeds">
-      @feedContent(publications, selectedi, selectedl)
+      @feedContent(publications, selectedi, selectedl, promoteForm)
     </div>
     
   </div>

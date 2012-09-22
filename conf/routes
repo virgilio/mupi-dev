@@ -48,19 +48,24 @@ GET   /assets/*file         controllers.Assets.at(path="/public", file)
 GET   /feed                   controllers.Feed.feed
 POST  /feed/select/:i/:l      controllers.Feed.selectFeed(i: Long, l: Long)
 POST  /feed/publish/:t/:i/:l  controllers.Feed.publish(t: String, i: Long, l: Long)
-POST  /feed/comment/:t/:p     controllers.Feed.comment(t: String, p: Long)
+POST  /feed/comment/:i/:l/:t/:p     controllers.Feed.comment(i: Long, l: Long, t: String, p: Long)
+POST  /feed/promote           controllers.Feed.promote
 
-GET   /profile           	  controllers.Profile.profile
-POST  /profile           	  controllers.Profile.doProfile
-POST  /profile/:op/:id      controllers.Profile.changeLocation(op: Integer, id: Long)
+# PROFILE
+GET   /profile           	    controllers.Profile.profile
+POST  /profile           	    controllers.Profile.doProfile
+POST  /profile/:op/:id        controllers.Profile.changeLocation(op: Integer, id: Long)
+
+# INTERESTS
+POST  /interest/checkInterest/:id     controllers.Interest.checkInterest(id: Long)
+POST  /interest/uncheckInterest/:id controllers.Interest.uncheckInterest(id: Long)
+POST  /interest/ignoreInterest/:id    controllers.Interest.ignoreInterest(id: Long)
+GET   /interest/interestManager       controllers.Interest.interestManager
+POST  /interest/interestManager      controllers.Interest.doAddInterest
+
 GET	  /home					        controllers.Mupi.home
 GET	  /config				        controllers.Mupi.config
-GET   /interests			      controllers.Mupi.interests
-POST  /checkInterest/:id   	controllers.Interest.checkInterest(id: Long)
-POST  /uncheckInterest/:id	controllers.Interest.uncheckInterest(id: Long)
-POST  /ignoreInterest/:id  	controllers.Interest.ignoreInterest(id: Long)
-GET   /interestManager   	  controllers.Interest.interestManager
-POST  /interestManager      controllers.Interest.doAddInterest
+
 GET   /addInterest       	  controllers.Interest.interestManager
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact

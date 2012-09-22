@@ -23,59 +23,42 @@ jQuery(function(){
     });
 	
     jQuery('.btn_local').live('click', function(){
+    	var i = jQuery("#selectedInterest").val();
     	if(jQuery(this).children('i').hasClass('icon-check')){
+    		var l = -1;
             jQuery(this).children('i').removeClass('icon-check').addClass('icon-check-empty');
-            getFeed(jQuery("#selectedInterest").val(), -1);
+            jsRoutes.controllers.Feed.selectFeed(i, l).ajax(loadFeed(i,l));
         } else {
+        	var l = jQuery(this).attr('id');
         	jQuery('.icon-check').removeClass('icon-check').addClass('icon-check-empty');
             jQuery(this).children('i').removeClass('icon-check-empty').addClass('icon-check');
-            getFeed(jQuery("#selectedInterest").val(), jQuery(this).attr('id'));
+            jsRoutes.controllers.Feed.selectFeed(i, l).ajax(loadFeed(i,l));
         };
     });
     
     jQuery('.interestIcon').live('click', function(){
-    	getFeed(jQuery(this).attr('id'), jQuery("#selectedLocation").val());
+    	var i =jQuery(this).attr('id');
+    	var l = jQuery("#selectedLocation").val();
+    	jsRoutes.controllers.Feed.selectFeed(i, l).ajax(loadFeed(i, l));
     });
     
     jQuery('.commentPub').live('click', function(){
-    	jsRoutes.controllers.Feed.comment(htmlEncode(encodeURIComponent(jQuery(this).prev('textarea').val())),jQuery(this).attr('publication')).ajax({
-    		success : function(data) {
-    			getFeed(jQuery("#selectedInterest").val(), jQuery("#selectedLocation").val());
-    		},
-    		error : function() {
-    			if (jQuery('.alert').size() == 0) {
-    				jQuery('#content').next().prepend("<div class='alert alert-error'> </div>");
-    			}
-    			jQuery('.alert')
-    				.addClass('alert-error')
-    				.html("Server error, please try again later!");
-    		}
-    	});
-    	
-    })
-
-
+    	var i = jQuery("#selectedInterest").val();
+		var l = jQuery("#selectedLocation").val();
+    	jsRoutes.controllers.Feed.comment(
+			i,l,
+			htmlEncode(encodeURIComponent(jQuery(this).prev('textarea').val())),
+			jQuery(this).attr('publication')
+		).ajax(loadFeed(i,l))
+    });
+    
     jQuery('#btn_confirm_publication').live('click', function(){
+    	var i = jQuery("#selectedInterest").val();
+		var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.publish(
-    			jQuery('#body_publication').val(),
-    			jQuery(this).attr('interest'),
-    			jQuery(this).attr('location')
-    		).ajax({
-    			success : function(data) {
-    				var response = data.split("||");
-    				if(response[0] == 0) jQuery('#publications').html(response[1]);
-    				loadEditor();
-    			},
-        		error : function() {
-    				if (jQuery('.alert').size() == 0) {
-    					jQuery('#content').next().prepend("<div class='alert alert-error'> </div>");
-    				}
-    				jQuery('.alert')
-    					.addClass('alert-error')
-    					.html("Server error, please try again later!");
-    			}
-        	}
-    	);
+			jQuery('#body_publication').val(),
+			i,l
+		).ajax(loadFeed(i,l));
     });
 
     jQuery("#btn_publish").live('click', function(){
@@ -99,8 +82,23 @@ jQuery(function(){
     	jQuery(this).autosize();
     })
     
-    var getFeed = function(i, l){
-    	jsRoutes.controllers.Feed.selectFeed(i, l).ajax({
+//    jQuery('#btn_confirm_promotion').live('click', function(){
+//    	var p = jQuery("#promotion_form").serializeArray();
+//    	var i = jQuery("#selectedInterest").val();
+//    	var l = jQuery("#selectedLocation").val();
+//    	
+//    	jsRoutes.controllers.Feed.promote(
+//    			i,l,
+//    			findByName(p, "title"),
+//    			findByName(p, "local"),
+//    			findByName(p, "date"),
+//    			findByName(p, "time"),
+//    			findByName(p, "description")
+//    	).ajax(loadFeed(i,l));
+//    })
+
+    var loadFeed = function(i, l){
+    	return {
     		success : function(data) {
     			var response = data.split("||");
     			if(response[0] == 0) jQuery('#feeds').html(response[1]);
@@ -114,8 +112,16 @@ jQuery(function(){
     				.addClass('alert-error')
     				.html("Server error, please try again later!");
     		}
-    	})
+    	}
     }
+    
+    var findByName = function(src, n) {
+	  for (var i = 0; i < src.length; i++) {
+	    if (src[i].name === n) {
+	      return src[i].value;
+	    }
+	  }
+	}
 })
 
 

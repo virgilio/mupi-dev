@@ -1,4 +1,4 @@
-@(publications: List[Publication], interest: models.Interest, location: models.Location)
+@(publications: List[Publication], interest: models.Interest, location: models.Location,  promoteForm: Form[models.Promotion])
 
 <h3>
  @{(interest,location) match{
@@ -11,7 +11,7 @@
 
 <div class="all_publications">
   @if(interest != null && location != null){
-    @inputPublication(interest, location)
+    @inputPublication(interest, location, promoteForm)
   }
   
   @for(pub <- publications){

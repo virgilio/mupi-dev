@@ -41,6 +41,20 @@ create table profiles (
   constraint pk_profiles primary key (id))
 ;
 
+create table promotions (
+  id                        bigint not null,
+  title                     varchar(255),
+  address                   varchar(255),
+  date                      timestamp,
+  time                      timestamp,
+  description               varchar(255),
+  image                     varchar(255),
+  status                    integer,
+  created                   timestamp,
+  modified                  timestamp,
+  constraint pk_promotions primary key (id))
+;
+
 create table pubComments (
   id                        bigint not null,
   publication_id            bigint,
@@ -134,6 +148,8 @@ create sequence locations_seq;
 
 create sequence profiles_seq;
 
+create sequence promotions_seq;
+
 create sequence pubComments_seq;
 
 create sequence publications_seq;
@@ -197,6 +213,8 @@ drop table if exists profiles_locations;
 
 drop table if exists profiles_interests;
 
+drop table if exists promotions;
+
 drop table if exists pubComments;
 
 drop table if exists publications;
@@ -222,6 +240,8 @@ drop sequence if exists linked_account_seq;
 drop sequence if exists locations_seq;
 
 drop sequence if exists profiles_seq;
+
+drop sequence if exists promotions_seq;
 
 drop sequence if exists pubComments_seq;
 
