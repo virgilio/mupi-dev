@@ -50,7 +50,7 @@
 }
 /*PAGE CONTENT*/
 .page_content {
-	margin-bottom: 54px;
+	margin-bottom: 60px;
 }
 
 /*PUBLICATIONS*/
@@ -83,11 +83,10 @@ ul.wysihtml5-toolbar {
 	background: #FFF;
 	border: 1px solid #bbb;
 	border-radius: 2px;
-	margin-top: 10px;
+	margin-top: 5px;
 	position: relative;
-	padding: 10px;
+	padding: 2px 10px;
 	margin-left: 20px;
-	min-height: 60px;
 	height: auto;
 }
 
@@ -124,7 +123,7 @@ ul.wysihtml5-toolbar {
 
 #input_publication {
 	border: 1px dashed #E5E5E5;
-	margin: 0 auto;
+	margin: 5px auto;
 	padding: 8px 20px 8px 8px;
 	width: 80%;
 }
@@ -151,7 +150,7 @@ ul.wysihtml5-toolbar {
 	display: block;
 	height: 32px;
 	text-align: center;
-	padding-right: 20px;
+	padding-right: 10px;
 	width: 100%;
 }
 
@@ -210,6 +209,16 @@ ul.wysihtml5-toolbar {
 	color: #005580;
 	
 }
+
+/* TOOLBAR RICH EDITOR */
+ul.wysihtml5-toolbar > li{
+	margin: 0 4px 2px 0;	
+}
+.wysihtml5-toolbar .btn{
+	font-size: 12px;
+	padding: 4px 10px;
+}
+
 /*EVENT IMAGE LOADER*/
 #promote_event{
   text-align: center;

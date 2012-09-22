@@ -78,15 +78,17 @@ jQuery(function(){
         });
     }
     
-    jQuery('.textarea_comment > textarea').live('focus', function(){
+    jQuery('.textarea_comment textarea').live('focus', function(){
     	jQuery(this).autosize();
     });
-    jQuery('.textarea_comment > textarea').live('click', function(){
+    jQuery('.textarea_comment textarea').live('focus', function(){
     	jQuery(this).next('.btns_comment').slideDown();
     });
     jQuery('.enter_cancel').live('click', function(){
-    	jQuery('.textarea_comment > textarea').val('');
-    	jQuery(this).parent().slideUp();
+    	jQuery(this).parent().hide(0,function(){
+    		jQuery(this).siblings('textarea').val('').resize();
+    	});
+    	
     });
     
     

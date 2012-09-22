@@ -70,6 +70,7 @@ GET	  /config				        controllers.Mupi.config
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
 GET   /help             	  controllers.Mupi.help
+GET   /promotion              controllers.Mupi.promotion
 GET   /media            	  controllers.Mupi.media
 GET   /privacyPolicies  	  controllers.Mupi.privacyPolicies
 GET   /statistics       	  controllers.Mupi.statistics
