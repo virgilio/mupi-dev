@@ -2,6 +2,9 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import models.User;
@@ -21,7 +24,7 @@ import be.objectify.deadbolt.actions.Restrict;
 
 public class Interest extends Controller {
 	// TODO: Change the way we're getting this image
-	static String BLANK_PIC = "interest/picture/blank_interest.jpg";
+	static String BLANK_PIC = "/blank_interest.jpg";
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result interestManager() {
@@ -66,29 +69,30 @@ public class Interest extends Controller {
 	public static Result doAddInterest() {
 		final User user = Mupi.getLocalUser(session());
 		Form<models.Interest> form = INTEREST_FORM;
+		final Form<models.Interest> filledForm = INTEREST_FORM.bindFromRequest();
 		
 		try{
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");
 			String picturePath = BLANK_PIC;
 			
-			final Form<models.Interest> filledForm = INTEREST_FORM.bindFromRequest();
+			System.out.println(picture);
 			
 			if (picture != null) {
 			    String fileName = picture.getFilename();
 			    File file = picture.getFile();
 			    
-			    //TODO: If we allow the user to change e-mail, we need to take care of it!!
-			    File destinationFile = new File(play.Play.application().path().toString() + "//public//interest//picture//"
-			        + filledForm.get().name.hashCode() + "//" + fileName);
-	
+			    String hashTime = getMD5(System.currentTimeMillis());
+			    String hashInterest = getMD5(filledForm.get().name);
+			    
+			    File destinationFile = new File(play.Play.application().path().toString() +
+			    		"//public//interest//picture//" + hashInterest +
+			    		"//" + hashTime + fileName);
 		    	FileUtils.copyFile(file, destinationFile);
-		    	
-		    	picturePath = "/" + filledForm.get().name.hashCode() + "/" + fileName;
+		    	picturePath = "/" + hashInterest + "/" + hashTime + fileName;
 			}else{
 				picturePath = BLANK_PIC;
 			}
-			
 			
 			models.Interest.create(
 				filledForm.get().name,
@@ -109,5 +113,16 @@ public class Interest extends Controller {
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 			return ok(interestManager.render(uInterests, allInterests, form));
 		}
+	}
+
+	private static String getMD5(Object input){
+	    try {
+			return new BigInteger(1, MessageDigest.getInstance("MD5")
+					.digest(String.valueOf(input).getBytes())).toString(16);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+	    
 	}
 }

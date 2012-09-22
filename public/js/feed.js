@@ -47,18 +47,18 @@ jQuery(function(){
 		var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.comment(
 			i,l,
-			htmlEncode(encodeURIComponent(jQuery(this).prev('textarea').val())),
+			encodeURIComponent(jQuery(this).prev('textarea').val()),
 			jQuery(this).attr('publication')
 		).ajax(loadFeed(i,l))
     });
     
     jQuery('#btn_confirm_publication').live('click', function(){
     	var i = jQuery("#selectedInterest").val();
-	var l = jQuery("#selectedLocation").val();
+    	var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.publish(
 			encodeURIComponent(jQuery('#body_publication').val()),
 			i,l
-	).ajax(loadFeed(i,l));
+    	).ajax(loadFeed(i,l));
     });
 
     jQuery("#btn_publish").live('click', function(){

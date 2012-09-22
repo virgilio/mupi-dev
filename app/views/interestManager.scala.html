@@ -4,8 +4,6 @@
 @import helper.twitterBootstrap._
 @import mupiHelpers._
 
-
-
 @main(Messages("mupi.interestManager.title"),"interestManager") {
 <script type="text/javascript" src="@routes.Assets.at("js/interests-wizard.js")"></script>
 <script type="text/javascript" src="@routes.Assets.at("js/mupiLocation.js")"></script>
@@ -26,7 +24,7 @@
 		         <div id="chosen_interests" class="span12">
 		             <h4>Interesses escolhidos</h4>
 		             @for(uInterest <- uInterests) {
-		                 @mupiFormImgCheckbox(uInterest.id.toString, "interests["+uInterest.id.toString+"]", uInterest.name, uInterest.picture, uInterest.description, true)
+		                 @mupiFormImgCheckbox(uInterest.id.toString, "interests["+uInterest.id.toString+"]", uInterest.name, "interest/picture", uInterest.picture, uInterest.description, true)
 		               }
 		         </div>
 		     </div>
@@ -34,7 +32,7 @@
 		         <div id="all_interests" class="span12">
 		             <h4>Lista de interesses</h4>
 								   @for(allInterest <- allInterests) {
-		                 @mupiFormImgCheckbox(allInterest.id.toString, "interests["+allInterest.id.toString+"]", allInterest.name, allInterest.picture, allInterest.description)
+		                 @mupiFormImgCheckbox(allInterest.id.toString, "interests["+allInterest.id.toString+"]", allInterest.name, "interest/picture", allInterest.picture, allInterest.description)
 		               }
 		         </div>
 		     </div>

@@ -2,14 +2,15 @@
 
 @import collection.JavaConversions._
 @import collection.JavaConverters._
+@import java.net.URLDecoder
 
 <div class="publication">
   <div class="profile-thumb">
     <img src="@routes.Assets.at("profile/picture/393435068/me.jpg")" />
   </div>
   <i class="icon-caret-left caret_publication"></i>
-  <p>@publication.body</p>
-  <span class="pub_date">@publication.created</span>
+  <p>@Html(publication.body)</p>
+  <span class="pub_date">@publication.created.format("dd/MMM - hh:mm")</span>
   <ul class="pub_interact">
     <li>
       <a class="comment_lnk" href="#" comments="comments_@publication.id">
@@ -23,7 +24,7 @@
 	     <div class="comment">
 <!-- 	        TODO: get picture -->
 <!--        <img src="@routes.Assets.at("profilePictures/393435068/me.jpg")" /> -->
-	       <p>@comment.body</p>
+	       <p>@Html(comment.body)</p>
 	       <span class="pub_date">@comment.created.format("dd/MMM - hh:mm")</span>
 	     </div>
 	   }

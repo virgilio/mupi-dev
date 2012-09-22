@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, alternativeImg: String, args: (Symbol,Any)*)
+@(field: play.api.data.Field, folder: String, alternativeImg: String, args: (Symbol,Any)*)
 <script type="text/javascript"  src="@routes.Assets.at("js/mupiFileUpload.js")"></script>
 
 <div class="fileupload fileupload-new span3" data-provides="fileupload">
@@ -6,9 +6,8 @@
   
     @path = @{
 		   if(field.value != None){
-		     "profile/picture" + field.value.get
-		   } else{ alternativeImg }
-      
+		     folder + field.value.get
+		   } else { folder + alternativeImg }
     }
     
         

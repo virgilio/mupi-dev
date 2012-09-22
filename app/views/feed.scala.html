@@ -30,7 +30,7 @@
      @if(user.profile.interests.size() > 0){
      <ul class="interestList">
 	     @for(interest <- user.profile.interests) {
-	       <li><img class="interestIcon" id="@interest.id" src="@routes.Assets.at(interest.picture)"/></li>
+	       <li><img class="interestIcon" id="@interest.id" src="@routes.Assets.at("/interest/picture"+interest.picture)"/></li>
 	     }
 	   </ul>
 	   }else{
