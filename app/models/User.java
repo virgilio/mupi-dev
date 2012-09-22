@@ -151,6 +151,7 @@ public class User extends Model implements RoleHolder {
 	public static User updateName(final User user, final String name) {
 		final User u = findByEmail(user.email);
 		u.name = name;
+		u.modified = new Date();
 		u.update();
 		return u;
 	}

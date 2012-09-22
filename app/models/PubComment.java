@@ -13,7 +13,7 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
-@Table(name = "pubComments")
+@Table(name = "pub_comments")
 public class PubComment extends Model {
 
 	private static final long serialVersionUID = 1L;

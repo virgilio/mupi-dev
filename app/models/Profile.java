@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import play.data.format.Formats;
@@ -36,6 +35,7 @@ public class Profile extends Model {
 	
 	@Formats.DateTime(pattern = "dd/MM/yyyy")
 	public Date birthDate;
+	
 	public String picture;
 	
 	@Column(columnDefinition = "TEXT")
@@ -65,22 +65,24 @@ public class Profile extends Model {
 			Long.class, Profile.class);
 	
 	public Profile(User user, String firstName, String lastName, Date birthDate, String picture, 
-			String about, Integer gender, Date created, Date modified, List<Location> locations) {
+			String about, Integer gender, List<Location> locations) {
 		this.firstName 	= firstName;
         this.lastName 	= lastName;
         this.birthDate 	= birthDate;
         this.picture 	= picture;
         this.about 		= about;
         this.gender 	= gender;
-        this.created	= created;
-        this.modified	= modified;
         this.locations = locations;
+        this.created	= new Date();
+        this.modified	= new Date();
     }
 	
 	public Profile() {}
 	
 	public Profile(String name) {
 		this.firstName = name;
+		this.created = new Date();
+		this.modified = new Date();
 	}
 	
 
@@ -97,7 +99,6 @@ public class Profile extends Model {
 			final Date birthDate,
 			final String picture,
 			final Integer gender,
-			final Date modified,
 			final List<Location> locations) {
 		
 				
@@ -110,11 +111,9 @@ public class Profile extends Model {
 		p.about 	= about;
 		p.gender 	= gender;
 		p.locations = locations;
-		p.modified 	= modified;
+		p.modified 	= new Date();
 		
 		p.update();
-		
-		
 		
 		User.updateName(user, firstName);
 		
@@ -139,6 +138,7 @@ public class Profile extends Model {
 	public static Profile updateFirstName(final User user, final String name) {
 		final Profile p = user.profile;
 		p.firstName = name;
+		p.modified = new Date();
 		p.update();
 		return p;
 	}
@@ -147,6 +147,7 @@ public class Profile extends Model {
 		Profile profile = user.profile;
 		if(profile != null){
 			profile.locations = Location.getLocationsByIds(locations);
+			profile.modified = new Date();
 			return true;
 		}
 		return false;

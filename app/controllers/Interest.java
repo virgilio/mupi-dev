@@ -22,7 +22,8 @@ import utils.AjaxResponse;
 import views.html.interestManager;
 import be.objectify.deadbolt.actions.Restrict;
 
-public class Interest extends Controller {
+public class Interest extends Controller { 
+	private static final Form<models.Interest> INTEREST_FORM = form(models.Interest.class);
 	// TODO: Change the way we're getting this image
 	static String BLANK_PIC = "/blank_interest.jpg";
 	
@@ -64,13 +65,13 @@ public class Interest extends Controller {
 	}
 	
 	
-	private static final Form<models.Interest> INTEREST_FORM = form(models.Interest.class);
+	
 	
 	public static Result doAddInterest() {
-		final User user = Mupi.getLocalUser(session());
-		Form<models.Interest> form = INTEREST_FORM;
 		final Form<models.Interest> filledForm = INTEREST_FORM.bindFromRequest();
-		
+		final User user = Mupi.getLocalUser(session());
+		final Form<models.Interest> form = INTEREST_FORM;
+				
 		try{
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");

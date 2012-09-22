@@ -78,7 +78,6 @@ public class Profile extends Controller {
 					filledForm.get().birthDate,
 					picturePath,
 					filledForm.get().gender,
-					new Date(),
 					filledForm.get().locations
 			);
 				
