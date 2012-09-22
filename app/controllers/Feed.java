@@ -60,11 +60,11 @@ public class Feed extends Controller {
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result publish(String body, Long i, Long l){
-		final User user = Mupi.getLocalUser(session());
+		final models.Profile p = Mupi.getLocalUser(session()).profile;
 		final models.Interest iObj = models.Interest.find.byId(i);
 		final models.Location lObj = models.Location.find.byId(l);
 		
-		Publication.create(user.profile, lObj, iObj, 0, body);
+		Publication.create(p, lObj, iObj, 0, body);
 		return selectFeed(i,l);
 	}
 	

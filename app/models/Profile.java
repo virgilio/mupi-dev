@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -36,7 +37,10 @@ public class Profile extends Model {
 	@Formats.DateTime(pattern = "dd/MM/yyyy")
 	public Date birthDate;
 	public String picture;
+	
+	@Column(columnDefinition = "TEXT")
 	public String about;
+	
 	public Integer gender;
 	
 	@ManyToMany(cascade = CascadeType.ALL)

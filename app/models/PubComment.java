@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -29,6 +30,7 @@ public class PubComment extends Model {
 	public Profile profile;
 	
 	@Required
+	@Column(columnDefinition = "TEXT")
 	public String body;
 
 	@Required

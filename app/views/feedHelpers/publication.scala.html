@@ -1,38 +1,40 @@
-@(publication : Publication)
+@(pub : Publication)
 
-@import collection.JavaConversions._
 @import collection.JavaConverters._
-@import java.net.URLDecoder
+
+@publisherPic = @{"profile/picture" + pub.profile.picture}
 
 <div class="publication">
   <div class="profile-thumb">
-    <img src="@routes.Assets.at("profile/picture/393435068/me.jpg")" />
+    <img src="@routes.Assets.at(publisherPic)" />
   </div>
   <i class="icon-caret-left caret_publication"></i>
-  <p>@Html(publication.body)</p>
-  <span class="pub_date">@publication.created.format("dd/MMM - hh:mm")</span>
+  <span class="publisher_name">@pub.profile.firstName @pub.profile.lastName</span>
+  <span class="pub_date">@pub.created.format("dd/MMM - hh:mm")</span>
+  <p>@Html(pub.body)</p>
   <ul class="pub_interact">
     <li>
-      <a class="comment_lnk" href="#" comments="comments_@publication.id">
-      <i class="icon-comments-alt"></i>@publication.comments.size() Comentários</a>
+      <a class="comment_lnk" href="#" comments="comments_@pub.id">
+      <i class="icon-comments-alt"></i>@pub.comments.size() Comentários</a>
     </li>
   </ul>
 
-  <div class="comments hide" id="comments_@publication.id">
-    @if(publication.comments.size() > 0){
-	    @for(comment <- publication.comments.asScala.sortBy(_.created).reverse){
+  <div class="comments hide" id="comments_@pub.id">
+    @if(pub.comments.size() > 0){
+	    @for(comment <- pub.comments.asScala.sortBy(_.created).reverse){
 	     <div class="comment">
 <!-- 	        TODO: get picture -->
 <!--        <img src="@routes.Assets.at("profilePictures/393435068/me.jpg")" /> -->
+         <span class="commenter_name">@comment.profile.firstName @comment.profile.lastName</span>
+         <span class="pub_date">@comment.created.format("dd/MMM - hh:mm")</span>
 	       <p>@Html(comment.body)</p>
-	       <span class="pub_date">@comment.created.format("dd/MMM - hh:mm")</span>
 	     </div>
 	   }
    }
   </div>
   <div class="textarea_comment">
     <textarea name="input_comment" placeholder="Comentar"></textarea>
-    <a href="#" class="commentPub" publication="@publication.id">
+    <a href="#" class="commentPub" publication="@pub.id">
       <div class="enter_comment">Comentar</div>
     </a>
   </div>

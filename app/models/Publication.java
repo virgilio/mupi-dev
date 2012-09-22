@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -51,6 +52,7 @@ public class Publication extends Model {
 	public Integer type	;
 	
 	@Required
+	@Column(columnDefinition = "TEXT")
 	public String body;
 
 	@Required
