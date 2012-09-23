@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Promotion;
 import models.PubComment;
 import models.Publication;
 import models.User;
@@ -20,7 +21,9 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import providers.MyUsernamePasswordAuthProvider;
 import utils.AjaxResponse;
+import views.html.index;
 import views.html.feedHelpers.feedContent;
 import be.objectify.deadbolt.actions.Restrict;
 
@@ -30,7 +33,13 @@ public class Feed extends Controller {
 	public static Result feed(){
 		final User user = Mupi.getLocalUser(session());
 		
-		if(!user.profile.interests.isEmpty())
+		if(user == null || user.profile == null){
+			return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+		}else if(user.profile.interests.isEmpty()){
+			flash(Messages.get("mupi.profile.noInterests"));
+			return redirect(routes.Interest.interestManager());
+		}
+		else{
 			return ok(views.html.feed.render(
 				user, 
 				user.profile.interests, 
@@ -38,10 +47,11 @@ public class Feed extends Controller {
 				null, 
 				null,
 				Publication.findByInterests(getInterestIds(user.profile.interests), 0).getList(),
+				Promotion.findByInterests(getInterestIds(user.profile.interests), 0).getList(),
 				form(models.Promotion.class)
 			));
-		else 
-			return Interest.interestManager();
+		}
+			
 	}
 	
 	@Restrict(Mupi.USER_ROLE)
@@ -72,9 +82,10 @@ public class Feed extends Controller {
 	public static Result renderFeedContent(
 			int status, 
 			List<models.Publication> l_pubs,
+			List<models.Promotion> l_prom,
 			models.Interest selectedInterest,
 			models.Location selectedLocation){
-		return AjaxResponse.build(status, feedContent.render(l_pubs, selectedInterest, selectedLocation, form(models.Promotion.class)).body());
+		return AjaxResponse.build(status, feedContent.render(l_pubs, l_prom, selectedInterest, selectedLocation, form(models.Promotion.class)).body());
 	}
 		
 	@Restrict(Mupi.USER_ROLE)
@@ -84,7 +95,8 @@ public class Feed extends Controller {
 			if(location == null || location == -1){
 				return renderFeedContent(
 						0, 
-						Publication.findByInterests(getInterestIds(p.interests), 0).getList(), 
+						Publication.findByInterests(getInterestIds(p.interests), 0).getList(),
+						Promotion.findByInterests(getInterestIds(p.interests), 0).getList(),
 						null, 
 						null
 				);
@@ -92,7 +104,8 @@ public class Feed extends Controller {
 				final models.Location l = models.Location.find.byId(location);
 				return renderFeedContent(
 						0, 
-						Publication.findByInterestsLocation(getInterestIds(p.interests), location, 0).getList(), 
+						Publication.findByInterestsLocation(getInterestIds(p.interests), location, 0).getList(),
+						Promotion.findByInterestsLocation(getInterestIds(p.interests), location, 0).getList(),
 						null, 
 						l
 				);
@@ -104,6 +117,7 @@ public class Feed extends Controller {
 				return renderFeedContent(
 						0, 
 						Publication.findByInterest(interest, 0).getList(), 
+						Promotion.findByInterest(interest, 0).getList(),
 						i, 
 						null
 				);
@@ -111,7 +125,8 @@ public class Feed extends Controller {
 				final models.Location l = models.Location.find.byId(location);
 				return renderFeedContent(
 						0, 
-						Publication.findByInterestLocation(interest, location, 0).getList(), 
+						Publication.findByInterestLocation(interest, location, 0).getList(),
+						Promotion.findByInterestLocation(interest, location, 0).getList(),
 						i, 
 						l
 				);

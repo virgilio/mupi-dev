@@ -1,0 +1,17 @@
+@(field: play.api.data.Field, typ: String, label: String, args: (Symbol,Any)*)
+
+
+<p>
+  <label for="@field.name">
+    @label
+  </label> 
+  <input id="@field.id" 
+         name="@field.name"
+         type="@typ"
+         value="@field.value"
+         class="mapsAutocomplete"
+         @toHtmlArgs(args.filter(
+            !_._1.name.startsWith("_") ).toMap)
+  />
+</p>
+

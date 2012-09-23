@@ -1,4 +1,5 @@
 @(publications: List[models.Publication],
+  promotions: List[models.Promotion],
   selectedi: models.Interest = null,
   selectedl: models.Location = null,
   promoteForm: Form[models.Promotion])
@@ -7,7 +8,7 @@
 <input id="selectedLocation" type="hidden" value="@if(selectedl!=null){@selectedl.id}else{-1}"/>
 
 <div class="page_content">
-  @feedMeetUps()
+  @feedMeetUps(promotions)
 
 	<div id="publications">
 	  @feedPublications(publications, selectedi, selectedl, promoteForm)

@@ -34,7 +34,7 @@ playauthenticate.accounts.merge.success=Contas mesclados com êxito
 
 playauthenticate.verify_email.error.already_validated=Seu e-mail já foi validado.
 playauthenticate.verify_email.error.set_email_first=Você precisa definir um endereço de e-mail primeiro.
-playauthenticate.verify_email.message.instructions_sentto=Instruções sobre como verificar o seu endereço de e-mail foi enviado para {0}.
+playauthenticate.verify_email.message.instructions_sentto=Instruções sobre como verificar o seu endereço de e-mail foram enviadas para {0}.
 playauthenticate.verify_email.success=E-mail ({0}) verificado com êxito.
 
 playauthenticate.reset_password.message.instructions_sent.=Instruções sobre como redefinir sua senha foram enviados para {0}.
@@ -178,3 +178,5 @@ mupi.navigation.notifications=Notificações
 mupi.feed.noInterests=Você não possui interesses cadastrados!
 
 mupi.promotion.created=Evento divulgado!
+mupi.profile.firstLogin=Por favor preencha seu perfil e escolha as cidades de onde deseja receber atualizações
+mupi.interest.noInterests=É preciso escolher ao menos um interesse para usar o mupi 

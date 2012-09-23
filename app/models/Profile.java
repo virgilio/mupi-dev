@@ -26,6 +26,8 @@ public class Profile extends Model {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Integer FIRST_LOGIN = 0;
+	private static final Integer REGULAR = 1;
 
 	@Id
 	public Long id;
@@ -42,6 +44,8 @@ public class Profile extends Model {
 	public String about;
 	
 	public Integer gender;
+	
+	public Integer status;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Location> locations = new ArrayList<Location>();
@@ -72,7 +76,8 @@ public class Profile extends Model {
         this.picture 	= picture;
         this.about 		= about;
         this.gender 	= gender;
-        this.locations = locations;
+        this.locations  = locations;
+        this.status 	= FIRST_LOGIN;
         this.created	= new Date();
         this.modified	= new Date();
     }
@@ -81,6 +86,9 @@ public class Profile extends Model {
 	
 	public Profile(String name) {
 		this.firstName = name;
+		this.status = FIRST_LOGIN;
+		// TODO: Define a constant or let it hardcoded?
+		this.picture = "/blank_profile.jpg";
 		this.created = new Date();
 		this.modified = new Date();
 	}
@@ -120,12 +128,19 @@ public class Profile extends Model {
 		return p;
 	}
 	
+	public Profile changeStatus(final Integer newStatus){
+		this.status = newStatus;
+		this.save();
+		return this;
+	}
+	
 	public static Profile create(final User user) {
 		Profile p = new Profile();
 		p.firstName = user.name;
 		p.created = new Date();
 		p.modified = new Date();
 		p.locations = new ArrayList<Location>();
+		p.status = FIRST_LOGIN;
 		
 		// TODO: Define a constant or let it hardcoded?
 		p.picture = "/blank_profile.jpg";

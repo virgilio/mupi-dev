@@ -148,4 +148,43 @@ public class Publication extends Model {
 		
 		return Profile.find.byId(find.byId(id).profile.id);
 	}
+
+	public Interest getInterest() {
+		return interest;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public List<PubComment> getComments() {
+		return comments;
+	}
+
+	public Integer getPub_typ() {
+		return pub_typ;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+	
+	
+	
 }

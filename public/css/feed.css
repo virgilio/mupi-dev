@@ -332,6 +332,7 @@ ul.wysihtml5-toolbar > li{
 	border-radius: 8px;
 	margin: 20px;
 	position: relative;
+	display: block;
 }
 
 .meetup img {

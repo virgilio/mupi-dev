@@ -97,6 +97,10 @@ public class User extends Model implements RoleHolder {
 	public List<? extends Permission> getPermissions() {
 		return permissions;
 	}
+	
+	public Profile getProfile(){
+		return this.profile;
+	}
 
 	public static boolean existsByAuthUserIdentity(final AuthUserIdentity identity) {
 		final ExpressionList<User> exp;

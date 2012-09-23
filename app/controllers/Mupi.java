@@ -35,6 +35,7 @@ public class Mupi extends Controller {
 	public static final String USER_ROLE = "user";
 	public static final String ADMIN_ROLE = "admin";
 
+	
 	public static Result index() {
 		// TODO If logged, redirect to the feed
 		final User user = getLocalUser(session());
@@ -45,40 +46,10 @@ public class Mupi extends Controller {
 		}
 	}
 
-	/**
-	 * TODO Home controller
-	 * @return
-	 */
-	public static Result home(){
-		return TODO;
-		//		return ok(main.render("Home", "nav",
-		//				new Html("<h1>This is the user home page</h1>" +
-		//						"<p>Here we gonna have feed and menu options</p>" +
-		//						"<p>Only for authenticated users</p>")));
-	}
-
-	/**
-	 * TODO config controller
-	 * @return
-	 */
-	public static Result config(){
-		return TODO;
-		//		return ok(main.render("Home", "nav",
-		//				new Html("<h1>This is the user config page</h1>" +
-		//						"<p>Here we gonna have configuration and menu options</p>" +
-		//						"<p>Only for authenticated users</p>")));
-	}
-
+	
 	public static User getLocalUser(final Session session) {
 		final User localUser = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session));
 		return localUser;
-	}
-
-	@Restrict(Mupi.USER_ROLE)
-	public static boolean hasInterests() {
-		final User localUser = getLocalUser(session());
-		final int interests = localUser.profile.interests.size();
-		return interests > 0;
 	}
 
 	public static Result login() {
@@ -143,9 +114,11 @@ public class Mupi extends Controller {
 	public static Result help(){
 		return ok(help.render());
 	}
-	public static Result promotion(){
+	
+	public static Result promotion(Long id){
 		return ok(promotion.render());
 	}
+	
 	public static Result media(){
 		return ok(media.render());
 	}

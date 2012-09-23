@@ -1,12 +1,16 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.URL;
+
+import com.avaje.ebean.Page;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
@@ -16,11 +20,12 @@ import play.db.ebean.Model;
 @Table(name = "promotions")
 public class Promotion extends Model {
 	private static final long serialVersionUID = 1L;
-//	private static final int PER_PAGE = 10;
+	private static final int PER_PAGE = 5;
 
 	@Id
 	public Long id;
-
+	
+	@OneToOne
 	public Publication publication;
 
 	@Required
@@ -105,34 +110,121 @@ public class Promotion extends Model {
 		prom.update();
 	}
 
-//	public static Page<Promotion> findByInterests(List<Long> interest_ids,
-//			Integer page) {
-//		return find.where().in("interest_id", interest_ids)
-//				.orderBy("created desc").findPagingList(PER_PAGE).getPage(page);
-//	}
-//
-//	public static Page<Promotion> findByInterest(long interest, Integer page) {
-//		return find.where().eq("interest_id", interest).orderBy("created desc")
-//				.findPagingList(PER_PAGE).getPage(page);
-//	}
-//
-//	public static Page<Promotion> findByInterestLocation(long interest_id,
-//			long location_id, Integer page) {
-//		return find.where().eq("interest_id", interest_id)
-//				.eq("location_id", location_id).orderBy("created desc")
-//				.findPagingList(PER_PAGE).getPage(page);
-//	}
-//
-//	public static Page<Promotion> findByInterestsLocation(
-//			List<Long> interest_ids, long location_id, Integer page) {
-//		return find.where().in("interest_id", interest_ids)
-//				.eq("location_id", location_id).orderBy("created desc")
-//				.findPagingList(PER_PAGE).getPage(page);
-//	}
-//
-//	public static Page<Promotion> findByLocation(long location_id, Integer page) {
-//		return find.where().eq("location_id", location_id)
-//				.orderBy("created desc").findPagingList(PER_PAGE).getPage(page);
-//	}
+	
+	
+	public static Page<Promotion> findByInterests(List<Long> interest_ids, Integer page) {
+		return find.where()
+				.in("publication_id",
+						Publication.find.where()
+						.in("interest_id", interest_ids)
+						.findIds()
+				)
+				.gt("date", new Date())
+				.orderBy("date, time")
+				.findPagingList(PER_PAGE)
+				.getPage(page);
+	}
 
+	public static Page<Promotion> findByInterest(long interest, Integer page) {
+		return find.where()
+				.in("publication_id",
+						Publication.find.where()
+						.eq("interest_id", interest)
+						.findIds()
+				)
+				.gt("date", new Date())
+				.orderBy("date, time")
+				.findPagingList(PER_PAGE)
+				.getPage(page);
+	}
+
+	public static Page<Promotion> findByInterestLocation(long interest_id,
+			long location_id, Integer page) {
+		return find.where()
+				.in("publication_id",
+						Publication.find.where()
+						.eq("interest_id", interest_id)
+						.eq("location_id", location_id)
+						.findIds()
+				)
+				.gt("date", new Date())
+				.orderBy("date, time")
+				.findPagingList(PER_PAGE)
+				.getPage(page);
+	}
+
+	public static Page<Promotion> findByInterestsLocation(
+			List<Long> interest_ids, long location_id, Integer page) {
+		return find.where()
+				.in("publication_id",
+					Publication.find.where()
+					.in("interest_id", interest_ids)
+					.eq("location_id", location_id)
+					.findIds()
+				)
+				.gt("date", new Date())
+				.orderBy("date, time")
+				.findPagingList(PER_PAGE)
+				.getPage(page);
+	}
+
+	public static Page<Promotion> findByLocation(long location_id, Integer page) {
+		return find.where()
+				.in("publication_id",
+					Publication.find.where()
+					.eq("location_id", location_id)
+					.findIds()
+				)
+				.gt("date", new Date())
+				.orderBy("date, time")
+				.findPagingList(PER_PAGE)
+				.getPage(page);
+	}
+
+	public Publication getPublication() {
+		return publication;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	
+	
 }

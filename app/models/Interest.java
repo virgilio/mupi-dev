@@ -28,6 +28,8 @@ public class Interest extends Model{
 	public String description;
 
 	public String picture;
+	
+	public Integer status;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date created;
@@ -43,6 +45,7 @@ public class Interest extends Model{
 		this.name = name;
 		this.picture = picture;
 		this.description = descr;
+		this.status = 0;
 		this.created = new Date();
 		this.modified = new Date();
 	}

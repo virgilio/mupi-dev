@@ -66,7 +66,7 @@ public class Interest extends Controller {
 	
 	
 	
-	
+	@Restrict(Mupi.USER_ROLE)
 	public static Result doAddInterest() {
 		final Form<models.Interest> filledForm = INTEREST_FORM.bindFromRequest();
 		final User user = Mupi.getLocalUser(session());

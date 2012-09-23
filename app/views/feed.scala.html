@@ -5,6 +5,7 @@
   selectedi: models.Interest = null,
   selectedl: models.Location = null,
   publications: List[models.Publication],
+  promotions: List[models.Promotion],
   promoteForm: Form[models.Promotion]
 )
 
@@ -41,7 +42,7 @@
     @feedSubmenu(locations, selectedl, selectedi)
     
     <div id="feeds">
-      @feedContent(publications, selectedi, selectedl, promoteForm)
+      @feedContent(publications, promotions, selectedi, selectedl, promoteForm)
     </div>
     
   </div>

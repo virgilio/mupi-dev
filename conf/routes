@@ -63,14 +63,10 @@ POST  /interest/ignoreInterest/:id   controllers.Interest.ignoreInterest(id: Lon
 GET   /interest/manager              controllers.Interest.interestManager
 POST  /interest/manager              controllers.Interest.doAddInterest
 
-GET	  /home					        controllers.Mupi.home
-GET	  /config				        controllers.Mupi.config
-
-
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
 GET   /help             	  controllers.Mupi.help
-GET   /promotion              controllers.Mupi.promotion
+GET   /promotion/:id        controllers.Mupi.promotion(id: Long)
 GET   /media            	  controllers.Mupi.media
 GET   /privacyPolicies  	  controllers.Mupi.privacyPolicies
 GET   /statistics       	  controllers.Mupi.statistics

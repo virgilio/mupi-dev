@@ -85,7 +85,7 @@ public class Profile extends Controller {
 			
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.profile.updated"));
 
-			return redirect(routes.Profile.profile());
+			return redirect(routes.Feed.feed());
 			
 		} catch (IOException e){
 			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.errorSendingFile"));
