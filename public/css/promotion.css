@@ -1,26 +1,159 @@
+#event_body{
+ 	padding-bottom: 60px;
+}
 #promotion_header{
 	position: relative;
 	background-color: white;
-	height: 240px;
+	height: 490px;
+	
 }
-#promotion_header h1{
-	background-color: blue;
+#promotion_header i{
+	margin: 5px;
+	font-size: 1.2em;
+}
+#promotion_header h1{ 
 	position: absolute;
 	width: 100%;
-	bottom: 20px;
+	top: 130px;
+	padding-left: 20px;
+	padding-top: 3px;
+	left: -10px;
+	position: absolute;
+}
+#promotion_img{
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	border-radius: 0 0 5px 5px;
+	width: 100%;
+	height: 100%;
 }
 #promotion_header div{
 	position: absolute;
 }
+#promotion_header div, #promotion_header h1{
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+	text-shadow: 1px 1px #444;
+	background: #4F7AA3;
+	color: white;
+}
+#promotion_map{
+	width: 280px;
+	height: 200px;
+	bottom: 0;
+}
+#promotion_link{
+	padding: 2px;
+	font-size: 10px;
+	text-shadow: none;
+	top: 190px;
+	min-width: 90px;
+}
+#promotion_lnk label{
+	font-size: 10px;
+	display: inline;
+}
+#promotion_local{
+	width: 280px;
+	height: 240px;
+	right: 20px;
+	top: 220px;
+}
 #promotion_date{
-	background-color: blue;
-	width: 120px;
+	width: 100px;
 	right: 40px;
 	height: 120px;
+	text-align: center;
+	font-weight: bold;
 }
-#promotion_body div span{
-	float: left;	
+#promotion_complete_date{
+	top: 190px;
+	right: 20px;
+	text-align: right;	
+	width: 272px;
+	padding-right: 8px;
 }
 #promotion_body div label{
-	float: none;	
+	display: inline;	
+	font-size: 0.8em;
+	font-weight: bold;
+}
+#promotion_comments{
+	background: white;
+	padding: 10px;
+	border: 1px solid #CCC;
+	}
+#promotion_comments textarea{
+	resize: none;
+	background-color: #f5f5f5;
+	width: 100%;
+	height: 20px;
+}
+
+#promotion_date .pday{
+	font-size: 60px;
+	line-height: 60px;
+}
+#promotion_date .pmonth{
+	font-size: 40px;
+	line-height: 60px;
+	text-transform: uppercase;
+}
+/* COMMENTS */
+.comment {
+	width: 100%;
+	background: #f5f5f5;
+	margin: 2px 0;
+	min-height: 35px;
+}
+
+.comment .profile_thumb {
+	padding: 1px;
+	background-color: white;
+	border: 2px solid #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	float: left;
+	width: 20px;
+	height: 20px;
+	margin: 4px;
+}
+
+.comment_lnk{
+	cursor: pointer;
+	color: #08C;
+}
+.comment_lnk:hover{
+	color: #005580;
+	
+}
+.textarea_comment{
+	padding-right: 16px; 	
+}
+.btns_comment {
+	height: 24px;
+	margin-right: -14px;
+}
+.btns_comment div{
+	background: none repeat scroll 0 0 #E5E5E5;
+	border-radius: 4px 4px 4px 4px;
+	font-size: 0.8em;
+	padding: 2px 10px;
+	float: right;
+	margin-left: 10px;
+	cursor: pointer;
+}
+.enter_comment{
+/* 	float: right; */
+}
+.enter_cancel{
+	color: red;
+}
+#promotion_comments .comments span{
+	font-size: 0.8em;
+}
+#promotion_header div.fb-like{
+	top: 230px;
+	left: 0;
+	padding: 5px;
+	background: rgba(256,256,256,0.4);
 }

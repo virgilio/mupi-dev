@@ -1,17 +1,42 @@
 @import com.feth.play.module.pa.views.html._
 
 @main(Messages("mupi.navigation.promotion.title"),"promotion") {
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+ var js, fjs = d.getElementsByTagName(s)[0];
+ if (d.getElementById(id)) return;
+ js = d.createElement(s); js.id = id;
+ js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+ fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 <link rel="stylesheet" href="@routes.Assets.at("css/promotion.css")" type="text/css" media="screen"/>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.autosize-min.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/promotion.js")"></script>
 
-<div class="container">
+<div class="container" id="event_body">
 	<div class="row">
 		<div id="promotion_header" class="span10 offset1">
+			<div id="promotion_img"><img src="https://www.ufmg.br/online/arquivos/Workshop.jpg"/></div>
 			<h1>titulo</h1>
 			<div id="promotion_date">
 				<span class="pday">23</span>
 				<span class="pmonth">set</span>
 			</div>
+			<div id="promotion_complete_date">
+				<i class="icon-calendar"></i>
+				<span>23 de setembro, quinta as 10h</span>
+			</div>
+			<div id="promotion_local">
+				<i class="icon-map-marker"></i>
+				<span>Rua bla bla bla - Campinas, SP</span>
+				<div id="promotion_map">mapa</div>
+			</div>
+			<div id="promotion_link">
+				<i class="icon-external-link"></i>
+				<span>Link externo</span>
+			</div>	
+			<div class="fb-like" data-href="https://www.facebook.com/mupi.br" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
 		</div>
 	</div>
 	<div class="row">
@@ -20,24 +45,42 @@
 				<label>Promovido por</label>
 				<span>Fulaninho Campiao</span>
 			</div>
-			<div id="promotion_link">
-				<label>Data completa</label>
-				<span>23 de setembro, quinta às 10h</span>
-			</div>
-			<div id="promotion_local">
-				<label>Local</label>
-				<span>Rua bla bla bla - Campinas, SP</span>
-			</div>
-			<div id="promotion_link">
-				<label>Link externo</label>
-				<span>http://lindeza.com</span>
-			</div>
 			<div id="promotion_description">
-				<label></label>
-				<p></p>
+				<label>Sobre o evento</label>
+				<p>Lorizzle ipsizzle get down get down sit yo, daahng dawg ma nizzle elit. Nullizzle sapizzle velit, owned volutpizzle, 
+				suscipizzle quis, shizzlin dizzle gizzle, arcu. Pellentesque break yo neck, yall tortizzle. 
+				Shiznit nizzle. Dizzle izzle gangster dapibizzle shiz tempizzle bling bling. Bow wow wow check it out nibh et turpizzle. </p>
+				<p>
+				Vestibulum izzle tortor. Pellentesque fo shizzle rhoncizzle da bomb. Things hac habitasse its fo rizzle fizzle. Fo shizzle my nizzle dapibizzle. Things tellus urna, pretizzle eu, sheezy izzle, eleifend vitae, nunc. Bling bling fo shizzle mah nizzle fo rizzle, mah home g-dizzle. Integer sempizzle velit sizzle purus.</p>
 			</div>
-			<div id="promotion_comments"></div>
+	
 		</div>
 	</div>
+	<div class="row">
+		<div id="promotion_comments" class="span6 offset3">
+			<div class="textarea_comment">
+				  <textarea name="input_comment" placeholder="Comentar"></textarea>
+				  <div class="btns_comment">
+				   <a href="#" class="commentPub sendComent">
+				     <div class="enter_comment">Comentar</div>
+				   </a>
+				   <div class="commentPub enter_cancel">Cancelar</div>
+				  </div>
+			</div>
+			<span>X comentarios</span>
+		
+			<div class="comments">
+			     <div class="comment">
+				     <div class="profile_thumb ">
+				     	<img src="" />
+				     </div>	
+			         <span class="commenter_name"></span>
+			         <span class="pub_date">data</span>
+				       <p>corpo comenario</p>
+			     </div>
+		  	</div>
+	  	</div>
+	</div>
 </div>
+<div class="clear"></div>
 }
