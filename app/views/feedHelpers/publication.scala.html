@@ -4,39 +4,39 @@
 @import mupiHelpers._
 
 
-@publisherPic = @{"profile/picture" + pub.profile.getPicture}
+@publisherPic = @{"profile/picture" + pub.getProfile.getPicture}
 
 <div class="publication">
-  @if(pub.pub_typ == 0){
+  @if(pub.getPub_typ == 0){
 	  <div class="profile-thumb">
 	    <img src="@routes.Assets.at(publisherPic)" />
 	  </div>
 	  <i class="icon-caret-left caret_publication"></i>
-	  <span class="publisher_name">@pub.profile.getFirstName @pub.profile.getLastName</span>
-	  <span class="pub_date">@pub.created.format("dd/MMM - HH:mm")</span>
-	  <p>@Html(pub.body)</p>
+	  <span class="publisher_name">@pub.getProfile.getFirstName @pub.getProfile.getLastName</span>
+	  <span class="pub_date">@pub.getCreated.format("dd/MMM - HH:mm")</span>
+	  <p>@Html(pub.getBody)</p>
 	  <ul class="pub_interact">
-	    <li class="comment_lnk" comments="comments_@pub.id">
-	      <i class="icon-comments-alt"></i>@pub.comments.size() Comentários
+	    <li class="comment_lnk" comments="comments_@pub.getId">
+	      <i class="icon-comments-alt"></i>@pub.getComments.size() Comentários
 	    </li>
 	  </ul>
 	
-	  <div class="comments hide" id="comments_@pub.id">
-	    @comments(pub.comments.asScala.sortBy(_.created).reverse)
+	  <div class="comments hide" id="comments_@pub.getId">
+	    @comments(pub.getComments.asScala.sortBy(_.getCreated).reverse)
 	  </div>
 	  
 	  <div class="textarea_comment">
 	    <textarea name="input_comment" placeholder="Comentar"></textarea>
 	    <div class="btns_comment hide">
-		    <a href="#" class="commentPub sendComent" publication="@pub.id">
+		    <a href="#" class="commentPub sendComent" publication="@pub.getId">
 		      <div class="enter_comment">Comentar</div>
 		    </a>
 		    <div class="commentPub enter_cancel">Cancelar</div>
 	    </div>
 	  </div>
 	}else{
-	 <span class="prom_pub">@Html(pub.body) @pub.profile.getFirstName @pub.profile.getLastName</span>
-	 <span class="pub_date">@pub.created.format("dd/MMM - HH:mm")</span>
+	 <span class="prom_pub">@Html(pub.getBody) @pub.getProfile.getFirstName @pub.getProfile.getLastName</span>
+	 <span class="pub_date">@pub.getCreated.format("dd/MMM - HH:mm")</span>
 	}
 	
 </div>

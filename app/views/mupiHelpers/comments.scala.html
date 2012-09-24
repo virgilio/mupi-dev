@@ -9,8 +9,8 @@
          <img src="@routes.Assets.at("profile/picture" + comment.getProfile.getPicture)" />
       </div> 
       <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
-      <span class="pub_date">@comment.created.format("dd/MMM - HH:mm")</span>
-      <p>@URLDecoder.decode(comment.body)</p>
+      <span class="pub_date">@comment.getCreated.format("dd/MMM - HH:mm")</span>
+      <p>@URLDecoder.decode(comment.getBody)</p>
     </div>
   }
 }

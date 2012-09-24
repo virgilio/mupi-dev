@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import play.data.format.Formats;
@@ -20,29 +21,33 @@ public class Interest extends Model{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	public Long id;
+	private Long id;
 
 	@Required
-	public String name;
+	private String name;
 	
-	public String description;
+	@ManyToOne
+	private Profile profile;
+	
+	private String description;
 
-	public String picture;
+	private String picture;
 	
-	public Integer status;
+	private Integer status = 0;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date created;
+	private Date created;
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date modified;
+	private Date modified;
 	
 	public static final Finder<Long, Interest> find = new Finder<Long, Interest>(
 			Long.class, Interest.class);
 	
 //	public static List<Interest> get 
 	
-	public Interest (final String name, final String picture, final String descr){
+	public Interest (final Profile profile, final String name, final String picture, final String descr){
 		this.name = name;
+		this.profile = profile;
 		this.picture = picture;
 		this.description = descr;
 		this.status = 0;
@@ -50,17 +55,43 @@ public class Interest extends Model{
 		this.modified = new Date();
 	}
 
-	public static Interest create(final String name, final String picture, final String descr){
-		Interest interest = new Interest(name, picture, descr);
+	public static Interest create(final Profile profile, final String name, final String picture, final String descr){
+		Interest interest = new Interest(profile, name, picture, descr);
 		interest.save();
 		return interest;
 	}
 	
-	public static void delete(Long id){
+	public Long getId() {
+		return id;
+	}
 
+	public String getName() {
+		return name;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public Date getModified() {
+		return modified;
 	}
 	
-	public static void update(Long id){
-		
-	}
+	
 }

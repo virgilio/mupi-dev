@@ -1,7 +1,6 @@
 jQuery(function(){	
 	jQuery('#promotion_comments textarea').autosize();
 	
-	
 	jQuery('#sendComent').live('click', function(){
 		event.preventDefault();
     	var i = jQuery("#selectedInterest").val();

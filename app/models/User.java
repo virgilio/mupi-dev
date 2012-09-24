@@ -275,4 +275,8 @@ public class User extends Model implements RoleHolder {
 		this.changePassword(authUser, create);
 		TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
 	}
+	
+	
+	
+	
 }

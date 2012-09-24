@@ -28,41 +28,42 @@ public class Profile extends Model {
 	private static final long serialVersionUID = 1L;
 	private static final Integer FIRST_LOGIN = 0;
 	private static final Integer REGULAR = 1;
+	private static final String NO_PIC = "/blank_profile.jpg";
 
 	@Id
-	public Long id;
+	private Long id;
 
-	public String firstName;
-	public String lastName;
+	private String firstName;
+	private String lastName;
 	
 	@Formats.DateTime(pattern = "dd/MM/yyyy")
-	public Date birthDate;
+	private Date birthDate;
 	
-	public String picture = "/blank_profile.jpg";
+	private String picture = NO_PIC;
 	
 	@Column(columnDefinition = "TEXT")
-	public String about;
+	private String about;
 	
-	public Integer gender;
+	private Integer gender;
 	
-	public Integer status;
-	
-	@ManyToMany(cascade = CascadeType.ALL)
-	public List<Location> locations = new ArrayList<Location>();
+	private Integer status;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	public List<Interest> interests = new ArrayList<Interest>();
+	private List<Location> locations = new ArrayList<Location>();
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Interest> interests = new ArrayList<Interest>();
 	
 	@OneToMany
-	public List<Publication> publications = new ArrayList<Publication>();
+	private List<Publication> publications = new ArrayList<Publication>();
 	
 	@OneToMany
-	public List<PubComment> pubComments = new ArrayList<PubComment>();
+	private List<PubComment> pubComments = new ArrayList<PubComment>();
 		
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date created;
+	private Date created;
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date modified;
+	private Date modified;
 
 
 	public static final Finder<Long, Profile> find = new Finder<Long, Profile>(
@@ -82,13 +83,14 @@ public class Profile extends Model {
         this.modified	= new Date();
     }
 	
-	public Profile() {}
+	public Profile() {
+		this.picture = NO_PIC;
+	}
 	
 	public Profile(String name) {
 		this.firstName = name;
 		this.status = FIRST_LOGIN;
-		// TODO: Define a constant or let it hardcoded?
-		this.picture = "/blank_profile.jpg";
+		this.picture = NO_PIC;
 		this.created = new Date();
 		this.modified = new Date();
 	}
@@ -141,9 +143,7 @@ public class Profile extends Model {
 		p.modified = new Date();
 		p.locations = new ArrayList<Location>();
 		p.status = FIRST_LOGIN;
-		
-		// TODO: Define a constant or let it hardcoded?
-		p.picture = "/blank_profile.jpg";
+		p.picture = NO_PIC;
 		
 		p.save();
 		
@@ -171,14 +171,14 @@ public class Profile extends Model {
 	public String getLocationJsonArray(){
 		String json = "[";
 		for (Location location : this.locations) {
-			json = json.concat("{'id':" + location.id + ", name:" + location.name + "}");
+			json = json.concat("{'id':" + location.getId() + ", name:" + location.getName() + "}");
 		}
 		return json.replace("}{", "},{").concat("]");
 	}
 	
 	public static boolean checkInterest(final User user, final Long interest) {
 		final Profile p = User.findByEmail(user.email).profile;
-		if (p != null && p.interests.add(models.Interest.find.byId(interest))){
+		if (p != null && p.getInterests().add(models.Interest.find.byId(interest))){
 			p.update();
 			return true;
 		}
@@ -195,6 +195,14 @@ public class Profile extends Model {
 		return false;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
+	public Integer getStatus() {
+		return status;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -202,44 +210,44 @@ public class Profile extends Model {
 	public String getLastName() {
 		return lastName;
 	}
-//
-//	public Date getBirthDate() {
-//		return birthDate;
-//	}
-//
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
 	public String getPicture() {
 		return picture;
 	}
-//
-//	public String getAbout() {
-//		return about;
-//	}
-//
-//	public Integer getGender() {
-//		return gender;
-//	}
-//
-//	public List<Location> getLocations() {
-//		return locations;
-//	}
-//
-//	public List<Interest> getInterests() {
-//		return interests;
-//	}
-//
-//	public List<Publication> getPublications() {
-//		return publications;
-//	}
-//
-//	public List<PubComment> getPubComments() {
-//		return pubComments;
-//	}
-//
-//	public Date getCreated() {
-//		return created;
-//	}
-//
-//	public Date getModified() {
-//		return modified;
-//	}	
+
+	public String getAbout() {
+		return about;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public List<Location> getLocations() {
+		return locations;
+	}
+
+	public List<Interest> getInterests() {
+		return interests;
+	}
+
+	public List<Publication> getPublications() {
+		return publications;
+	}
+
+	public List<PubComment> getPubComments() {
+		return pubComments;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}	
 }

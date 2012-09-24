@@ -23,15 +23,19 @@ public class Location extends Model {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	public Long id;
+	private Long id;
 	
 	@Required
-	public String name;
+	private String name;
 	
 	@Required
-	public String geohash;
+	private String geohash;
 	
 	
+	public Long getId() {
+		return id;
+	}
+
 	public static final Finder<Long, Location> find = new Finder<Long, Location>(
 			Long.class, Location.class);
 

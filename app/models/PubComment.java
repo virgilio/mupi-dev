@@ -19,30 +19,30 @@ public class PubComment extends Model {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	public Long id;
+	private Long id;
 	
 	@Required
 	@ManyToOne
-	public Publication publication;
+	private Publication publication;
 	
 	@Required
 	@ManyToOne
-	public Profile profile;
+	private Profile profile;
 	
 	@Required
 	@Column(columnDefinition = "TEXT")
-	public String body;
+	private String body;
 
 	@Required
-	public Integer status;	
+	private Integer status;	
 		
 	@Required
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date created;
+	private Date created;
 	
 	@Required
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date modified;
+	private Date modified;
 	
 	
 	public static final Finder<Long, PubComment> find = new Finder<Long, PubComment>(
@@ -72,6 +72,10 @@ public class PubComment extends Model {
 		pubComment.update();
 	}
 
+	public Long getId() {
+		return id;
+	}
+		
 	public Publication getPublication() {
 		return publication;
 	}

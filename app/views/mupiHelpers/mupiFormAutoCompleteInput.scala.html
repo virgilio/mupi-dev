@@ -20,8 +20,8 @@
 	  <ul class="selectedLocations">
 		  @for( location <- uLocations ){
 		    <li class="selectedLocation">
-		      <span id="loc_@location.id" >@location.name</span>
-		      <button location="@location.id" class="removeLocation">x</button>
+		      <span id="loc_@location.getId" >@location.getName</span>
+		      <button location="@location.getId" class="removeLocation">x</button>
 	      </li>
 	    }
     </ul>
@@ -36,11 +36,11 @@
 <script>
     jQuery(function(){
     	 jQuery('#locationSelector').keypress(function(e) {
-    	        if(e.which == 13) {
-    	            jQuery(this).blur();
-    	            registerLocation(@allLocs);
-    	        }
-    	    });
+   	        if(e.which == 13) {
+   	            jQuery(this).blur();
+   	            registerLocation(@allLocs);
+   	        }
+   	    });
        jQuery('#addLocation').live('click', function(){registerLocation(@allLocs)});
        
        jQuery('#locationSelector').typeahead({

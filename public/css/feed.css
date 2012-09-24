@@ -385,18 +385,23 @@ ul.wysihtml5-toolbar > li{
 	left: -9px;
 }
 
-.meetups input[type="button"] {
-	border-radius: 5px 5px 5px 5px;
-	color: #FFFFFF;
-	height: 36px;
-	margin: 2px;
-	text-shadow: 1px 1px #444444;
-	width: 300px;
-}
-
 .btn_promote {
 	background: #3794ed;
-	border: 1px solid #2970b3;
+	border-radius: 5px 5px 5px 5px;
+  color: #FFFFFF;
+  height: 36px;
+  margin: 3px 0;
+  text-shadow: 1px 1px #444444;
+  display: block;
+  text-align: center;
+  line-height: 36px;
+  text-decoration: none;
+  width: 350px;
+}
+
+.btn_promote:hover {
+  text-decoration: none;
+  color: white;
 }
 
 .btn_host {
@@ -412,4 +417,8 @@ ul.wysihtml5-toolbar > li{
 #feeds{
   margin: 0;
   padding: 0
+}
+
+#description_promotionMeetup{
+	width:97%;
 }

@@ -65,21 +65,21 @@ public class Profile extends Controller {
 		    	picturePath = "/" + hashUser + "/" + hashTime + fileName;
 			}else{
 				if(filledForm.field("picture").value() == null){
-					picturePath = user.profile.picture;
-				}else if(filledForm.get().picture.compareTo(BLANK_PIC) == 0){
+					picturePath = user.profile.getPicture();
+				}else if(filledForm.get().getPicture().compareTo(BLANK_PIC) == 0){
 					picturePath = BLANK_PIC;
 				}
 			}
 			
 			models.Profile.update(
 					Mupi.getLocalUser(session()),
-					filledForm.get().firstName,
-					filledForm.get().lastName,
-					filledForm.get().about,
-					filledForm.get().birthDate,
+					filledForm.get().getFirstName(),
+					filledForm.get().getLastName(),
+					filledForm.get().getAbout(),
+					filledForm.get().getBirthDate(),
 					picturePath,
-					filledForm.get().gender,
-					filledForm.get().locations
+					filledForm.get().getGender(),
+					filledForm.get().getLocations()
 			);
 				
 			
@@ -110,10 +110,10 @@ public class Profile extends Controller {
 		final Location location = Location.find.byId(id);
 		
 		if(location != null){
-			if(profile.locations != null && profile.locations.contains(location)){
+			if(profile.getLocations() != null && profile.getLocations().contains(location)){
 				return AjaxResponse.build(2, "You already has this location registered!");
 			}else{
-				profile.locations.add(location);
+				profile.getLocations().add(location);
 				profile.update();
 				return AjaxResponse.build(0, "Location successfully registered!");
 			}
@@ -129,8 +129,8 @@ public class Profile extends Controller {
 		final Location location = Location.find.byId(id);
 				
 		if(location != null){
-			if(profile.locations != null){
-				profile.locations.remove(location);
+			if(profile.getLocations() != null){
+				profile.getLocations().remove(location);
 				profile.update();
 			}
 			return AjaxResponse.build(0, "You have successfully removed this location!");

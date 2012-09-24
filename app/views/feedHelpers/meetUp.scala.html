@@ -1,15 +1,15 @@
 @(prom : models.Promotion)
 
-@publisherPic = @{"event/picture" + prom.picture}
+@publisherPic = @{"event/picture" + prom.getPicture}
 
 
-<a class="meetup" href="@routes.Mupi.promotion(prom.id)"> 
+<a class="meetup" href="@routes.Mupi.promotion(prom.getId)"> 
 	<div class="radius_overflow_fix">
 	  <div class="meetup_title_shadow"></div>
-	  <img src="@routes.Assets.at(publisherPic)" /> <span>@prom.title</span>
+	  <img src="@routes.Assets.at(publisherPic)" /> <span>@prom.getTitle</span>
 	  <div class="meetup_date">
 	    <p>
-	      <i class="icon-calendar"></i> @prom.date.format("dd") de @prom.date.format("MMMM")
+	      <i class="icon-calendar"></i> @prom.getDate.format("dd") de @prom.getDate.format("MMMM")
 	    </p>
 	    <p>
 	      <i class="icon-map-marker"></i> @prom.getPublication.getLocation.getName

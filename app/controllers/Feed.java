@@ -28,37 +28,126 @@ import views.html.index;
 import views.html.feedHelpers.feedContent;
 import views.html.mupiHelpers.*;
 import be.objectify.deadbolt.actions.Restrict;
+import com.typesafe.plugin.*;
+
 
 public class Feed extends Controller {
-
+	
+	private static final Form<utils.MeetUpPromotion> PROMOTE_MEETUP_FORM = form(utils.MeetUpPromotion.class);
+	private static final Form<utils.MeetUpHosting> HOST_MEETUP_FORM = form(utils.MeetUpHosting.class);
+	
+	@Restrict(Mupi.USER_ROLE)
+	public static Result hostMeetUp(){
+		final Form<utils.MeetUpPromotion> filledForm = PROMOTE_MEETUP_FORM.bindFromRequest();
+		final User u = Mupi.getLocalUser(session());
+		final models.Profile p = u.getProfile();
+		String lastName = p.getLastName();
+		if(lastName == null) lastName = "";
+		
+		final String subject = p.getFirstName() + " " + lastName + " quer organizar um encontro amiguinhos!  Yayyy!!";
+		
+		final String body = "O usuário " + p.getFirstName() + " " + lastName + " " +
+						   "quer organizar um encontro na seguinte comunidade:\n" + 
+						   "\n    Localidade - " + models.Location.find.byId(filledForm.get().location).getName() +
+						   "\n\n Ele redigiu a seguinte descrição para o encontro:\n" +
+						   filledForm.get().description;
+		
+		MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+		mail.setSubject( subject );
+		mail.addRecipient("banduk@gmail.com");
+		mail.addFrom("noreply@mupi.me");
+		mail.setReplyTo("noreply@mupi.me");
+		mail.send( body );
+		
+		return feed(filledForm.get().interest,null);
+	}
+	
+	
+	@Restrict(Mupi.USER_ROLE)
+	public static Result promoteMeetUp(){
+		final Form<utils.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
+		final User u = Mupi.getLocalUser(session());
+		final models.Profile p = u.getProfile();
+		String lastName = p.getLastName();
+		if(lastName == null) lastName = "";
+		
+		final String subject = p.getFirstName() + " " + lastName + " quer receber encontros amiguinhos!  Yayyy!!";
+		
+		final String body = "O usuário " + p.getFirstName() + " " + lastName + " " +
+						   "quer receber encontros na seguinte localidade:\n" + 
+						   "\n    Interesse  - " + models.Interest.find.byId(filledForm.get().interest).getName() +
+						   "\n    Localidade - " + models.Location.find.byId(filledForm.get().location).getName() +
+						   "\n\n Ele redigiu a seguinte descrição de seu local:\n" +
+						   filledForm.get().description;
+		
+		MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+		mail.setSubject( subject );
+		mail.addRecipient("banduk@gmail.com");
+		mail.addFrom("noreply@mupi.me");
+		mail.setReplyTo("noreply@mupi.me");
+		mail.send( body );
+		
+		return feed(filledForm.get().interest,filledForm.get().location);
+	}
+	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result feed(){
 		final User user = Mupi.getLocalUser(session());
 		
 		if(user == null || user.profile == null){
 			return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-		}else if(user.profile.interests.isEmpty()){
+		}else if(user.getProfile().getInterests().isEmpty()){
 			flash(Messages.get("mupi.profile.noInterests"));
 			return redirect(routes.Interest.interestManager());
 		}
 		else{
 			return ok(views.html.feed.render(
 				user, 
-				user.profile.interests, 
-				user.profile.locations, 
+				user.getProfile().getInterests(), 
+				user.getProfile().getLocations(), 
 				null, 
 				null,
-				Publication.findByInterests(getInterestIds(user.profile.interests), 0).getList(),
-				Promotion.findByInterests(getInterestIds(user.profile.interests), 0).getList(),
-				form(models.Promotion.class)
+				Publication.findByInterests(getInterestIds(user.getProfile().getInterests()), 0).getList(),
+				Promotion.findByInterests(getInterestIds(user.getProfile().getInterests()), 0).getList(),
+				form(models.Promotion.class),
+				PROMOTE_MEETUP_FORM,
+				HOST_MEETUP_FORM
 			));
 		}
-			
+	}
+	
+	@Restrict(Mupi.USER_ROLE)
+	public static Result feed(Long interest, Long location){
+		final User user = Mupi.getLocalUser(session());
+		
+		models.Interest i; if(interest == null) i = null; else i=models.Interest.find.byId(interest);
+		models.Location l; if(location == null) l = null; else l=models.Location.find.byId(location);
+		
+		if(user == null || user.profile == null){
+			return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+		}else if(user.getProfile().getInterests().isEmpty()){
+			flash(Messages.get("mupi.profile.noInterests"));
+			return redirect(routes.Interest.interestManager());
+		}
+		else{
+			return ok(views.html.feed.render(
+				user, 
+				user.getProfile().getInterests(), 
+				user.getProfile().getLocations(), 
+				i, l,
+				Publication.findByInterests(getInterestIds(user.getProfile().getInterests()), 0).getList(),
+				Promotion.findByInterests(getInterestIds(user.getProfile().getInterests()), 0).getList(),
+				form(models.Promotion.class),
+				PROMOTE_MEETUP_FORM,
+				HOST_MEETUP_FORM
+			));
+		}
 	}
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result comment(Long i, Long l,String body, Long id){
-		final models.Profile p = Mupi.getLocalUser(session()).profile;
+		final User u = Mupi.getLocalUser(session());
+		final models.Profile p = u.profile;
 		final models.Publication pub = models.Publication.find.byId(id);
 		
 		if(pub != null){
@@ -77,7 +166,7 @@ public class Feed extends Controller {
 		
 		if(pub != null){
 			PubComment.create(pub, p, body);
-			List<PubComment> reverseComments = pub.comments;
+			List<PubComment> reverseComments = pub.getComments();
 			
 			Collections.reverse(reverseComments);
 			return AjaxResponse.build(
@@ -96,7 +185,8 @@ public class Feed extends Controller {
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result publish(String body, Long i, Long l){
-		final models.Profile p = Mupi.getLocalUser(session()).profile;
+		final User u = Mupi.getLocalUser(session());
+		final models.Profile p = u.profile;
 		final models.Interest iObj = models.Interest.find.byId(i);
 		final models.Location lObj = models.Location.find.byId(l);
 		
@@ -111,7 +201,7 @@ public class Feed extends Controller {
 			List<models.Promotion> l_prom,
 			models.Interest selectedInterest,
 			models.Location selectedLocation){
-		return AjaxResponse.build(status, feedContent.render(l_pubs, l_prom, selectedInterest, selectedLocation, form(models.Promotion.class)).body());
+		return AjaxResponse.build(status, feedContent.render(l_pubs, l_prom, selectedInterest, selectedLocation, form(models.Promotion.class), PROMOTE_MEETUP_FORM,HOST_MEETUP_FORM).body());
 	}
 		
 	@Restrict(Mupi.USER_ROLE)
@@ -121,8 +211,8 @@ public class Feed extends Controller {
 			if(location == null || location == -1){
 				return renderFeedContent(
 						0, 
-						Publication.findByInterests(getInterestIds(p.interests), 0).getList(),
-						Promotion.findByInterests(getInterestIds(p.interests), 0).getList(),
+						Publication.findByInterests(getInterestIds(p.getInterests()), 0).getList(),
+						Promotion.findByInterests(getInterestIds(p.getInterests()), 0).getList(),
 						null, 
 						null
 				);
@@ -130,8 +220,8 @@ public class Feed extends Controller {
 				final models.Location l = models.Location.find.byId(location);
 				return renderFeedContent(
 						0, 
-						Publication.findByInterestsLocation(getInterestIds(p.interests), location, 0).getList(),
-						Promotion.findByInterestsLocation(getInterestIds(p.interests), location, 0).getList(),
+						Publication.findByInterestsLocation(getInterestIds(p.getInterests()), location, 0).getList(),
+						Promotion.findByInterestsLocation(getInterestIds(p.getInterests()), location, 0).getList(),
 						null, 
 						l
 				);
@@ -141,7 +231,7 @@ public class Feed extends Controller {
 			
 			if(location == null || location == -1){
 				return renderFeedContent(
-						0, 
+						0,
 						Publication.findByInterest(interest, 0).getList(), 
 						Promotion.findByInterest(interest, 0).getList(),
 						i, 
@@ -150,7 +240,7 @@ public class Feed extends Controller {
 			} else {
 				final models.Location l = models.Location.find.byId(location);
 				return renderFeedContent(
-						0, 
+						0,
 						Publication.findByInterestLocation(interest, location, 0).getList(),
 						Promotion.findByInterestLocation(interest, location, 0).getList(),
 						i, 
@@ -190,19 +280,19 @@ public class Feed extends Controller {
 		    	
 			}else{picturePath = BLANK_EVT;}
 			
-			final Form<models.Promotion> filledForm = form(models.Promotion.class).bindFromRequest();			
+			final Form<models.Promotion> filledForm = form(models.Promotion.class).bindFromRequest();
 			final models.Profile p = Mupi.getLocalUser(session()).profile;
 			
 			models.Promotion.create(
 					p,
 					lObj,
 					iObj,
-					filledForm.get().title, 
-					filledForm.get().address, 
-					filledForm.get().date, 
-					filledForm.get().time, 
-					filledForm.get().description, 
-					filledForm.get().link,
+					filledForm.get().getTitle(), 
+					filledForm.get().getAddress(), 
+					filledForm.get().getDate(), 
+					filledForm.get().getTime(), 
+					filledForm.get().getDescription(), 
+					filledForm.get().getLink(),
 					picturePath);
 			
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.promotion.created"));
@@ -218,7 +308,8 @@ public class Feed extends Controller {
 	private static List<Long> getInterestIds(List<models.Interest> i){
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (models.Interest interest : i) {
-			ids.add(interest.id);
+			if(interest.getStatus() > 0)
+				ids.add(interest.getId());
 		}
 		return ids;
 	}

@@ -16,7 +16,7 @@
 <div class="hide" id="input_publication">
   <textarea id="body_publication" placeholder="Digite sua publicação"></textarea>
 
-  <span class="btns"> <span>Publicando em: <b>[@interest.name]</b> - <b>[@location.name]</b></span>
+  <span class="btns"> <span>Publicando em: <b>[@interest.getName]</b> - <b>[@location.getName]</b></span>
     <a id="btn_publish" class="btns_publication" href="#preview_publication" data-toggle="modal">Publicar</a>
   </span>
 </div>
@@ -68,8 +68,8 @@
          ('cols, "50")
        )
        
-       <input type="hidden" name="int" value="@interest.id"/>
-       <input type="hidden" name="loc" value="@location.id"/>
+       <input type="hidden" name="int" value="@interest.getId"/>
+       <input type="hidden" name="loc" value="@location.getId"/>
     
     </div>
     <div class="modal-footer">

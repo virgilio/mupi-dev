@@ -20,17 +20,25 @@
 	    
 		     <div class="row">
 		         <div id="chosen_interests" class="span12">
-		             <h4>Interesses escolhidos</h4>
+	             @if(uInterests.size > 0){
+	             <h4>Interesses escolhidos</h4>
 		             @for(uInterest <- uInterests) {
-		                 @mupiFormImgCheckbox(uInterest.id.toString, "interests["+uInterest.id.toString+"]", uInterest.name, "interest/picture", uInterest.picture, uInterest.description, true)
-		               }
+	                 @if(uInterest.getStatus > 0){
+	                   @mupiFormImgCheckbox(uInterest.getId.toString, "interests["+uInterest.getId.toString+"]", uInterest.getName, "interest/picture", uInterest.getPicture, uInterest.getDescription, true)
+	                 }
+	               }
+	             }else{
+	               <h4>Você deve escolher ao menos um interesse para que possa usar o Mupi!</h4>
+	             }
 		         </div>
 		     </div>
 		     <div class="row">
 		         <div id="all_interests" class="span12">
 		             <h4>Lista de interesses</h4>
-								   @for(allInterest <- allInterests) {
-		                 @mupiFormImgCheckbox(allInterest.id.toString, "interests["+allInterest.id.toString+"]", allInterest.name, "interest/picture", allInterest.picture, allInterest.description)
+								   @for(interest <- allInterests) {
+								     @if(interest.getStatus > 0){
+		                  @mupiFormImgCheckbox(interest.getId.toString, "interests["+interest.getId.toString+"]", interest.getName, "interest/picture", interest.getPicture, interest.getDescription)
+		                 }
 		               }
 		         </div>
 		     </div>

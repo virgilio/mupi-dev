@@ -2,9 +2,9 @@
 
 <h3>
  @{(interest,location) match{
-   case (i, l)if(i != null && l != null) => "Últimas publicações sobre " + interest.name + " em " + location.name 
-   case (i, null) if(i != null) => "Últimas publicações globais sobre " + interest.name
-   case (null, l) if(l != null) => "Últimas publicações em " + location.name
+   case (i, l)if(i != null && l != null) => "Últimas publicações sobre " + interest.getName + " em " + location.getName 
+   case (i, null) if(i != null) => "Últimas publicações globais sobre " + interest.getName
+   case (null, l) if(l != null) => "Últimas publicações em " + location.getName
 	 case _ => "Últimas publicações globais em todos seus interesses"
  }}
 </h3>
@@ -14,7 +14,7 @@
     @inputPublication(interest, location, promoteForm)
   }
   
-  @for(pub <- publications){
+  @for(pub <- publications.filter(_.getStatus > 0)){
     @publication(pub)
   }
 

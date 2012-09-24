@@ -31,7 +31,7 @@ public class Interest extends Controller {
 	public static Result interestManager() {
 		final User user = Mupi.getLocalUser(session());	
 		
-		final List<models.Interest> uInterests = user.profile.interests;
+		final List<models.Interest> uInterests = user.profile.getInterests();
 		final List<models.Interest> allInterests = (List<models.Interest>) CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 				
 		final Form<models.Interest> form = INTEREST_FORM;
@@ -83,7 +83,7 @@ public class Interest extends Controller {
 			    File file = picture.getFile();
 			    
 			    String hashTime = getMD5(System.currentTimeMillis());
-			    String hashInterest = getMD5(filledForm.get().name);
+			    String hashInterest = getMD5(filledForm.get().getName());
 			    
 			    File destinationFile = new File(play.Play.application().path().toString() +
 			    		"//public//interest//picture//" + hashInterest +
@@ -95,21 +95,22 @@ public class Interest extends Controller {
 			}
 			
 			models.Interest.create(
-				filledForm.get().name,
+				user.profile,
+				filledForm.get().getName(),
 				picturePath,
-				filledForm.get().description
+				filledForm.get().getDescription()
 			);
 			
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.interestManager.added"));
 			
-			final List<models.Interest> uInterests = user.profile.interests;
+			final List<models.Interest> uInterests = user.getProfile().getInterests();
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 			
 			return interestManager();
 		} catch (IOException e){
 			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.profile.errorSendingFile"));
 			e.printStackTrace();
-			final List<models.Interest> uInterests = user.profile.interests;
+			final List<models.Interest> uInterests = user.getProfile().getInterests();
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 			return interestManager();
 		}

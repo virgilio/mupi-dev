@@ -22,6 +22,8 @@ import com.avaje.ebean.Page;
 public class Publication extends Model {
 	private static final long serialVersionUID = 1L;
 	private static final int PER_PAGE = 10;
+	private static final int ACTIVE = 1;
+	private static final int INACTIVE = 0;
 	
 	@Id
 	public Long id;
@@ -32,36 +34,36 @@ public class Publication extends Model {
 
 	@Required
 	@ManyToOne
-	public Interest interest;
+	private Interest interest;
 	
 	@Required
 	@ManyToOne
-	public Location location;
+	private Location location;
 	
 	@Required
 	@ManyToOne
-	public Profile profile;
+	private Profile profile;
 	
 	@OneToMany
-	public List<PubComment> comments = new ArrayList<PubComment>();
+	private List<PubComment> comments = new ArrayList<PubComment>();
 	
 	@Required
-	public Integer pub_typ;
+	private Integer pub_typ;
 	
 	@Required
 	@Column(columnDefinition = "TEXT")
-	public String body;
+	private String body;
 
 	@Required
-	public Integer status;	
+	private Integer status = INACTIVE;	
 	
 	@Required
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date created;
+	private Date created;
 	
 	@Required
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date modified;
+	private Date modified;
 	
 	public static final Finder<Long, Publication> find = new Finder<Long, Publication>(
 			Long.class, Publication.class);
@@ -72,7 +74,7 @@ public class Publication extends Model {
 		this.interest	= interest;
 		this.pub_typ   	= pub_typ;
 		this.body	 	= body;
-		this.status  	= 0;
+		this.status  	= INACTIVE;
 		this.created 	= new Date();
 		this.modified 	= new Date();
 	}
@@ -96,7 +98,7 @@ public class Publication extends Model {
 	
 	public static void unpublish(Long id){
 		Publication pub = find.byId(id);
-		pub.status = 1;
+		pub.status = INACTIVE;
 		pub.update();
 	}
 	
@@ -144,11 +146,15 @@ public class Publication extends Model {
 	
 	public static Profile getProfilePicById(Long id){
 		System.out.println(id);
-		System.out.println(find.byId(id).profile.id);
+		System.out.println(find.byId(id).profile.getId());
 		
-		return Profile.find.byId(find.byId(id).profile.id);
+		return Profile.find.byId(find.byId(id).profile.getId());
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
 	public Interest getInterest() {
 		return interest;
 	}

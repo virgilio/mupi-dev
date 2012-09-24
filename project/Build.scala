@@ -12,7 +12,8 @@ object ApplicationBuild extends Build {
       "be.objectify"  %%  "deadbolt-2"        % "1.1.3-SNAPSHOT",
       "com.feth"      %%  "play-authenticate" % "0.2.0-SNAPSHOT",
       "postgresql"    %   "postgresql"        % "9.1-901.jdbc4",
-      "mysql" % "mysql-connector-java" % "5.1.18"
+      "mysql" % "mysql-connector-java" % "5.1.18",
+      "com.typesafe" %% "play-plugins-mailer" % "2.0.4"
     )
     
 //  Uncomment this for local development of the Play Authenticate core:

@@ -6,13 +6,13 @@
   
   @if(locations != null){
    	@for(location <- locations) {
-		  <a class="btn btn_local" id="@location.id">
+		  <a class="btn btn_local" id="@location.getId">
 			  @if(location == selectedl) {
 			    <i class="icon-check"></i>
 			  } else {
 			    <i class="icon-check-empty"></i>
 			  }
-		    @location.name
+		    @location.getName
 		  </a>
 		}
   }

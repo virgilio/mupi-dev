@@ -1,0 +1,38 @@
+@(
+  hostMeetupForm: Form[utils.MeetUpHosting],
+  location: models.Location
+)
+@import helper._ 
+@import mupiHelpers._
+
+<a class="btn_promote" type="button"  href="#host_meetup" data-toggle="modal">
+  Quero receber encontros
+</a>
+
+
+<div id="host_meetup" class="modal fade hide">
+  @form(routes.Feed.hostMeetUp){
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>Quero receber encontros</h3>
+    </div>
+    <div class="modal-body">
+	    @mupiFormTextArea(
+	      field=hostMeetupForm("description"),
+	      label="Descrição",
+	      ('id, "description_promotionMeetup"),
+	      ('rows, 10)
+	    )
+
+       
+      @hiddenInput(
+        field=hostMeetupForm("location"),
+        v=location.getId.toString
+      )
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+      <input type="submit" class="btn" value="Validar"/>
+    </div>
+  }
+</div>

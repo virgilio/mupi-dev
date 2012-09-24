@@ -6,9 +6,9 @@
 @import be.objectify.deadbolt.Deadbolt
 @import mupiHelpers._
 
-@promPic = @{"event/picture" + promotion.picture}
+@promPic = @{"event/picture" + promotion.getPicture}
 
-@main(promotion.title,"promotion") {
+@main(promotion.getTitle,"promotion") {
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
  var js, fjs = d.getElementsByTagName(s)[0];
@@ -23,31 +23,31 @@
 <script type="text/javascript" src="@routes.Assets.at("js/promotion.js")"></script>
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-<input type="hidden" id="selectedInterest" value="@promotion.getPublication.getInterest.id"/>
-<input type="hidden" id="selectedLocation" value="@promotion.getPublication.getLocation.id"/>
+<input type="hidden" id="selectedInterest" value="@promotion.getPublication.getInterest.getId"/>
+<input type="hidden" id="selectedLocation" value="@promotion.getPublication.getLocation.getId"/>
 
 
 <div class="container" id="event_body">
 	<div class="row">
 		<div id="promotion_header" class="span10 offset1">
 			<div id="promotion_img"><img src="@routes.Assets.at(promPic)"/></div>
-			<h1>@promotion.title</h1>
+			<h1>@promotion.getTitle</h1>
 			<div id="promotion_date">
-				<span class="pday">@promotion.date.format("dd")</span>
-				<span class="pmonth">@promotion.date.format("MMM")</span>
+				<span class="pday">@promotion.getDate.format("dd")</span>
+				<span class="pmonth">@promotion.getDate.format("MMM")</span>
 			</div>
 			<div id="promotion_complete_date">
 				<i class="icon-calendar"></i>
-				<span>@promotion.date.format("dd") de @promotion.date.format("MMMM"), @promotion.date.format("d") às @promotion.date.format("HH")h@promotion.date.format("mm")  </span>
+				<span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("d") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span>
 			</div>
 			<div id="promotion_local">
 				<i class="icon-map-marker"></i>
-				<span id="address_val">@promotion.address</span>
+				<span id="address_val">@promotion.getAddress</span>
 				<div id="promotion_map">Não há um mapa para esta localidade</div>
 			</div>
 			<div id="promotion_link">
 				<i class="icon-external-link"></i>
-				<a class="external_link" href="@promotion.link">Link externo</a>
+				<a class="external_link" href="@promotion.getLink">Link externo</a>
 			</div>	
 			<div class="fb-like" data-href="https://www.facebook.com/mupi.br" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
 		</div>
@@ -61,7 +61,7 @@
 			<div id="promotion_description">
 				<label>Sobre o evento</label>
 				<p>
-				@promotion.description
+				@promotion.getDescription
 				</p>
 			</div>
 	
@@ -82,7 +82,7 @@
 			}
 			<span>@promotion.getPublication.getComments.size comentários</span>
 			<div id="comments" id="comments_@promotion.getPublication.id">
-        @comments(promotion.getPublication.getComments.asScala.sortBy(_.created).reverse)
+        @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated).reverse)
 	    </div>
 		</div>
 	</div>

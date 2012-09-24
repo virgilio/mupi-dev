@@ -1,14 +1,18 @@
-@(publications: List[models.Publication],
+@(
+  publications: List[models.Publication],
   promotions: List[models.Promotion],
   selectedi: models.Interest = null,
   selectedl: models.Location = null,
-  promoteForm: Form[models.Promotion])
+  promoteForm: Form[models.Promotion],
+  promoteMeetupForm: Form[utils.MeetUpPromotion],
+  hostMeetupForm: Form[utils.MeetUpHosting]
+)
 
-<input id="selectedInterest" type="hidden" value="@if(selectedi!=null){@selectedi.id}else{-1}"/>
-<input id="selectedLocation" type="hidden" value="@if(selectedl!=null){@selectedl.id}else{-1}"/>
+<input id="selectedInterest" type="hidden" value="@if(selectedi!=null){@selectedi.getId}else{-1}"/>
+<input id="selectedLocation" type="hidden" value="@if(selectedl!=null){@selectedl.getId}else{-1}"/>
 
 <div class="page_content">
-  @feedMeetUps(promotions)
+  @feedMeetUps(promotions, selectedi, selectedl, promoteMeetupForm, hostMeetupForm)
 
 	<div id="publications">
 	  @feedPublications(publications, selectedi, selectedl, promoteForm)

@@ -1,0 +1,43 @@
+@(
+  promoteMeetupForm: Form[utils.MeetUpPromotion],
+  interest: models.Interest,
+  location: models.Location
+)
+@import helper._ 
+@import mupiHelpers._
+
+<a class="btn_promote" type="button"  href="#promote_meetup" data-toggle="modal">
+  Quero organizar um encontro
+</a>
+
+
+<div id="promote_meetup" class="modal fade hide">
+  @form(routes.Feed.promoteMeetUp){
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>Quero organizar um encontro</h3>
+    </div>
+    <div class="modal-body">
+	    @mupiFormTextArea(
+	      field=promoteMeetupForm("description"),
+	      label="Descrição",
+	      ('id, "description_promotionMeetup"),
+	      ('rows, 10)
+	    )
+       
+      @hiddenInput(
+        field=promoteMeetupForm("interest"),
+        v=interest.getId.toString
+      )
+       
+      @hiddenInput(
+        field=promoteMeetupForm("location"),
+        v=location.getId.toString
+      )
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+      <input type="submit" class="btn" value="Validar"/>
+    </div>
+  }
+</div>

@@ -45,11 +45,14 @@ GET   /assets/*file         controllers.Assets.at(path="/public", file)
 
 # Mupi Pages
 # FEED
+GET   /                       controllers.Feed.feed
 GET   /feed                   controllers.Feed.feed
 POST  /feed/select/:i/:l      controllers.Feed.selectFeed(i: Long, l: Long)
 POST  /feed/publish/:t/:i/:l  controllers.Feed.publish(t: String, i: Long, l: Long)
 POST  /feed/comment/:i/:l/:t/:p controllers.Feed.comment(i: Long, l: Long, t: String, p: Long)
 POST  /feed/promote           controllers.Feed.promote
+POST  /feed/promoteMeetup                  controllers.Feed.promoteMeetUp
+POST  /host/hostMeetup                       controllers.Feed.hostMeetUp
 
 # PROFILE
 GET   /profile           	    controllers.Profile.profile

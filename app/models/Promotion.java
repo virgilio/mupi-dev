@@ -10,55 +10,57 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.URL;
 
-import com.avaje.ebean.Page;
-
 import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+
+import com.avaje.ebean.Page;
 
 @Entity
 @Table(name = "promotions")
 public class Promotion extends Model {
 	private static final long serialVersionUID = 1L;
 	private static final int PER_PAGE = 5;
+	private static final int ACTIVE = 1;
+	private static final int INACTIVE = 0;
 
 	@Id
-	public Long id;
+	private Long id;
 	
 	@OneToOne
-	public Publication publication;
+	private Publication publication;
 
 	@Required
-	public String title;
+	private String title;
 
 	@Required
-	public String address;
+	private String address;
 
 	@Required
 	@Formats.DateTime(pattern = "dd/MM/yyyy")
-	public Date date;
+	private Date date;
 
 	@Required
 	@Formats.DateTime(pattern = "HH:mm")
-	public Date time;
+	private Date time;
 	
 	@Required
-	public String description;
+	private String description;
 
 
-	public String picture;
+	private String picture;
 
 	@URL
-	public String link;
+	private String link;
 	
-	public Integer status;
+	private Integer status = INACTIVE;
 	
 	
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date created;
+	private Date created;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date modified;
+	private Date modified;
 
 	public static final Finder<Long, Promotion> find = new Finder<Long, Promotion>(
 			Long.class, Promotion.class);
@@ -72,7 +74,7 @@ public class Promotion extends Model {
 		this.time = time;
 		this.description = description;
 		this.picture = picture;
-		this.status = 0;
+		this.status = INACTIVE;
 		this.link = link;
 		this.created = new Date();
 		this.modified = new Date();
@@ -106,7 +108,7 @@ public class Promotion extends Model {
 
 	public static void unpublish(Long id) {
 		Promotion prom = find.byId(id);
-		prom.status = 1;
+		prom.status = INACTIVE;
 		prom.update();
 	}
 
@@ -181,6 +183,10 @@ public class Promotion extends Model {
 				.getPage(page);
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
 	public Publication getPublication() {
 		return publication;
 	}

@@ -12,14 +12,14 @@ jQuery(function() {
             jQuery(this).siblings('input[name=interests]').attr('checked', true);
         }
 
-        //                    Shrinks the image div
+        // Shrinks the image div
         jQuery(this).parent().fadeOut('fast',function(){
             jQuery(this).removeClass('interest_normal').addClass('interest_thumb').appendTo('#chosen_interests').fadeIn()
         });
     });
 
     jQuery('.interest_thumb > .btn_favorite').live('click',function(){
-    	//Unchecks the checkbox that refers to this interest
+    	// Unchecks the checkbox that refers to this interest
     	jsRoutes.controllers.Interest.uncheckInterest(jQuery(this).parent().attr('id')).ajax(succErrBuilder());
     	
     	if(jQuery(this).siblings('input:checked')){
