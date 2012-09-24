@@ -69,6 +69,16 @@ public class Location extends Model {
 		}
 		return json.replace("}{", "},{").concat("]");
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getGeohash() {
+		return geohash;
+	}
+	
+	
 	
 //	public static List<Location> getNameIdJson() {
 //		// TODO: Is there a different query to optimize it?
