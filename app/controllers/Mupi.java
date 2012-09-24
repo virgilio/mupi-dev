@@ -116,7 +116,7 @@ public class Mupi extends Controller {
 	}
 	
 	public static Result promotion(Long id){
-		return ok(promotion.render());
+		return ok(promotion.render(models.Promotion.find.byId(id)));
 	}
 	
 	public static Result media(){

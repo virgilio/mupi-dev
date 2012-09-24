@@ -1,4 +1,11 @@
+@(promotion : models.Promotion)
+
 @import com.feth.play.module.pa.views.html._
+@import collection.JavaConverters._
+@import be.objectify.deadbolt.views.html._
+@import be.objectify.deadbolt.Deadbolt
+
+@promPic = @{"event/picture" + promotion.picture}
 
 @main(Messages("mupi.navigation.promotion.title"),"promotion") {
 <div id="fb-root"></div>
@@ -14,27 +21,31 @@
 <script type="text/javascript" src="@routes.Assets.at("js/jquery.autosize-min.js")"></script>
 <script type="text/javascript" src="@routes.Assets.at("js/promotion.js")"></script>
 
+<input type="hidden" id="selectedInterest" value="@promotion.getPublication.getInterest.id"/>
+<input type="hidden" id="selectedLocation" value="@promotion.getPublication.getLocation.id"/>
+
+
 <div class="container" id="event_body">
 	<div class="row">
 		<div id="promotion_header" class="span10 offset1">
-			<div id="promotion_img"><img src="https://www.ufmg.br/online/arquivos/Workshop.jpg"/></div>
-			<h1>titulo</h1>
+			<div id="promotion_img"><img src="@routes.Assets.at(promPic)"/></div>
+			<h1>@promotion.title</h1>
 			<div id="promotion_date">
-				<span class="pday">23</span>
-				<span class="pmonth">set</span>
+				<span class="pday">@promotion.date.format("dd")</span>
+				<span class="pmonth">@promotion.date.format("MMM")</span>
 			</div>
 			<div id="promotion_complete_date">
 				<i class="icon-calendar"></i>
-				<span>23 de setembro, quinta as 10h</span>
+				<span>@promotion.date.format("dd") de @promotion.date.format("MMMM"), @promotion.date.format("d") às @promotion.date.format("HH")h@promotion.date.format("mm")  </span>
 			</div>
 			<div id="promotion_local">
 				<i class="icon-map-marker"></i>
-				<span>Rua bla bla bla - Campinas, SP</span>
+				<span>@promotion.address</span>
 				<div id="promotion_map">mapa</div>
 			</div>
 			<div id="promotion_link">
 				<i class="icon-external-link"></i>
-				<span>Link externo</span>
+				<a class="external_link" href="@promotion.link">Link externo</a>
 			</div>	
 			<div class="fb-like" data-href="https://www.facebook.com/mupi.br" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
 		</div>
@@ -43,43 +54,45 @@
 		<div id="promotion_body" class="span10 offset1">
 			<div id="promotion_promoter">
 				<label>Promovido por</label>
-				<span>Fulaninho Campiao</span>
+				<span>@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName</span>
 			</div>
 			<div id="promotion_description">
 				<label>Sobre o evento</label>
-				<p>Lorizzle ipsizzle get down get down sit yo, daahng dawg ma nizzle elit. Nullizzle sapizzle velit, owned volutpizzle, 
-				suscipizzle quis, shizzlin dizzle gizzle, arcu. Pellentesque break yo neck, yall tortizzle. 
-				Shiznit nizzle. Dizzle izzle gangster dapibizzle shiz tempizzle bling bling. Bow wow wow check it out nibh et turpizzle. </p>
 				<p>
-				Vestibulum izzle tortor. Pellentesque fo shizzle rhoncizzle da bomb. Things hac habitasse its fo rizzle fizzle. Fo shizzle my nizzle dapibizzle. Things tellus urna, pretizzle eu, sheezy izzle, eleifend vitae, nunc. Bling bling fo shizzle mah nizzle fo rizzle, mah home g-dizzle. Integer sempizzle velit sizzle purus.</p>
+				@promotion.description
+				</p>
 			</div>
 	
 		</div>
 	</div>
 	<div class="row">
-		<div id="promotion_comments" class="span6 offset3">
-			<div class="textarea_comment">
-				  <textarea name="input_comment" placeholder="Comentar"></textarea>
-				  <div class="btns_comment">
-				   <a href="#" class="commentPub sendComent">
-				     <div class="enter_comment">Comentar</div>
-				   </a>
-				   <div class="commentPub enter_cancel">Cancelar</div>
-				  </div>
-			</div>
-			<span>X comentarios</span>
-		
-			<div class="comments">
-			     <div class="comment">
-				     <div class="profile_thumb ">
-				     	<img src="" />
-				     </div>	
-			         <span class="commenter_name"></span>
-			         <span class="pub_date">data</span>
-				       <p>corpo comenario</p>
-			     </div>
-		  	</div>
-	  	</div>
+	
+	   <div id="promotion_comments" class="span6 offset3">
+	     @if(Deadbolt.viewRoleHolderPresent()) {
+				<div class="textarea_comment">
+					  <textarea name="input_comment" placeholder="Comentar"></textarea>
+					  <div class="btns_comment">
+					   <a href="#" class="commentPub sendComent"  publication="@promotion.getPublication.id">
+					     <div class="enter_comment">Comentar</div>
+					   </a>
+					  </div>
+				</div>
+			}
+			<span>@promotion.getPublication.getComments.size comentários</span>
+			<div class="comments" id="comments_@promotion.getPublication.id">
+      @if(promotion.getPublication.getComments.size() > 0){
+        @for(comment <- promotion.getPublication.getComments.asScala.sortBy(_.created).reverse){
+         <div class="comment">
+           <div class="profile_thumb ">
+              <img src="@routes.Assets.at("profile/picture" + comment.getProfile.getPicture)" />
+           </div> 
+           <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
+           <span class="pub_date">@comment.created.format("dd/MMM - HH:mm")</span>
+           <p>@comment.body</p>
+         </div>
+       }
+     }
+    </div>
 	</div>
 </div>
 <div class="clear"></div>

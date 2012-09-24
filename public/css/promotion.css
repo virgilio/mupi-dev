@@ -157,3 +157,12 @@
 	padding: 5px;
 	background: rgba(256,256,256,0.4);
 }
+.external_link, .external_link:hover{
+	text-decoration: none;
+  color: white;
+}
+
+#promotion_img img{
+	min-height: 100%;
+  min-width: 100%;
+}

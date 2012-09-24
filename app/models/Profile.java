@@ -38,7 +38,7 @@ public class Profile extends Model {
 	@Formats.DateTime(pattern = "dd/MM/yyyy")
 	public Date birthDate;
 	
-	public String picture;
+	public String picture = "/blank_profile.jpg";
 	
 	@Column(columnDefinition = "TEXT")
 	public String about;

@@ -1,11 +1,4 @@
 jQuery(function(){	
-	function htmlEncode(value){
-	  return $('<div/>').text(value || '').html();
-	}
-	function htmlDecode(value){
-	  return $('<div/>').html(value || '').text();
-	}
-	
 	jQuery(".comment_lnk").live('click', function (){
 		if(jQuery("#" + jQuery(this).attr("comments")).is(':visible'))
 			jQuery("#" + jQuery(this).attr("comments")).slideUp('fast');
