@@ -133,7 +133,7 @@ playauthenticate.profile.providers_one=Há um fornecedor relacionada com a sua c
 playauthenticate.profile.logged=Você está conectado no momento com:
 playauthenticate.profile.session=Seu ID de usuário é {0} e sua sessão irá expirar em {1}
 playauthenticate.profile.session_endless=Seu ID de usuário é {0} e sua sessão não irá expirar, como é infinita
-playauthenticate.profile.password_change=Alterar / definir uma senha para a sua conta
+playauthenticate.profile.password_change=Alterar / definir senha
 
 # play-authenticate - sample: Index page
 playauthenticate.index.title=Bem-vindo ao Mupi

@@ -26,38 +26,42 @@
 	  jQuery('.inputmask').inputmask();
 	</script>
 
-  <div class="container">
+  <div class="container" id="profile_body">
           
-    
+    <div class="row">
       @form(routes.Profile.doProfile, 'enctype -> "multipart/form-data") {
           
-          @mupiFormImageUpload(field=profileForm("picture"), "profile/picture", "/blank_profile.jpg")
-          
-          <div class="span5">
+          <div class="span3">
+          	@mupiFormImageUpload(field=profileForm("picture"), "profile/picture", "/blank_profile.jpg")
+			
+			<a href="@routes.Account.changePassword">@Messages("playauthenticate.profile.password_change")</a>
+			
+          </div>
+          <div class="span5 profile_form">
           
           
             @mupiFormInput(
 		          field=profileForm("firstName"),
 		          typ="text",
-		          label="First Name"
+		          label="Primeiro nome"
 		        )
 		        
 		        @mupiFormInput(
 		          field=profileForm("lastName"),
 		          typ="text",
-		          label="Last Name"
+		          label="Sobrenome"
 		        )
 
 		        @mupiFormTextArea(
 		          field=profileForm("about"),
-		          label="About",
+		          label="Sobre você",
 		          ('rows, "4"),
 		          ('cols, "50")
 		        )
                         
             @mupiFormSelect(
               field=profileForm("gender"),
-              label="Gender",
+              label="Gênero",
               (0," "),
               (1,"Feminino"),
               (2,"Masculino"),
@@ -66,26 +70,29 @@
             
             @mupiFormMaskedInput(
               field=profileForm("birthDate"),
-              label="Birth date",
+              label="Data de nascimento",
               mask="99/99/9999"              
             )
             
+            <input type="submit" value="@Messages("mupi.profile.update")" class="btn btn-primary">
             
           </div>
 
-		    <input type="submit" value="@Messages("mupi.profile.update")" class="btn">
+		    
       }
             
-    
-    @mupiFormAutoCompleteInput(
-      field=profileForm("locations"),
-      label="Locations",
-      uLocations=p.locations,
-      locations=allLocations
-    )
+     <div class="span4 locations">
+     	<span>Escolha as cidades de onde deseja receber atualizações</span>
+	    @mupiFormAutoCompleteInput(
+	      field=profileForm("locations"),
+	      label="Cidades",
+	      uLocations=p.locations,
+	      locations=allLocations
+		)
+    </div>
   </div>
-<ul>
-  <li><a href="@routes.Account.changePassword">@Messages("playauthenticate.profile.password_change")</a></li>
-</ul>
+</div>
+
+
 }
 		
