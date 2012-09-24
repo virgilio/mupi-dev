@@ -1,0 +1,16 @@
+@(comments: List[models.PubComment])
+
+@import java.net.URLDecoder
+
+@if(comments.size() > 0){
+   @for(comment <- comments){
+    <div class="comment">
+      <div class="profile_thumb ">
+         <img src="@routes.Assets.at("profile/picture" + comment.getProfile.getPicture)" />
+      </div> 
+      <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
+      <span class="pub_date">@comment.created.format("dd/MMM - HH:mm")</span>
+      <p>@URLDecoder.decode(comment.body)</p>
+    </div>
+  }
+}

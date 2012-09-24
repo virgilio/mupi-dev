@@ -1,5 +1,6 @@
 jQuery(function(){	
 	jQuery(".comment_lnk").live('click', function (){
+		event.preventDefault();
 		if(jQuery("#" + jQuery(this).attr("comments")).is(':visible'))
 			jQuery("#" + jQuery(this).attr("comments")).slideUp('fast');
 		else
@@ -9,6 +10,7 @@ jQuery(function(){
 	
 	
 	jQuery("#open_publication_input").live('click', function(){
+		event.preventDefault();
 		if(jQuery("#input_publication").is(':visible'))
 			jQuery("#input_publication").slideUp('fast');
 		else
@@ -16,6 +18,7 @@ jQuery(function(){
     });
 	
     jQuery('.btn_local').live('click', function(){
+    	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
     	if(jQuery(this).children('i').hasClass('icon-check')){
     		var l = -1;
@@ -30,12 +33,14 @@ jQuery(function(){
     });
     
     jQuery('.interestIcon').live('click', function(){
+    	event.preventDefault();
     	var i =jQuery(this).attr('id');
     	var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.selectFeed(i, l).ajax(loadFeed(i, l));
     });
     
     jQuery('.sendComent').live('click', function(){
+    	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
 		var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.comment(
@@ -46,6 +51,7 @@ jQuery(function(){
     });
     
     jQuery('#btn_confirm_publication').live('click', function(){
+    	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
     	var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.publish(
@@ -55,7 +61,8 @@ jQuery(function(){
     });
 
     jQuery("#btn_publish").live('click', function(){
-    	    jQuery("#preview_publication > .modal-body").html(jQuery("#body_publication").val());
+    	event.preventDefault();
+    	jQuery("#preview_publication > .modal-body").html(jQuery("#body_publication").val());
     });
     
     var loadEditor = function(){

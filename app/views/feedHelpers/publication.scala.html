@@ -1,6 +1,7 @@
 @(pub : models.Publication)
 
 @import collection.JavaConverters._
+@import mupiHelpers._
 
 
 @publisherPic = @{"profile/picture" + pub.profile.getPicture}
@@ -21,17 +22,9 @@
 	  </ul>
 	
 	  <div class="comments hide" id="comments_@pub.id">
-	    @if(pub.comments.size() > 0){
-		    @for(comment <- pub.comments.asScala.sortBy(_.created)){
-		     <div class="comment">
-	         <img src="@routes.Assets.at("profile/picture" + comment.getProfile.getPicture)" />
-	         <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
-	         <span class="pub_date">@comment.created.format("dd/MMM - HH:mm")</span>
-		       <p>@comment.body</p>
-		     </div>
-		   }
-	   }
+	    @comments(pub.comments.asScala.sortBy(_.created).reverse)
 	  </div>
+	  
 	  <div class="textarea_comment">
 	    <textarea name="input_comment" placeholder="Comentar"></textarea>
 	    <div class="btns_comment hide">

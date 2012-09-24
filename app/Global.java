@@ -11,7 +11,6 @@ import com.feth.play.module.pa.PlayAuthenticate.Resolver;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
 
-import controllers.Mupi;
 import controllers.routes;
 
 public class Global extends GlobalSettings{

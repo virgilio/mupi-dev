@@ -83,7 +83,8 @@ public class Mupi extends Controller {
 				controllers.routes.javascript.Feed.publish(),
 				controllers.routes.javascript.Feed.selectFeed(),
 				controllers.routes.javascript.Feed.comment(),
-				controllers.routes.javascript.Feed.promote()
+				controllers.routes.javascript.Feed.promote(),
+				controllers.routes.javascript.Feed.commentPromotion()
 			)).as("text/javascript");
 	}
 

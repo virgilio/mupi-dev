@@ -4,10 +4,11 @@
 @import collection.JavaConverters._
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.Deadbolt
+@import mupiHelpers._
 
 @promPic = @{"event/picture" + promotion.picture}
 
-@main(Messages("mupi.navigation.promotion.title"),"promotion") {
+@main(promotion.title,"promotion") {
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
  var js, fjs = d.getElementsByTagName(s)[0];
@@ -20,6 +21,7 @@
 <link rel="stylesheet" href="@routes.Assets.at("css/promotion.css")" type="text/css" media="screen"/>
 <script type="text/javascript" src="@routes.Assets.at("js/jquery.autosize-min.js")"></script>
 <script type="text/javascript" src="@routes.Assets.at("js/promotion.js")"></script>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
 <input type="hidden" id="selectedInterest" value="@promotion.getPublication.getInterest.id"/>
 <input type="hidden" id="selectedLocation" value="@promotion.getPublication.getLocation.id"/>
@@ -40,8 +42,8 @@
 			</div>
 			<div id="promotion_local">
 				<i class="icon-map-marker"></i>
-				<span>@promotion.address</span>
-				<div id="promotion_map">mapa</div>
+				<span id="address_val">@promotion.address</span>
+				<div id="promotion_map">Não há um mapa para esta localidade</div>
 			</div>
 			<div id="promotion_link">
 				<i class="icon-external-link"></i>
@@ -69,31 +71,20 @@
 	
 	   <div id="promotion_comments" class="span6 offset3">
 	     @if(Deadbolt.viewRoleHolderPresent()) {
-				<div class="textarea_comment">
-					  <textarea name="input_comment" placeholder="Comentar"></textarea>
+				<div  class="textarea_comment">
+					  <textarea id="textToSend" name="input_comment" placeholder="Comentar"></textarea>
 					  <div class="btns_comment">
-					   <a href="#" class="commentPub sendComent"  publication="@promotion.getPublication.id">
+					   <a href="#" id="sendComent" class="commentPub sendComent"  publication="@promotion.getPublication.id">
 					     <div class="enter_comment">Comentar</div>
 					   </a>
 					  </div>
 				</div>
 			}
 			<span>@promotion.getPublication.getComments.size comentários</span>
-			<div class="comments" id="comments_@promotion.getPublication.id">
-      @if(promotion.getPublication.getComments.size() > 0){
-        @for(comment <- promotion.getPublication.getComments.asScala.sortBy(_.created).reverse){
-         <div class="comment">
-           <div class="profile_thumb ">
-              <img src="@routes.Assets.at("profile/picture" + comment.getProfile.getPicture)" />
-           </div> 
-           <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
-           <span class="pub_date">@comment.created.format("dd/MMM - HH:mm")</span>
-           <p>@comment.body</p>
-         </div>
-       }
-     }
-    </div>
+			<div id="comments" id="comments_@promotion.getPublication.id">
+        @comments(promotion.getPublication.getComments.asScala.sortBy(_.created).reverse)
+	    </div>
+		</div>
 	</div>
-</div>
 <div class="clear"></div>
 }

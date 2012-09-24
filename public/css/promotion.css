@@ -33,14 +33,19 @@
 }
 #promotion_header div, #promotion_header h1{
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
-	text-shadow: 1px 1px #444;
-	background: #4F7AA3;
+	text-shadow: 1px 1px #444;	
 	color: white;
 }
+
+#promotion_header h1, #promotion_link, #promotion_local, #promotion_date, #promotion_complete_date  {
+	background: #4F7AA3;
+}
+
 #promotion_map{
-	width: 280px;
-	height: 200px;
+	width: 270px;
+	height: 190px;
 	bottom: 0;
+	margin: 5px;
 }
 #promotion_link{
 	padding: 2px;

@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import models.Promotion;
@@ -25,6 +26,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import utils.AjaxResponse;
 import views.html.index;
 import views.html.feedHelpers.feedContent;
+import views.html.mupiHelpers.*;
 import be.objectify.deadbolt.actions.Restrict;
 
 public class Feed extends Controller {
@@ -67,6 +69,30 @@ public class Feed extends Controller {
 			return badRequest();
 		}
 	}
+	
+	@Restrict(Mupi.USER_ROLE)
+	public static Result commentPromotion(Long i, Long l,String body, Long id){
+		final models.Profile p = Mupi.getLocalUser(session()).profile;
+		final models.Publication pub = models.Publication.find.byId(id);
+		
+		if(pub != null){
+			PubComment.create(pub, p, body);
+			List<PubComment> reverseComments = pub.comments;
+			
+			Collections.reverse(reverseComments);
+			return AjaxResponse.build(
+					0, 
+					comments.render(reverseComments).body()
+			);
+		}
+		else{
+			return AjaxResponse.build(
+					1, 
+					null
+			);
+		}
+	}
+	
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result publish(String body, Long i, Long l){

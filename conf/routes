@@ -63,10 +63,13 @@ POST  /interest/ignoreInterest/:id   controllers.Interest.ignoreInterest(id: Lon
 GET   /interest/manager              controllers.Interest.interestManager
 POST  /interest/manager              controllers.Interest.doAddInterest
 
+# PROMOTIONS
+GET   /promotion/:id        controllers.Mupi.promotion(id: Long)
+POST  /promotion/comment    controllers.Feed.commentPromotion(i: Long, l: Long, t: String, p: Long)
+
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
 GET   /help             	  controllers.Mupi.help
-GET   /promotion/:id        controllers.Mupi.promotion(id: Long)
 GET   /media            	  controllers.Mupi.media
 GET   /privacyPolicies  	  controllers.Mupi.privacyPolicies
 GET   /statistics       	  controllers.Mupi.statistics
