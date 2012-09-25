@@ -1,8 +1,21 @@
-var getsize = function(){	
-	if ((jQuery('.fix_img img').first().height()) > (jQuery('.fix_img img').first().width())){
-		jQuery('.fix_img img').css({'max-width':'100%'});
+var getsize = function(img){
+	var h = jQuery(img).height();
+	var w = jQuery(img).width();
+	
+	var hp = jQuery(img).parent().height();
+	var wp = jQuery(img).parent().width();
+	
+	
+	if (h > w){
+		jQuery(img).css({'width':'100%'});
+//		var h2 = jQuery(img).height();
+//		var dh = (hp - h2)/2;
+//		jQuery(img).css({'margin-top':'-' + dh +'px'});
 	} else	{
-		jQuery('.fix_img img').css({'max-height':'100%', 'max-width':'none'});
+		jQuery(img).css({'height':'100%', 'max-width':'none'});
+//		var w2 = jQuery(img).width();
+//		var dw = (wp - w2)/2;
+//		jQuery(img).css({'margin-left': '-'+ dw +'px'});
 	}
 
 }

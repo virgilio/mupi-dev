@@ -91,7 +91,7 @@ playauthenticate.link.account.ok=Ok
 
 playauthenticate.verify.email.title=Verifique o seu e-mail
 playauthenticate.verify.email.requirement=Antes de usar o Mupi, você precisa verificar o seu endereço de e-mail.
-playauthenticate.verify.email.cta=Um e-mail foi enviado para o endereço cadastrado. Por favor, siga o link embutido para ativar sua conta.
+playauthenticate.verify.email.cta=Para isso, acesse o link que foi enviado para o email que você cadastrou.
 
 playauthenticate.password.reset.title=Redefinir a senha
 playauthenticate.password.reset.cta=Redefinir minha senha

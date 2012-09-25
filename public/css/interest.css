@@ -27,9 +27,7 @@
 legend{
 	margin-bottom: 2px;
 }
-.interest_normal{
-  height: 155px;
-}
+
 .interest_normal .btn_favorite{
     background: rgba(0, 0, 0, 0.3) url(../img/favorite.png) 3px 3px no-repeat;
 	border-radius: 4px;
@@ -54,24 +52,25 @@ legend{
 .interest_normal .btn_delete:hover{
     background-image:url(../img/delete-hover.png);
 }
-.interest_thumb{
-    height:100px;
-    width:80px;
-}
+
 .interest_thumb .btn_favorite{
     background:transparent url(../img/favorite-hover.png) no-repeat;
 }
 .interest_thumb .btn_delete{
     display: none;
 }
-.interest_img_container{
-	overflow: hidden;
-	border: 5px solid whitesmoke;
-	box-shadow: 0px 0px 5px #888;
+.interest_thumb .interest_img_container{
+	height:100px;
+    width:100px;
+}
+
+.interest_normal .interest_img_container{
+	width: 140px;
+	height: 140px;
 }
 
 .interest img{
-    width: 140px;
+/*     width: 140px; */
 }
 
 .select_interest{

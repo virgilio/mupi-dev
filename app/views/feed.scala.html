@@ -32,8 +32,15 @@
   <div class="sidebar">
      @if(user.getProfile.getInterests.size() > 0){
      <ul class="interestList">
+     	<li>Selecione o interesse</li>
 	     @for(interest <- user.getProfile.getInterests.filter(_.getStatus() > 0)) {
-	       <li><img class="interestIcon" id="@interest.getId" src="@routes.Mupi.at("/interest/picture"+interest.getPicture)"/></li>
+	       <li>
+		       <div class="sidebar_interest mupi_thumbs">
+		      	   <div class="fix_img">
+		         		<img onLoad="getsize(this)" class="interestIcon" id="@interest.getId" src="@routes.Mupi.at("/interest/picture"+interest.getPicture)"/>
+			       </div>
+		       </div>
+	       </li>
 	     }
 	   </ul>
 	   }else{

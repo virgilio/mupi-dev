@@ -18,8 +18,10 @@
     />    
   
     <div class="btn_delete"></div>
-    <div class="interest_img_container">
-      <img src="@routes.Mupi.at(path+picture)" />
+    <div class="interest_img_container mupi_thumbs">
+    	<div class="fix_img"> 
+	     	<img onLoad="getsize(this)" src="@routes.Mupi.at(path+picture)" />
+	    </div>
     </div>
     <label>@title</label>
 </div>
