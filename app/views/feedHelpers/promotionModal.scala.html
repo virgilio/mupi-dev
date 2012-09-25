@@ -1,0 +1,65 @@
+@(interest: models.Interest, location: models.Location, promoteForm: Form[models.Promotion])
+
+@import helper._ 
+@import helper.twitterBootstrap._
+@import mupiHelpers._
+<link rel="stylesheet" href="@routes.Assets.at("css/mupiForm.css")" type="text/css" media="screen"/>
+
+
+<div id="promote_event" class="modal fade hide">
+    @form(routes.Feed.promote, 'enctype -> "multipart/form-data", 'id -> "promoteForm") {
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3>Divulgar evento</h3>
+      </div>
+      <div class="modal-body">
+    
+      @mupiFormInput(
+        field=promoteForm("title"),
+        typ="text",
+        label="Título"
+      )
+      
+      @mupiFormImageUpload(field=promoteForm("picture"), "event/picture", "/blank_event.jpg")
+      
+      @mupiMapsInput(
+        field=promoteForm("address"),
+        typ="text",
+        label="Endereço"
+      )
+      
+      @mupiFormMaskedInput(
+         field=promoteForm("date"),
+         label="Data",
+         mask="99/99/9999"              
+       )
+       
+       @mupiFormMaskedInput(
+         field=promoteForm("time"),
+         label="Hora",
+         mask="99:99"
+       )
+       
+       @mupiFormInput(
+         field=promoteForm("link"),
+         typ="text",
+         label="Site"
+       )
+       
+       @mupiFormTextArea(
+         field=promoteForm("description"),
+         label="Descrição (máximo de 3000 caracteres)",
+         ('rows, "4"),
+         ('cols, "50")
+       )
+       
+       <input type="hidden" name="int" value="@interest.getId"/>
+       <input type="hidden" name="loc" value="@location.getId"/>
+    
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Editar</a>
+        <input type="submit" value="Divulgar" class="btn" id="btn_confirm_promotion">
+    </div>
+  }
+</div>

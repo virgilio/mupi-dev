@@ -1,72 +1,72 @@
 ul {
-	list-style: none;
+       list-style: none;
 }
 
 form label{
-	display: inline-block;
-	width: 120px;
-	text-align: right;
-	padding-right: 10px;
+       display: inline-block;
+       width: 120px;
+       text-align: right;
+       padding-right: 10px;
 }
 #profile_body{
-	padding-top: 30px;
-	padding-bottom: 60px;
+       padding-top: 30px;
+       padding-bottom: 60px;
 }
 .profile_form{
-	background: rgba(256,256,256,0.4);
-	padding-top: 10px;
-/* 	border: 1px solid #ccc; */
+       background: rgba(256,256,256,0.4);
+       padding-top: 10px;
+/*         border: 1px solid #ccc; */
 }
 textarea{
-	resize: none;
+       resize: none;
 }
 form input[type="submit"]{
-	float: right;
-	margin: 10px;
+       float: right;
+       margin: 10px;
 }
 
 .selectedLocation span{
-	background: #85A884;
-	color: white;
-	padding: 4px 8px;
-	border-radius: 4px 0 0 4px;
-	cursor: default;
+       background: #85A884;
+       color: white;
+       padding: 4px 8px;
+       border-radius: 4px 0 0 4px;
+       cursor: default;
 }
 .selectedLocation .removeLocation, #addLocation{
-	border: none;
-	padding: 2px 4px;
-	height: 25px;
-	margin: 0;
-	margin-left: -4px;
-	font-size: 0.8em;
+       border: none;
+       padding: 2px 4px;
+       height: 25px;
+       margin: 0;
+       margin-left: -4px;
+       font-size: 0.8em;
 }
 .selectedLocation{
-	line-height: 32px;
+       line-height: 32px;
 }
 .selectedLocation .removeLocation{
-	margin-top: -2px;
-	color: #CA1C15;
+       margin-top: -2px;
+       color: #CA1C15;
 }
 #addLocation{
-	margin-top: -8px;
-	color: #4A7552;
-	height: 28px;
+       margin-top: -8px;
+       color: #4A7552;
+       height: 28px;
 }
 .selectedLocation .removeLocation:hover{
-	background: #ccc;
+       background: #ccc;
 }
 #profile_body .mupi_thumbs{
-	margin: 10px auto;
-	text-align: center;
-	width: 140px;
-	height: 140px;
+       margin: 10px auto;
+       text-align: center;
+       width: 140px;
+       height: 140px;
 
 }
 #profile_body .mupi_thumbs img{
 
 }
 .fix_img{
-	min-width: 100%;
-	min-height: 100%;
-	line-height: 140px;
+       min-width: 100%;
+       min-height: 100%;
+       line-height: 140px;
 }

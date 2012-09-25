@@ -21,8 +21,8 @@ import com.avaje.ebean.Page;
 public class Promotion extends Model {
 	private static final long serialVersionUID = 1L;
 	private static final int PER_PAGE = 5;
-	private static final int ACTIVE = 1;
-	private static final int INACTIVE = 0;
+	private static final int ACTIVE = models.Publication.ACTIVE;
+	private static final int INACTIVE = models.Publication.INACTIVE;
 
 	@Id
 	private Long id;
@@ -82,10 +82,19 @@ public class Promotion extends Model {
 
 	public static void create(Profile profile, Location location, Interest interest, 
 			String title, String address, Date date, Date time, String description, String link, String image) {
-		String publicationBody = "O evento " + title + " foi divulgado por ";
-		Publication pub = Publication.create(profile, location, interest, 1, publicationBody);
-		Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);
-		prom.save();
+		
+	  String publicationBody = "O evento " + title + " foi divulgado por ";
+		
+	  Publication pub = Publication.create(
+	      profile, 
+	      location, 
+	      interest, 
+	      models.Publication.EVENT, 
+	      publicationBody);
+		
+	  Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);
+		
+	  prom.save();
 	}
 
 	public static void update(Long id, String title, String address, Date date,

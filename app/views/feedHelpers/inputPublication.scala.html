@@ -10,6 +10,7 @@
 
 <span class="btns">
   <a class="btns_publication" href="#promote_event" data-toggle="modal">Divulgar evento</a>
+  @promotionModal(interest, location, promoteForm)
   <a class="btns_publication" id="open_publication_input">Nova publicação</a>
 </span>
 
@@ -19,64 +20,6 @@
   <span class="btns"> <span>Publicando em: <b>[@interest.getName]</b> - <b>[@location.getName]</b></span>
     <a id="btn_publish" class="btns_publication" href="#preview_publication" data-toggle="modal">Publicar</a>
   </span>
-</div>
-
- <div id="promote_event" class="modal fade hide">
-    @form(routes.Feed.promote, 'enctype -> "multipart/form-data") {
-	    <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h3>Divulgar evento</h3>
-	    </div>
-	    <div class="modal-body">
-    
-      @mupiFormInput(
-        field=promoteForm("title"),
-        typ="text",
-        label="Título"
-      )
-      
-      @mupiFormImageUpload(field=promoteForm("picture"), "event/picture", "/blank_event.jpg")
-      
-      @mupiMapsInput(
-        field=promoteForm("address"),
-        typ="text",
-        label="Endereço"
-      )
-      
-      @mupiFormMaskedInput(
-         field=promoteForm("date"),
-         label="Data",
-         mask="99/99/9999"              
-       )
-       
-       @mupiFormMaskedInput(
-         field=promoteForm("time"),
-         label="Hora",
-         mask="99:99"
-       )
-       
-       @mupiFormInput(
-         field=promoteForm("link"),
-         typ="text",
-         label="Site"
-       )
-       
-       @mupiFormTextArea(
-         field=promoteForm("description"),
-         label="Descrição",
-         ('rows, "4"),
-         ('cols, "50")
-       )
-       
-       <input type="hidden" name="int" value="@interest.getId"/>
-       <input type="hidden" name="loc" value="@location.getId"/>
-    
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Editar</a>
-        <input type="submit" value="Divulgar" class="btn" id="btn_confirm_promotion">
-    </div>
-  }
 </div>
 
 <div id="preview_publication" class="modal fade hide">

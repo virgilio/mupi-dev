@@ -21,11 +21,11 @@ import com.avaje.ebean.Page;
 @Table(name = "publications")
 public class Publication extends Model {
 	private static final long serialVersionUID = 1L;
-	private static final int PER_PAGE = 10;
-	private static final int ACTIVE = 1;
-	private static final int INACTIVE = 0;
-	private static final int PUBLICATION = 0;
-	private static final int EVENT = 0;
+	static final int PER_PAGE = 10;
+	public static final int ACTIVE = 1;
+	public static final int INACTIVE = 0;
+	public static final int PUBLICATION = 0;
+	public static final int EVENT = 1;
 	
 	@Id
 	public Long id;
@@ -57,7 +57,7 @@ public class Publication extends Model {
 	private String body;
 
 	@Required
-	private Integer status = INACTIVE;	
+	private Integer status;	
 	
 	@Required
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -75,8 +75,8 @@ public class Publication extends Model {
 		this.location	= location;
 		this.interest	= interest;
 		this.body	 	= body;
-		this.pub_typ   	= pub_typ;
-		if(pub_typ == EVENT) this.status = INACTIVE;
+		this.pub_typ	= pub_typ;
+		if(pub_typ == EVENT) {this.status = INACTIVE;}
 		else this.status = ACTIVE;
 		this.created 	= new Date();
 		this.modified 	= new Date();
@@ -93,7 +93,7 @@ public class Publication extends Model {
 		if(pub!= null){
 			if(body != null)    pub.setBody(body);
 			if(status != null)  pub.setStatus(status);			
-			pub.setModified(new Date());
+			if(body!=null || status!= null)pub.setModified(new Date());
 			pub.update();
 		}
 	}

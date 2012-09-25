@@ -3,7 +3,6 @@
 # ~~~~
 
 # Home page
-GET		  /                           controllers.Mupi.index
 GET     /assets/javascript/routes   controllers.Mupi.jsRoutes
 
 GET     /login                      controllers.Mupi.login
@@ -49,16 +48,19 @@ GET   /upload/*file         controllers.Mupi.at(file)
 # Map static resources from the /public folder to the /assets URL path
 GET   /assets/*file         controllers.Assets.at(path="/public", file)
 
+
+GET     /                       controllers.Mupi.index
+
 # Mupi Pages
 # FEED
-GET   /                       controllers.Feed.feed
-GET   /feed                   controllers.Feed.feed
-POST  /feed/select/:i/:l      controllers.Feed.selectFeed(i: Long, l: Long)
-POST  /feed/publish/:t/:i/:l  controllers.Feed.publish(t: String, i: Long, l: Long)
-POST  /feed/comment/:i/:l/:t/:p controllers.Feed.comment(i: Long, l: Long, t: String, p: Long)
-POST  /feed/promote           controllers.Feed.promote
-POST  /feed/promoteMeetup                  controllers.Feed.promoteMeetUp
-POST  /host/hostMeetup                       controllers.Feed.hostMeetUp
+GET   /feed/reset               controllers.Feed.resetFeed()
+GET   /feed                     controllers.Feed.feed()
+POST  /feed/select/:i/:l        controllers.Feed.selectFeed(i: Long, l: Long)
+POST  /feed/publish/:t          controllers.Feed.publish(t: String)
+POST  /feed/comment/:t/:p       controllers.Feed.comment(t: String, p: Long)
+POST  /feed/promote/event       controllers.Feed.promote
+POST  /feed/promote/meetup      controllers.Feed.promoteMeetUp
+POST  /feed/host                controllers.Feed.hostMeetUp
 
 # PROFILE
 GET   /profile           	    controllers.Profile.profile
@@ -74,7 +76,7 @@ POST  /interest/manager              controllers.Interest.doAddInterest
 
 # PROMOTIONS
 GET   /promotion/:id        controllers.Mupi.promotion(id: Long)
-POST  /promotion/comment    controllers.Feed.commentPromotion(i: Long, l: Long, t: String, p: Long)
+POST  /promotion/comment    controllers.Feed.commentPromotion(t: String, p: Long)
 
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
@@ -89,4 +91,4 @@ GET   /inbox                controllers.Mupi.inbox
 
 
 # GET   /configuration    	controllers.Mupi.configuration
-# POST   /notifications    	controllers.Mupi.notifications
+# POST  /notifications    	controllers.Mupi.notifications
