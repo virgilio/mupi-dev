@@ -12,10 +12,25 @@
 <div class="all_publications">
   @if(interest != null && location != null){
     @inputPublication(interest, location, promoteForm)
+  } else {
+  	<span class="btns">
+  	<p>
+  		Para conseguir publicar, você precisa escolher um interesse e uma cidade.
+  	</p>
+  	</span>
+  
   }
   
-  @for(pub <- publications.filter(_.getStatus > 0)){
-    @publication(pub)
+  @if(publications.size > 0 ){
+	 @for(pub <- publications.filter(_.getStatus > 0)){
+	   @publication(pub)
+	 }
+  } else {
+  	<span class="btns">
+	  	<p>
+	  		Ainda não há publicações por aqui, faça a primeira!
+	  	</p>
+  	</span>
   }
 
 </div>

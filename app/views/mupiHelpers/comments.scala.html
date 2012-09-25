@@ -5,12 +5,16 @@
 @if(comments.size() > 0){
    @for(comment <- comments){
     <div class="comment">
-      <div class="profile_thumb ">
-         <img src="@routes.Mupi.at("profile/picture" + comment.getProfile.getPicture)" />
+      <div class="profile_thumb mupi_thumbs">
+      	<div class="fix_img">
+         	<img onLoad="getsize()" src="@routes.Mupi.at("profile/picture" + comment.getProfile.getPicture)" />
+         </div>
       </div> 
+
       <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
       <span class="pub_date">@comment.getCreated.format("dd/MMM - HH:mm")</span>
       <p>@URLDecoder.decode(comment.getBody)</p>
+
     </div>
   }
 }
