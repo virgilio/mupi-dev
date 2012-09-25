@@ -3,7 +3,7 @@
 @(field: play.api.data.Field, label: String, options: (Integer, String)*)
 @v = @{field.value.map(_.toInt).getOrElse(0) } 
 
-<p>
+<p class="control-group">
   <label for="@field.name">
     @label
   </label> 

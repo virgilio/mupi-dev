@@ -14,13 +14,14 @@
   <link href="@routes.Assets.at("css/jasny-bootstrap.css")" rel="stylesheet" type="text/css" media="screen"/>
   <link rel="stylesheet" href="@routes.Assets.at("css/wizard.css")" type="text/css" media="screen"/>
   <link rel="stylesheet" href="@routes.Assets.at("css/profile.css")" type="text/css" media="screen"/>
+  <link rel="stylesheet" href="@routes.Assets.at("css/mupiForm.css")" type="text/css" media="screen"/>
 
   <script type="text/javascript" src="@routes.Assets.at("js/mupiLocation.js")"></script>
-  <script type="text/javascript"  src="@routes.Assets.at("js/extended-bootstrapTypeahead.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("js/extended-bootstrapTypeahead.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-inputmask.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("js/mupiFileUpload.js")"></script>
-  
-  
+  <script type="text/javascript" src="@routes.Assets.at("js/jquery.validate.min.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("js/profile.js")"></script>
   
 	<script type="text/javascript">
 	  jQuery('.inputmask').inputmask();
@@ -28,8 +29,8 @@
 
   <div class="container" id="profile_body">
           
-    <div class="row">
-      @form(routes.Profile.doProfile, 'enctype -> "multipart/form-data") {
+    <div class="row" onload="validator()">
+      @form(routes.Profile.doProfile, 'enctype -> "multipart/form-data", 'id -> "profileForm") {
           
           <div class="span3">
           	@mupiFormImageUpload(field=profileForm("picture"), "profile/picture", "/blank_profile.jpg")

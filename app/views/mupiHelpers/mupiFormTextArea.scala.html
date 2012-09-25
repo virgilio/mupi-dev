@@ -1,14 +1,12 @@
-
-
 @(field: play.api.data.Field, label: String, args: (Symbol,Any)*)
 
-<p>
+<p class="control-group">
   <label for="@field.name">
     @label
-  </label> 
+  </label>
   <textarea id="@field.id" 
          name="@field.name"
-         @toHtmlArgs(args.filter(
-            !_._1.name.startsWith("_") ).toMap)
+         value="@field.value"
+         @toHtmlArgs(args.filter(!_._1.name.startsWith("_") ).toMap)
   >@field.value</textarea>
 </p>
