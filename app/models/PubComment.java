@@ -15,8 +15,10 @@ import play.db.ebean.Model;
 @Entity
 @Table(name = "pub_comments")
 public class PubComment extends Model {
-
+	
 	private static final long serialVersionUID = 1L;
+	private static final int  ACTIVE = 1;
+	private static final int  INACTIVE = 0;
 	
 	@Id
 	private Long id;
@@ -55,7 +57,7 @@ public class PubComment extends Model {
 		this.publication = publication;
 		this.profile = profile;
 		this.body = body;
-		this.status = 0;
+		this.status = ACTIVE;
 		this.created = new Date();
 		this.modified = new Date();
 	}
@@ -67,7 +69,7 @@ public class PubComment extends Model {
 	
 	public static void uncomment(Long id){
 		PubComment pubComment = find.byId(id);
-		pubComment.status = 1;
+		pubComment.setStatus(ACTIVE);
 		pubComment.modified = new Date();
 		pubComment.update();
 	}
@@ -98,6 +100,34 @@ public class PubComment extends Model {
 
 	public Date getModified() {
 		return modified;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setPublication(Publication publication) {
+		this.publication = publication;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 	
 	

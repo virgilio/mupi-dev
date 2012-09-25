@@ -34,6 +34,7 @@ public class Profile extends Model {
 	private Long id;
 
 	private String firstName;
+	
 	private String lastName;
 	
 	@Formats.DateTime(pattern = "dd/MM/yyyy")
@@ -114,14 +115,14 @@ public class Profile extends Model {
 				
 		final Profile p = user.profile;
 
-		p.firstName = firstName;
-		p.lastName 	= lastName;
-		p.birthDate = birthDate;
-		p.picture 	= picture;
-		p.about 	= about;
-		p.gender 	= gender;
-		p.locations = locations;
-		p.modified 	= new Date();
+		p.setFirstName(firstName);
+		p.setLastName(lastName);
+		p.setBirthDate(birthDate);
+		p.setPicture(picture);
+		p.setAbout(about);
+		p.setGender(gender);
+		p.setLocations(locations);
+		p.setModified(new Date());
 		
 		p.update();
 		
@@ -138,13 +139,13 @@ public class Profile extends Model {
 	
 	public static Profile create(final User user) {
 		Profile p = new Profile();
-		p.firstName = user.name;
-		p.created = new Date();
-		p.modified = new Date();
-		p.locations = new ArrayList<Location>();
-		p.status = FIRST_LOGIN;
-		p.picture = NO_PIC;
-		
+		p.setFirstName(user.name);
+		p.setStatus(FIRST_LOGIN);
+		p.setPicture(NO_PIC);
+		p.setLocations(new ArrayList<Location>());
+		p.setCreated(new Date());
+		p.setModified(new Date());
+
 		p.save();
 		
 		return p;
@@ -152,8 +153,8 @@ public class Profile extends Model {
 	
 	public static Profile updateFirstName(final User user, final String name) {
 		final Profile p = user.profile;
-		p.firstName = name;
-		p.modified = new Date();
+		p.setFirstName(name);
+		p.setModified(new Date());
 		p.update();
 		return p;
 	}
@@ -161,8 +162,8 @@ public class Profile extends Model {
 	public static boolean setLocations(User user, List<Long> locations){
 		Profile profile = user.profile;
 		if(profile != null){
-			profile.locations = Location.getLocationsByIds(locations);
-			profile.modified = new Date();
+			profile.setLocations(Location.getLocationsByIds(locations));
+			profile.setModified(new Date());
 			return true;
 		}
 		return false;
@@ -177,7 +178,7 @@ public class Profile extends Model {
 	}
 	
 	public static boolean checkInterest(final User user, final Long interest) {
-		final Profile p = User.findByEmail(user.email).profile;
+		final Profile p = User.findByEmail(user.email).getProfile();
 		if (p != null && p.getInterests().add(models.Interest.find.byId(interest))){
 			p.update();
 			return true;
@@ -188,7 +189,7 @@ public class Profile extends Model {
 	public static boolean uncheckInterest(final User user, final Long interest) {
 		final Profile p = User.findByEmail(user.email).profile;
 		final Interest i = models.Interest.find.byId(interest);
-		if (p != null && i != null && p.interests.remove(i)){
+		if (p != null && i != null && p.getInterests().remove(i)){
 			p.update();
 			return true;
 		}
@@ -249,5 +250,63 @@ public class Profile extends Model {
 
 	public Date getModified() {
 		return modified;
-	}	
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+
+	public void setInterests(List<Interest> interests) {
+		this.interests = interests;
+	}
+
+	public void setPublications(List<Publication> publications) {
+		this.publications = publications;
+	}
+
+	public void setPubComments(List<PubComment> pubComments) {
+		this.pubComments = pubComments;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+	
+	
 }
