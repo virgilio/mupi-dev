@@ -24,6 +24,8 @@ public class Publication extends Model {
 	private static final int PER_PAGE = 10;
 	private static final int ACTIVE = 1;
 	private static final int INACTIVE = 0;
+	private static final int PUBLICATION = 0;
+	private static final int EVENT = 0;
 	
 	@Id
 	public Long id;
@@ -72,9 +74,10 @@ public class Publication extends Model {
 		this.profile   	= profile;
 		this.location	= location;
 		this.interest	= interest;
-		this.pub_typ   	= pub_typ;
 		this.body	 	= body;
-		this.status  	= INACTIVE;
+		this.pub_typ   	= pub_typ;
+		if(pub_typ == EVENT) this.status = INACTIVE;
+		else this.status = ACTIVE;
 		this.created 	= new Date();
 		this.modified 	= new Date();
 	}
@@ -85,12 +88,11 @@ public class Publication extends Model {
 		return pub;
 	}
 	
-	public static void update(Long id, Integer pub_typ, String body, Integer status){
+	public static void update(Long id, String body, Integer status){
 		Publication pub = find.byId(id);
 		if(pub!= null){
-			if(pub_typ != null) pub.setPub_typ(pub_typ);
-			if(body != null) pub.setBody(body);
-			if(status != null) pub.setStatus(status);
+			if(body != null)    pub.setBody(body);
+			if(status != null)  pub.setStatus(status);			
 			pub.setModified(new Date());
 			pub.update();
 		}
@@ -98,7 +100,7 @@ public class Publication extends Model {
 	
 	public static void unpublish(Long id){
 		Publication pub = find.byId(id);
-		pub.status = INACTIVE;
+		pub.setStatus(INACTIVE);
 		pub.update();
 	}
 	
@@ -144,11 +146,8 @@ public class Publication extends Model {
 				.getPage(page);
 	}
 	
-	public static Profile getProfilePicById(Long id){
-		System.out.println(id);
-		System.out.println(find.byId(id).profile.getId());
-		
-		return Profile.find.byId(find.byId(id).profile.getId());
+	public static Profile getProfilePicById(Long id){		
+		return Profile.find.byId(find.byId(id).getProfile().getId());
 	}
 
 	public Long getId() {
