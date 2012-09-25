@@ -81,7 +81,18 @@ public class Location extends Model {
 	public String getGeohash() {
 		return geohash;
 	}
-	
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setGeohash(String geohash) {
+		this.geohash = geohash;
+	}
 	
 	
 //	public static List<Location> getNameIdJson() {

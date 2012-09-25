@@ -31,7 +31,7 @@ public class Profile extends Controller {
 	public static Result profile() {
 		final User user = Mupi.getLocalUser(session());	
 
-		models.Profile p = user.profile;
+		models.Profile p = user.getProfile();
 		final Form<models.Profile> form = PROFILE_FORM.fill(p);
 		
 		final List<Location> notSelected = Location.find.fetch("id", "name").findList();
@@ -42,14 +42,14 @@ public class Profile extends Controller {
 	@Restrict(Mupi.USER_ROLE)
 	public static Result doProfile() {
 		final Form<models.Profile> filledForm = PROFILE_FORM.bindFromRequest();
-		final User user = Mupi.getLocalUser(session());	
+		final User user = Mupi.getLocalUser(session());
+		
 		
 		try {
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");
-			String picturePath = BLANK_PIC;
 			
-			System.out.println(picture);
+			String picturePath = BLANK_PIC;
 			
 			if (picture != null) {
 			    String fileName = picture.getFilename();
@@ -65,7 +65,7 @@ public class Profile extends Controller {
 		    	picturePath = "/" + hashUser + "/" + hashTime + fileName;
 			}else{
 				if(filledForm.field("picture").value() == null){
-					picturePath = user.profile.getPicture();
+					picturePath = user.getProfile().getPicture();
 				}else if(filledForm.get().getPicture().compareTo(BLANK_PIC) == 0){
 					picturePath = BLANK_PIC;
 				}

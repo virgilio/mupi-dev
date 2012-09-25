@@ -52,6 +52,7 @@ public class Interest extends Controller {
 	@Restrict(Mupi.USER_ROLE)
 	public static Result uncheckInterest(Long id){
 		final User user = Mupi.getLocalUser(session());	
+		
 		if(models.Profile.uncheckInterest(user, id))
 			return AjaxResponse.build(0,"The interest was removed from your interests list!");
 		else

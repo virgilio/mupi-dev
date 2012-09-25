@@ -32,7 +32,6 @@ import com.typesafe.plugin.*;
 
 
 public class Feed extends Controller {
-	
 	private static final Form<utils.MeetUpPromotion> PROMOTE_MEETUP_FORM = form(utils.MeetUpPromotion.class);
 	private static final Form<utils.MeetUpHosting> HOST_MEETUP_FORM = form(utils.MeetUpHosting.class);
 	

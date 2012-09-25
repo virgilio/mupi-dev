@@ -92,6 +92,38 @@ public class Interest extends Model{
 	public Date getModified() {
 		return modified;
 	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
 	
 	
 }

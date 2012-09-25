@@ -82,12 +82,8 @@ public class Promotion extends Model {
 
 	public static void create(Profile profile, Location location, Interest interest, 
 			String title, String address, Date date, Date time, String description, String link, String image) {
-		
-		
 		String publicationBody = "O evento " + title + " foi divulgado por ";
-		
 		Publication pub = Publication.create(profile, location, interest, 1, publicationBody);
-		
 		Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);
 		prom.save();
 	}
@@ -96,12 +92,12 @@ public class Promotion extends Model {
 			String description, String picture) {
 		Promotion prom = find.byId(id);
 		if (prom != null) {
-			prom.title = title;
-			prom.address = address;
-			prom.date = date;
-			prom.description = description;
-			prom.picture = picture;
-			prom.modified = new Date();
+			prom.setTitle(title);
+			prom.setAddress(address);
+			prom.setDate(date);
+			prom.setDescription(description);
+			prom.setPicture(picture);
+			prom.setModified(new Date());
 			prom.update();
 		}
 	}
@@ -229,6 +225,54 @@ public class Promotion extends Model {
 
 	public Date getModified() {
 		return modified;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setPublication(Publication publication) {
+		this.publication = publication;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
 	

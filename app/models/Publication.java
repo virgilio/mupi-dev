@@ -88,10 +88,10 @@ public class Publication extends Model {
 	public static void update(Long id, Integer pub_typ, String body, Integer status){
 		Publication pub = find.byId(id);
 		if(pub!= null){
-			if(pub_typ != null) pub.pub_typ = pub_typ;
-			if(body != null) pub.body = body;
-			if(status != null) pub.status = status;
-			pub.modified = new Date();
+			if(pub_typ != null) pub.setPub_typ(pub_typ);
+			if(body != null) pub.setBody(body);
+			if(status != null) pub.setStatus(status);
+			pub.setModified(new Date());
 			pub.update();
 		}
 	}
@@ -190,7 +190,44 @@ public class Publication extends Model {
 	public Date getModified() {
 		return modified;
 	}
-	
-	
-	
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setInterest(Interest interest) {
+		this.interest = interest;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	public void setComments(List<PubComment> comments) {
+		this.comments = comments;
+	}
+
+	public void setPub_typ(Integer pub_typ) {
+		this.pub_typ = pub_typ;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
 }
