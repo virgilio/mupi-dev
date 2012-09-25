@@ -1,0 +1,13 @@
+.control-group input{
+  margin: 0;
+}
+
+.control-group > label.error{
+  width: 100%;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.control-group.success > input, .control-group.success > textarea, .control-group.success > select{
+  background: rgba(0, 256, 0, 0.045);
+}
