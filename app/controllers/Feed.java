@@ -271,7 +271,7 @@ public class Feed extends Controller {
 			    String hashCommunity = getMD5(iObj.toString() + lObj.toString());
 			    
 			    File destinationFile = new File(play.Play.application().path().toString() +
-			    		"//public//event//picture//" + hashCommunity +
+			    		"//public//upload//event//picture//" + hashCommunity +
 			    		"//" + hashTime + fileName);
 		    	FileUtils.copyFile(file, destinationFile);
 		    	picturePath = "/" + hashCommunity + "/" + hashTime + fileName;
@@ -296,11 +296,11 @@ public class Feed extends Controller {
 			
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.promotion.created"));
 
-			return feed();
+			return redirect(routes.Feed.feed());
 			
 		}catch (Exception e) {
 			flash(Mupi.FLASH_ERROR_KEY, "Erro ao divulgar evento, por favor contate-nos para que possamos resolver este problema.");
-			return feed();
+			return redirect(routes.Feed.feed());
 		}
 	}
 	

@@ -87,7 +87,7 @@ public class Interest extends Controller {
 			    String hashInterest = getMD5(filledForm.get().getName());
 			    
 			    File destinationFile = new File(play.Play.application().path().toString() +
-			    		"//public//interest//picture//" + hashInterest +
+			    		"//public//upload//interest//picture//" + hashInterest +
 			    		"//" + hashTime + fileName);
 		    	FileUtils.copyFile(file, destinationFile);
 		    	picturePath = "/" + hashInterest + "/" + hashTime + fileName;
@@ -108,13 +108,13 @@ public class Interest extends Controller {
 			final List<models.Interest> uInterests = user.getProfile().getInterests();
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
 			
-			return interestManager();
+			return redirect(routes.Interest.interestManager());
 		} catch (IOException e){
 			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.profile.errorSendingFile"));
 			e.printStackTrace();
 			final List<models.Interest> uInterests = user.getProfile().getInterests();
 			final List<models.Interest> allInterests = (List<models.Interest>)CollectionUtils.subtract(models.Interest.find.all(), uInterests);
-			return interestManager();
+			return redirect(routes.Interest.interestManager());
 		}
 	}
 

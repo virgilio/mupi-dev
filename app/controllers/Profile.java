@@ -59,7 +59,7 @@ public class Profile extends Controller {
 			    String hashUser = getMD5(user.email);
 			    
 			    File destinationFile = new File(play.Play.application().path().toString() +
-			    		"//public//profile//picture//" + hashUser +
+			    		"//public//upload//profile//picture//" + hashUser +
 			    		"//" + hashTime + fileName);
 		    	FileUtils.copyFile(file, destinationFile);
 		    	picturePath = "/" + hashUser + "/" + hashTime + fileName;
