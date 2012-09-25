@@ -46,6 +46,12 @@ footer .nav {
 	background-image: url('../profile/picture/blank_profile.jpg');
 }
 
+.mupi_thumbs{
+	overflow: hidden;
+	border: 5px solid whiteSmoke;
+	box-shadow: 0px 0px 5px #888;
+}
+
 /**, .wrapper, .content, body, html {
     height: 100%;
 }*/

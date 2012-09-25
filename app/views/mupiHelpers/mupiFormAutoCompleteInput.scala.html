@@ -17,6 +17,11 @@
 	    @label
 	  </label>
 	  
+	  
+	
+	  <input type="text" id="locationSelector" data-provide="typeahead" AUTOCOMPLETE="OFF" />
+	  <button id="addLocation">+</button>
+	  
 	  <ul class="selectedLocations">
 		  @for( location <- uLocations ){
 		    <li class="selectedLocation">
@@ -25,11 +30,6 @@
 	      </li>
 	    }
     </ul>
-	
-	  <input type="text" id="locationSelector" data-provide="typeahead" AUTOCOMPLETE="OFF" />
-	  <button id="addLocation">+</button>
-	  
-	  
 	</div>
 </div>
 

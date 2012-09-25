@@ -3,19 +3,19 @@
 <script type="text/javascript"  src="@routes.Assets.at("js/mupiFileUpload.js")"></script>
 
 <div class="fileupload fileupload-new span3" data-provides="fileupload">
-  <div class="fileupload-new thumbnail">
-  
-    @path = @{
-		   if(field.value != None){
-		     folder + field.value.get
-		   } else { folder + alternativeImg }
-    }
-    
-        
-  <img src="@routes.Assets.at(path)" />
-    
+  <div class="fileupload-new mupi_thumbs">
+	  <div class="fix_img">
+	    @path = @{
+			   if(field.value != None){
+			     folder + field.value.get
+			   } else { folder + alternativeImg }
+	    }
+	    
+	    <img onLoad="getsize()" src="@routes.Assets.at(path)" />
+	    
+	    </div>
   </div>
-  <div class="fileupload-preview fileupload-exists thumbnail"></div>
+  <div class="fileupload-preview fileupload-exists mupi_thumbs thumbnail"></div>
   <div>
     <span class="btn btn-file">
       Escolher imagem
