@@ -40,6 +40,12 @@ POST    /accounts/merge             controllers.Account.doMerge
 GET     /login/password/forgot     controllers.Signup.forgotPassword(email: String ?= "")
 POST    /login/password/forgot     controllers.Signup.doForgotPassword
 
+
+# MUPI ASSETS!!!
+GET   /upload/*file         controllers.Mupi.at(file)
+# MUPI ASSETS!!!
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET   /assets/*file         controllers.Assets.at(path="/public", file)
 
@@ -79,7 +85,6 @@ GET   /statistics       	  controllers.Mupi.statistics
 GET   /terms            	  controllers.Mupi.terms
 GET   /signup           	  controllers.Mupi.signup
 GET   /inbox                controllers.Mupi.inbox
-
 
 
 

@@ -33,7 +33,7 @@
      @if(user.getProfile.getInterests.size() > 0){
      <ul class="interestList">
 	     @for(interest <- user.getProfile.getInterests.filter(_.getStatus() > 0)) {
-	       <li><img class="interestIcon" id="@interest.getId" src="@routes.Assets.at("/interest/picture"+interest.getPicture)"/></li>
+	       <li><img class="interestIcon" id="@interest.getId" src="@routes.Mupi.at("/interest/picture"+interest.getPicture)"/></li>
 	     }
 	   </ul>
 	   }else{

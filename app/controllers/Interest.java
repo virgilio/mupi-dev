@@ -91,6 +91,7 @@ public class Interest extends Controller {
 			    		"//" + hashTime + fileName);
 		    	FileUtils.copyFile(file, destinationFile);
 		    	picturePath = "/" + hashInterest + "/" + hashTime + fileName;
+		    	
 			}else{
 				picturePath = BLANK_PIC;
 			}
