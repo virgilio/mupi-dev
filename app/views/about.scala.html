@@ -1,32 +1,77 @@
 @import com.feth.play.module.pa.views.html._
 
 @main(Messages("mupi.navigation.about.title"),"about") {
-
-<h3>Sobre o Mupi</h3>
-
-<p>Todos ensinam, todos aprendem.</p>
-
-<p>Acreditamos que a interação sempre enriquece o conhecimento e que discussões são parte fundamental para o aprendizado.</p>
-
-<p>Queremos que você aprenda com as pessoas próximas. Queremos que você ensine pessoas próximas. Queremos que vocês se encontrem. Queremos mostrar que momentos de aprendizado são  momentos de lazer!</p>
-
-<p>Nossa plataforma facilita a formação de comunidades locais que sejam referência em assuntos específicos e promovam o aprendizado coletivo. O Mupi é a melhor maneira de se conectar com pessoas que possuam os mesmos interesses que você, sendo que muitas vezes elas estão mais próximas do que você imagina!</p>
-
-<p>Aprendemos algo todos os dias. E você, o que você aprendeu hoje?</p>
+<link rel="stylesheet" href="@routes.Assets.at("css/about.css")" type="text/css" media="screen"/>
 
 
+<div class="div_about">
+	<div class="page_container">
+		<div class="logo_about">
+			<img src="@routes.Assets.at("img/logo.png")" />
+		</div>
+		<div class="sobre">
+			<h3>Sobre o Mupi</h3>
+		
+			<p>Todos ensinam, todos aprendem.</p>
+			
+			<p>Acreditamos que a interação sempre enriquece o conhecimento e que discussões são parte fundamental para o aprendizado.</p>
+			
+			<p>Queremos que você aprenda com as pessoas próximas. Queremos que você ensine pessoas próximas. Queremos que vocês se encontrem. 
+			Queremos mostrar que momentos de aprendizado são  momentos de lazer!</p>
+			
+			<p>Nossa plataforma facilita a formação de comunidades locais que sejam referência em assuntos 
+			específicos e promovam o aprendizado coletivo. O Mupi é a melhor maneira de se conectar com pessoas que possuam os 
+			mesmos interesses que você, sendo que muitas vezes elas estão mais próximas do que você imagina!</p>
+			
+			<p>Aprendemos algo todos os dias. E você, o que você aprendeu hoje?</p>
+		</div>
+	</div>
+</div>
 
-<h3>Quem somos</h3>
+<div class="about_container page_container">
+	<div class="team">
+		<h3>Quem somos</h3>
 
-<p>Uma equipe que acredita no aprendizado coletivo!</p>
+		<p>Uma equipe que acredita no aprendizado coletivo!</p>
+		
+		<p>Nosso time é formado por ex-alunos da Unicamp, de diferentes áreas, que foram unidos pela vontade de trazer 
+		novas ideias para mudar e melhorar os usos da tecnologia no campo da educação.</p>
+		<p>Temos uma garagem com mesa, cadeiras, lousa e wifi pronta para receber encontros de gente 
+		interessante que quer ensinar e aprender. Basta falar conosco!</p>
+	</div>
 
-<p>Nosso time é formado por ex-alunos da Unicamp, de diferentes áreas, que foram unidos pela vontade de trazer novas ideias para mudar e melhorar os usos da tecnologia no campo da educação.</p>
-
-<p>Ana Rute Mendes: Midiáloga, designer</p>
-<p>Mauricio Banduk: Engenheiro de computação</p>
-<p>Paula Furtado: Letras, pesquisadora em educação e tecnologia</p>
-<p>Virgilio Santos: Engenheiro de computação</p>
-
-<p>Temos uma garagem com mesa, cadeiras, lousa e wifi pronta para receber encontros de gente interessante que quer ensinar e aprender. Basta falar conosco!</p>
+	<div class="profile">
+		<div class="profile_img">
+			<img src="@routes.Assets.at("img/ana.jpg")" />
+		</div>
+		<div class="profile_body">
+			<span>Ana Rute Mendes</span><p>Midiáloga, designer</p>
+		</div>
+	</div>
+	<div class="profile">
+		<div class="profile_img">
+			<img src="@routes.Assets.at("img/banduk.jpg")" />
+		</div>
+		<div class="profile_body">
+			<span>Mauricio Banduk</span><p>Engenheiro de computação</p>
+		</div>
+	</div>
+	<div class="profile">
+		<div class="profile_img">
+			<img src="@routes.Assets.at("img/paulets.jpg")" />
+		</div>
+		<div class="profile_body">
+			<span>Paula Furtado</span><p>Letras, pesquisadora em educação e tecnologia</p>
+		</div>
+	</div>
+	<div class="profile">
+		<div class="profile_img">
+			<img src="@routes.Assets.at("img/vir.jpg")" />
+		</div>
+		<div class="profile_body">
+			<span>Virgilio Santos</span><p>Engenheiro de computação</p>
+		</div>
+	</div>
+</div>
 
 }

@@ -1,0 +1,75 @@
+.profile{
+	float: left;
+	width: 150px;
+	height: 300px;
+	margin: 0 15px;
+}
+
+.profile_img{
+	width: 120px;
+	height: 120px;
+	border-radius: 80px;
+	margin: 0 auto;
+	border: 5px solid #f16623;
+	overflow: hidden;
+}
+.profile_img img{
+	max-width: none;
+	height: 100%;
+}
+.profile_body{
+	margin: 10px 0;
+	background: rgba(256, 256, 256, 0.6);
+	padding: 5px;
+	height: 120px;
+	border: 1px solid #CCC;
+}
+.page_container{
+	width: 1000px;
+	margin: 0 auto;
+	padding_bottom: 60px;	
+}
+.about_sidebar{
+	width: 25%;
+	float: left;
+}
+.about_body{
+	width: 740px;
+	padding: 20px;
+	float: left;
+}
+.about_container{
+	padding-top: 20px;
+}
+#content{
+	padding_bottom: 60px;
+}
+.profile_body{
+	font-size: 0.8em;
+}
+.profile_body span{
+	font-weight: bold;
+}
+.logo_about{
+	height: 250px;
+	float: left;
+	width: 250px;
+	margin-top: 115px;
+}
+.div_about{
+	background: rgba(256, 256, 256, 0.4);
+	width: 100%;
+	height: 350px;
+	border-bottom: 1px dashed #CCC;
+}
+.sobre{
+	float: left;
+	width: 750px;
+}
+.div_about{
+	height: 360px;
+}
+.team{
+	width: 250px;
+	float: left;
+}
