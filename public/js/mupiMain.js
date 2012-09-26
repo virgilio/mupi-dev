@@ -1,5 +1,5 @@
 jQuery(function(){
-	jQuery('.mupi_thumbs .fix_img img').live('load', function(){
+	jQuery('.mupi_thumbs .fix_img img').load(function(){
 
        	var h = jQuery(this).height();
     	var w = jQuery(this).width();
