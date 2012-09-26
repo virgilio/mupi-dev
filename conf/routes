@@ -61,6 +61,8 @@ POST  /feed/comment/:t/:p       controllers.Feed.comment(t: String, p: Long)
 POST  /feed/promote/event       controllers.Feed.promote
 POST  /feed/promote/meetup      controllers.Feed.promoteMeetUp
 POST  /feed/host                controllers.Feed.hostMeetUp
+POST  /feed/nextPubs            controllers.Feed.nextPublications(last: Long)
+POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 
 # PROFILE
 GET   /profile           	    controllers.Profile.profile

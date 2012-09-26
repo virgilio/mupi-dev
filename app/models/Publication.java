@@ -104,46 +104,108 @@ public class Publication extends Model {
 		pub.update();
 	}
 	
-	public static Page<Publication> findByInterests(List<Long> interest_ids, Integer page){
-		return find.where()
+	public static Page<Publication> findByInterests(List<Long> interest_ids, Long lastId){
+	  if(lastId <= 0) 
+	    return find.where()
+	        .in("interest_id", interest_ids)
+	        .gt("status", 0)
+	        .orderBy("created desc")
+	        .findPagingList(PER_PAGE)
+	         .getPage(0);
+	  else
+  		return find.where()
+  		    .in("interest_id", interest_ids)
+  		    .lt("created",
+  		        find.byId(lastId).getCreated()
+  		     )
+  		    .gt("status", 0)
+  				.orderBy("created desc")
+  				.findPagingList(PER_PAGE)
+  				.getPage(0);
+	}
+	
+	public static Page<Publication> findByInterest(long interest, Long lastId){
+	  if(lastId <= 0)
+	    return find.where()
+	        .eq("interest_id", interest)
+	        .gt("status", 0)
+	        .orderBy("created desc")
+	        .findPagingList(PER_PAGE)
+	        .getPage(0);
+	  else
+  		return find.where()
+  				.eq("interest_id", interest)
+  				.lt("created",
+              find.byId(lastId).getCreated()
+           )
+           .gt("status", 0)
+  				.orderBy("created desc")
+  				.findPagingList(PER_PAGE)
+  				.getPage(0);
+	}
+	
+	public static Page<Publication> findByInterestLocation(long interest_id, long location_id, Long lastId){
+	  if(lastId <= 0)
+	    return find.where()
+          .eq("interest_id", interest_id)
+          .eq("location_id", location_id)
+          .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+          .getPage(0);
+	  else
+  		return find.where()
+  				.eq("interest_id", interest_id)
+  				.eq("location_id", location_id)
+  				.lt("created",
+              find.byId(lastId).getCreated()
+           )
+           .gt("status", 0)
+  				.orderBy("created desc")
+  				.findPagingList(PER_PAGE)
+  				.getPage(0);
+	}
+	
+	public static Page<Publication> findByInterestsLocation(List<Long> interest_ids, long location_id, Long lastId){
+	  if(lastId <= 0)
+	    return find.where()
+	        .in("interest_id", interest_ids)
+	        .eq("location_id", location_id)
+	        .gt("status", 0)
+	        .orderBy("created desc")
+	        .findPagingList(PER_PAGE)
+	        .getPage(0);
+	  else 
+	    return find.where()
 				.in("interest_id", interest_ids)
-				.orderBy("created desc")
-				.findPagingList(PER_PAGE)
-				.getPage(page);
-	}
-	
-	public static Page<Publication> findByInterest(long interest, Integer page){
-		return find.where()
-				.eq("interest_id", interest)
-				.orderBy("created desc")
-				.findPagingList(PER_PAGE)
-				.getPage(page);
-	}
-	
-	public static Page<Publication> findByInterestLocation(long interest_id, long location_id, Integer page){
-		return find.where()
-				.eq("interest_id", interest_id)
 				.eq("location_id", location_id)
+				.lt("created",
+            find.byId(lastId).getCreated()
+         )
+         .gt("status", 0)
 				.orderBy("created desc")
 				.findPagingList(PER_PAGE)
-				.getPage(page);
+				.getPage(0);
 	}
 	
-	public static Page<Publication> findByInterestsLocation(List<Long> interest_ids, long location_id, Integer page){
-		return find.where()
-				.in("interest_id", interest_ids)
+	public static Page<Publication> findByLocation(long location_id, Long lastId){
+	  if(lastId <= 0)
+	    return find.where()
+	        .eq("location_id", location_id)
+	        .gt("status", 0)
+	        .orderBy("created desc")
+	        .findPagingList(PER_PAGE)
+	        .getPage(0);
+	  else
+	    return find.where()
 				.eq("location_id", location_id)
+				.lt("created",
+            find.byId(lastId).getCreated()
+         )
+        .gt("status", 0)
 				.orderBy("created desc")
 				.findPagingList(PER_PAGE)
-				.getPage(page);
-	}
-	
-	public static Page<Publication> findByLocation(long location_id, Integer page){
-		return find.where()
-				.eq("location_id", location_id)
-				.orderBy("created desc")
-				.findPagingList(PER_PAGE)
-				.getPage(page);
+				.getPage(0);
 	}
 	
 	public static Profile getProfilePicById(Long id){		

@@ -3,8 +3,7 @@ jQuery(function() {
 	$.validator.addMethod(
 		    "brDate",
 		    function(value, element) {
-		        // put your own logic here, this is just a (crappy) example
-		        return value.match(/^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}$/);
+		    	return	value=="" || value=="__/__/____" || value.match(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/);
 		    }
 		);
 	
@@ -27,7 +26,7 @@ jQuery(function() {
 				range: [0,3]
 			},
 			birthDate : {
-				required:false,
+				required: false,
 				brDate: true
 			},
 			picture :{

@@ -3,7 +3,7 @@
 @publisherPic = @{"event/picture" + prom.getPicture}
 
 
-<a class="meetup" href="@routes.Mupi.promotion(prom.getId)"> 
+<a class="meetup" href="@routes.Mupi.promotion(prom.getId)" prom_id="@prom.getId"> 
 	<div class="radius_overflow_fix">
 	  <div class="meetup_title_shadow"></div>
 	  <img src="@routes.Mupi.at(publisherPic)" /> <span>@prom.getTitle</span>

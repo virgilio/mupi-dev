@@ -1,4 +1,6 @@
-@(publications: List[models.Publication], interest: models.Interest, location: models.Location,  promoteForm: Form[models.Promotion])
+@(publicationsPage: Page[models.Publication], interest: models.Interest, location: models.Location,  promoteForm: Form[models.Promotion])
+
+@publications = @{publicationsPage.getList}
 
 <h3>
  @{(interest,location) match{
@@ -15,16 +17,14 @@
   } else {
   	<span class="btns">
   	<p>
-  		Para conseguir publicar, você precisa escolher um interesse e uma cidade.
+  		Para publicar, você precisa escolher um interesse e uma cidade.
   	</p>
   	</span>
   
   }
   
   @if(publications.size > 0 ){
-	 @for(pub <- publications.filter(_.getStatus > 0)){
-	   @publication(pub, interest, location)
-	 }
+	 @pubList(publications, interest, location)
   } else {
   	<span class="btns">
 	  	<p>
@@ -32,5 +32,10 @@
 	  	</p>
   	</span>
   }
+  
+  <div id="pubsFootPaginate">
+      <div id="pubsPaginateMsg"></div>
+      <button id="nextPublications" >...</button>
+  </div>
 
 </div>

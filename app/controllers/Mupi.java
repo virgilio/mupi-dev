@@ -54,7 +54,7 @@ public class Mupi extends Controller {
 		// TODO If logged, redirect to the feed
 		final User user = getLocalUser(session());
 		if (user != null) {
-			return Feed.feed();
+			return redirect(routes.Feed.feed());
 		} else {
 			return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM,
 					MyUsernamePasswordAuthProvider.SIGNUP_FORM));
@@ -100,7 +100,9 @@ public class Mupi extends Controller {
 						controllers.routes.javascript.Feed.selectFeed(),
 						controllers.routes.javascript.Feed.comment(),
 						controllers.routes.javascript.Feed.promote(),
-						controllers.routes.javascript.Feed.commentPromotion()
+						controllers.routes.javascript.Feed.commentPromotion(),
+						controllers.routes.javascript.Feed.nextPublications(),
+						controllers.routes.javascript.Feed.nextPromotions()
 			  )).as("text/javascript");
 	}
 

@@ -1,12 +1,14 @@
 @(
-  publications: List[models.Publication],
-  promotions: List[models.Promotion],
+  publications: Page[models.Publication],
+  promotions: Page[models.Promotion],
   selectedi: models.Interest = null,
   selectedl: models.Location = null,
   promoteForm: Form[models.Promotion],
   promoteMeetupForm: Form[utils.MeetUpPromotion],
   hostMeetupForm: Form[utils.MeetUpHosting]
 )
+
+<script type="text/javascript" src="@routes.Assets.at("js/feedPaginate.js")"></script>
 
 <input id="selectedInterest" type="hidden" value="@if(selectedi!=null){@selectedi.getId}else{-1}"/>
 <input id="selectedLocation" type="hidden" value="@if(selectedl!=null){@selectedl.getId}else{-1}"/>

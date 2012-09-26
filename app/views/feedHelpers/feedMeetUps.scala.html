@@ -1,17 +1,18 @@
 @(
-  promotions: List[models.Promotion], 
+  promotionsPage: Page[models.Promotion], 
   interest: models.Interest,
   location: models.Location,
   promoteMeetupForm: Form[utils.MeetUpPromotion],
   hostMeetupForm: Form[utils.MeetUpHosting]
 )
 
+@promotions = @{promotionsPage.getList}
+
 <div class="meetups">
-  
   @if(location != null){
 	  <div class="btns_meetups">
 	   @if(interest != null){
-	    @promoteMeetup(promoteMeetupForm, interest, location)
+	     @promoteMeetup(promoteMeetupForm, interest, location)
 	   }
 	   @hostMeetup(hostMeetupForm, location)
 	  </div>
@@ -19,8 +20,9 @@
   
   <h3>Próximos eventos</h3>
   
-  @for(prom <- promotions.filter(_.getPublication.getStatus > 0)){
-    @meetUp(prom)
-  }
-  
+  @promList(promotions)
+  <div id="promsFootPaginate">
+      <div id="promsPaginateMsg"></div>
+      <button id="nextPromotions">...</button>
+  </div>  
 </div>
