@@ -4,6 +4,8 @@
 @import helper.twitterBootstrap._
 @import mupiHelpers._
 <link rel="stylesheet" href="@routes.Assets.at("css/mupiForm.css")" type="text/css" media="screen"/>
+<script type="text/javascript" src="@routes.Assets.at("js/promotionFormValidation.js")"></script>
+
 
 
 <div id="promote_event" class="modal fade hide">
@@ -17,7 +19,7 @@
       @mupiFormInput(
         field=promoteForm("title"),
         typ="text",
-        label="Título"
+        label="Título *"
       )
       
       @mupiFormImageUpload(field=promoteForm("picture"), "event/picture", "/blank_event.jpg")
@@ -25,37 +27,33 @@
       @mupiMapsInput(
         field=promoteForm("address"),
         typ="text",
-        label="Endereço"
+        label="Endereço *"
       )
       
       @mupiFormMaskedInput(
-         field=promoteForm("date"),
-         label="Data",
-         mask="99/99/9999"              
-       )
+        field=promoteForm("date"),
+        label="Data *",
+        mask="99/99/9999"              
+      )
        
-       @mupiFormMaskedInput(
-         field=promoteForm("time"),
-         label="Hora",
-         mask="99:99"
-       )
+      @mupiFormMaskedInput(
+        field=promoteForm("time"),
+        label="Hora *",
+        mask="99:99"
+      )
        
-       @mupiFormInput(
-         field=promoteForm("link"),
-         typ="text",
-         label="Site"
-       )
+      @mupiFormInput(
+        field=promoteForm("link"),
+        typ="text",
+        label="Site"
+      )
        
-       @mupiFormTextArea(
-         field=promoteForm("description"),
-         label="Descrição (máximo de 3000 caracteres)",
-         ('rows, "4"),
-         ('cols, "50")
-       )
-       
-       <input type="hidden" name="int" value="@interest.getId"/>
-       <input type="hidden" name="loc" value="@location.getId"/>
-    
+      @mupiFormTextArea(
+        field=promoteForm("description"),
+        label="Descrição (máximo de 3000 caracteres) *",
+        ('rows, "4"),
+        ('cols, "50")
+      )
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Editar</a>

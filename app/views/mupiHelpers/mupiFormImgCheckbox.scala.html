@@ -6,7 +6,6 @@
 
 <div class="interest @if(checked){interest_thumb}else{interest_normal} " id="@id">
     <div class="btn_favorite"></div>
-    
     <input 
       type="checkbox" 
       class="select_interest"
@@ -17,10 +16,10 @@
       @if(checked){ checked }
     />    
   
-    <div class="btn_delete"></div>
+<!--     <div class="btn_delete"></div> -->
     <div class="interest_img_container mupi_thumbs">
     	<div class="fix_img"> 
-	     	<img onLoad="getsize(this)" src="@routes.Mupi.at(path+picture)" />
+	     	<img src="@routes.Mupi.at(path+picture)" />
 	    </div>
     </div>
     <label>@title</label>

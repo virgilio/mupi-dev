@@ -23,7 +23,7 @@
   
   @if(publications.size > 0 ){
 	 @for(pub <- publications.filter(_.getStatus > 0)){
-	   @publication(pub)
+	   @publication(pub, interest, location)
 	 }
   } else {
   	<span class="btns">

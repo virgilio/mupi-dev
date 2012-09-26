@@ -19,14 +19,19 @@
     <h1>GET OUT!</h1>
   }else{
   <link rel="stylesheet" href="@routes.Assets.at("css/font-awesome.css")" type="text/css" media="screen"/>
-  <link rel="stylesheet" href="@routes.Assets.at("css/bootstrap-wysihtml5.css")" type="text/css" media="screen"/>
+<!--   <link rel="stylesheet" href="@routes.Assets.at("css/bootstrap-wysihtml5.css")" type="text/css" media="screen"/> -->
   <link rel="stylesheet" href="@routes.Assets.at("css/feed.css")" type="text/css" media="screen"/>
   <link href="@routes.Assets.at("css/jasny-bootstrap.css")" rel="stylesheet" type="text/css" media="screen"/>
   
+
+
+  
+  <script type="text/javascript" src="@routes.Assets.at("js/jquery.validate.min.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("js/feed.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("js/jquery.autosize-min.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("js/wysihtml5Advanced.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("js/wysihtml5-0.3.0.js")"></script>
-  <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-wysihtml5.js")"></script>
+<!--   <script type="text/javascript" src="@routes.Assets.at("js/bootstrap-wysihtml5.js")"></script> -->
   <script type="text/javascript" src="@routes.Assets.at("js/mupiFileUpload.js")"></script>
     
   <div class="sidebar">
@@ -40,7 +45,7 @@
 	       <li @if(selectedi != null && selectedi.getId == interest.getId){class="selected_i"}>
 		       <div class="sidebar_interest mupi_thumbs">
 		      	   <div class="fix_img">
-		         		<img onLoad="getsize(this)" class="interestIcon" id="@interest.getId" src="@routes.Mupi.at("/interest/picture"+interest.getPicture)"/>
+		         		<img class="interestIcon" id="@interest.getId" src="@routes.Mupi.at("/interest/picture"+interest.getPicture)"/>
 			       </div>
 		       </div>
 	       </li>
