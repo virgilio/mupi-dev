@@ -259,7 +259,6 @@ public class Feed extends Controller {
 
   @Restrict(Mupi.USER_ROLE)
   public static Result selectFeed(Long interest, Long location){
-    System.out.println("i:"+interest+"   l:" + location);
     final models.Profile p = Mupi.getLocalUser(session()).profile;
     if(interest == null || interest == -1){
       List<Long> interests = getInterestIds(p.getInterests());

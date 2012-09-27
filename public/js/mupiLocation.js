@@ -21,13 +21,14 @@ function registerLocation(allLocs) {
 		}
 	});
 	if (!exists) {
+//		jsRoutes.controllers.Profile.sugegstLocation(loc);
 		if (jQuery('.alert').size() == 0) {
 			jQuery('.navbar-container').next().prepend(
 					"<div class='alert'> </div>");
 		}
 		jQuery('.alert')
 				.addClass('alert-error')
-				.html("This location does not exist yet in the database! If you want to suggest it click on 'Suggest Location'");
+				.html("Esta localização está disponível no momento");//. Assim que estiver entraremos em contato");
 	}
 };
 

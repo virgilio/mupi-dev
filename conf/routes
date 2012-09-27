@@ -78,7 +78,7 @@ POST  /interest/manager              controllers.Interest.doAddInterest
 
 # PROMOTIONS
 GET   /promotion/:id        controllers.Mupi.promotion(id: Long)
-POST  /promotion/comment    controllers.Feed.commentPromotion(t: String, p: Long)
+POST  /promotion/comment/:t/:p    controllers.Feed.commentPromotion(t: String, p: Long)
 
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
