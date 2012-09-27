@@ -212,6 +212,114 @@ public class Publication extends Model {
 				.getPage(0);
 	}
 	
+	
+	
+	public static Page<Publication> findNewerByInterests(List<Long> interest_ids, Long firstId){
+    if(firstId <= 0) 
+      return find.where()
+          .in("interest_id", interest_ids)
+          .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+           .getPage(0);
+    else
+      return find.where()
+          .in("interest_id", interest_ids)
+          .gt("created",
+              find.byId(firstId).getCreated()
+           )
+          .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+          .getPage(0);
+  }
+  
+  public static Page<Publication> findNewerByInterest(long interest, Long firstId){
+    if(firstId <= 0)
+      return find.where()
+          .eq("interest_id", interest)
+          .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+          .getPage(0);
+    else
+      return find.where()
+          .eq("interest_id", interest)
+          .gt("created",
+              find.byId(firstId).getCreated()
+           )
+           .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+          .getPage(0);
+  }
+  
+  public static Page<Publication> findNewerByInterestLocation(long interest_id, long location_id, Long firstId){
+    if(firstId <= 0)
+      return find.where()
+          .eq("interest_id", interest_id)
+          .eq("location_id", location_id)
+          .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+          .getPage(0);
+    else
+      return find.where()
+          .eq("interest_id", interest_id)
+          .eq("location_id", location_id)
+          .gt("created",
+              find.byId(firstId).getCreated()
+           )
+           .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+          .getPage(0);
+  }
+  
+  public static Page<Publication> findNewerByInterestsLocation(List<Long> interest_ids, long location_id, Long firstId){
+    if(firstId <= 0)
+      return find.where()
+          .in("interest_id", interest_ids)
+          .eq("location_id", location_id)
+          .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+          .getPage(0);
+    else 
+      return find.where()
+        .in("interest_id", interest_ids)
+        .eq("location_id", location_id)
+        .gt("created",
+            find.byId(firstId).getCreated()
+         )
+         .gt("status", 0)
+        .orderBy("created desc")
+        .findPagingList(PER_PAGE)
+        .getPage(0);
+  }
+  
+  public static Page<Publication> findNewerByLocation(long location_id, Long firstId){
+    if(firstId <= 0)
+      return find.where()
+          .eq("location_id", location_id)
+          .gt("status", 0)
+          .orderBy("created desc")
+          .findPagingList(PER_PAGE)
+          .getPage(0);
+    else
+      return find.where()
+        .eq("location_id", location_id)
+        .gt("created",
+            find.byId(firstId).getCreated()
+         )
+        .gt("status", 0)
+        .orderBy("created desc")
+        .findPagingList(PER_PAGE)
+        .getPage(0);
+  }
+	
+	
+	
 	public static Profile getProfilePicById(Long id){		
 		return Profile.find.byId(find.byId(id).getProfile().getId());
 	}

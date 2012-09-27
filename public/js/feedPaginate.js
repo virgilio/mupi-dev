@@ -1,25 +1,42 @@
 jQuery(function(){	
+	
+	jQuery("#refresh_publications").click(function(event){
+		event.preventDefault();
+		if(jQuery('.all_publications .publication').size() == 0)
+			jsRoutes.controllers.Feed.refreshPublications("-1").ajax(loadMorePubs('top'));
+		else{
+			jsRoutes.controllers.Feed.refreshPublications(jQuery('.publication:first').attr('pub_id')).ajax(
+			  loadMorePubs('top')
+			);
+	    }
+	});
+	
+	
+	
 	jQuery("#nextPublications").click(function(event){
 		event.preventDefault();
 		if(jQuery('.all_publications .publication').size() == 0)
-			jsRoutes.controllers.Feed.nextPublications("-1").ajax(loadMorePubs());
+			jsRoutes.controllers.Feed.nextPublications("-1").ajax(loadMorePubs('bottom'));
 		else{
 			jsRoutes.controllers.Feed.nextPublications(jQuery('.publication:last').attr('pub_id')).ajax(
-			  loadMorePubs()
+			  loadMorePubs('bottom')
 			);
 	    }
 	});
 
-    var loadMorePubs = function(){
+    var loadMorePubs = function(position){
     	return {
     		success : function(data) {
     			var response = data.split("||");
     			if(response[0] == 0) {
-    				jQuery('#pubsFootPaginate').before(response[1]);
+    				
+    				if(position == 'bottom')
+    					jQuery(response[1]).hide().insertAfter('.publication:last').slideDown('fast');
+    				else if(position == 'top')
+    					jQuery(response[1]).hide().insertBefore('.publication:first').slideDown('fast');
     			}
-    			else jQuery('#pubsPaginateMsg').slideDown('fast')
-    					.delay('700')
-    					.slideUp('fast');
+    			else if(position == 'bottom') 
+    				jQuery('#pubsPaginateMsg').slideDown('fast').delay('700').slideUp('fast');
     		},
     		error : function() {
     			if (jQuery('.alert').size() == 0) {
@@ -65,6 +82,9 @@ jQuery(function(){
     		}
     	}
     }
+    
+    
+    
     
     
 })
