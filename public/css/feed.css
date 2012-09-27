@@ -8,22 +8,17 @@
 	top: 0;
 	bottom: 0;
 }
-
-/* .interestIcon { */
-/* 	height: 70px; */
-/* 	width: 70px; */
-/* 	cursor: pointer; */
-/* 	margin: 5px 0; */
-/* } */
-
+.all_interests_li{
+	padding-bottom: 8px;
+}
 .interestList {
 	list-style: none;
-	margin: 0 auto;
+	margin: 10px auto 0 auto;
 	text-align: center;
 }
 .interestList li{
-	margin: 10px 0;
-	padding: 4px 0;
+	margin: 0;
+	padding-top: 8px;
 }
 .sidebar_interest{
 	width: 40px;
@@ -31,6 +26,17 @@
 	border: 2px solid white;
 	cursor: pointer;
 	margin: 0 auto;
+}
+.interestList li:hover{
+	background: #e5e5e5;
+}
+.selected_i{
+	background: url('../img/bg.jpg') 0 0 repeat;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+}
+.interestIcon{
+	cursor: pointer;
 }
 /*CONTENT*/
 #feed_content {
@@ -98,15 +104,18 @@ ul.wysihtml5-toolbar {
 	margin-top: 5px;
 }
 
-.publication ul a {
+.publication .publication_body ul, .publication .publication_body ol{
+	margin: 0 0 10px 25px;
+}
+.publication ul.pub_interact a {
 	text-decoration: none;
 }
 
-.publication ul {
+.publication ul.pub_interact {
 	list-style: none;
 }
 
-.publication ul li {
+.publication ul.pub_interact li {
 	float: left;
 	margin-right: 10px;
 }
@@ -123,10 +132,6 @@ ul.wysihtml5-toolbar {
 	font-size: 0.8em;
 	margin-left: 6px;
 	color: #888;
-}
-
-.publication p {
-	overflow: hidden;
 }
 
 #input_publication {
@@ -405,8 +410,8 @@ ul.wysihtml5-toolbar > li{
 }
 
 .btn_promote {
-	background: #3794ed;
-	border-radius: 5px 5px 5px 5px;
+  background: #3794ed;
+  border-radius: 5px 5px 5px 5px;
   color: #FFFFFF;
   height: 36px;
   margin: 3px 0;

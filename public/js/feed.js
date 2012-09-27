@@ -34,6 +34,8 @@ jQuery(function(){
     
     jQuery('.interestIcon').live('click', function(){
     	event.preventDefault();
+    	jQuery('.selected_i').removeClass('selected_i');
+    	jQuery(this).parent().addClass('selected_i');
     	var i =jQuery(this).attr('id');
     	var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.selectFeed(i, l).ajax(loadFeed(i, l));
