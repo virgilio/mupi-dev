@@ -195,6 +195,32 @@ public class Feed extends Controller {
   }
   
   @Restrict(Mupi.USER_ROLE)
+  public static Result refreshPublications(Long first){
+    final models.Profile p = Mupi.getLocalUser(session()).profile;
+    Long i = getLocalInterest();
+    Long l = getLocalLocation();
+    models.Interest iObj = null;
+    models.Location lObj = null;
+    if(i != null) iObj = models.Interest.find.byId(i);
+    if(l != null) lObj= models.Location.find.byId(l);
+    List<models.Publication> pubs = new ArrayList<models.Publication>();
+    
+    if(i == null || i == -1){
+      if(l == null || l == -1){pubs = Publication.findNewerByInterests(getInterestIds(p.getInterests()), first).getList();}
+      else {pubs = Publication.findNewerByInterestsLocation(getInterestIds(p.getInterests()), l, first).getList();}
+    }
+    else{
+      if(l == null || l == -1){pubs = Publication.findNewerByInterest(i, first).getList();}
+      else{pubs = Publication.findNewerByInterestLocation(i, l, first).getList();}
+    }
+    
+    if(pubs.isEmpty()) 
+      return AjaxResponse.build(2, "");
+    else
+      return AjaxResponse.build(0, pubList.render(pubs, iObj, lObj).body());
+  }
+  
+  @Restrict(Mupi.USER_ROLE)
   public static Result nextPublications(Long last){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
     Long i = getLocalInterest();
@@ -203,7 +229,6 @@ public class Feed extends Controller {
     models.Location lObj = null;
     if(i != null) iObj = models.Interest.find.byId(i);
     if(l != null) lObj= models.Location.find.byId(l);
-    Integer status = 0;
     
     List<models.Publication> pubs = new ArrayList<models.Publication>();
     
@@ -214,11 +239,12 @@ public class Feed extends Controller {
     else{
       if(l == null || l == -1){pubs = Publication.findByInterest(i, last).getList();}
       else{pubs = Publication.findByInterestLocation(i, l, last).getList();}
-    }
+    }    
     
-    
-    if(pubs.isEmpty()) status = 2;    
-    return AjaxResponse.build(status, pubList.render(pubs, iObj, lObj).body());
+    if(pubs.isEmpty())
+      return AjaxResponse.build(2, "");
+    else
+      return AjaxResponse.build(0, pubList.render(pubs, iObj, lObj).body());
   }
   
   
@@ -260,7 +286,7 @@ public class Feed extends Controller {
 
     return AjaxResponse.build(status, feedContent.render(p.getLocations(), l_pubs, l_prom, i, l, PROMOTION_FORM, PROMOTE_MEETUP_FORM,HOST_MEETUP_FORM).body());
   }
-
+  
   @Restrict(Mupi.USER_ROLE)
   public static Result selectFeed(Long interest, Long location){
     final models.Profile p = Mupi.getLocalUser(session()).profile;

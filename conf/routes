@@ -62,6 +62,7 @@ POST  /feed/promote/event       controllers.Feed.promote
 POST  /feed/promote/meetup      controllers.Feed.promoteMeetUp
 POST  /feed/host                controllers.Feed.hostMeetUp
 POST  /feed/nextPubs            controllers.Feed.nextPublications(last: Long)
+POST  /feed/updatePubs          controllers.Feed.refreshPublications(last: Long)
 POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 
 # PROFILE
