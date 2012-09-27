@@ -102,7 +102,6 @@ public class Promotion extends Model {
     }catch (Exception e) {
       if(pub!=null)
         Publication.remove(pub);
-      throw e;
     }
 
   }
