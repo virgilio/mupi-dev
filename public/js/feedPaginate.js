@@ -1,5 +1,5 @@
 jQuery(function(){	
-	jQuery("#nextPublications").click(function (){
+	jQuery("#nextPublications").click(function(event){
 		event.preventDefault();
 		if(jQuery('.all_publications .publication').size() == 0)
 			jsRoutes.controllers.Feed.nextPublications("-1").ajax(loadMorePubs());
@@ -17,7 +17,10 @@ jQuery(function(){
     			if(response[0] == 0) {
     				jQuery('#pubsFootPaginate').before(response[1]);
     			}
-    			else jQuery('#pubsPaginateMsg').text("Não existem mais publicações");
+    			else jQuery('#pubsPaginateMsg').text("Não existem mais publicações")
+    					.slideDown('fast')
+    					.delay('700')
+    					.slideUp('fast');
     		},
     		error : function() {
     			if (jQuery('.alert').size() == 0) {
@@ -30,7 +33,7 @@ jQuery(function(){
     	}
     }
     
-    jQuery("#nextPromotions").click(function (){
+    jQuery("#nextPromotions").click(function (event){
 		event.preventDefault();
 		if(jQuery('.meetups .meetup').size() == 0)
 			jsRoutes.controllers.Feed.nextPromotions("-1").ajax(loadMoreProms());
@@ -49,7 +52,10 @@ jQuery(function(){
     				console.log("recebemos: " + response[1]);
     				jQuery('#promsFootPaginate').before(response[1]);
     			}
-    			else jQuery('#promsPaginateMsg').text("Não existem mais Divulgações");
+    			else jQuery('#promsPaginateMsg').text("Não existem mais publicações")
+					.slideDown('fast')
+					.delay('700')
+					.slideUp('fast');
     		},
     		error : function() {
     			if (jQuery('.alert').size() == 0) {

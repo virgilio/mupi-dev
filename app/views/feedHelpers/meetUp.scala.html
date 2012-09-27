@@ -1,6 +1,6 @@
 @(prom : models.Promotion)
 
-@publisherPic = @{"event/picture" + prom.getPicture}
+@publisherPic = @{"event/picture/medium" + prom.getPicture}
 
 
 <a class="meetup" href="@routes.Mupi.promotion(prom.getId)" prom_id="@prom.getId"> 

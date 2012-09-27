@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -7,10 +8,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import models.Location;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
+
+import com.typesafe.plugin.MailerAPI;
+import com.typesafe.plugin.MailerPlugin;
 
 import play.data.Form;
 import play.i18n.Messages;
@@ -19,6 +25,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import utils.AjaxResponse;
+import utils.ImageHandler;
 import views.html.profile;
 import be.objectify.deadbolt.actions.Restrict;
 
@@ -54,7 +61,13 @@ public class Profile extends Controller {
 			if (picture != null) {
 			    String fileName = picture.getFilename();
 			    File file = picture.getFile();
-			    
+			    int i = (fileName.toLowerCase()).lastIndexOf('.');
+	        String extension = "png";
+	        
+	        if(i > 0 && i < fileName.length() - 1){
+	          extension = fileName.substring(i + 1).toLowerCase();
+	        }
+	        
 			    String hashTime = getMD5(System.currentTimeMillis());
 			    String hashUser = getMD5(user.email);
 			    
@@ -63,6 +76,20 @@ public class Profile extends Controller {
 			    		"//" + hashTime + fileName);
 		    	FileUtils.copyFile(file, destinationFile);
 		    	picturePath = "/" + hashUser + "/" + hashTime + fileName;
+		    	
+		    	File thumb = new File(play.Play.application().path().toString() +
+	            "//public//upload//profile//picture//thumb//" + hashUser +
+	            "//" + hashTime + fileName);
+	        thumb.mkdirs();
+	        BufferedImage bi = ImageHandler.createSmallProfile(destinationFile);
+	        ImageIO.write(bi, extension, thumb);
+	        
+	        File medium = new File(play.Play.application().path().toString() +
+	            "//public//upload//profile//picture//medium//" + hashUser +
+	            "//" + hashTime + fileName);
+	        medium.mkdirs();
+	        bi = ImageHandler.createMediumSquare(destinationFile);
+	        ImageIO.write(bi, extension, medium);
 			}else{
 				if(filledForm.field("picture").value() == null){
 					picturePath = user.getProfile().getPicture();
@@ -93,6 +120,28 @@ public class Profile extends Controller {
 			return redirect(routes.Profile.profile());
 		}
 	}
+	
+	@Restrict(Mupi.USER_ROLE)
+  public static Result suggestLocation(String city){
+    final User u = Mupi.getLocalUser(session());
+    final models.Profile p = u.getProfile();
+    String lastName = p.getLastName();
+    if(lastName == null) lastName = "";
+
+    final String subject = p.getFirstName() + " " + lastName + " sugeriu uma cidade!!  Yayyy!!";
+
+    final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
+        "sugeriu que a cidade " + city + " seja inserida ao banco de dados!";
+
+    MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+    mail.setSubject( subject );
+    mail.addRecipient("banduk@gmail.com");
+    mail.addFrom("noreply@mupi.me");
+    mail.setReplyTo("noreply@mupi.me");
+    mail.send( body );
+
+    return  AjaxResponse.build(0, "Esta localização está disponível no momento assim que estiver entraremos em contato");
+  }
 	
 	@Restrict(Mupi.USER_ROLE)
 	public static Result changeLocation(Integer op, Long id){

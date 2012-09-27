@@ -68,6 +68,7 @@ POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 GET   /profile           	    controllers.Profile.profile
 POST  /profile           	    controllers.Profile.doProfile
 POST  /profile/:op/:id        controllers.Profile.changeLocation(op: Integer, id: Long)
+POST  /profile/:city          controllers.Profile.suggestLocation(city: String)
 
 # INTERESTS
 POST  /interest/checkInterest/:id    controllers.Interest.checkInterest(id: Long)

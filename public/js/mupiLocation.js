@@ -21,14 +21,27 @@ function registerLocation(allLocs) {
 		}
 	});
 	if (!exists) {
-//		jsRoutes.controllers.Profile.sugegstLocation(loc);
-		if (jQuery('.alert').size() == 0) {
-			jQuery('.navbar-container').next().prepend(
-					"<div class='alert'> </div>");
-		}
-		jQuery('.alert')
-				.addClass('alert-error')
-				.html("Esta localização está disponível no momento");//. Assim que estiver entraremos em contato");
+		jsRoutes.controllers.Profile.sugegstLocation(loc).ajax({
+			success:function(data) {
+				if (jQuery('.alert').size() == 0) {
+					jQuery('.navbar-container').next().prepend(
+							"<div class='alert'> </div>");
+				}
+				jQuery('.alert')
+						.addClass('alert-success')
+						.html("Esta localização está disponível no momento. Assim que estiver entraremos em contato");
+			},
+		    error:function(data) {
+		    	if (jQuery('.alert').size() == 0) {
+					jQuery('.navbar-container').next().prepend(
+							"<div class='alert'> </div>");
+				}
+				jQuery('.alert')
+						.addClass('alert-error')
+						.html("Esta localização está disponível no momento");
+		    }
+		})
+		
 	}
 };
 

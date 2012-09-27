@@ -1,7 +1,7 @@
 jQuery(function(){	
 	jQuery('#promotion_comments textarea').autosize();
 	
-	jQuery('#sendComent').live('click', function(){
+	jQuery('#sendComent').live('click', function(event){
 		event.preventDefault();
     	jsRoutes.controllers.Feed.commentPromotion(
 			encodeURIComponent(jQuery(this).parent().prev('textarea').val()),

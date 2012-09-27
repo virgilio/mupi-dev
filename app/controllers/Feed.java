@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -7,6 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import models.Promotion;
 import models.PubComment;
@@ -24,6 +27,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import utils.AjaxResponse;
+import utils.ImageHandler;
 import views.html.index;
 import views.html.feedHelpers.feedContent;
 import views.html.feedHelpers.pubList;
@@ -91,7 +95,7 @@ public class Feed extends Controller {
 
     final String subject = p.getFirstName() + " " + lastName + " quer organizar um encontro amiguinhos!  Yayyy!!";
 
-    final String body = "O usuário " + p.getFirstName() + " " + lastName + " " +
+    final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "quer organizar um encontro na seguinte comunidade:\n" + 
         "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
         "\n    Interesse - " + models.Location.find.byId(getLocalInterest()).getName() +
@@ -119,7 +123,7 @@ public class Feed extends Controller {
 
     final String subject = p.getFirstName() + " " + lastName + " quer receber encontros amiguinhos!  Yayyy!!";
 
-    final String body = "O usuário " + p.getFirstName() + " " + lastName + " " +
+    final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "quer receber encontros na seguinte localidade:\n" + 
         "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
         "\n    Interesse - " + models.Location.find.byId(getLocalInterest()).getName() +
@@ -213,9 +217,7 @@ public class Feed extends Controller {
     }
     
     
-    if(pubs.isEmpty()) status = 2;
-    System.out.println(pubs.toString());
-    
+    if(pubs.isEmpty()) status = 2;    
     return AjaxResponse.build(status, pubList.render(pubs, iObj, lObj).body());
   }
   
@@ -328,7 +330,13 @@ public class Feed extends Controller {
       if (picture != null) {
         String fileName = picture.getFilename();
         File file = picture.getFile();
-
+        int index = (fileName.toLowerCase()).lastIndexOf('.');
+        String extension = "png";
+        
+        if(index > 0 && index < fileName.length() - 1){
+          extension = fileName.substring(index + 1).toLowerCase();
+        }
+        
         String hashTime = getMD5(System.currentTimeMillis());
         String hashCommunity = getMD5(iObj.toString() + lObj.toString());
 
@@ -338,7 +346,14 @@ public class Feed extends Controller {
         FileUtils.copyFile(file, destinationFile);
         picturePath = "/" + hashCommunity + "/" + hashTime + fileName;
 
-
+        File medium = new File(play.Play.application().path().toString() +
+            "//public//upload//event//picture//medium//" + hashCommunity +
+            "//" + hashTime + fileName);
+        medium.mkdirs();
+        
+        BufferedImage bi = ImageHandler.createSmallInterest(destinationFile);
+        bi = ImageHandler.createMediumPromotion(destinationFile);
+        ImageIO.write(bi, extension, medium);
       }else{picturePath = BLANK_EVT;}
     
       models.Promotion.create(

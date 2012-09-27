@@ -9,14 +9,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageOutputStream;
 
 import models.User;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
-import org.springframework.util.StringUtils;
 
 import play.data.Form;
 import play.i18n.Messages;
@@ -83,8 +80,6 @@ public class Interest extends Controller {
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");
 			String picturePath = BLANK_PIC;
-
-			System.out.println(picture);
 
 			if (picture != null) {
 				String fileName = picture.getFilename();
