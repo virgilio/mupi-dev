@@ -1,9 +1,13 @@
 package security;
 
+import org.springframework.context.ApplicationContext;
+
 import models.User;
+import play.api.Application;
 import play.i18n.Messages;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Http.Context;
 import be.objectify.deadbolt.AbstractDeadboltHandler;
 import be.objectify.deadbolt.DynamicResourceHandler;
 import be.objectify.deadbolt.models.RoleHolder;
@@ -11,10 +15,13 @@ import be.objectify.deadbolt.models.RoleHolder;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 
+import controllers.Mupi;
+import controllers.routes;
+
 public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
 	@Override
-	public Result beforeRoleCheck(final Http.Context context) {
+	public Result beforeRoleCheck(Http.Context context) {
 		if (PlayAuthenticate.isLoggedIn(context.session())) {
 			// user is logged in
 			return null;
@@ -25,11 +32,15 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 			// was requested before sending him to the login page
 			// if you don't call this, the user will get redirected to the page
 			// defined by your resolver
-			final String originalUrl = PlayAuthenticate
-					.storeOriginalUrl(context);
+//			final String originalUrl = PlayAuthenticate.storeOriginalUrl(context);
 
-			context.flash().put("error", Messages.get("playauthenticate.handler.loginfirst", originalUrl));
-			return redirect(PlayAuthenticate.getResolver().login());
+//			Http.Context.current().flash().put("error", Messages.get("playauthenticate.handler.loginfirst", originalUrl));
+			
+//			Context.current().flash().put("error", Messages.get("playauthenticate.handler.loginfirst", originalUrl));
+//			context = new Context(request,null, null);
+//			context.flash().put("error", Messages.get("playauthenticate.handler.loginfirst", originalUrl));
+			
+			return redirect(routes.Mupi.index());
 		}
 	}
 

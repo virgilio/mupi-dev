@@ -13,7 +13,6 @@ jQuery(function(){
     var loadMorePubs = function(){
     	return {
     		success : function(data) {
-    			console.log(data);
     			var response = data.split("||");
     			if(response[0] == 0) {
     				jQuery('#pubsFootPaginate').before(response[1]);

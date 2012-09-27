@@ -9,7 +9,7 @@ constraint.maxLength=Comprimento máximo: {0}
 constraint.email=E-mail
 
 # --- Formats
-format.date=Data ('' {0}'')
+format.date=Data (''{0}'')
 format.numeric=Numérico
 format.real=Real
 
@@ -121,7 +121,7 @@ playauthenticate.navigation.restricted=Página restrita
 playauthenticate.navigation.signup=Registre-se
 
 # play-authenticate: Handler
-playauthenticate.handler.loginfirst=Você precisa fazer login em primeiro lugar, para ver'' {0}''
+playauthenticate.handler.loginfirst=Você precisa fazer login em primeiro lugar, para ver ''{0}''
 
 # play-authenticate: Profile
 playauthenticate.profile.title=Perfil do usuário
