@@ -98,6 +98,10 @@ public class Publication extends Model {
 		}
 	}
 	
+	public static void remove(Publication p){
+    p.delete();
+  }
+	
 	public static void unpublish(Long id){
 		Publication pub = find.byId(id);
 		pub.setStatus(INACTIVE);

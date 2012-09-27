@@ -358,7 +358,6 @@ public class Feed extends Controller {
       
       return redirect(routes.Feed.feed());
     }catch (Exception e) {
-      models.Publication.remove(p);
       flash(Mupi.FLASH_ERROR_KEY, "Erro ao divulgar evento, por favor contate-nos para que possamos resolver este problema.");
       return redirect(routes.Feed.feed());
     }

@@ -17,6 +17,9 @@ import play.db.ebean.Model;
 
 import com.avaje.ebean.Page;
 
+import controllers.Mupi;
+import controllers.routes;
+
 @Entity
 @Table(name = "promotions")
 public class Promotion extends Model {
@@ -86,17 +89,22 @@ public class Promotion extends Model {
       String title, String address, Date date, Date time, String description, String link, String image) {
 
     String publicationBody = "O evento " + title + " foi divulgado por ";
-
+    
     Publication pub = Publication.create(
         profile, 
         location, 
         interest, 
         models.Publication.EVENT, 
         publicationBody);
+    try {
+      Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);
+      prom.save();
+    }catch (Exception e) {
+      if(pub!=null)
+        Publication.remove(pub);
+      throw e;
+    }
 
-    Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);
-
-    prom.save();
   }
 
   public static void update(Long id, String title, String address, Date date,
