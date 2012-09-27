@@ -1,6 +1,6 @@
 body{
     background: url('../img/bg.jpg') 0 0 repeat;
-    font-family:"Century Gothic", Helvetica, sans-serif;
+    font-family:'Century Gothic', 'URW Gothic L', 'Gill Sans', Helvetica, sans-serif;
     padding: 0;
 }
 #content{
