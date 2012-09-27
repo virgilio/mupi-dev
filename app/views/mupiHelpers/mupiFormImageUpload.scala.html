@@ -9,17 +9,15 @@
 <script type="text/javascript"  src="@routes.Assets.at("js/mupiFileUpload.js")"></script>
 
 <div class="fileupload fileupload-new span3 validation-group" data-provides="fileupload" uploadtype="image">
-  <div class="fileupload-new mupi_thumbs">
-	  <div class="fix_img">
-	    <img src="@routes.Mupi.at(path)" />
-	  </div>
+  <div class="fileupload-new thumbnail">
+  	<img src="@routes.Mupi.at(path)" />	
   </div>
-  <div class="fileupload-preview fileupload-exists mupi_thumbs thumbnail"></div>
+  <div class="fileupload-preview fileupload-exists thumbnail"></div>
   <div>
     <span class="btn btn-file control-group">
       Escolher imagem
       <input value="@field.value" name="@field.name" type="file" />
-	   </span>
+	</span>
     <a href="#" class="btn" data-dismiss="fileupload">Excluir</a>
     
   </div>

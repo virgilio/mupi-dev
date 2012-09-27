@@ -70,6 +70,19 @@
 }
 
 /*PUBLICATIONS*/
+#nextPublications{
+	background: #e5e5e5;
+    border: 0;
+    height: 12px;
+    color: #444;
+    width: 100%;
+    line-height: 12px;
+    padding: 0;
+    margin: 0;
+}
+#pubsPaginateMsg{
+	text-align: center;
+}
 ul.wysihtml5-toolbar:after {
 	display: none;
 }

@@ -32,7 +32,7 @@
   <div class="sidebar">
      @if(user.getProfile.getInterests.size() > 0){
      <ul class="interestList">
-   	    <li @if(selectedi == null || selectedi.getId == -1){class="selected_i"} class="all_interests_li">
+   	    <li @if(selectedi == null || selectedi.getId == -1){class="selected_i"}>
         	<span class="interestIcon" id="-1">Todos</span>
         </li>
 	     @for(interest <- user.getProfile.getInterests.filter(_.getStatus() > 0)) {

@@ -1,5 +1,5 @@
 jQuery(function(){	
-	jQuery(".comment_lnk").live('click', function (){
+	jQuery(".comment_lnk").live('click', function (event){
 		event.preventDefault();
 		if(jQuery("#" + jQuery(this).attr("comments")).is(':visible'))
 			jQuery("#" + jQuery(this).attr("comments")).slideUp('fast');
@@ -8,7 +8,7 @@ jQuery(function(){
 	       
 	});
 
-	jQuery("#open_publication_input").live('click', function(){
+	jQuery("#open_publication_input").live('click', function(event){
 		event.preventDefault();
 		if(jQuery("#input_publication").is(':visible'))
 			jQuery("#input_publication").slideUp('fast');
@@ -17,7 +17,7 @@ jQuery(function(){
 		}
     });
 	
-    jQuery('.btn_local').live('click', function(){
+    jQuery('.btn_local').live('click', function(event){
     	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
     	if(jQuery(this).children('i').hasClass('icon-check')){
@@ -32,7 +32,7 @@ jQuery(function(){
         };
     });
     
-    jQuery('.interestIcon').live('click', function(){
+    jQuery('.interestIcon').live('click', function(event){
     	event.preventDefault();
     	jQuery('.selected_i').removeClass('selected_i');
     	jQuery(this).parent().addClass('selected_i');
@@ -41,7 +41,7 @@ jQuery(function(){
     	jsRoutes.controllers.Feed.selectFeed(i, l).ajax(loadFeed(i, l));
     });
     
-    jQuery('.sendComent').live('click', function(){
+    jQuery('.sendComent').live('click', function(event){
     	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
 		var l = jQuery("#selectedLocation").val();
@@ -51,7 +51,7 @@ jQuery(function(){
 		).ajax(loadFeed(i,l))
     });
     
-    jQuery('#btn_confirm_publication').live('click', function(){
+    jQuery('#btn_confirm_publication').live('click', function(event){
     	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
     	var l = jQuery("#selectedLocation").val();
@@ -60,7 +60,7 @@ jQuery(function(){
     	).ajax(loadFeed(i,l));
     });
 
-    jQuery("#btn_publish").live('click', function(){
+    jQuery("#btn_publish").live('click', function(event){
     	event.preventDefault();
     	jQuery("#preview_publication > .modal-body").html(jQuery("#body_publication").val());
     });
@@ -106,12 +106,7 @@ jQuery(function(){
 	    }
 	  }
 	}
-    
-    
-    
-    
-    
-    
+        
 })
 
 
