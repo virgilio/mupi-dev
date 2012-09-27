@@ -9,5 +9,5 @@
 }
 
 .control-group.success > input, .control-group.success > textarea, .control-group.success > select{
-  background: rgba(0, 256, 0, 0.045);
+  background: #E1E7E1;
 }

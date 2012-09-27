@@ -3,9 +3,8 @@ body{
     font-family:'Century Gothic', 'URW Gothic L', 'Gill Sans', Helvetica, sans-serif;
     padding: 0;
 }
-#content{
-	padding-top: 10px;
-	padding-bottom: 20px;
+.alert {
+	text-align:center;
 }
 .txtcenter{
     text-align: center;
@@ -19,6 +18,7 @@ footer[role="contentinfo"] {
     background: #f5f5f5;
     padding: 10px 0;
     clear: both; /*BANDUK*/
+    position: relative;
 }
 footer[role="contentinfo"] p {
     margin: 0;
