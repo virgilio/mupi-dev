@@ -1,16 +1,16 @@
 .mupi-navbar{
-    background-color: #1a100b;
+    background-color: #332213;
     -moz-box-shadow: 0 0 5px 2px #888;
     -webkit-box-shadow: 0 0 5px 2px #888;
     box-shadow: 0 0 5px 2px #888;
-    height: 40px;
+    height: 10px;
     padding-left: 110px;
 }
 .mupi_logo{
-   background-color: #1A100B;
+   background-color: #332213;
    width: 100px;
    height: 100px;
-   border-radius: 50px;
+   border-radius: 0 50px 50px 50px;;
    position: fixed;
    top: 0;
    left: -2px;
@@ -23,4 +23,19 @@
     margin-top: 10px;
     margin-left: 10px;
     width: 90px;
+}
+.mupi-navbar #menu_user{
+	background: #332213;
+	padding: 10px 5px 5px 8px;
+	border-radius: 0 0 0 4px;
+	height: 20px;
+}
+#menu_user a{
+	margin: 0 5px;
+	color: white;
+	font-size: 1.2em;
+}
+#menu_user a:hover{
+	color: #D95E21;
+	text-decoration: none;	
 }

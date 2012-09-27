@@ -7,28 +7,17 @@
 <script type="text/javascript" src="@routes.Assets.at("js/mupi-alertHandler.js")"></script>
 
 
-<div class="navbar mupi-navbar navbar-fixed-top">
- <div class="btn-group pull-right">
-	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-	  @defining(Mupi.getLocalUser(session())) { user =>
-	    <i class="icon-user"></i> @user.name 
-	    <span class="caret"></span>
-	  }
-	</a>
-	<ul class="dropdown-menu">
-		<li><a href="@routes.Profile.profile()">@Messages("playauthenticate.navigation.profile")</a></li>
-		<li class="divider"></li>
-		<li>
-		    <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">
-		    <i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a>
-		</li>
-	</ul>
-	</div>
-	<div class="nav-collapse">
-		<ul class="nav">
-			<li class="@(" active".when(nav==""))"><a href="@routes.Mupi.index()">@Messages("mupi.navigation.feed")</a></li>
-			<li class="@(" active".when(nav=="manager"))"><a href="@routes.Interest.interestManager()">@Messages("mupi.navigation.interestManager")</a></li>
-		</ul>
+<div class="mupi-navbar navbar-fixed-top">
+	<div id ="menu_user" class="pull-right">
+		<a href="@routes.Profile.profile()">
+			<i class="icon-user"></i>
+		</a>
+		<a href="@routes.Interest.interestManager()">
+			<i class="icon-wrench"></i>
+		</a>
+		<a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">
+			<i class="icon-signout"></i>
+		</a>
 	</div>
 </div>
 

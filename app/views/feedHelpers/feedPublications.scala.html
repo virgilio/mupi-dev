@@ -3,17 +3,23 @@
 @publications = @{publicationsPage.getList}
 
 <div class="all_publications">
+	 
+  <button id="refresh_publications">
+  	<i class="icon-refresh"></i>
+  </button>
+  
+
   @if(interest != null && location != null){
     @inputPublication(interest, location, promoteForm)
   } else {
-  	<span class="btns">
+  <span class="btns">	
   	<p>
   		Para publicar, você precisa escolher um interesse e uma cidade.
   	</p>
-  	</span>
+  </span>
   
   }
-  
+ 
   @if(publications.size > 0 ){
 	 @pubList(publications, interest, location)
   } else {

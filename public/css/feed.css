@@ -1,12 +1,13 @@
 /*SIDEBAR*/
 .sidebar {
-	background-color: #f5f5f5;
+	background-color: whiteSmoke;
 	float: left;
-	padding-top: 100px;
-	width: 100px;
+	margin-top: 40px;
+	width: 98px;
 	position: fixed;
 	top: 0;
 	bottom: 0;
+	padding-top: 60px;
 }
 .all_interests_li{
 	padding-bottom: 8px;
@@ -38,19 +39,38 @@
 .interestIcon{
 	cursor: pointer;
 }
+
+#all_interests_icon{
+	padding-bottom: 8px;
+}
+
 /*CONTENT*/
 #feed_content {
 	height: 100%;
 	padding-left: 100px;
 }
 
+#refresh_publications{
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	background: whiteSmoke;
+	color: #444;
+	border-radius: 3px;
+	border: 1px solid #CCC;
+}
+#refresh_publications:hover{
+	background: #e5e5e5;
+}
 /*SUBMENU*/
 .feed_submenu {
 	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
 	height: 40px;
 	padding-left: 20px;
 	padding-top: 12px;
+	margin-left: -50px;
 	margin-bottom: 10px;
+	padding-left: 60px;
 }
 
 .feed_submenu .icon-globe {
@@ -112,6 +132,7 @@ ul.wysihtml5-toolbar {
 	background: whiteSmoke;
 	border: 1px solid #BBB;
 	padding: 0 5px 5px 5px;
+	position: relative;
 }
 
 .publication {
