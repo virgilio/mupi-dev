@@ -24,7 +24,7 @@
 	             <h4>Interesses escolhidos</h4>
 		             @for(uInterest <- uInterests) {
 	                 @if(uInterest.getStatus > 0){
-	                   @mupiFormImgCheckbox(uInterest.getId.toString, "interests["+uInterest.getId.toString+"]", uInterest.getName, "interest/picture", uInterest.getPicture, uInterest.getDescription, true)
+	                   @mupiFormImgCheckbox(uInterest.getId.toString, "interests["+uInterest.getId.toString+"]", uInterest.getName, "interest/picture/medium", uInterest.getPicture, uInterest.getDescription, true)
 	                 }
 	               }
 	             }else{
@@ -38,7 +38,7 @@
 		             <p>Sobre o que você quer aprender? Escolha abaixo os seus interesses:</p>
 						@for(interest <- allInterests) {
 						  @if(interest.getStatus > 0){
-		                    @mupiFormImgCheckbox(interest.getId.toString, "interests["+interest.getId.toString+"]", interest.getName, "interest/picture", interest.getPicture, interest.getDescription)
+		                    @mupiFormImgCheckbox(interest.getId.toString, "interests["+interest.getId.toString+"]", interest.getName, "interest/picture/medium", interest.getPicture, interest.getDescription)
 		                  }
 		                }
 		         </div>
