@@ -250,13 +250,15 @@ public class Feed extends Controller {
       Page<models.Promotion> l_prom,
       models.Interest i,
       models.Location l){
+	  
+	final models.Profile p = Mupi.getLocalUser(session()).profile;
     final String iSession; if(i == null) iSession = "-1"; else iSession = i.getId().toString();
     final String lSession; if(l == null) lSession = "-1"; else lSession = l.getId().toString();
 
     session().put("interest", iSession);
     session().put("location", lSession);
 
-    return AjaxResponse.build(status, feedContent.render(l_pubs, l_prom, i, l, PROMOTION_FORM, PROMOTE_MEETUP_FORM,HOST_MEETUP_FORM).body());
+    return AjaxResponse.build(status, feedContent.render(p.getLocations(), l_pubs, l_prom, i, l, PROMOTION_FORM, PROMOTE_MEETUP_FORM,HOST_MEETUP_FORM).body());
   }
 
   @Restrict(Mupi.USER_ROLE)

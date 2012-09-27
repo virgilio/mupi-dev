@@ -47,18 +47,15 @@
 /*SUBMENU*/
 .feed_submenu {
 	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
-	font-size: 1.2em;
 	height: 40px;
 	padding-left: 20px;
 	padding-top: 12px;
+	margin-bottom: 10px;
 }
 
 .feed_submenu .icon-globe {
-	font-size: 1.5em;
-	display: block;
-	line-height: 28px;
-	float: left;
-	margin-right: 15px;
+	font-size: 18px;
+	line-height: 7px;
 }
 
 #locals {
@@ -68,8 +65,18 @@
 .page_content {
 	margin-bottom: 60px;
 }
+#promsPaginateMsg{
+display: none;
+border-top: 1px dashed #AAA;
+text-align: center;
+}
 
-/*PUBLICATIONS*/
+#nextPromotions{
+	width: 100%;
+	background: none;
+	border: none;
+	border-top: 1px dashed #AAA;
+}
 #nextPublications{
 	background: #e5e5e5;
     border: 0;
@@ -80,6 +87,7 @@
     padding: 0;
     margin: 0;
 }
+/*PUBLICATIONS*/
 #pubsPaginateMsg{
 	text-align: center;
 }

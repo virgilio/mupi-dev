@@ -17,8 +17,7 @@ jQuery(function(){
     			if(response[0] == 0) {
     				jQuery('#pubsFootPaginate').before(response[1]);
     			}
-    			else jQuery('#pubsPaginateMsg').text("Não existem mais publicações")
-    					.slideDown('fast')
+    			else jQuery('#pubsPaginateMsg').slideDown('fast')
     					.delay('700')
     					.slideUp('fast');
     		},
@@ -52,8 +51,7 @@ jQuery(function(){
     				console.log("recebemos: " + response[1]);
     				jQuery('#promsFootPaginate').before(response[1]);
     			}
-    			else jQuery('#promsPaginateMsg').text("Não existem mais publicações")
-					.slideDown('fast')
+    			else jQuery('#promsPaginateMsg').slideDown('fast')
 					.delay('700')
 					.slideUp('fast');
     		},

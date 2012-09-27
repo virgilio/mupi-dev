@@ -2,15 +2,6 @@
 
 @publications = @{publicationsPage.getList}
 
-<h3>
- @{(interest,location) match{
-   case (i, l)if(i != null && l != null) => "Últimas publicações sobre " + interest.getName + " em " + location.getName 
-   case (i, null) if(i != null) => "Últimas publicações globais sobre " + interest.getName
-   case (null, l) if(l != null) => "Últimas publicações em " + location.getName
-	 case _ => "Últimas publicações globais em todos seus interesses"
- }}
-</h3>
-
 <div class="all_publications">
   @if(interest != null && location != null){
     @inputPublication(interest, location, promoteForm)
@@ -34,7 +25,7 @@
   }
   
   <div id="pubsFootPaginate">
-      <div id="pubsPaginateMsg" class="hide"></div>
+      <div id="pubsPaginateMsg" class="hide">Não há mais publicações a serem mostradas</div>
       <button id="nextPublications" ><i class="icon-caret-down"></i></button>
   </div>
 

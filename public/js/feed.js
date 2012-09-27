@@ -86,7 +86,7 @@ jQuery(function(){
     	return {
     		success : function(data) {
     			var response = data.split("||");
-    			if(response[0] == 0) jQuery('#feeds').html(response[1]);
+    			if(response[0] == 0) jQuery('#feed_content').html(response[1]);
     		},
     		error : function() {
     			if (jQuery('.alert').size() == 0) {
