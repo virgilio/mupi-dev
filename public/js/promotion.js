@@ -3,17 +3,14 @@ jQuery(function(){
 	
 	jQuery('#sendComent').live('click', function(){
 		event.preventDefault();
-    	var i = jQuery("#selectedInterest").val();
-		var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.commentPromotion(
-			i,l,
 			encodeURIComponent(jQuery(this).parent().prev('textarea').val()),
 			jQuery(this).attr('publication')
-		).ajax(loadComments(i,l))
+		).ajax(loadComments())
 		
     });
 
-	var loadComments = function(i, l){
+	var loadComments = function(){
     	return {
     		success : function(data) {
     			var response = data.split("||");
