@@ -322,6 +322,9 @@ public class Feed extends Controller {
     if(i != null) iObj = models.Interest.find.byId(i);
     if(l != null) lObj= models.Location.find.byId(l);
 
+    final Form<models.Promotion> filledForm = form(models.Promotion.class).bindFromRequest();
+    final models.Profile p = Mupi.getLocalUser(session()).profile;
+    
     try {
       if (picture != null) {
         String fileName = picture.getFilename();
@@ -338,30 +341,28 @@ public class Feed extends Controller {
 
 
       }else{picturePath = BLANK_EVT;}
-
-      final Form<models.Promotion> filledForm = form(models.Promotion.class).bindFromRequest();
-      final models.Profile p = Mupi.getLocalUser(session()).profile;
-
+    
       models.Promotion.create(
-          p,
-          lObj,
-          iObj,
-          filledForm.get().getTitle(), 
-          filledForm.get().getAddress(), 
-          filledForm.get().getDate(), 
-          filledForm.get().getTime(), 
-          filledForm.get().getDescription(), 
-          filledForm.get().getLink(),
-          picturePath);
+        p,
+        lObj,
+        iObj,
+        filledForm.get().getTitle(), 
+        filledForm.get().getAddress(), 
+        filledForm.get().getDate(), 
+        filledForm.get().getTime(), 
+        filledForm.get().getDescription(), 
+        filledForm.get().getLink(),
+        picturePath);
 
       flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.promotion.created"));
-
+      
       return redirect(routes.Feed.feed());
-
     }catch (Exception e) {
+      models.Publication.remove(p);
       flash(Mupi.FLASH_ERROR_KEY, "Erro ao divulgar evento, por favor contate-nos para que possamos resolver este problema.");
       return redirect(routes.Feed.feed());
     }
+    
   }
 
   public static Long getLocalInterest(){

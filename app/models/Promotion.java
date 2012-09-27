@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -45,6 +46,7 @@ public class Promotion extends Model {
   private Date time;
 
   @Required
+  @Column(columnDefinition = "TEXT")
   private String description;
 
 
