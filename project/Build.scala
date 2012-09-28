@@ -3,8 +3,6 @@ import Keys._
 import PlayProject._
 
 object ApplicationBuild extends Build {
-
-//    val appName         = "Mupi - O que você aprendeu hoje?"
     val appName         = "mupi"
     val appVersion      = "1.0-SNAPSHOT"
 
@@ -16,6 +14,7 @@ object ApplicationBuild extends Build {
       "com.typesafe" %% "play-plugins-mailer" % "2.0.4"
     )
     
+     
 //  Uncomment this for local development of the Play Authenticate core:
 /*
     val playAuthenticate = PlayProject(
@@ -32,6 +31,11 @@ object ApplicationBuild extends Build {
 */
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+//      playAssetsDirectories <+= baseDirectory / "public/img",
+//      playAssetsDirectories <+= baseDirectory / "public/font",
+//      playAssetsDirectories <+= baseDirectory / "public/icons",
+        playAssetsDirectories <+= baseDirectory / "app/assets/javascripts",
+        
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
 
@@ -39,9 +43,9 @@ object ApplicationBuild extends Build {
       resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
 
       resolvers += Resolver.url("play-authenticate (release)", url("http://joscha.github.com/play-authenticate/repo/releases/"))(Resolver.ivyStylePatterns),
-      resolvers += Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)
+      resolvers += Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)      
     )
-//  Uncomment this for local development of the Play Authenticate core:
-//    .dependsOn(playAuthenticate).aggregate(playAuthenticate)
 
 }
+
+ 

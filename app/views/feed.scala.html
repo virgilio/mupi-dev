@@ -18,16 +18,16 @@
   @if(user == null){
     <h1>GET OUT!</h1>
   }else{
-  <link rel="stylesheet" href="@routes.Assets.at("css/font-awesome.css")" type="text/css" media="screen"/>
-  <link rel="stylesheet" href="@routes.Assets.at("css/feed.css")" type="text/css" media="screen"/>
-  <link href="@routes.Assets.at("css/jasny-bootstrap.css")" rel="stylesheet" type="text/css" media="screen"/>
+  <link rel="stylesheet" href="@routes.Assets.at("stylesheets/font-awesome.css")" type="text/css" media="screen"/>
+  <link rel="stylesheet" href="@routes.Assets.at("stylesheets/feed.css")" type="text/css" media="screen"/>
+  <link href="@routes.Assets.at("stylesheets/jasny-bootstrap.css")" rel="stylesheet" type="text/css" media="screen"/>
  
-  <script type="text/javascript" src="@routes.Assets.at("js/jquery.validate.min.js")"></script>
-  <script type="text/javascript" src="@routes.Assets.at("js/feed.js")"></script>
-  <script type="text/javascript" src="@routes.Assets.at("js/jquery.autosize-min.js")"></script>
-  <script type="text/javascript" src="@routes.Assets.at("js/wysihtml5Advanced.js")"></script>
-  <script type="text/javascript" src="@routes.Assets.at("js/wysihtml5-0.3.0.js")"></script>
-  <script type="text/javascript" src="@routes.Assets.at("js/mupiFileUpload.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.validate.min.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/feed.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.autosize-min.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/wysihtml5Advanced.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/wysihtml5-0.3.0.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/mupiFileUpload.js")"></script>
     
   <div class="sidebar">
      @if(user.getProfile.getInterests.size() > 0){

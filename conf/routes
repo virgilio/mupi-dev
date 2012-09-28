@@ -40,13 +40,13 @@ GET     /login/password/forgot     controllers.Signup.forgotPassword(email: Stri
 POST    /login/password/forgot     controllers.Signup.doForgotPassword
 
 
-# MUPI ASSETS!!!
-GET   /upload/*file         controllers.Mupi.at(file)
-# MUPI ASSETS!!!
 
+############################ MUPI ############################
 
-# Map static resources from the /public folder to the /assets URL path
-GET   /assets/*file         controllers.Assets.at(path="/public", file)
+GET   /upload/*file             controllers.Mupi.at(file)
+
+GET   /assets/*file             controllers.Assets.at(path="/public", file)
+
 
 
 GET     /                       controllers.Mupi.index
@@ -79,7 +79,7 @@ GET   /interest/manager              controllers.Interest.interestManager
 POST  /interest/manager              controllers.Interest.doAddInterest
 
 # PROMOTIONS
-GET   /promotion/:id        controllers.Mupi.promotion(id: Long)
+GET   /promotion/:id              controllers.Mupi.promotion(id: Long)
 POST  /promotion/comment/:t/:p    controllers.Feed.commentPromotion(t: String, p: Long)
 
 GET   /about            	  controllers.Mupi.about

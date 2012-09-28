@@ -41,14 +41,6 @@ jQuery(function(){
 				required  : true,
 				maxlength : 3000
 			},
-			int : {
-				required:true,
-				number: true
-			},
-			loc : {
-				required:true,
-				number: true
-			},
 			picture :{
 				accept: "png|jpe?g|gif"
 			}

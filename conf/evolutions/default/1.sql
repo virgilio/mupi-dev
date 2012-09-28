@@ -4,19 +4,19 @@
 # --- !Ups
 
 create table interests (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   name                      varchar(255),
   profile_id                bigint,
   description               varchar(255),
   picture                   varchar(255),
   status                    integer,
-  created                   timestamp,
-  modified                  timestamp,
+  created                   datetime,
+  modified                  datetime,
   constraint pk_interests primary key (id))
 ;
 
 create table linked_account (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   user_id                   bigint,
   provider_user_id          varchar(255),
   provider_key              varchar(255),
@@ -24,99 +24,99 @@ create table linked_account (
 ;
 
 create table locations (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   name                      varchar(255),
   geohash                   varchar(255),
   constraint pk_locations primary key (id))
 ;
 
 create table profiles (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   first_name                varchar(255),
   last_name                 varchar(255),
-  birth_date                timestamp,
+  birth_date                datetime,
   picture                   varchar(255),
   about                     TEXT,
   gender                    integer,
   status                    integer,
-  created                   timestamp,
-  modified                  timestamp,
+  created                   datetime,
+  modified                  datetime,
   constraint pk_profiles primary key (id))
 ;
 
 create table promotions (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   publication_id            bigint,
   title                     varchar(255),
   address                   varchar(255),
-  date                      timestamp,
-  time                      timestamp,
-  description               varchar(255),
+  date                      datetime,
+  time                      datetime,
+  description               TEXT,
   picture                   varchar(255),
   link                      varchar(255),
   status                    integer,
-  created                   timestamp,
-  modified                  timestamp,
+  created                   datetime,
+  modified                  datetime,
   constraint pk_promotions primary key (id))
 ;
 
 create table pub_comments (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   publication_id            bigint,
   profile_id                bigint,
   body                      TEXT,
   status                    integer,
-  created                   timestamp,
-  modified                  timestamp,
+  created                   datetime,
+  modified                  datetime,
   constraint pk_pub_comments primary key (id))
 ;
 
 create table publications (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   interest_id               bigint,
   location_id               bigint,
   profile_id                bigint,
   pub_typ                   integer,
   body                      TEXT,
   status                    integer,
-  created                   timestamp,
-  modified                  timestamp,
+  created                   datetime,
+  modified                  datetime,
   constraint pk_publications primary key (id))
 ;
 
 create table security_role (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   role_name                 varchar(255),
   constraint pk_security_role primary key (id))
 ;
 
 create table token_action (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   token                     varchar(255),
   target_user_id            bigint,
   type                      varchar(2),
-  created                   timestamp,
-  expires                   timestamp,
+  created                   datetime,
+  expires                   datetime,
   constraint ck_token_action_type check (type in ('EV','PR')),
   constraint uq_token_action_token unique (token),
   constraint pk_token_action primary key (id))
 ;
 
 create table users (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   email                     varchar(255),
   name                      varchar(255),
-  last_login                timestamp,
-  active                    boolean,
+  last_login                datetime,
+  active                    tinyint(1) default 0,
   status                    integer,
-  created                   timestamp,
-  modified                  timestamp,
+  created                   datetime,
+  modified                  datetime,
   profile_id                bigint,
   constraint pk_users primary key (id))
 ;
 
 create table user_permission (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   value                     varchar(255),
   constraint pk_user_permission primary key (id))
 ;
@@ -145,28 +145,6 @@ create table users_user_permission (
   user_permission_id             bigint not null,
   constraint pk_users_user_permission primary key (users_id, user_permission_id))
 ;
-create sequence interests_seq;
-
-create sequence linked_account_seq;
-
-create sequence locations_seq;
-
-create sequence profiles_seq;
-
-create sequence promotions_seq;
-
-create sequence pub_comments_seq;
-
-create sequence publications_seq;
-
-create sequence security_role_seq;
-
-create sequence token_action_seq;
-
-create sequence users_seq;
-
-create sequence user_permission_seq;
-
 alter table interests add constraint fk_interests_profile_1 foreign key (profile_id) references profiles (id) on delete restrict on update restrict;
 create index ix_interests_profile_1 on interests (profile_id);
 alter table linked_account add constraint fk_linked_account_user_2 foreign key (user_id) references users (id) on delete restrict on update restrict;
@@ -208,59 +186,37 @@ alter table users_user_permission add constraint fk_users_user_permission_user_0
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists interests;
+drop table interests;
 
-drop table if exists linked_account;
+drop table linked_account;
 
-drop table if exists locations;
+drop table locations;
 
-drop table if exists profiles;
+drop table profiles;
 
-drop table if exists profiles_locations;
+drop table profiles_locations;
 
-drop table if exists profiles_interests;
+drop table profiles_interests;
 
-drop table if exists promotions;
+drop table promotions;
 
-drop table if exists pub_comments;
+drop table pub_comments;
 
-drop table if exists publications;
+drop table publications;
 
-drop table if exists security_role;
+drop table security_role;
 
-drop table if exists token_action;
+drop table token_action;
 
-drop table if exists users;
+drop table users;
 
-drop table if exists users_security_role;
+drop table users_security_role;
 
-drop table if exists users_user_permission;
+drop table users_user_permission;
 
-drop table if exists user_permission;
+drop table user_permission;
 
-SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists interests_seq;
-
-drop sequence if exists linked_account_seq;
-
-drop sequence if exists locations_seq;
-
-drop sequence if exists profiles_seq;
-
-drop sequence if exists promotions_seq;
-
-drop sequence if exists pub_comments_seq;
-
-drop sequence if exists publications_seq;
-
-drop sequence if exists security_role_seq;
-
-drop sequence if exists token_action_seq;
-
-drop sequence if exists users_seq;
-
-drop sequence if exists user_permission_seq;
+SET FOREIGN_KEY_CHECKS=1;
 
