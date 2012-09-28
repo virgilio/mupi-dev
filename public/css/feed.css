@@ -65,9 +65,9 @@
 #refresh_publications:hover{
 	background: #e5e5e5;
 }
-#host_meetup textarea{
-	width: 100%;
-	resize: none;
+#host_meetup textarea, #promote_meetup textarea{
+	resize:none;
+	width: 95%;
 }
 /*SUBMENU*/
 .feed_submenu {

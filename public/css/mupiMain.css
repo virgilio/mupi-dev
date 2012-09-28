@@ -9,7 +9,10 @@ body{
 .txtcenter{
     text-align: center;
 }
-
+.mupi_container{
+	width: 1000px;
+	margin: 0 auto;
+}
 .modal-backdrop {background-color: #fff;}
 
 /* Footer - Based on sticky footer by Ryan Fait http://ryanfait.com/sticky-footer/*/
