@@ -18,7 +18,7 @@
 		  <span class="publisher_name">@pub.getProfile.getFirstName @pub.getProfile.getLastName</span>
 		  <span class="pub_date">@pub.getCreated.format("dd/MMM - HH:mm")</span>
 		  @if(interest == null || pub.getInterest.getId != interest.getId){
-		    em <span class="pub_int">@pub.getInterest.getId</span>@if(location == null || pub.getLocation.getId != location.getId){, <span class="pub_loc">@pub.getLocation.getName</span>}
+		    em <span class="pub_int">@pub.getInterest.getName</span>@if(location == null || pub.getLocation.getId != location.getId){, <span class="pub_loc">@pub.getLocation.getName</span>}
 		  }else{
 		    @if(location == null || pub.getLocation.getId != location.getId){
 	        em <span class="pub_loc">@pub.getLocation.getName</span>
