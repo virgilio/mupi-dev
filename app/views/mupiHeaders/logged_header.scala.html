@@ -9,13 +9,16 @@
 
 <div class="mupi-navbar navbar-fixed-top">
 	<div id ="menu_user" class="pull-right">
-		<a href="@routes.Profile.profile()">
+		<a href="@routes.Feed.resetFeed()" title="Ir para publicações">
+			<i class="icon-home"></i>
+		</a>
+		<a href="@routes.Profile.profile()" title="Meu perfil">
 			<i class="icon-user"></i>
 		</a>
-		<a href="@routes.Interest.interestManager()">
+		<a href="@routes.Interest.interestManager()" title="Meus interesses">
 			<i class="icon-star"></i>
 		</a>
-		<a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">
+		<a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()" title="Sair">
 			<i class="icon-signout"></i>
 		</a>
 	</div>
