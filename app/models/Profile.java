@@ -26,8 +26,8 @@ public class Profile extends Model {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Integer FIRST_LOGIN = 0;
-	private static final Integer REGULAR = 1;
+	public static final Integer FIRST_LOGIN = 0;
+	public static final Integer REGULAR = 1;
 	private static final String NO_PIC = "/blank_profile.jpg";
 
 	@Id
@@ -47,7 +47,7 @@ public class Profile extends Model {
 	
 	private Integer gender;
 	
-	private Integer status;
+	private Integer status = FIRST_LOGIN;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Location> locations = new ArrayList<Location>();
@@ -85,7 +85,10 @@ public class Profile extends Model {
     }
 	
 	public Profile() {
-		this.picture = NO_PIC;
+	  this.status = FIRST_LOGIN;
+    this.picture = NO_PIC;
+    this.created = new Date();
+    this.modified = new Date();
 	}
 	
 	public Profile(String name) {
@@ -131,10 +134,10 @@ public class Profile extends Model {
 		return p;
 	}
 	
-	public Profile changeStatus(final Integer newStatus){
-		this.status = newStatus;
-		this.save();
-		return this;
+	public static Profile changeStatus(final Profile profile, final Integer newStatus){
+	  profile.setStatus(newStatus);
+	  profile.save();
+		return profile;
 	}
 	
 	public static Profile create(final User user) {
@@ -145,6 +148,7 @@ public class Profile extends Model {
 		p.setLocations(new ArrayList<Location>());
 		p.setCreated(new Date());
 		p.setModified(new Date());
+		
 
 		p.save();
 		

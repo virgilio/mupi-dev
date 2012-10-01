@@ -14,7 +14,6 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import controllers.routes;
 
 public class Global extends GlobalSettings{
-
 	public static final String USER_ROLE = "user";
 	
 	public void onStart(Application app) {
@@ -25,24 +24,18 @@ public class Global extends GlobalSettings{
 				// Your login page
 				return routes.Mupi.login();
 			}
-
 			
 			@Override
 			/**
 			 * Intercept a redirection after an authorization
 			 */
 			public Call afterAuth() {
-				// If the user has already registered at least one interest, go to profile
-//				if (Mupi.hasInterests())
 					return routes.Feed.feed();
-//				// Otherwise go to the interests wizard
-//				else
-//					return routes.Interest.interestManager();
 			}
 
 			@Override
 			public Call afterLogout() {
-				return routes.Mupi.index();
+				return routes.Feed.feed();
 			}
 
 			@Override

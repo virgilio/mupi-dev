@@ -60,8 +60,11 @@ public class Feed extends Controller {
     if(user == null || user.profile == null){
       return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
     }else if(user.getProfile().getInterests().isEmpty()){
-      flash(Messages.get("mupi.profile.noInterests"));
       return redirect(routes.Interest.interestManager());
+    }
+    else if(user.getProfile().getStatus() == models.Profile.FIRST_LOGIN){
+      models.Profile.changeStatus(user.getProfile(),models.Profile.REGULAR);
+      return redirect(routes.Profile.profile());
     }
     else{
       Long interest = getLocalInterest();
