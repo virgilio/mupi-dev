@@ -49,12 +49,11 @@ GET   /assets/*file             controllers.Assets.at(path="/public", file)
 
 
 
-GET     /                       controllers.Mupi.index
+GET     /                       controllers.Feed.feed()
 
 # Mupi Pages
 # FEED
 GET   /feed/reset               controllers.Feed.resetFeed()
-GET   /feed                     controllers.Feed.feed()
 POST  /feed/select/:i/:l        controllers.Feed.selectFeed(i: Long, l: Long)
 POST  /feed/publish/:t          controllers.Feed.publish(t: String)
 POST  /feed/comment/:t/:p       controllers.Feed.comment(t: String, p: Long)

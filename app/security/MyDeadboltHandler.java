@@ -40,7 +40,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 //			context = new Context(request,null, null);
 //			context.flash().put("error", Messages.get("playauthenticate.handler.loginfirst", originalUrl));
 			
-			return redirect(routes.Mupi.index());
+			return redirect(routes.Feed.feed());
 		}
 	}
 

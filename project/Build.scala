@@ -34,7 +34,7 @@ object ApplicationBuild extends Build {
 //      playAssetsDirectories <+= baseDirectory / "public/img",
 //      playAssetsDirectories <+= baseDirectory / "public/font",
 //      playAssetsDirectories <+= baseDirectory / "public/icons",
-        playAssetsDirectories <+= baseDirectory / "app/assets/javascripts",
+//        playAssetsDirectories <+= baseDirectory / "app/assets/javascripts",
         
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),

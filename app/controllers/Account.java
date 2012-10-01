@@ -109,7 +109,7 @@ public class Account extends Controller {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
-			return redirect(routes.Mupi.index());
+			return redirect(routes.Feed.feed());
 		}
 		return ok(ask_link.render(ACCEPT_FORM, u));
 	}
@@ -119,7 +119,7 @@ public class Account extends Controller {
 		final AuthUser u = PlayAuthenticate.getLinkUser(session());
 		if (u == null) {
 			// account to link could not be found, silently redirect to login
-			return redirect(routes.Mupi.index());
+			return redirect(routes.Feed.feed());
 		}
 
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
@@ -146,7 +146,7 @@ public class Account extends Controller {
 		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
 		if (bUser == null) {
 			// user to merge with could not be found, silently redirect to login
-			return redirect(routes.Mupi.index());
+			return redirect(routes.Feed.feed());
 		}
 
 		// You could also get the local user object here via
@@ -163,7 +163,7 @@ public class Account extends Controller {
 		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
 		if (bUser == null) {
 			// user to merge with could not be found, silently redirect to login
-			return redirect(routes.Mupi.index());
+			return redirect(routes.Feed.feed());
 		}
 
 		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();

@@ -53,7 +53,7 @@ public class Feed extends Controller {
   }
 
 
-  @Restrict(Mupi.USER_ROLE)
+  
   public static Result feed(){
     final User user = Mupi.getLocalUser(session());
 

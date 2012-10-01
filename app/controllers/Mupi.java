@@ -37,8 +37,7 @@ public class Mupi extends Controller {
   public static final String ADMIN_ROLE = "admin";
 
   public static Result at(final String path){
-    final File file = new File(play.Play.application().path().toString() + 
-        "/public/upload/" + path);
+    final File file = new File(play.Play.application().path().toString() + "/public/upload/" + path);
 
     if (!file.exists()) {
       return notFound();
@@ -51,7 +50,8 @@ public class Mupi extends Controller {
   }
 
   public static Result index() {
-    return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+    return redirect(routes.Feed.feed());
+//        ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
   }
 
   public static User getLocalUser(final Session session) {
@@ -61,7 +61,8 @@ public class Mupi extends Controller {
 
   public static Result login() {
     return redirect(routes.Feed.feed());
-    //ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM)); 
+//    return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+//    return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM)); 
   }
 
   public static Result doLogin() {

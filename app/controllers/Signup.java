@@ -93,7 +93,7 @@ public class Signup extends Controller {
 				}
 			}
 
-			return redirect(routes.Mupi.index());
+			return redirect(routes.Feed.feed());
 		}
 	}
 
@@ -164,7 +164,7 @@ public class Signup extends Controller {
 				flash(Mupi.FLASH_MESSAGE_KEY,
 						Messages.get("playauthenticate.reset_password.message.success.manual_login"));
 			}
-			return redirect(routes.Mupi.index());
+			return redirect(routes.Feed.feed());
 		}
 	}
 
@@ -188,7 +188,7 @@ public class Signup extends Controller {
 			flash(Messages.get("mupi.profile.firstLogin"));
 			return redirect(routes.Profile.profile());
 		} else {
-			return redirect(routes.Mupi.index());
+			return redirect(routes.Feed.feed());
 		}
 	}
 }
