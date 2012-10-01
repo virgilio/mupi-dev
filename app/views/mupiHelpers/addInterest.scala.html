@@ -4,32 +4,38 @@
 @import helper.twitterBootstrap._
 @import mupiHelpers._
 
+<link rel="stylesheet" href="@routes.Assets.at("stylesheets/mupiForm.css")" type="text/css" media="screen"/>
+<link href="@routes.Assets.at("stylesheets/addInterest.css")"   rel="stylesheet" type="text/css" media="screen"/>
+
+<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.validate.min.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/addInterest.js")"></script>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/mupiFileUpload.js")"></script>
+  
 
 <div id="suggestInterestModal" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
-@form(routes.Interest.doAddInterest, 'enctype ->"multipart/form-data") {
+@form(routes.Interest.doAddInterest, 'enctype ->"multipart/form-data", 'id -> "addInterestForm") {
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal"  aria-hidden="true">×</button>
 		<h3 id="myModalLabel">Sugerir interesse</h3>
 	</div>
 		  <fieldset>
 				<div class="modal-body">
-				   <div class="span2">
-							@mupiFormInput( 
-							   field =iForm("name"),
-							   typ ="text",
-							   label ="Nome" ) 
-							   
-							@mupiFormTextArea(
-							   field = iForm("description"),
-							   label="Descrição",
-							   ('rows, "4"),
-							   ('cols, "50") 
-							)
-		          </div>
-		          <div class="span1">
-		          		@mupiFormImageUpload(field=iForm("picture"),"interest/picture","/blank_interest.jpg")
-				  </div>
+			   <div class="interestForm">
+						@mupiFormInput( 
+						   field =iForm("name"),
+						   typ ="text",
+						   label ="Nome" ) 
+						   
+						@mupiFormTextArea(
+						   field = iForm("description"),
+						   label="Descrição",
+						   ('rows, "4"),
+						   ('cols, "50") 
+						)
+	          </div>
+	          <div class="interestFormImg">
+	          		@mupiFormImageUpload(field=iForm("picture"),"interest/picture","/blank_interest.jpg")
+			      </div>
 				</div>
 			  <div class="modal-footer">
 					<input type="submit" value="Salvar" class="btn">
