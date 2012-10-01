@@ -18,6 +18,8 @@ import org.apache.commons.io.FileUtils;
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 
+import conf.MupiParams;
+
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -136,7 +138,7 @@ public class Profile extends Controller {
 
     MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
     mail.setSubject( subject );
-    mail.addRecipient("banduk@gmail.com");
+    mail.addRecipient(MupiParams.LOCATION_SUGGESTION_EMAIL);
     mail.addFrom("noreply@mupi.me");
     mail.setReplyTo("noreply@mupi.me");
     mail.send( body );
