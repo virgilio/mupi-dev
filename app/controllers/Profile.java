@@ -24,6 +24,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import play.mvc.Results;
 import utils.AjaxResponse;
 import utils.ImageHandler;
 import views.html.profile;
@@ -140,7 +141,7 @@ public class Profile extends Controller {
     mail.setReplyTo("noreply@mupi.me");
     mail.send( body );
 
-    return  AjaxResponse.build(0, "Esta localização está disponível no momento assim que estiver entraremos em contato");
+    return  Results.ok("Esta localização não está disponível no momento assim que estiver entraremos em contato através de seu e-mail");
   }
 	
 	@Restrict(Mupi.USER_ROLE)
