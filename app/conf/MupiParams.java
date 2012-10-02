@@ -25,4 +25,11 @@ public class MupiParams {
   public static final String PIC_MEDIUM     = PIC_ROOT + "//medium";  
   
   public static final String BLANK_PIC      = "//blank.jpg";
+  
+  // Profile Params
+  public static final Integer FIRST_LOGIN   = Integer.parseInt("00001",2);
+  public static final Integer HELP_PROFILE  = Integer.parseInt("00010",2);
+  public static final Integer HELP_INTEREST = Integer.parseInt("00100",2);
+  public static final Integer HELP_FEED     = Integer.parseInt("01000",2);
+  public static final Integer NO_DEPS       = Integer.parseInt("10000",2);
 }
