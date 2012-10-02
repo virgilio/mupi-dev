@@ -15,7 +15,6 @@ import models.Promotion;
 import models.PubComment;
 import models.Publication;
 import models.User;
-
 import org.apache.commons.io.FileUtils;
 
 import play.data.DynamicForm;
@@ -38,6 +37,8 @@ import be.objectify.deadbolt.actions.Restrict;
 import com.avaje.ebean.Page;
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
+
+import conf.MupiParams;
 
 
 public class Feed extends Controller {
@@ -90,6 +91,37 @@ public class Feed extends Controller {
 
   @Restrict(Mupi.USER_ROLE)
   public static Result hostMeetUp(){
+    final Form<utils.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
+    final User u = Mupi.getLocalUser(session());
+    final models.Profile p = u.getProfile();
+    String lastName = p.getLastName(); if(lastName == null) lastName = "";
+    String interest = ""; 
+    
+    if(getLocalInterest() != null && getLocalInterest() != -1)
+      interest = models.Interest.find.byId(getLocalInterest()).getName();
+
+    final String subject = p.getFirstName() + " " + lastName + " quer receber encontros amiguinhos!  Yayyy!!";
+
+    final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
+        "quer receber encontros da seguinte comunidade:\n" + 
+        "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
+        "\n    Interesse - " + interest +
+        "\n\n Ele redigiu a seguinte descrição:\n" +
+        filledForm.get().description;
+
+    MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+    mail.setSubject( subject );
+    mail.addRecipient(MupiParams.HOST_MEETUP_EMAIL);
+    mail.addFrom("noreply@mupi.me");
+    mail.setReplyTo("noreply@mupi.me");
+    mail.send( body );
+
+    return redirect(routes.Feed.feed());
+  }
+
+
+  @Restrict(Mupi.USER_ROLE)
+  public static Result promoteMeetUp(){
     final Form<utils.MeetUpPromotion> filledForm = PROMOTE_MEETUP_FORM.bindFromRequest();
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.getProfile();
@@ -101,41 +133,13 @@ public class Feed extends Controller {
     final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "quer organizar um encontro na seguinte comunidade:\n" + 
         "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
-        "\n    Interesse - " + models.Location.find.byId(getLocalInterest()).getName() +
-        "\n\n Ele redigiu a seguinte descrição para o encontro:\n" +
+        "\n    Interesse - " + models.Interest.find.byId(getLocalInterest()).getName() +
+        "\n\n Ele redigiu a seguinte descrição do evento:\n" +
         filledForm.get().description;
 
     MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
     mail.setSubject( subject );
-    mail.addRecipient("banduk@gmail.com");
-    mail.addFrom("noreply@mupi.me");
-    mail.setReplyTo("noreply@mupi.me");
-    mail.send( body );
-
-    return redirect(routes.Feed.feed());
-  }
-
-
-  @Restrict(Mupi.USER_ROLE)
-  public static Result promoteMeetUp(){
-    final Form<utils.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
-    final User u = Mupi.getLocalUser(session());
-    final models.Profile p = u.getProfile();
-    String lastName = p.getLastName();
-    if(lastName == null) lastName = "";
-
-    final String subject = p.getFirstName() + " " + lastName + " quer receber encontros amiguinhos!  Yayyy!!";
-
-    final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
-        "quer receber encontros na seguinte localidade:\n" + 
-        "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
-        "\n    Interesse - " + models.Location.find.byId(getLocalInterest()).getName() +
-        "\n\n Ele redigiu a seguinte descrição de seu local:\n" +
-        filledForm.get().description;
-
-    MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-    mail.setSubject( subject );
-    mail.addRecipient("banduk@gmail.com");
+    mail.addRecipient(MupiParams.PROMOTE_MEETUP_EMAIL);
     mail.addFrom("noreply@mupi.me");
     mail.setReplyTo("noreply@mupi.me");
     mail.send( body );

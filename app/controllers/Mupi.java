@@ -96,7 +96,8 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Feed.commentPromotion(),
             controllers.routes.javascript.Feed.nextPublications(),
             controllers.routes.javascript.Feed.nextPromotions(),
-            controllers.routes.javascript.Feed.refreshPublications()
+            controllers.routes.javascript.Feed.refreshPublications(),
+            controllers.routes.javascript.Profile.suggestLocation()
             )).as("text/javascript");
   }
 

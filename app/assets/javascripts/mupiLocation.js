@@ -21,24 +21,24 @@ function registerLocation(allLocs) {
 		}
 	});
 	if (!exists) {
-		jsRoutes.controllers.Profile.sugegstLocation(loc).ajax({
+		jsRoutes.controllers.Profile.suggestLocation(loc).ajax({
 			success:function(data) {
 				if (jQuery('.alert').size() == 0) {
-					jQuery('.navbar-container').next().prepend(
+					jQuery('.container').prepend(
 							"<div class='alert'> </div>");
 				}
 				jQuery('.alert')
 						.addClass('alert-success')
-						.html("Esta localização está disponível no momento. Assim que estiver entraremos em contato");
+						.html(data);
 			},
 		    error:function(data) {
 		    	if (jQuery('.alert').size() == 0) {
-					jQuery('.navbar-container').next().prepend(
+					jQuery('.container').prepend(
 							"<div class='alert'> </div>");
 				}
 				jQuery('.alert')
 						.addClass('alert-error')
-						.html("Esta localização está disponível no momento");
+						.html("Esta localização não está disponível no momento");
 		    }
 		})
 		

@@ -18,12 +18,15 @@ import org.apache.commons.io.FileUtils;
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 
+import conf.MupiParams;
+
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import play.mvc.Results;
 import utils.AjaxResponse;
 import utils.ImageHandler;
 import views.html.profile;
@@ -135,12 +138,12 @@ public class Profile extends Controller {
 
     MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
     mail.setSubject( subject );
-    mail.addRecipient("banduk@gmail.com");
+    mail.addRecipient(MupiParams.LOCATION_SUGGESTION_EMAIL);
     mail.addFrom("noreply@mupi.me");
     mail.setReplyTo("noreply@mupi.me");
     mail.send( body );
 
-    return  AjaxResponse.build(0, "Esta localização está disponível no momento assim que estiver entraremos em contato");
+    return  Results.ok("Esta localização não está disponível no momento assim que estiver entraremos em contato através de seu e-mail");
   }
 	
 	@Restrict(Mupi.USER_ROLE)
