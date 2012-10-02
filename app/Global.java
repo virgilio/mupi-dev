@@ -71,7 +71,7 @@ public class Global extends GlobalSettings{
 		initialData();
 	}
 
-	private void initialData() {
+	private void initialData() {	  
 		if (SecurityRole.find.findRowCount() == 0) {
 			for (final String roleName : Arrays.asList(controllers.Mupi.USER_ROLE, controllers.Mupi.ADMIN_ROLE)) {
 				final SecurityRole role = new SecurityRole();

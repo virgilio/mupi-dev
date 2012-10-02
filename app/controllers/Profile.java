@@ -33,7 +33,6 @@ import views.html.profile;
 import be.objectify.deadbolt.actions.Restrict;
 
 public class Profile extends Controller {
-	static String BLANK_PIC = "/blank_profile.jpg";
 	
 	private static final Form<models.Profile> PROFILE_FORM = form(models.Profile.class);
 	
@@ -59,7 +58,7 @@ public class Profile extends Controller {
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");
 			
-			String picturePath = BLANK_PIC;
+			String picturePath = MupiParams.BLANK_PIC;
 			
 			if (picture != null) {
 			    String fileName = picture.getFilename();
@@ -74,31 +73,25 @@ public class Profile extends Controller {
 			    String hashTime = getMD5(System.currentTimeMillis());
 			    String hashUser = getMD5(user.email);
 			    
-			    File destinationFile = new File(play.Play.application().path().toString() +
-			    		"//public//upload//profile//picture//" + hashUser +
-			    		"//" + hashTime + fileName);
+			    File destinationFile = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_ROOT + "//" +
+			        hashUser + "//" + hashTime + fileName);
 		    	FileUtils.copyFile(file, destinationFile);
 		    	picturePath = "/" + hashUser + "/" + hashTime + fileName;
 		    	
-		    	File thumb = new File(play.Play.application().path().toString() +
-	            "//public//upload//profile//picture//thumb//" + hashUser +
-	            "//" + hashTime + fileName);
+		    	File thumb = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_THUMB+ "//" +
+		    	    hashUser + "//" + hashTime + fileName);
 	        thumb.mkdirs();
 	        BufferedImage bi = ImageHandler.createSmallProfile(destinationFile);
 	        ImageIO.write(bi, extension, thumb);
 	        
-	        File medium = new File(play.Play.application().path().toString() +
-	            "//public//upload//profile//picture//medium//" + hashUser +
-	            "//" + hashTime + fileName);
+	        File medium = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_MEDIUM + "//" +
+	             hashUser + "//" + hashTime + fileName);
 	        medium.mkdirs();
 	        bi = ImageHandler.createMediumSquare(destinationFile);
 	        ImageIO.write(bi, extension, medium);
+	        
 			}else{
-				if(filledForm.field("picture").value() == null){
-					picturePath = user.getProfile().getPicture();
-				}else if(filledForm.get().getPicture().compareTo(BLANK_PIC) == 0){
-					picturePath = BLANK_PIC;
-				}
+				picturePath = user.getProfile().getPicture();
 			}
 			
 			models.Profile.update(
