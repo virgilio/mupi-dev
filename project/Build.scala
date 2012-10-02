@@ -7,11 +7,14 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      "be.objectify"  %%  "deadbolt-2"        % "1.1.3-SNAPSHOT",
-      "com.feth"      %%  "play-authenticate" % "0.2.0-SNAPSHOT",
-      "postgresql"    %   "postgresql"        % "9.1-901.jdbc4",
-      "mysql" % "mysql-connector-java" % "5.1.18",
-      "com.typesafe" %% "play-plugins-mailer" % "2.0.4"
+      "be.objectify"              %% "deadbolt-2"                % "1.1.3-SNAPSHOT",
+      "com.feth"                  %% "play-authenticate"         % "0.2.0-SNAPSHOT",
+      "postgresql"                %  "postgresql"                % "9.1-901.jdbc4",
+      "mysql"                     %  "mysql-connector-java"      % "5.1.18",
+      "com.typesafe"              %% "play-plugins-mailer"       % "2.0.4",
+      "commons-io"                %  "commons-io"                % "2.3",
+      "commons-collections"       %  "commons-collections"       % "3.0"
+//      "owasp-java-html-sanitizer" %  "owasp-java-html-sanitizer" % "r30" 
     )
     
      
@@ -31,15 +34,6 @@ object ApplicationBuild extends Build {
 */
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-//      playAssetsDirectories <+= baseDirectory / "public/img",
-//      playAssetsDirectories <+= baseDirectory / "public/font",
-//      playAssetsDirectories <+= baseDirectory / "public/icons",
-//        playAssetsDirectories <+= baseDirectory / "app/assets/javascripts",
-        
-        
-//      Config config = ConfigFactory.load().getString("simple-lib.foo"),
-        
-        
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
 
@@ -47,7 +41,9 @@ object ApplicationBuild extends Build {
       resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
 
       resolvers += Resolver.url("play-authenticate (release)", url("http://joscha.github.com/play-authenticate/repo/releases/"))(Resolver.ivyStylePatterns),
-      resolvers += Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)      
+      resolvers += Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)
+      
+//      resolvers += "Owasp Java-html Sanitizer Repository" at "http://owasp-java-html-sanitizer.googlecode.com/svn/maven/"
     )
 
 }

@@ -1,5 +1,5 @@
 @(publications: List[models.Publication], interest: models.Interest, location: models.Location)
 
-@for(pub <- publications){
+@for(pub <- publications.sortBy(_.getCreated)){
   @publication(pub, interest, location)
 }

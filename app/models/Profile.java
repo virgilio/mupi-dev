@@ -135,8 +135,9 @@ public class Profile extends Model {
 	}
 	
 	public static Profile changeStatus(final Profile profile, final Integer newStatus){
-	  profile.setStatus(newStatus);
-	  profile.save();
+	  final Profile p = find.byId(profile.getId());
+	  p.setStatus(newStatus);
+	  p.save();
 		return profile;
 	}
 	

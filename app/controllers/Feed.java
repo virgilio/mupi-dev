@@ -74,16 +74,16 @@ public class Feed extends Controller {
       models.Location l; if(location == null) l = null; else l=models.Location.find.byId(location);
 
       return ok(views.html.feed.render(
-          user, 
-          user.getProfile().getInterests(), 
-          user.getProfile().getLocations(), 
-          i, l,
-          Publication.findByInterests(getInterestIds(user.getProfile().getInterests()), new Long(0)),
-          Promotion.findByInterests(getInterestIds(user.getProfile().getInterests()), new Long(0)),
-          form(models.Promotion.class),
-          PROMOTE_MEETUP_FORM,
-          HOST_MEETUP_FORM
-          ));
+        user, 
+        user.getProfile().getInterests(), 
+        user.getProfile().getLocations(), 
+        i, l,
+        Publication.findByInterests(getInterestIds(user.getProfile().getInterests()), new Long(0)),
+        Promotion.findByInterests(getInterestIds(user.getProfile().getInterests()), new Long(0)),
+        form(models.Promotion.class),
+        PROMOTE_MEETUP_FORM,
+        HOST_MEETUP_FORM
+      ));
     }
   }
 
