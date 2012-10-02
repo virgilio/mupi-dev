@@ -34,7 +34,7 @@
 	  </ul>
 	
 	  <div class="comments hide" id="comments_@pub.getId">
-	    @comments(pub.getComments.asScala.sortBy(_.getCreated).reverse)
+	    @comments(pub.getComments.asScala.sortBy(_.getCreated))
 	  </div>
 	  
 	  <div class="textarea_comment">
