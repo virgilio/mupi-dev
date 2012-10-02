@@ -69,7 +69,6 @@ public class MyUsernamePasswordAuthProvider
 			implements
 			com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.UsernamePassword {
 
-		@Required
 		@MinLength(5)
 		public String password;
 
@@ -85,18 +84,21 @@ public class MyUsernamePasswordAuthProvider
 	}
 
 	public static class MySignup extends MyLogin {
-
+	  String termsAcceptError = Messages.get("mupi.signup.error.terms_not_accepted");
+	  
 		@Required
 		@MinLength(5)
 		public String repeatPassword;
 
-		@Required
 		public String name;
+		
+		@Required(message = "Você precisa aceitar os termos de uso para que possa se cadastrar no Mupi")
+    public Boolean terms_accepted;
 
 		public String validate() {
+		  System.out.println("accepted: " + terms_accepted);
 			if (password == null || !password.equals(repeatPassword)) {
-				return Messages
-						.get("playauthenticate.password.signup.error.passwords_not_same");
+				return Messages.get("playauthenticate.password.signup.error.passwords_not_same");
 			}
 			return null;
 		}

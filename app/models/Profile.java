@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import conf.MupiParams;
+
 import play.data.format.Formats;
 import play.db.ebean.Model;
 
@@ -26,8 +28,6 @@ public class Profile extends Model {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final Integer FIRST_LOGIN = 0;
-	public static final Integer REGULAR = 1;
 	private static final String NO_PIC = "/blank_profile.jpg";
 
 	@Id
@@ -47,7 +47,7 @@ public class Profile extends Model {
 	
 	private Integer gender;
 	
-	private Integer status = FIRST_LOGIN;
+	private Integer status = MupiParams.FIRST_LOGIN;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Location> locations = new ArrayList<Location>();
@@ -79,13 +79,13 @@ public class Profile extends Model {
         this.about 		= about;
         this.gender 	= gender;
         this.locations  = locations;
-        this.status 	= FIRST_LOGIN;
+        this.status 	= MupiParams.FIRST_LOGIN;
         this.created	= new Date();
         this.modified	= new Date();
     }
 	
 	public Profile() {
-	  this.status = FIRST_LOGIN;
+	  this.status = MupiParams.FIRST_LOGIN;
     this.picture = NO_PIC;
     this.created = new Date();
     this.modified = new Date();
@@ -93,7 +93,7 @@ public class Profile extends Model {
 	
 	public Profile(String name) {
 		this.firstName = name;
-		this.status = FIRST_LOGIN;
+		this.status = MupiParams.FIRST_LOGIN;
 		this.picture = NO_PIC;
 		this.created = new Date();
 		this.modified = new Date();
@@ -143,7 +143,7 @@ public class Profile extends Model {
 	public static Profile create(final User user) {
 		Profile p = new Profile();
 		p.setFirstName(user.name);
-		p.setStatus(FIRST_LOGIN);
+		p.setStatus(MupiParams.FIRST_LOGIN);
 		p.setPicture(NO_PIC);
 		p.setLocations(new ArrayList<Location>());
 		p.setCreated(new Date());

@@ -54,7 +54,7 @@ public class User extends Model implements RoleHolder {
 	// @Column(unique = true)
 	public String email;
 
-	@Required
+	
 	public String name;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -193,7 +193,7 @@ public class User extends Model implements RoleHolder {
 			}
 		}
 		
-		user.profile = new Profile(user.name);
+		user.profile = new Profile();
 		user.save();
 		
 		user.saveManyToManyAssociations("roles");

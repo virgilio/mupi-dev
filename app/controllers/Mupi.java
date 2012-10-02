@@ -106,6 +106,7 @@ public class Mupi extends Controller {
   public static Result doSignup() {
     final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
         .bindFromRequest();
+
     if (filledForm.hasErrors()) {
       // User did not fill everything properly
       return badRequest(signup.render(filledForm));

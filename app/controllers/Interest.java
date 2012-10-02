@@ -34,13 +34,18 @@ public class Interest extends Controller {
 	@Restrict(Mupi.USER_ROLE)
 	public static Result interestManager() {
 		final User user = Mupi.getLocalUser(session());	
-
-		final List<models.Interest> uInterests = user.profile.getInterests();
-		final List<models.Interest> allInterests = (List<models.Interest>) CollectionUtils.subtract(models.Interest.find.all(), uInterests);
-
-		final Form<models.Interest> form = INTEREST_FORM;
-
-		return ok(interestManager.render(uInterests, allInterests, form));
+		
+		 if(user.getProfile().getStatus() == MupiParams.FIRST_LOGIN){
+	      return redirect(routes.Profile.profile());
+	    }
+	    else{
+    		final List<models.Interest> uInterests = user.profile.getInterests();
+    		final List<models.Interest> allInterests = (List<models.Interest>) CollectionUtils.subtract(models.Interest.find.all(), uInterests);
+    
+    		final Form<models.Interest> form = INTEREST_FORM;
+    
+    		return ok(interestManager.render(uInterests, allInterests, form));
+	    }
 	}
 
 	@Restrict(Mupi.USER_ROLE)

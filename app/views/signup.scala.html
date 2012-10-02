@@ -2,7 +2,10 @@
 
 @import helper._
 @import helper.twitterBootstrap._
+@import mupiHelpers._
 
+@implicitField = @{ FieldConstructor(terms_acceptance.f) }
+             
 @main(Messages("playauthenticate.signup.title"),"signup") {
 <div class="container">
   <div class="row">
@@ -23,14 +26,20 @@
 		        </p>
             }
             
-             @inputText(
+             @{ /*@inputText(
                 signupForm("name"),
                 '_label -> Messages("playauthenticate.signup.name")
-             )
+             )*/}
              
              @_emailPartial(signupForm)
              
              @_passwordPartial(signupForm)
+
+
+
+            
+            @checkbox(signupForm("terms_accepted"))
+            
 
             <input type="submit" value="@Messages("playauthenticate.signup.now")" class="btn btn-primary">
     	}

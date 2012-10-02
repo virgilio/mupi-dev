@@ -1,11 +1,11 @@
 # Override default Play's validation messages
 
 # --- Constraints
-constraint.required=Exigido
+constraint.required=Obrigatório
 constraint.min=Valor mínimo: {0}
 constraint.max=Valor máximo: {0}
-constraint.minLength=Duração mínima: {0}
-constraint.maxLength=Comprimento máximo: {0}
+constraint.minLength=Mínimo: {0} caracteres
+constraint.maxLength=Máximo: {0} caracteres
 constraint.email=E-mail
 
 # --- Formats
@@ -107,7 +107,7 @@ playauthenticate.oauth.access.denied.alternative.cta=se inscrever com um nome de
 playauthenticate.token.error.title=De símbolos de erro
 playauthenticate.token.error.message=O token dado expirou ou não existe.
 
-playauthenticate.user.exists.title=Usuário existe
+playauthenticate.user.exists.title=Este e-mail já está registrado. 
 playauthenticate.user.exists.message=Este usuário já existe.
 
 # play-authenticate: Navigation
@@ -151,6 +151,9 @@ playauthenticate.restricted.secrets=Segredos, em todos os lugares!
 
 
 ###--- START MUPI
+mupi.signup.error.terms_not_accepted=Você precisa aceitar os termos de uso para que possa se inscrever no Mupi
+
+mupi.signup.terms_acceptance=Li e aceito os <a target='_blank' href="routes.Mupi.terms()"> Messages("mupi.navigation.terms.title") </a>
 
 mupi.index.description=O Mupi é uma plataforma que promove o encontro entre pessoas com os mesmos interesses de aprendizado e que estejam na mesma região
 mupi.wizard.welcome_message=Olá {0}, este é o seu primeiro acesso ao Mupi. Atualize seus dados de perfil e interesses para melhor aproveitar a plataforma!  
