@@ -40,6 +40,11 @@ import com.typesafe.plugin.MailerPlugin;
 
 import conf.MupiParams;
 
+import org.jsoup.*;
+import org.jsoup.safety.Whitelist;
+
+
+
 
 public class Feed extends Controller {
   private static final Form<utils.MeetUpPromotion> PROMOTE_MEETUP_FORM = form(utils.MeetUpPromotion.class);
@@ -189,13 +194,16 @@ public class Feed extends Controller {
     Long l = getLocalLocation();
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
+    
+    String safeBody = Jsoup.clean(body, Whitelist.basicWithImages());
+    
 
     Publication.create(
         p,
         models.Location.find.byId(l),
         models.Interest.find.byId(i),
         models.Publication.PUBLICATION,
-        body);
+        safeBody);
 
     return selectFeed(i,l);
   }

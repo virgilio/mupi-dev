@@ -13,8 +13,8 @@ object ApplicationBuild extends Build {
       "mysql"                     %  "mysql-connector-java"      % "5.1.18",
       "com.typesafe"              %% "play-plugins-mailer"       % "2.0.4",
       "commons-io"                %  "commons-io"                % "2.3",
-      "commons-collections"       %  "commons-collections"       % "3.0"
-//      "owasp-java-html-sanitizer" %  "owasp-java-html-sanitizer" % "r30" 
+      "commons-collections"       %  "commons-collections"       % "3.0",
+      "org.jsoup"                 %  "jsoup"                     % "1.7.1"
     )
     
      
