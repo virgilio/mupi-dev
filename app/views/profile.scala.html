@@ -33,7 +33,7 @@
       @form(routes.Profile.doProfile, 'enctype -> "multipart/form-data", 'id -> "profileForm") {
           
           <div class="profile_img">
-          	@mupiFormImageUpload(field=profileForm("picture"), "profile/picture/medium", "/blank_profile.jpg")
+          	@mupiFormImageUpload(field=profileForm("picture"), "profile/picture/medium", "/blank.jpg")
 			
 			<a href="@routes.Account.changePassword">@Messages("playauthenticate.profile.password_change")</a>
 			

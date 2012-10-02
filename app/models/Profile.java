@@ -28,7 +28,7 @@ public class Profile extends Model {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String NO_PIC = "/blank_profile.jpg";
+	private static final String NO_PIC = "/blank.jpg";
 
 	@Id
 	private Long id;
