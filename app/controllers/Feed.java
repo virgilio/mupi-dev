@@ -63,8 +63,7 @@ public class Feed extends Controller {
     }else if(user.getProfile().getInterests().isEmpty()){
       return redirect(routes.Interest.interestManager());
     }
-    else if(user.getProfile().getStatus() == models.Profile.FIRST_LOGIN){
-      models.Profile.changeStatus(user.getProfile(),models.Profile.REGULAR);
+    else if(user.getProfile().getStatus() == MupiParams.FIRST_LOGIN){
       return redirect(routes.Profile.profile());
     }
     else{
