@@ -36,6 +36,10 @@ object ApplicationBuild extends Build {
 //      playAssetsDirectories <+= baseDirectory / "public/icons",
 //        playAssetsDirectories <+= baseDirectory / "app/assets/javascripts",
         
+        
+//      Config config = ConfigFactory.load().getString("simple-lib.foo"),
+        
+        
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
 

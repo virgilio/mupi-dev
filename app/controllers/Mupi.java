@@ -29,6 +29,8 @@ import be.objectify.deadbolt.actions.Restrict;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 
+import conf.MupiParams;
+
 public class Mupi extends Controller {
 
   public static final String FLASH_MESSAGE_KEY = "message";
@@ -37,8 +39,8 @@ public class Mupi extends Controller {
   public static final String ADMIN_ROLE = "admin";
 
   public static Result at(final String path){
-    final File file = new File(play.Play.application().path().toString() + "/public/upload/" + path);
-
+    final File file = new File(MupiParams.UPLOAD_ROOT + "//" + path);
+    
     if (!file.exists()) {
       return notFound();
     }else{

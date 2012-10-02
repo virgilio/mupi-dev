@@ -375,15 +375,13 @@ public class Feed extends Controller {
         String hashTime = getMD5(System.currentTimeMillis());
         String hashCommunity = getMD5(iObj.toString() + lObj.toString());
 
-        File destinationFile = new File(play.Play.application().path().toString() +
-            "//public//upload//event//picture//" + hashCommunity +
-            "//" + hashTime + fileName);
+        File destinationFile = new File(MupiParams.EVENT_ROOT + MupiParams.PIC_ROOT + "//" +
+            hashCommunity + "//" + hashTime + fileName);
         FileUtils.copyFile(file, destinationFile);
         picturePath = "/" + hashCommunity + "/" + hashTime + fileName;
 
-        File medium = new File(play.Play.application().path().toString() +
-            "//public//upload//event//picture//medium//" + hashCommunity +
-            "//" + hashTime + fileName);
+        File medium = new File(MupiParams.EVENT_ROOT + MupiParams.PIC_MEDIUM + "//" +
+            hashCommunity + "//" + hashTime + fileName);
         medium.mkdirs();
         
         BufferedImage bi = ImageHandler.createSmallInterest(destinationFile);

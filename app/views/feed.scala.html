@@ -32,8 +32,8 @@
   <div class="sidebar">
      @if(user.getProfile.getInterests.size() > 0){
      <ul class="interestList">
-   	    <li id="all_interests_icon" @if(selectedi == null || selectedi.getId == -1){class="selected_i"}>
-        	<span class="interestIcon" id="-1">Todos</span>
+   	    <li @if(selectedi == null || selectedi.getId == -1){class="selected_i"}>
+        	<span class="interestIcon all_interests_icon" id="-1">Todos</span>
         </li>
 	     @for(interest <- user.getProfile.getInterests.filter(_.getStatus() > 0)) {
 	       <li @if(selectedi != null && selectedi.getId == interest.getId){class="selected_i"}>

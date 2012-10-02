@@ -15,6 +15,8 @@ import models.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 
+import conf.MupiParams;
+
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -28,8 +30,6 @@ import be.objectify.deadbolt.actions.Restrict;
 
 public class Interest extends Controller { 
 	private static final Form<models.Interest> INTEREST_FORM = form(models.Interest.class);
-	// TODO: Change the way we're getting this image
-	static String BLANK_PIC = "/blank_interest.jpg";
 
 	@Restrict(Mupi.USER_ROLE)
 	public static Result interestManager() {
@@ -79,7 +79,7 @@ public class Interest extends Controller {
 		try{
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");
-			String picturePath = BLANK_PIC;
+			String picturePath = MupiParams.INTEREST_ROOT + MupiParams.BLANK_PIC;
 
 			if (picture != null) {
 				String fileName = picture.getFilename();
@@ -94,30 +94,25 @@ public class Interest extends Controller {
 				String hashTime = getMD5(System.currentTimeMillis());
 				String hashInterest = getMD5(filledForm.get().getName());
 
-				File destinationFile = new File(play.Play.application().path().toString() +
-						"//public//upload//interest//picture//" + hashInterest +
-						"//" + hashTime + fileName);
+				File destinationFile = new File(MupiParams.INTEREST_ROOT + MupiParams.PIC_ROOT + "//" +
+				    hashInterest + "//" + hashTime + fileName);
 				FileUtils.copyFile(file, destinationFile);
 				picturePath = "/" + hashInterest + "/" + hashTime + fileName;
 
-				File thumb = new File(play.Play.application().path().toString() +
-						"//public//upload//interest//picture//thumb//" + hashInterest +
-						"//" + hashTime + fileName);
+				File thumb = new File(MupiParams.INTEREST_ROOT + MupiParams.PIC_THUMB + "//" +
+				    hashInterest + "//" + hashTime + fileName);
 				thumb.mkdirs();
 				BufferedImage bi = ImageHandler.createSmallInterest(destinationFile);
 				ImageIO.write(bi, extension, thumb);
 				
-				File medium = new File(play.Play.application().path().toString() +
-						"//public//upload//interest//picture//medium//" + hashInterest +
-						"//" + hashTime + fileName);
+				File medium = new File(MupiParams.INTEREST_ROOT + MupiParams.PIC_MEDIUM + "//" +
+				    hashInterest + "//" + hashTime + fileName);
 				medium.mkdirs();
 				bi = ImageHandler.createMediumSquare(destinationFile);
 				ImageIO.write(bi, extension, medium);
 				
-			}else{
-				picturePath = BLANK_PIC;
 			}
-
+			
 			models.Interest.create(
 					user.profile,
 					filledForm.get().getName(),
