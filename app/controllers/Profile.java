@@ -107,8 +107,13 @@ public class Profile extends Controller {
 				
 			
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.profile.updated"));
-
-			return redirect(routes.Feed.feed());
+			if (user.getProfile().getStatus() == conf.MupiParams.FIRST_LOGIN) {
+				models.Profile.changeStatus(user.getProfile(), conf.MupiParams.ALL_HELPS);
+				return redirect(routes.Interest.interestManager());
+			} 
+			else {
+				return redirect(routes.Profile.profile());
+			};
 			
 		} catch (IOException e){
 			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.errorSendingFile"));

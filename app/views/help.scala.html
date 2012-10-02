@@ -1,4 +1,4 @@
-@import com.feth.play.module.pa.views.html._
+﻿@import com.feth.play.module.pa.views.html._
 
 @main(Messages("mupi.navigation.help.title"),"help") {
 <link rel="stylesheet" href="@routes.Assets.at("stylesheets/help.css")" type="text/css" media="screen"/>
@@ -19,12 +19,12 @@
 			<p>Depois de acessar o Mupi:</p>
 			<div class="steps">
 				<div class="step_box"><span class="help_step">1</span><br/>
-				Preencha seu cadastro, queremos conhecer você!</div>
+				Preencha seu <a href="@routes.Profile.profile()" target="_blank" title="Meu perfil">cadastro</a>, queremos conhecer você!</div>
 				<div class="step_box"><span class="help_step">2</span><br/> 
-				Escolha seus interesses de aprendizado.<br/>
+				Escolha seus <a href="@routes.Interest.interestManager()" target="_blank" title="Meus interesses">interesses</a> de aprendizado.<br/>
 				Tudo o que você tem prazer em compartilhar e aprender!</div>
 				<div class="step_box"><span class="help_step">3</span><br/>
-				Escolha suas localizações favoritas: cidades que você quer acompanhar o que está acontecendo relacionado 
+				Escolha suas <a href="@routes.Profile.profile()" target="_blank" title="Meu perfil">localizações favoritas</a>: cidades que você quer acompanhar o que está acontecendo relacionado 
 				aos seus interesses de aprendizado.
 				</div>
 			</div>
@@ -34,23 +34,24 @@
 			<p>
 			<ul>
 				<li>Divulgação de eventos: workshops, congressos, simpósios e tudo o que você nos sugerir.</li>
-				<li>Encontros: organize um encontro para compartilhar o que você conhece. Esse encontro pode 
+				<li>Eventos Mupi: organize um evento para compartilhar o que você conhece. Esse evento pode 
 				ser pago ou gratuito aos inscritos.</li>
-				<li>Lugares para os encontros: ofereça seu espaço para os encontros! Pode ser sala, bar, garagem, etc. 
+				<li>Lugares para os eventos Mupi: ofereça seu espaço para os eventos! Pode ser sala, bar, garagem, etc. 
 				Empreste, alugue, participe, colabore.</li>
 			</ul>			
 			<p>Vamos aprender juntos!</p>
+			<p>Continua com dúvidas? Envie um email para contato @@ mupi . me que podemos ajudar e de quebra você nos ajuda a melhorar também!</p>
         </div>
         <div class="tab-pane" id="faq">
 	        <h3>FAQ</h3>
 			<p>
 				<b>Eu quero adicionar mais interesses em minha lista, como faço?</b><br/>
-				Você precisa ir até a página de interesses (representado por <i class="icon-wrench"></i>) que fica no menu superior direito e escolher seus interesses favoritos. 
+				Você precisa ir até a página de <a href="@routes.Interest.interestManager()" target="_blank" title="Meus interesses">interesses (<i class="icon-star"></i>)</a> que fica no menu superior direito e escolher seus interesses favoritos.
 				O interesse que você deseja não está na lista? Basta sugerir um através do link "Sugerir interesse" :)
 			</p>
 			<p>
 				<b>Como adiciono uma cidade?</b><br/>
-				Em seu perfil (representado por <i class="icon-user"></i>), você adiciona as cidades que forem de seu interesse. 
+				Em seu <a href="@routes.Profile.profile()" target="_blank" title="Meu perfil">perfil (<i class="icon-user"></i>)</a>, você adiciona as cidades que forem de seu interesse.
 				Após isso, elas estarão disponíveis para você selecionar na página principal do Mupi.
 			</p>
 			<p>
@@ -60,26 +61,26 @@
 			</p>
 			<p>
 				<b>Que tipo de econtro poderão ser realizados?</b><br/>
-				Qualquer um que vocês queiram! Desde workshops, oficinas a happy hours! 
+				Qualquer um que você queira! Desde workshops, oficinas a happy hours! 
 				Apoiamos qualquer tipo de encontro com a única restrição de juntar pessoas interessadas em compartilhar cohnecimento.
 			</p>
 			<p>
-				<b>Posso organizar um encontro?</b><br/>
-				Sim! Para organizar um encontro basta querer compartilhar um assunto com outras pessoas.
-				Escreva o máximo que puder sobre este encontro, como assunto, data e valor, para organizarmos juntos. <br/> 
-				Onde você escreve? Clique em Quero organizar um encontro, que fica disponível quando você seleciona um interesse e uma cidade.
+				<b>Posso organizar um evento?</b><br/>
+				Sim! Para organizar um evento basta querer compartilhar um assunto com outras pessoas.
+				Escreva o máximo que puder sobre este evento, como assunto, o tipo(workshop, palestra, etc), data, se é pago ou não, que organizamos juntos. <br/>
+				Onde você escreve? Clique em <i>Quero organizar um evento Mupi</i>, que fica disponível quando você seleciona um interesse e uma cidade na página inicial.
 			</p>
 			<p>
 				<b>Eu posso cobrar para organizar um encontro?</b><br/>
 				Sim, você pode. <br/>
-				Clique em "Quero organizar um encontro", que fica disponível quando você seleciona um interesse e uma cidade, e descreva o que está planejando.
+				Clique em <i>Quero organizar um evento Mupi</i>, que fica disponível quando você seleciona um interesse e uma cidade, e descreva o que está planejando.
 			</p>
 			<p>
 				<b>Eu tenho que pagar para entrar no Mupi?</b><br/>
-				Não. O Mupi é gratuito para uso.
+				Não, o Mupi é gratuito para uso.
 			</p>
 			<p>
-				<b>Tenho um espaço e gostaria de alugá-lo para encontros. Como faço?</b><br/>
+				<b>Tenho um espaço e gostaria de alugá-lo para eventos. Como faço?</b><br/>
 				Envie-nos um email para contato @@ mupi . me e vamos conversar!
 			</p>
         </div>
