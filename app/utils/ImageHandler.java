@@ -18,6 +18,10 @@ public class ImageHandler {
 		return img.getWidth() > img.getHeight();
 	}
 
+    public static BufferedImage squareCrop(int l, BufferedImage img){
+	return img.getSubimage(0,0,l,l);
+    }
+
 	public static BufferedImage createMediumPromotion(File file){
 		BufferedImage img;
 		try {
@@ -36,9 +40,9 @@ public class ImageHandler {
 		try {
 			img = ImageIO.read(file);
 			if(isWide(img)){
-				return scale(img, (MEDIUM*img.getWidth())/img.getHeight(), MEDIUM, img.getType());
+			    return squareCrop(MEDIUM, scale(img, (MEDIUM*img.getWidth())/img.getHeight(), MEDIUM, img.getType()));
 			}
-			else return scale(img, MEDIUM, (MEDIUM*img.getHeight())/img.getWidth(), img.getType());
+			else return squareCrop(MEDIUM, scale(img, MEDIUM, (MEDIUM*img.getHeight())/img.getWidth(), img.getType()));
 		} catch (IOException e) {
 			return null;		
 		}		
@@ -49,9 +53,9 @@ public class ImageHandler {
 		try {
 			img = ImageIO.read(file);
 			if(isWide(img)){
-				return scale(img, (SMALL_PROFILE*img.getWidth())/img.getHeight(), SMALL_PROFILE, img.getType());
+			    return squareCrop(SMALL_PROFILE, scale(img, (SMALL_PROFILE*img.getWidth())/img.getHeight(), SMALL_PROFILE, img.getType()));
 			}
-			else return scale(img, SMALL_PROFILE, (SMALL_PROFILE*img.getHeight())/img.getWidth(), img.getType());
+			else return squareCrop(SMALL_PROFILE, scale(img, SMALL_PROFILE, (SMALL_PROFILE*img.getHeight())/img.getWidth(), img.getType()));
 		} catch (IOException e) {
 			return null;		
 		}		
@@ -62,9 +66,9 @@ public class ImageHandler {
 		try {
 			img = ImageIO.read(file);
 			if(isWide(img)){
-				return scale(img, (SMALL_INTEREST*img.getWidth())/img.getHeight(), SMALL_INTEREST, img.getType());
+			    return squareCrop(SMALL_INTEREST, scale(img, (SMALL_INTEREST*img.getWidth())/img.getHeight(), SMALL_INTEREST, img.getType()));
 			}
-			else return scale(img, SMALL_INTEREST, (SMALL_INTEREST*img.getHeight())/img.getWidth(), img.getType());
+			else return squareCrop(SMALL_INTEREST, scale(img, SMALL_INTEREST, (SMALL_INTEREST*img.getHeight())/img.getWidth(), img.getType()));
 		} catch (IOException e) {
 			return null;		
 		}		
