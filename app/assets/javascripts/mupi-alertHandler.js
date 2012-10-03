@@ -1,24 +1,28 @@
+jQuery(function(){
+	jQuery('.page-alert').bind('DOMNodeInserted',function(event){
+		jQuery(this).children().slideDown().delay(3000).slideUp('slow');
+	});
+});
+
+
+
+
 function succErrBuilder(f){
 	return({
 		success : function(data) {
 			var response = data.split("||");
-			if (jQuery('.alert').size() == 0) {
-				jQuery('#content').prepend("<div class='alert'> </div>");
-			}
 			var messageType = 'warning';
 			if (response[0] == 0) messageType = 'success';
 			else if(response[0] == 1) messageType = 'error';
 			
-			jQuery('.alert').addClass('alert-'+messageType).html(response[1]);
+			jQuery('.page-alert').html("<div class='alert hide alert-" +messageType + "'> " + response[1] + " </div>");
 			if(f) f(response);
 		},
 		error : function() {
-			if (jQuery('.alert').size() == 0) {
-				jQuery('#content').next().prepend("<div class='alert alert-error'> </div>");
-			}
-			jQuery('.alert')
+			jQuery('.page-alert').html("<div class='alert hide'> </div>");
+			jQuery('.page-alert > .alert')
 				.addClass('alert-error')
-				.html("Server error, please try again later!");
+				.html("Erro no servidor, por favor tente novamente mais tarde");
 		}
 	})
 }

@@ -23,22 +23,10 @@ function registerLocation(allLocs) {
 	if (!exists) {
 		jsRoutes.controllers.Profile.suggestLocation(loc).ajax({
 			success:function(data) {
-				if (jQuery('.alert').size() == 0) {
-					jQuery('.container').prepend(
-							"<div class='alert'> </div>");
-				}
-				jQuery('.alert')
-						.addClass('alert-success')
-						.html(data);
+				jQuery('.page-alert').html("<div class='alert alert-success hide'> "+ data +"</div>");
 			},
 		    error:function(data) {
-		    	if (jQuery('.alert').size() == 0) {
-					jQuery('.container').prepend(
-							"<div class='alert'> </div>");
-				}
-				jQuery('.alert')
-						.addClass('alert-error')
-						.html("Esta localização não está disponível no momento");
+		    	jQuery('.page-alert').html("<div class='alert alert-error hide'> Esta localização não está disponível no momento</div>");
 		    }
 		})
 		

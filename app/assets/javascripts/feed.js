@@ -89,12 +89,11 @@ jQuery(function(){
     			if(response[0] == 0) jQuery('#feed_content').html(response[1]);
     		},
     		error : function() {
-    			if (jQuery('.alert').size() == 0) {
-    				jQuery('#content').next().prepend("<div class='alert alert-error'> </div>");
-    			}
-    			jQuery('.alert')
-    				.addClass('alert-error')
-    				.html("Server error, please try again later!");
+                jQuery('.page-alert').html("<div class='alert hide'> </div>");
+                jQuery('.page-alert > .alert')
+                    .addClass('alert-error')
+                    .html("Erro no servidor, por favor tente novamente mais tarde");
+                
     		}
     	}
     }
