@@ -27,7 +27,8 @@
       @mupiMapsInput(
         field=promoteForm("address"),
         typ="text",
-        label="Endereço *"
+        label="Endereço *",
+        ('placeholder,"Rua, Cidade, Estado")
       )
       
       @mupiFormMaskedInput(
@@ -52,7 +53,8 @@
         field=promoteForm("description"),
         label="Descrição (máximo de 3000 caracteres) *",
         ('rows, "4"),
-        ('cols, "50")
+        ('cols, "50"),
+        ('placeholder,"Informações sobre o que evento abordará, os valores, mais datas se houver e o que você mais achar relevante.")
       )
     </div>
     <div class="modal-footer">

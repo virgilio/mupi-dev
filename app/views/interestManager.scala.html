@@ -45,7 +45,13 @@
 		     </div>
 		     
 		     <div class="row">
-	          <a id="openModal" href="#suggestInterestModal" role="button" data-toggle="modal">Sugerir interesse</a>
+	            <p class="txt_right">
+	         	  <a id="openModal" href="#suggestInterestModal" role="button" data-toggle="modal">Não tem o que queria? Sugira um interesse</a>
+	          	  <br/><br/>
+		          <a href="@routes.Feed.resetFeed()" class="btn btn-primary" title="Ir para publicações">
+					Finalizar
+				  </a>
+			    </p>
 		     </div>
 	
 	       @addInterest(iForm)

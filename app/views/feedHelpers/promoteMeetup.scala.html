@@ -7,7 +7,7 @@
 @import mupiHelpers._
 
 <a class="btn_promote" type="button"  href="#promote_meetup" data-toggle="modal">
-  Quero organizar um encontro
+  Quero organizar um evento Mupi
 </a>
 
 
@@ -15,14 +15,15 @@
   @form(routes.Feed.promoteMeetUp){
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3>Quero organizar um encontro</h3>
+      <h3>Quero organizar um evento Mupi</h3>
     </div>
     <div class="modal-body">
 	    @mupiFormTextArea(
 	      field=promoteMeetupForm("description"),
 	      label="Conte-nos mais sobre o evento que quer organizar!",
 	      ('id, "description_promotionMeetup"),
-	      ('rows, 10)
+	      ('rows, 10),
+        ('placeholder,"Conte-nos sobre qual assunto você quer compartilhar, qual o público que você deseja, qual a carga horária estimada e qual sua motivação para organizar esse encontro!")
 	    )
        
       @hiddenInput(
