@@ -39,23 +39,27 @@
   </head>
 
   <body>
-    <div class="wrapper">
-
-		
+    <div class="page-alert">
+        @if(flash.contains(Mupi.FLASH_ERROR_KEY)) {
+           <div class="alert alert-error hide">
+             @flash().get(Mupi.FLASH_ERROR_KEY)
+           </div>
+         }
+         @if(flash.contains(Mupi.FLASH_MESSAGE_KEY)) {
+           <div class="alert alert-success hide">
+             @flash().get(Mupi.FLASH_MESSAGE_KEY)
+           </div>
+         }
+         @if(flash.contains(Mupi.FLASH_WARNING_KEY)) {
+           <div class="alert hide">
+             @flash().get(Mupi.FLASH_WARNING_KEY)
+           </div>
+         }
+      </div>
+      
+    <div class="wrapper">		
 
 		<div id="content">
-        @if(flash.contains(Mupi.FLASH_ERROR_KEY)) {
-          <div class="alert alert-error">
-            @flash().get(Mupi.FLASH_ERROR_KEY)
-          </div>
-        }
-        @if(flash.contains(Mupi.FLASH_MESSAGE_KEY)) {
-          <div class="alert alert-success">
-            @flash().get(Mupi.FLASH_MESSAGE_KEY)
-          </div>
-        }
-
-
   		<div class="navbar mupi-navbar navbar-fixed-top">
 	      <div class="container">
 	        <a class="logo" href="#" alt="Mupi"></a>
