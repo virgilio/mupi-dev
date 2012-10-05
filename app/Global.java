@@ -15,7 +15,7 @@ import controllers.routes;
 
 public class Global extends GlobalSettings{
 	public static final String USER_ROLE = "user";
-	
+
 	public void onStart(Application app) {
 		PlayAuthenticate.setResolver(new Resolver() {
 
@@ -24,7 +24,7 @@ public class Global extends GlobalSettings{
 				// Your login page
 				return routes.Mupi.login();
 			}
-			
+
 			@Override
 			/**
 			 * Intercept a redirection after an authorization
@@ -62,7 +62,7 @@ public class Global extends GlobalSettings{
 					return routes.Signup
 							.oAuthDenied(((AccessDeniedException) e)
 									.getProviderKey());
-				}								
+				}
 				// more custom problem handling here...
 				return super.onException(e);
 			}
@@ -71,7 +71,7 @@ public class Global extends GlobalSettings{
 		initialData();
 	}
 
-	private void initialData() {	  
+	private void initialData() {
 		if (SecurityRole.find.findRowCount() == 0) {
 			for (final String roleName : Arrays.asList(controllers.Mupi.USER_ROLE, controllers.Mupi.ADMIN_ROLE)) {
 				final SecurityRole role = new SecurityRole();
@@ -81,6 +81,6 @@ public class Global extends GlobalSettings{
 		}
 		Location.create("Campinas (SP)", "");
 		Location.create("São Paulo (SP)", "");
-		Location.create("Araçatuba (SP)", "");
+		/*Location.create("Araçatuba (SP)", "");*/
 	}
 }
