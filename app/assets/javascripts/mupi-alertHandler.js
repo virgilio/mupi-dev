@@ -2,6 +2,9 @@ jQuery(function(){
 	jQuery('.page-alert').bind('DOMNodeInserted',function(event){
 		jQuery(this).children().slideDown().delay(3000).slideUp('slow');
 	});
+	if (jQuery('.page-alert').children().length > 0 ){
+		jQuery('.page-alert').children().slideDown().delay(3000).slideUp('slow');
+	};
 });
 
 
