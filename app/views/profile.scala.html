@@ -44,7 +44,7 @@
             @mupiFormInput(
 		          field=profileForm("firstName"),
 		          typ="text",
-		          label="Primeiro nome *"
+		          label="Primeiro nome *"              
 		        )
 		        
 		        @mupiFormInput(
@@ -57,7 +57,8 @@
 		          field=profileForm("about"),
 		          label="Sobre você",
 		          ('rows, "4"),
-		          ('cols, "50")
+		          ('cols, "50"),
+              ('placeholder,"Escreva sobre o que você faz e o que você busca, para que todos possam saber um pouco sobre como você é.")
 		        )
                         
             @mupiFormSelect(
@@ -79,7 +80,7 @@
 	    @if(p.getStatus == conf.MupiParams.FIRST_LOGIN){
 		<input type="submit" value="Avançar" class="btn btn-primary btn_submitprofile">
 	    }else{
-		<input type="submit" value="@Messages("mupi.profile.update")" class="btn btn-primary">
+		<input type="submit" value="@Messages("mupi.profile.update")" class="btn btn-primary btn_submitprofile">
 	    }
  
             
@@ -89,9 +90,9 @@
       }
             
      <div class="locations">
+      <label>Insira as cidades de onde deseja receber atualizações</label>
 	    @mupiFormAutoCompleteInput(
 	      field=profileForm("locations"),
-	      label="Insira as cidades de onde deseja receber atualizações",
 	      uLocations=p.getLocations,
 	      locations=allLocations
 		)

@@ -7,46 +7,37 @@
 @implicitField = @{ FieldConstructor(terms_acceptance.f) }
              
 @main(Messages("playauthenticate.signup.title"),"signup") {
-<div class="container">
-  <div class="row">
-    <div class="span12">
-      <h1>@Messages("playauthenticate.signup.title")</h1>
-    </div>
-  </div>
-
-  <div id="signup" class="row">
-
-    <div class="span12">
-        @* Display proprietary login form *@
+<div class="mupi_container container_signup">
+  <div id="signup">
+      <h1 class="txtcenter">@Messages("playauthenticate.signup.title")</h1>
+      @* Display proprietary login form *@
     	@helper.form(routes.Mupi.doSignup) {
     	
-            @if(signupForm.hasGlobalErrors) { 
-                <p class="error">
-		            <span class="label label-important">@signupForm.globalError.message</span>
-		        </p>
-            }
-            
-             @{ /*@inputText(
-                signupForm("name"),
-                '_label -> Messages("playauthenticate.signup.name")
-             )*/}
-             
-             @_emailPartial(signupForm)
-             
-             @_passwordPartial(signupForm)
+        @if(signupForm.hasGlobalErrors) { 
+            <p class="error">
+            <span class="label label-important">@signupForm.globalError.message</span>
+        </p>
+        }
+        
+         @{ /*@inputText(
+            signupForm("name"),
+            '_label -> Messages("playauthenticate.signup.name")
+         )*/}
+         
+         @_emailPartial(signupForm)
+         
+         @_passwordPartial(signupForm)
 
 
 
-            
-            @checkbox(signupForm("terms_accepted"))
-            
+        
+        @checkbox(signupForm("terms_accepted"))
+        
 
-            <input type="submit" value="@Messages("playauthenticate.signup.now")" class="btn btn-primary">
+        <input type="submit" value="@Messages("playauthenticate.signup.now")" class="btn btn-primary">
     	}
     </div>
 
-   
-  </div>
 </div>
 
 }

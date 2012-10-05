@@ -47,24 +47,29 @@
 			</div>
 			<div id="promotion_link">
 				<i class="icon-external-link"></i>
-				<a class="external_link" href="@promotion.getLink">Link externo</a>
+				<a class="external_link" target="_blank" href="@promotion.getLink">Link externo</a>
 			</div>	
-			<div class="fb-like" data-href="https://www.facebook.com/mupi.br" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
+			<div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
 		</div>
 	</div>
 	<div class="row">
-		<div id="promotion_body" class="span10 offset1">
-			<div id="promotion_promoter">
-				<label>Promovido por</label>
-				<span>@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName</span>
-			</div>
-			<div id="promotion_description">
-				<label>Sobre o evento</label>
-				<p>
-				@promotion.getDescription
-				</p>
-			</div>
-	
+		<div class="span10 offset1 white_background">
+			<div id="promotion_body">
+				<div id="promotion_promoter">
+					<label>Promovido por</label>
+					<span>@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName</span>
+				</div>
+				<div id="promotion_description">
+					<p>
+						<span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("d") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span><br/>
+						<span>@promotion.getAddress</span>
+					</p>
+					<label>Sobre o evento</label>
+					<p>
+					@promotion.getDescription
+					</p>
+				</div>
+			</div>	
 		</div>
 	</div>
 	<div class="row">
@@ -86,5 +91,5 @@
 	    </div>
 		</div>
 	</div>
-<div class="clear"></div>
+</div>
 }
