@@ -2,11 +2,11 @@
 
 @boxValue = @{ elements.field.value.getOrElse("true") }
 
-<div class="clearfix terms_acceptance @if(elements.hasErrors) {error}"" id="@elements.field.id">
+<div class="clearfix terms_acceptance @if(elements.hasErrors) {error}"">
   <div class="input">
     <input type="checkbox" name="@elements.field.name" id="@elements.field.id" value="true">
     <label for="@elements.id">Li e aceito os <a target='_blank' href="@routes.Mupi.terms()"> @Messages("mupi.navigation.terms.title") </a></label>
-    <span class="help-inline">@elements.errors.mkString(", ")</span>
     <span class="help-block">@elements.infos.mkString(", ")</span> 
+    <span class="help-inline">@elements.errors.mkString(", ")</span>
   </div>
 </div>
