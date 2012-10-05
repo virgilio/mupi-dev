@@ -16,7 +16,21 @@ jQuery(function(){
 			jQuery("#input_publication").slideDown();
 		}
     });
-	
+	jQuery("#disabled_publication_input").live('click', function(event){
+        jQuery('.page-alert').html("<div class='alert hide'>Escolha uma <b>cidade</b> no menu superior e um <b>interesse</b> no menu lateral.</div>");
+                jQuery('.page-alert > .alert')
+                    .addClass('alert-error');
+        jQuery('#locals .btn').delay(4000).animate({
+            opacity: 0.2
+        }).animate({
+            opacity: 1
+        });
+        jQuery('.sidebar li').delay(5000).animate({
+            opacity: 0.2
+        }).animate({
+            opacity: 1
+        })
+    });
     jQuery('.btn_local').live('click', function(event){
     	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
@@ -63,11 +77,7 @@ jQuery(function(){
     jQuery("#btn_publish").live('click', function(event){
     	event.preventDefault();
     	jQuery("#preview_publication > .modal-body").html(jQuery("#body_publication").val());
-    });
-    
-    
-    
-    	
+    });    	
     
     jQuery('.textarea_comment textarea').live('focus', function(){
     	jQuery(this).autosize();
