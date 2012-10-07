@@ -49,7 +49,7 @@
 				<i class="icon-external-link"></i>
 				<a class="external_link" target="_blank" href="@promotion.getLink">Link externo</a>
 			</div>	
-			<div class="fb-like" data-href="javascript:document.write(window.location.href)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
+			<div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId).absoluteURL(request)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
 		</div>
 	</div>
 	<div class="row">
