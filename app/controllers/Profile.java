@@ -141,7 +141,7 @@ public class Profile extends Controller {
     mail.setReplyTo("noreply@mupi.me");
     mail.send( body );
 
-    return  Results.ok("Esta localização não está disponível no momento assim que estiver entraremos em contato através de seu e-mail");
+    return  Results.ok("Esta localização não está disponível no momento, assim que estiver entraremos em contato");
   }
 	
 	@Restrict(Mupi.USER_ROLE)
@@ -161,14 +161,14 @@ public class Profile extends Controller {
 		
 		if(location != null){
 			if(profile.getLocations() != null && profile.getLocations().contains(location)){
-				return AjaxResponse.build(2, "You already has this location registered!");
+				return AjaxResponse.build(2, "Você já adicionou essa cidade!");
 			}else{
 				profile.getLocations().add(location);
 				profile.update();
-				return AjaxResponse.build(0, "Location successfully registered!");
+				return AjaxResponse.build(0, "Cidade adicionada com sucesso!");
 			}
 		}else{
-			return AjaxResponse.build(1, "This location dos not exist in our database. If you want this location to be ther click in 'Suggest Location'!");
+			return AjaxResponse.build(1, "Essa cidade ainda não está registrada");
 		}
 	}
 	
@@ -183,9 +183,9 @@ public class Profile extends Controller {
 				profile.getLocations().remove(location);
 				profile.update();
 			}
-			return AjaxResponse.build(0, "You have successfully removed this location!");
+			return AjaxResponse.build(0, "Cidade removida!");
 		}else{
-			return AjaxResponse.build(2, "This location does not exist in our database!");
+			return AjaxResponse.build(2, "Você não tem essa ciadde!");
 		}
 	}
 	

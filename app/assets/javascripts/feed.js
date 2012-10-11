@@ -71,10 +71,14 @@ jQuery(function(){
     	var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.publish(
 			encodeURIComponent(jQuery('#body_publication').val())
+            //receber mais dois parametros: interesse e localização do select
     	).ajax(loadFeed(i,l));
     });
 
     jQuery("#btn_publish").live('click', function(event){
+        //if
+        // var i = jQuery("#selectedInterest").val();
+        // var l = jQuery("#selectedLocation").val();
     	event.preventDefault();
     	jQuery("#preview_publication > .modal-body").html(jQuery("#body_publication").val());
     });    	

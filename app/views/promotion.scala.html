@@ -69,6 +69,7 @@
 		<div class="span10 offset1 white_background">
 			<div id="promotion_body">
 				<div id="promotion_promoter">
+					<label>Postado em</label> <span>@promotion.getPublication.getInterest.getName, @promotion.getPublication.getLocation.getName</span><br/>
 					<label>Promovido por</label>
 					<span>@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName</span>
 				</div>
@@ -97,11 +98,13 @@
 					   </a>
 					  </div>
 				</div>
+			} else{
+				<p><a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a> para postar um comentário.</p>
 			}
 			<span>@promotion.getPublication.getComments.size comentários</span>
 			<div id="comments" id="comments_@promotion.getPublication.id">
-        @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated).reverse)
-	    </div>
+		        @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated).reverse)
+			</div>
 		</div>
 	</div>
 </div>
