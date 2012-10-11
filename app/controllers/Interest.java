@@ -53,7 +53,7 @@ public class Interest extends Controller {
 		final User user = Mupi.getLocalUser(session());
 
 		if(models.Profile.checkInterest(user, id))
-			return AjaxResponse.build(0,"The interest was added to your interests list!");
+			return AjaxResponse.build(0,"Interesse favoritado!");
 		else
 			return AjaxResponse.build(1,"A problem occured and the interest was NOT added to your interests list!");
 	}
@@ -63,7 +63,7 @@ public class Interest extends Controller {
 		final User user = Mupi.getLocalUser(session());	
 
 		if(models.Profile.uncheckInterest(user, id))
-			return AjaxResponse.build(0,"The interest was removed from your interests list!");
+			return AjaxResponse.build(0,"Interesse removido!");
 		else
 			return AjaxResponse.build(1, "A problem occured and the interest was NOT removed from your interests list!");
 	}
@@ -71,7 +71,7 @@ public class Interest extends Controller {
 	@Restrict(Mupi.USER_ROLE)
 	public static Result ignoreInterest(Long id){
 		// TODO: IMPLEMENT
-		return AjaxResponse.build(0,"The interest was ignored! You can find it by searching it by name!");
+		return AjaxResponse.build(0,"Interesse ignorado, você pode encontrá-lo novamente através da busca.");
 	}
 
 
