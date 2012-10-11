@@ -8,19 +8,19 @@
 <html lang="@lang().code()">
   <head>
     <title>@title</title>
-    
+
     <!-- Le meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Mupi! O que você aprendeu hoje?">
     <meta name="author" content="Matchbox Ideas">
-   
+
     <!-- Le scripts -->
   	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	  <script src="@routes.Assets.at("javascripts/bootstrap.js")"></script>
 	  <script src="@routes.Mupi.jsRoutes" defer="defer"></script>
-	  <script src="@routes.Assets.at("javascripts/mupi-alertHandler.min.js")"></script>
-	
+	  <script src="@routes.Assets.at("javascripts/mupi-alertHandler.js")"></script>
+
     <!-- Le styles -->
     <link href="@routes.Assets.at("stylesheets/main.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("stylesheets/bootstrap.min.css")" rel="stylesheet">
@@ -28,8 +28,8 @@
     <link rel="shortcut icon" type="image/png" href=@routes.Assets.at("img/favicon.ico")>
     <link href="@routes.Assets.at("stylesheets/mupiMain.min.css")" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
-    
-    
+
+
 
 
 
@@ -43,7 +43,7 @@
 		  _gaq.push(['_setAccount', 'UA-35125468-1']);
 		  _gaq.push(['_setDomainName', 'mupi.me']);
 		  _gaq.push(['_trackPageview']);
-		
+
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 		    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
@@ -78,13 +78,13 @@
          } else {
            @notLogged_header(nav)
          }
-         
+
      <div id="content">
-			  
+
 			  @content
-			</div>		
+			</div>
 	  </div>
-	  
+
 	  <footer role="contentinfo">
 	    <div class="container">
 	      <ul class="nav nav-pills">
@@ -96,7 +96,7 @@
 	      </ul>
 	    </div>
     </footer>
-    
+
     <script type="text/javascript">
 	 var uvOptions = {};
 	 (function() {
@@ -105,7 +105,7 @@
 	   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
 	 })();
 	</script>
-	
+
 	<script src="@routes.Assets.at("javascripts/mupiMain.js")"></script>
   </body>
 </html>
