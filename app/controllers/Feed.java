@@ -165,18 +165,19 @@ public class Feed extends Controller {
   }
 
   @Restrict(Mupi.USER_ROLE)
-  public static Result commentPromotion(String body, Long id){
+  public static Result commentPublication(String body, Long id){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
     final models.Publication pub = models.Publication.find.byId(id);
 
     if(pub != null){
       PubComment.create(pub, p, body);
-      List<PubComment> reverseComments = pub.getComments();
+//      List<PubComment> reverseComments = pub.getComments();
 
-      Collections.reverse(reverseComments);
+//      Collections.reverse(reverseComments);
       return AjaxResponse.build(
-          0,
-          comments.render(reverseComments).body()
+          0, 
+//          comments.render(reverseComments).body()
+          comments.render(pub.getComments()).body()
           );
     }
     else{
@@ -186,7 +187,6 @@ public class Feed extends Controller {
           );
     }
   }
-
 
   @Restrict(Mupi.USER_ROLE)
   public static Result publish(String body){

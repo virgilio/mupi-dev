@@ -3,7 +3,7 @@ jQuery(function(){
 	
 	jQuery('#sendComent').live('click', function(event){
 		event.preventDefault();
-    	jsRoutes.controllers.Feed.commentPromotion(
+    	jsRoutes.controllers.Feed.commentPublication(
 			encodeURIComponent(jQuery(this).parent().prev('textarea').val()),
 			jQuery(this).attr('publication')
 		).ajax(loadComments())
