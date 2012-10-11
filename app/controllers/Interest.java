@@ -53,7 +53,7 @@ public class Interest extends Controller {
 		final User user = Mupi.getLocalUser(session());
 
 		if(models.Profile.checkInterest(user, id))
-			return AjaxResponse.build(0,"Interesse favoritado!");
+			return AjaxResponse.build(0,"Interesse adicionado aos favoritos!");
 		else
 			return AjaxResponse.build(1,"A problem occured and the interest was NOT added to your interests list!");
 	}
