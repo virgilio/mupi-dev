@@ -15,3 +15,5 @@ dist
 .idea_modules
 bin
 RUNNING_PID
+mupi.sublime-project
+mupi.sublime-workspace

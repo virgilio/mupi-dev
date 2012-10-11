@@ -1,8 +1,8 @@
-@(field: play.api.data.Field, label: String=null, 
-  uLocations: List[models.Location], 
+@(field: play.api.data.Field, label: String=null,
+  uLocations: List[models.Location],
   locations: List[models.Location])
 
-@import helper._ 
+@import helper._
 @import helper.twitterBootstrap._
 @import mupiHelpers._
 @import play.libs.Json
@@ -10,20 +10,18 @@
 @allLocs = @{Html(Json.stringify(Json.toJson(locations)))}
 
 
-<div class="row">
-	<div class="span3">
+  <link href="@routes.Assets.at("stylesheets/select2.css")" rel="stylesheet">
+  <script src="@routes.Assets.at("javascripts/select2.js")"></script>
+
 
     @if(label != null){
 	  <label for="@field.name">
 	    @label
 	  </label>
     }
-	  
-	  
-	
-	  <input type="text" id="locationSelector" data-provide="typeahead" placeholder="Digite a cidade e clique no '+'" AUTOCOMPLETE="OFF" />
-	  <button id="addLocation">+</button>
-	  
+
+	  <input id="locationSelector" style="width: 300px; display: none; " value="">
+
 	  <ul class="selectedLocations">
 		  @for( location <- uLocations ){
 		    <li class="selectedLocation">
@@ -32,27 +30,52 @@
 	      </li>
 	    }
     </ul>
-	</div>
-</div>
+
 
 <script>
+  var locationData = [];
+  jQuery(@allLocs).each(function () {
+      locationData.push({id: this.id, text: this.name});
+  });
+  jQuery(document).ready(function() {
+    jQuery("#locationSelector").select2({
+        placeholder: "Digite a localizacao",
+        data: locationData,
+        initSelection : function (element, callback) {
+            var data = [];
+            jQuery(locationData).each(function () {
+                data.push({id: this.id, text: this.name});
+            });
+            callback(data);
+        },
+        id: "id",
+        matcher: function(term, text) { return normalize(text).toUpperCase().indexOf(term.toUpperCase())==0; },
+        createSearchChoice:function(term, data) {
+            if (jQuery(data).filter(function() {
+                return this.text.localeCompare(term)===0;
+            }).length===0) {
+                return {id:term, text: "Sugerir localizacao: "+ term};
+            }
+        },
+    });
+
+    jQuery("#locationSelector")
+      .on("change", function(e) {
+    	      if(!isNaN(parseInt(jQuery("#locationSelector").select2("val"))))
+    	    	  registerLocation(jQuery("#locationSelector").select2("data"));
+    	      else
+    	    	  if (confirm("Você deseja sugerir a cidade " + jQuery("#locationSelector").select2("val") + "?")) { 
+    	    		  suggestLocation(jQuery("#locationSelector").select2("data"));
+    	    		}    	    	  
+            
+    	      jQuery("#locationSelector").select2("val", "");
+      });
+
+
     jQuery(function(){
-    	 jQuery('#locationSelector').keypress(function(e) {
-   	        if(e.which == 13) {
-   	            jQuery(this).blur();
-   	            registerLocation(@allLocs);
-   	        }
-   	    });
-       jQuery('#addLocation').live('click', function(){registerLocation(@allLocs)});
-       
-       jQuery('#locationSelector').typeahead({
-         property: "name",
-         source: @allLocs,
-         itemLabel: "name"
-       });
-       
-       jQuery('.removeLocation').live('click', function(){
-    	   removeLocation(jQuery(this).attr('location'));
-    	 });
+      jQuery('.removeLocation').live('click', function(){
+        removeLocation(jQuery(this).attr('location'));
+      });
     })
- </script>
+  });
+</script>

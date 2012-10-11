@@ -18,20 +18,20 @@ import play.db.ebean.Model;
 @Table(name = "locations")
 public class Location extends Model {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private Long id;
-	
+
 	@Required
 	private String name;
-	
+
 	@Required
 	private String geohash;
-	
-	
+
+
 	public Long getId() {
 		return id;
 	}
@@ -53,7 +53,7 @@ public class Location extends Model {
 			return true;
 		}
 	}
-	
+
 	public static List<Location> getLocationsByIds(List<Long> locationIds) {
 		// TODO: Is there a different query to optimize it?
 		final List<Location> locations = new ArrayList<Location>();
@@ -63,13 +63,13 @@ public class Location extends Model {
 				locations.add(loc);
 			}
 		}
-		return locations;		
+		return locations;
 	}
-	
+
 	public static String getAllAsJsonArray(){
 		String json = "[";
 		for (Location location : find.all()) {
-			json = json.concat("{'id':" + location.id + ", name:" + location.name + "}");
+			json = json.concat("{'id':" + location.id + ", text:" + location.name + "}");
 		}
 		return json.replace("}{", "},{").concat("]");
 	}
@@ -93,8 +93,8 @@ public class Location extends Model {
 	public void setGeohash(String geohash) {
 		this.geohash = geohash;
 	}
-	
-	
+
+
 //	public static List<Location> getNameIdJson() {
 //		// TODO: Is there a different query to optimize it?
 //		final List<Location> locations = new ArrayList<Location>();
@@ -104,6 +104,6 @@ public class Location extends Model {
 //				locations.add(loc);
 //			}
 //		}
-//		return locations;		
+//		return locations;
 //	}
 }

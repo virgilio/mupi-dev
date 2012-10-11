@@ -41,7 +41,7 @@ public class Mupi extends Controller {
 
   public static Result at(final String path){
     final File file = new File(MupiParams.UPLOAD_ROOT + "//" + path);
-    
+
     if (!file.exists()) {
       return notFound();
     }else{
@@ -65,7 +65,7 @@ public class Mupi extends Controller {
   public static Result login() {
     return redirect(routes.Feed.feed());
 //    return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-//    return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM)); 
+//    return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
   }
 
   public static Result doLogin() {

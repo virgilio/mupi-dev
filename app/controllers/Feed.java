@@ -59,7 +59,7 @@ public class Feed extends Controller {
   }
 
 
-  
+
   public static Result feed(){
     final User user = Mupi.getLocalUser(session());
 
@@ -79,9 +79,9 @@ public class Feed extends Controller {
       models.Location l; if(location == null) l = null; else l=models.Location.find.byId(location);
 
       return ok(views.html.feed.render(
-        user, 
-        user.getProfile().getInterests(), 
-        user.getProfile().getLocations(), 
+        user,
+        user.getProfile().getInterests(),
+        user.getProfile().getLocations(),
         i, l,
         Publication.findByInterests(getInterestIds(user.getProfile().getInterests()), new Long(0)),
         Promotion.findByInterests(getInterestIds(user.getProfile().getInterests()), new Long(0)),
@@ -99,15 +99,15 @@ public class Feed extends Controller {
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.getProfile();
     String lastName = p.getLastName(); if(lastName == null) lastName = "";
-    String interest = ""; 
-    
+    String interest = "";
+
     if(getLocalInterest() != null && getLocalInterest() != -1)
       interest = models.Interest.find.byId(getLocalInterest()).getName();
 
     final String subject = p.getFirstName() + " " + lastName + " quer receber encontros amiguinhos!  Yayyy!!";
 
     final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
-        "quer receber encontros da seguinte comunidade:\n" + 
+        "quer receber encontros da seguinte comunidade:\n" +
         "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
         "\n    Interesse - " + interest +
         "\n\n Ele redigiu a seguinte descrição:\n" +
@@ -135,7 +135,7 @@ public class Feed extends Controller {
     final String subject = p.getFirstName() + " " + lastName + " quer organizar um encontro amiguinhos!  Yayyy!!";
 
     final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
-        "quer organizar um encontro na seguinte comunidade:\n" + 
+        "quer organizar um encontro na seguinte comunidade:\n" +
         "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
         "\n    Interesse - " + models.Interest.find.byId(getLocalInterest()).getName() +
         "\n\n Ele redigiu a seguinte descrição do evento:\n" +
@@ -156,7 +156,7 @@ public class Feed extends Controller {
   public static Result comment(String body, Long id){
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
-    final models.Publication pub = models.Publication.find.byId(id);		
+    final models.Publication pub = models.Publication.find.byId(id);
 
     if(pub != null)
       PubComment.create(pub, p, body);
@@ -175,13 +175,13 @@ public class Feed extends Controller {
 
       Collections.reverse(reverseComments);
       return AjaxResponse.build(
-          0, 
+          0,
           comments.render(reverseComments).body()
           );
     }
     else{
       return AjaxResponse.build(
-          1, 
+          1,
           null
           );
     }
@@ -194,9 +194,9 @@ public class Feed extends Controller {
     Long l = getLocalLocation();
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
-    
+
     String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank"));
-    
+
 
     Publication.create(
         p,
@@ -207,7 +207,7 @@ public class Feed extends Controller {
 
     return selectFeed(i,l);
   }
-  
+
   @Restrict(Mupi.USER_ROLE)
   public static Result refreshPublications(Long first){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
@@ -218,7 +218,7 @@ public class Feed extends Controller {
     if(i != null) iObj = models.Interest.find.byId(i);
     if(l != null) lObj= models.Location.find.byId(l);
     List<models.Publication> pubs = new ArrayList<models.Publication>();
-    
+
     if(i == null || i == -1){
       if(l == null || l == -1){pubs = Publication.findNewerByInterests(getInterestIds(p.getInterests()), first).getList();}
       else {pubs = Publication.findNewerByInterestsLocation(getInterestIds(p.getInterests()), l, first).getList();}
@@ -227,13 +227,13 @@ public class Feed extends Controller {
       if(l == null || l == -1){pubs = Publication.findNewerByInterest(i, first).getList();}
       else{pubs = Publication.findNewerByInterestLocation(i, l, first).getList();}
     }
-    
-    if(pubs.isEmpty()) 
+
+    if(pubs.isEmpty())
       return AjaxResponse.build(2, "");
     else
       return AjaxResponse.build(0, pubList.render(pubs, iObj, lObj).body());
   }
-  
+
   @Restrict(Mupi.USER_ROLE)
   public static Result nextPublications(Long last){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
@@ -243,9 +243,9 @@ public class Feed extends Controller {
     models.Location lObj = null;
     if(i != null) iObj = models.Interest.find.byId(i);
     if(l != null) lObj= models.Location.find.byId(l);
-    
+
     List<models.Publication> pubs = new ArrayList<models.Publication>();
-    
+
     if(i == null || i == -1){
       if(l == null || l == -1){pubs = Publication.findByInterests(getInterestIds(p.getInterests()), last).getList();}
       else {pubs = Publication.findByInterestsLocation(getInterestIds(p.getInterests()), l, last).getList();}
@@ -253,15 +253,15 @@ public class Feed extends Controller {
     else{
       if(l == null || l == -1){pubs = Publication.findByInterest(i, last).getList();}
       else{pubs = Publication.findByInterestLocation(i, l, last).getList();}
-    }    
-    
+    }
+
     if(pubs.isEmpty())
       return AjaxResponse.build(2, "");
     else
       return AjaxResponse.build(0, pubList.render(pubs, iObj, lObj).body());
   }
-  
-  
+
+
   @Restrict(Mupi.USER_ROLE)
   public static Result nextPromotions(Long last){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
@@ -269,7 +269,7 @@ public class Feed extends Controller {
     Long l = getLocalLocation();
     Integer status = 0;
     List<models.Promotion> proms = new ArrayList<models.Promotion>();
-    
+
     if(i == null || i == -1){
       if(l == null || l == -1) proms = Promotion.findByInterests(getInterestIds(p.getInterests()), last).getList();
       else proms = Promotion.findByInterestsLocation(getInterestIds(p.getInterests()), l, last).getList();
@@ -277,20 +277,20 @@ public class Feed extends Controller {
       if(l == null || l == -1) proms = Promotion.findByInterest(i, last).getList();
       else proms = Promotion.findByInterestLocation(i, l, last).getList();
     }
-    
+
     if(proms.isEmpty()) status = 2;
     return AjaxResponse.build(status, promList.render(proms).body());
   }
-  
+
 
   @Restrict(Mupi.USER_ROLE)
   public static Result renderFeedContent(
-      int status, 
+      int status,
       Page<models.Publication> l_pubs,
       Page<models.Promotion> l_prom,
       models.Interest i,
       models.Location l){
-	  
+
 	final models.Profile p = Mupi.getLocalUser(session()).profile;
     final String iSession; if(i == null) iSession = "-1"; else iSession = i.getId().toString();
     final String lSession; if(l == null) lSession = "-1"; else lSession = l.getId().toString();
@@ -300,7 +300,7 @@ public class Feed extends Controller {
 
     return AjaxResponse.build(status, feedContent.render(p.getLocations(), l_pubs, l_prom, i, l, PROMOTION_FORM, PROMOTE_MEETUP_FORM,HOST_MEETUP_FORM).body());
   }
-  
+
   @Restrict(Mupi.USER_ROLE)
   public static Result selectFeed(Long interest, Long location){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
@@ -308,19 +308,19 @@ public class Feed extends Controller {
       List<Long> interests = getInterestIds(p.getInterests());
       if(location == null || location == -1){
         return renderFeedContent(
-            0, 
+            0,
             Publication.findByInterests(interests,new Long(0)),
             Promotion.findByInterests(interests, new Long(0)),
-            null, 
+            null,
             null
         );
       } else {
         final models.Location l = models.Location.find.byId(location);
         return renderFeedContent(
-            0, 
+            0,
             Publication.findByInterestsLocation(interests, location, new Long(0)),
             Promotion.findByInterestsLocation(interests, location, new Long(0)),
-            null, 
+            null,
             l
         );
       }
@@ -330,9 +330,9 @@ public class Feed extends Controller {
       if(location == null || location == -1){
         return renderFeedContent(
             0,
-            Publication.findByInterest(interest, new Long(0)), 
+            Publication.findByInterest(interest, new Long(0)),
             Promotion.findByInterest(interest, new Long(0)),
-            i, 
+            i,
             null
         );
       } else {
@@ -341,16 +341,16 @@ public class Feed extends Controller {
             0,
             Publication.findByInterestLocation(interest, location, new Long(0)),
             Promotion.findByInterestLocation(interest, location, new Long(0)),
-            i, 
+            i,
             l
         );
       }
     }
-  }	
+  }
 
   // TODO: Global?
   static String BLANK_EVT = "/blank_event.jpg";
-  
+
   @Restrict(Mupi.USER_ROLE)
   public static Result promote(){
     MultipartFormData body = request().body().asMultipartFormData();
@@ -367,18 +367,18 @@ public class Feed extends Controller {
 
     final Form<models.Promotion> filledForm = form(models.Promotion.class).bindFromRequest();
     final models.Profile p = Mupi.getLocalUser(session()).profile;
-    
+
     try {
       if (picture != null) {
         String fileName = picture.getFilename();
         File file = picture.getFile();
         int index = (fileName.toLowerCase()).lastIndexOf('.');
         String extension = "png";
-        
+
         if(index > 0 && index < fileName.length() - 1){
           extension = fileName.substring(index + 1).toLowerCase();
         }
-        
+
         String hashTime = getMD5(System.currentTimeMillis());
         String hashCommunity = getMD5(iObj.toString() + lObj.toString());
 
@@ -390,33 +390,33 @@ public class Feed extends Controller {
         File medium = new File(MupiParams.EVENT_ROOT + MupiParams.PIC_MEDIUM + "//" +
             hashCommunity + "//" + hashTime + fileName);
         medium.mkdirs();
-        
+
         BufferedImage bi = ImageHandler.createSmallInterest(destinationFile);
         bi = ImageHandler.createMediumPromotion(destinationFile);
         ImageIO.write(bi, extension, medium);
       }else{picturePath = BLANK_EVT;}
-    
+
       models.Promotion.create(
         p,
         lObj,
         iObj,
-        filledForm.get().getTitle(), 
-        filledForm.get().getAddress(), 
-        filledForm.get().getDate(), 
-        filledForm.get().getTime(), 
-        filledForm.get().getDescription(), 
+        filledForm.get().getTitle(),
+        filledForm.get().getAddress(),
+        filledForm.get().getDate(),
+        filledForm.get().getTime(),
+        filledForm.get().getDescription(),
         filledForm.get().getLink(),
         picturePath);
 
       flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.promotion.created"));
-      
+
       return redirect(routes.Feed.feed());
     }catch (Exception e) {
       flash(Mupi.FLASH_ERROR_KEY, "Erro ao divulgar evento, por favor contate-nos para que possamos resolver este problema.");
       System.out.println(e.getMessage());
       return redirect(routes.Feed.feed());
     }
-    
+
   }
 
   public static Long getLocalInterest(){

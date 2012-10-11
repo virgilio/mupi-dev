@@ -15,6 +15,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Page;
 
 import controllers.Mupi;
@@ -103,7 +104,6 @@ public class Promotion extends Model {
       if(pub!=null)
         Publication.remove(pub);
     }
-
   }
 
   public static void update(Long id, String title, String address, Date date,

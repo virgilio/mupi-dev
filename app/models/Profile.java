@@ -25,7 +25,7 @@ import play.db.ebean.Model;
 @Table(name = "profiles")
 public class Profile extends Model {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String NO_PIC = "/blank.jpg";
@@ -34,33 +34,33 @@ public class Profile extends Model {
 	private Long id;
 
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	@Formats.DateTime(pattern = "dd/MM/yyyy")
 	private Date birthDate;
-	
+
 	private String picture = NO_PIC;
-	
+
 	@Column(columnDefinition = "TEXT")
 	private String about;
-	
+
 	private Integer gender;
-	
+
 	private Integer status = MupiParams.FIRST_LOGIN;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Location> locations = new ArrayList<Location>();
-	
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Interest> interests = new ArrayList<Interest>();
-	
+
 	@OneToMany
 	private List<Publication> publications = new ArrayList<Publication>();
-	
+
 	@OneToMany
 	private List<PubComment> pubComments = new ArrayList<PubComment>();
-		
+
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date created;
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -69,8 +69,8 @@ public class Profile extends Model {
 
 	public static final Finder<Long, Profile> find = new Finder<Long, Profile>(
 			Long.class, Profile.class);
-	
-	public Profile(User user, String firstName, String lastName, Date birthDate, String picture, 
+
+	public Profile(User user, String firstName, String lastName, Date birthDate, String picture,
 			String about, Integer gender, List<Location> locations) {
 		this.firstName 	= firstName;
         this.lastName 	= lastName;
@@ -83,14 +83,14 @@ public class Profile extends Model {
         this.created	= new Date();
         this.modified	= new Date();
     }
-	
+
 	public Profile() {
 	  this.status = MupiParams.FIRST_LOGIN;
     this.picture = NO_PIC;
     this.created = new Date();
     this.modified = new Date();
 	}
-	
+
 	public Profile(String name) {
 		this.firstName = name;
 		this.status = MupiParams.FIRST_LOGIN;
@@ -98,10 +98,10 @@ public class Profile extends Model {
 		this.created = new Date();
 		this.modified = new Date();
 	}
-	
 
-	/**	
-	 * Método que cria profile. 
+
+	/**
+	 * Método que cria profile.
 	 * @param authUser
 	 * @return
 	 */
@@ -114,8 +114,8 @@ public class Profile extends Model {
 			final String picture,
 			final Integer gender,
 			final List<Location> locations) {
-		
-				
+
+
 		final Profile p = user.profile;
 
 		p.setFirstName(firstName);
@@ -126,21 +126,21 @@ public class Profile extends Model {
 		p.setGender(gender);
 		p.setLocations(locations);
 		p.setModified(new Date());
-		
+
 		p.update();
-		
+
 		User.updateName(user, firstName);
-		
+
 		return p;
 	}
-	
+
 	public static Profile changeStatus(final Profile profile, final Integer newStatus){
 	  final Profile p = find.byId(profile.getId());
 	  p.setStatus(newStatus);
 	  p.save();
 		return profile;
 	}
-	
+
 	public static Profile create(final User user) {
 		Profile p = new Profile();
 		p.setFirstName(user.name);
@@ -149,13 +149,13 @@ public class Profile extends Model {
 		p.setLocations(new ArrayList<Location>());
 		p.setCreated(new Date());
 		p.setModified(new Date());
-		
+
 
 		p.save();
-		
+
 		return p;
 	}
-	
+
 	public static Profile updateFirstName(final User user, final String name) {
 		final Profile p = user.profile;
 		p.setFirstName(name);
@@ -173,15 +173,15 @@ public class Profile extends Model {
 		}
 		return false;
 	}
-	
+
 	public String getLocationJsonArray(){
 		String json = "[";
 		for (Location location : this.locations) {
-			json = json.concat("{'id':" + location.getId() + ", name:" + location.getName() + "}");
+			json = json.concat("{'id':" + location.getId() + ", text:" + location.getName() + "}");
 		}
 		return json.replace("}{", "},{").concat("]");
 	}
-	
+
 	public static boolean checkInterest(final User user, final Long interest) {
 		final Profile p = User.findByEmail(user.email).getProfile();
 		if (p != null && p.getInterests().add(models.Interest.find.byId(interest))){
@@ -190,7 +190,7 @@ public class Profile extends Model {
 		}
 		return false;
 	}
-	
+
 	public static boolean uncheckInterest(final User user, final Long interest) {
 		final Profile p = User.findByEmail(user.email).profile;
 		final Interest i = models.Interest.find.byId(interest);
@@ -204,11 +204,11 @@ public class Profile extends Model {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public Integer getStatus() {
 		return status;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -312,6 +312,6 @@ public class Profile extends Model {
 	public void setModified(Date modified) {
 		this.modified = modified;
 	}
-	
-	
+
+
 }

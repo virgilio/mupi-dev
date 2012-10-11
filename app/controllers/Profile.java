@@ -33,16 +33,16 @@ import views.html.profile;
 import be.objectify.deadbolt.actions.Restrict;
 
 public class Profile extends Controller {
-	
+
 	private static final Form<models.Profile> PROFILE_FORM = form(models.Profile.class);
-	
+
 	@Restrict(Mupi.USER_ROLE)
 	public static Result profile() {
-		final User user = Mupi.getLocalUser(session());	
+		final User user = Mupi.getLocalUser(session());
 
 		models.Profile p = user.getProfile();
 		final Form<models.Profile> form = PROFILE_FORM.fill(p);
-		
+
 		final List<Location> notSelected = Location.find.fetch("id", "name").findList();
 
 		return ok(profile.render(form, p, notSelected));
@@ -52,76 +52,76 @@ public class Profile extends Controller {
 	public static Result doProfile() {
 		final Form<models.Profile> filledForm = PROFILE_FORM.bindFromRequest();
 		final User user = Mupi.getLocalUser(session());
-		
-		
+
+
 		try {
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart picture = body.getFile("picture");
-			
+
 			String picturePath = MupiParams.BLANK_PIC;
-			
+
 			if (picture != null) {
-			    String fileName = picture.getFilename();
-			    File file = picture.getFile();
-			    int i = (fileName.toLowerCase()).lastIndexOf('.');
-	        String extension = "png";
-	        
-	        if(i > 0 && i < fileName.length() - 1){
-	          extension = fileName.substring(i + 1).toLowerCase();
-	        }
-	        
-			    String hashTime = getMD5(System.currentTimeMillis());
-			    String hashUser = getMD5(user.email);
-			    
-			    File destinationFile = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_ROOT + "//" +
-			        hashUser + "//" + hashTime + fileName);
-		    	FileUtils.copyFile(file, destinationFile);
-		    	picturePath = "/" + hashUser + "/" + hashTime + fileName;
-		    	
-		    	File thumb = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_THUMB+ "//" +
-		    	    hashUser + "//" + hashTime + fileName);
-	        thumb.mkdirs();
-	        BufferedImage bi = ImageHandler.createSmallProfile(destinationFile);
-	        ImageIO.write(bi, extension, thumb);
-	        
-	        File medium = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_MEDIUM + "//" +
-	             hashUser + "//" + hashTime + fileName);
-	        medium.mkdirs();
-	        bi = ImageHandler.createMediumSquare(destinationFile);
-	        ImageIO.write(bi, extension, medium);
-	        
+				String fileName = picture.getFilename();
+				File file = picture.getFile();
+				int i = (fileName.toLowerCase()).lastIndexOf('.');
+				String extension = "png";
+
+				if(i > 0 && i < fileName.length() - 1){
+					extension = fileName.substring(i + 1).toLowerCase();
+				}
+
+				String hashTime = getMD5(System.currentTimeMillis());
+				String hashUser = getMD5(user.email);
+
+				File destinationFile = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_ROOT + "//" +
+					hashUser + "//" + hashTime + fileName);
+				FileUtils.copyFile(file, destinationFile);
+				picturePath = "/" + hashUser + "/" + hashTime + fileName;
+
+				File thumb = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_THUMB+ "//" +
+					hashUser + "//" + hashTime + fileName);
+				thumb.mkdirs();
+				BufferedImage bi = ImageHandler.createSmallProfile(destinationFile);
+				ImageIO.write(bi, extension, thumb);
+
+				File medium = new File(MupiParams.PROFILE_ROOT + MupiParams.PIC_MEDIUM + "//" +
+					hashUser + "//" + hashTime + fileName);
+				medium.mkdirs();
+				bi = ImageHandler.createMediumSquare(destinationFile);
+				ImageIO.write(bi, extension, medium);
+
 			}else{
 				picturePath = user.getProfile().getPicture();
 			}
-			
+
 			models.Profile.update(
-					Mupi.getLocalUser(session()),
-					filledForm.get().getFirstName(),
-					filledForm.get().getLastName(),
-					filledForm.get().getAbout(),
-					filledForm.get().getBirthDate(),
-					picturePath,
-					filledForm.get().getGender(),
-					filledForm.get().getLocations()
-			);
-				
-			
+				Mupi.getLocalUser(session()),
+				filledForm.get().getFirstName(),
+				filledForm.get().getLastName(),
+				filledForm.get().getAbout(),
+				filledForm.get().getBirthDate(),
+				picturePath,
+				filledForm.get().getGender(),
+				filledForm.get().getLocations()
+				);
+
+
 			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.profile.updated"));
 			if (user.getProfile().getStatus() == conf.MupiParams.FIRST_LOGIN) {
 				models.Profile.changeStatus(user.getProfile(), conf.MupiParams.ALL_HELPS);
 				return redirect(routes.Interest.interestManager());
-			} 
+			}
 			else {
 				return redirect(routes.Profile.profile());
 			}
-			
+
 		} catch (IOException e){
 			flash(Mupi.FLASH_ERROR_KEY, Messages.get("mupi.errorSendingFile"));
 			e.printStackTrace();
 			return redirect(routes.Profile.profile());
 		}
 	}
-	
+
 	@Restrict(Mupi.USER_ROLE)
   public static Result suggestLocation(String city){
     final User u = Mupi.getLocalUser(session());
@@ -143,22 +143,24 @@ public class Profile extends Controller {
 
     return  Results.ok("Esta localização não está disponível no momento, assim que estiver entraremos em contato");
   }
-	
+
 	@Restrict(Mupi.USER_ROLE)
 	public static Result changeLocation(Integer op, Long id){
+	  System.out.println(op + "   " + id);
+	  
 		if(op == 0) return addLocation(id) ;
 		else if(op == 1) return removeLocation(id);
 		return AjaxResponse.build(1, "Server Error!");
 	}
-	
+
 	@Restrict(Mupi.USER_ROLE)
 	public static Result addLocation(Long id){
-		
-		
+
+
 		final User user = Mupi.getLocalUser(session());
 		final models.Profile profile = user.profile;
 		final Location location = Location.find.byId(id);
-		
+
 		if(location != null){
 			if(profile.getLocations() != null && profile.getLocations().contains(location)){
 				return AjaxResponse.build(2, "Você já adicionou essa cidade!");
@@ -171,13 +173,13 @@ public class Profile extends Controller {
 			return AjaxResponse.build(1, "Essa cidade ainda não está registrada");
 		}
 	}
-	
+
 	@Restrict(Mupi.USER_ROLE)
 	public static Result removeLocation(Long id){
 		final User user = Mupi.getLocalUser(session());
 		final models.Profile profile = user.profile;
 		final Location location = Location.find.byId(id);
-				
+
 		if(location != null){
 			if(profile.getLocations() != null){
 				profile.getLocations().remove(location);
@@ -188,16 +190,16 @@ public class Profile extends Controller {
 			return AjaxResponse.build(2, "Você não tem essa ciadde!");
 		}
 	}
-	
+
 	private static String getMD5(Object input){
-	    try {
+		try {
 			return new BigInteger(1, MessageDigest.getInstance("MD5")
-					.digest(String.valueOf(input).getBytes())).toString(16);
+				.digest(String.valueOf(input).getBytes())).toString(16);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			return null;
 		}
-	    
+
 	}
-	
+
 }
