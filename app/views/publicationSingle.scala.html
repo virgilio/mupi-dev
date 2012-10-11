@@ -18,48 +18,50 @@
 <input type="hidden" id="selectedInterest" value="@publication.getInterest.getId"/>
 <input type="hidden" id="selectedLocation" value="@publication.getLocation.getId"/>
 
-<div id="pub_container">
-	<div class="publication" pub_id="@publication.getId">
-		  <div class="pub_header">
-			  <p>
-			  	por <span class="publisher_name">@publication.getProfile.getFirstName @publication.getProfile.getLastName</span> <span class="pub_date">@publication.getCreated.format("dd/MMM - HH:mm")</span>
-			    <span class="pub_loc"><i class="icon-map-marker"></i> @publication.getLocation.getName</span>	
-			    <span class="pub_int"><i class="icon-star"></i> @publication.getInterest.getName</span>
-			  </p>
-		  </div>
-		  <div class="profile-thumb mupi_thumbs">
-			  <div class="fix_img">
-			    <img src="@routes.Mupi.at(publisherPic)" />
+<div class="body_container">
+	<div id="pub_container">
+		<div class="publication" pub_id="@publication.getId">
+			  <div class="pub_header">
+				  <p>
+				  	por <span class="publisher_name">@publication.getProfile.getFirstName @publication.getProfile.getLastName</span> <span class="pub_date">@publication.getCreated.format("dd/MMM - HH:mm")</span>
+				    <span class="pub_loc"><i class="icon-map-marker"></i> @publication.getLocation.getName</span>	
+				    <span class="pub_int"><i class="icon-star"></i> @publication.getInterest.getName</span>
+				  </p>
 			  </div>
-		  </div>
-		  <i class="icon-caret-left caret_publication"></i>
-		  <div class="publication_body">
-			  <p>@Html(publication.getBody)</p>
-		  </div>
-
-		  <ul class="pub_interact">
-		    <li class="comment_lnk" comments="comments_@publication.getId">
-		      <i class="icon-comments-alt"></i>@publication.getComments.size() Comentários
-		    </li>
-		  </ul>
-
-		  <div id="comments">
-		    @comments(publication.getComments.asScala.sortBy(_.getCreated))
-		  </div>
-
-			@if(Deadbolt.viewRoleHolderPresent()) {
-			<div class="textarea_comment">
-			    <textarea name="input_comment" placeholder="Comentar"></textarea>
-			    <div class="btns_comment">
-				    <a href="#" class="commentPub" id="sendComment" publication="@publication.getId">
-				      <div class="enter_comment">Comentar</div>
-				    </a>
-			    </div>
+			  <div class="profile-thumb mupi_thumbs">
+				  <div class="fix_img">
+				    <img src="@routes.Mupi.at(publisherPic)" />
+				  </div>
 			  </div>
-			} else{
-				<p><a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a> para postar um comentário.</p>
-			}
-		  
+			  <i class="icon-caret-left caret_publication"></i>
+			  <div class="publication_body">
+				  <p>@Html(publication.getBody)</p>
+			  </div>
+
+			  <ul class="pub_interact">
+			    <li class="comment_lnk" comments="comments_@publication.getId">
+			      <i class="icon-comments-alt"></i>@publication.getComments.size() Comentários
+			    </li>
+			  </ul>
+
+			  <div id="comments">
+			    @comments(publication.getComments.asScala.sortBy(_.getCreated))
+			  </div>
+
+				@if(Deadbolt.viewRoleHolderPresent()) {
+				<div class="textarea_comment">
+				    <textarea name="input_comment" placeholder="Comentar"></textarea>
+				    <div class="btns_comment">
+					    <a href="#" class="commentPub" id="sendComment" publication="@publication.getId">
+					      <div class="enter_comment">Comentar</div>
+					    </a>
+				    </div>
+				  </div>
+				} else{
+					<p class="txtcenter"><a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a> para postar um comentário.</p>
+				}
+			  
+		</div>
 	</div>
 </div>
 }
