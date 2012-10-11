@@ -64,11 +64,15 @@ POST  /feed/nextPubs            controllers.Feed.nextPublications(last: Long)
 POST  /feed/updatePubs          controllers.Feed.refreshPublications(last: Long)
 POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 
+# PUBLICATION
+GET   /publication/:id          controllers.Mupi.publication(id: Long)
+POST  /publication/comment/:t/:p    controllers.Feed.commentPublication(t: String, p: Long)
+
 # PROFILE
 GET   /profile           	    controllers.Profile.profile
 POST  /profile           	    controllers.Profile.doProfile
-POST  /profile/:op/:id        controllers.Profile.changeLocation(op: Integer, id: Long)
-POST  /profile/:city          controllers.Profile.suggestLocation(city: String)
+POST  /profile/:op/:id          controllers.Profile.changeLocation(op: Integer, id: Long)
+POST  /profile/:city            controllers.Profile.suggestLocation(city: String)
 
 # INTERESTS
 POST  /interest/checkInterest/:id    controllers.Interest.checkInterest(id: Long)
@@ -79,7 +83,7 @@ POST  /interest/manager              controllers.Interest.doAddInterest
 
 # PROMOTIONS
 GET   /promotion/:id              controllers.Mupi.promotion(id: Long)
-POST  /promotion/comment/:t/:p    controllers.Feed.commentPromotion(t: String, p: Long)
+POST  /promotion/comment/:t/:p    controllers.Feed.commentPublication(t: String, p: Long)
 
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
@@ -89,7 +93,7 @@ GET   /privacyPolicies  	  controllers.Mupi.privacyPolicies
 GET   /statistics       	  controllers.Mupi.statistics
 GET   /terms            	  controllers.Mupi.terms
 GET   /signup           	  controllers.Mupi.signup
-GET   /inbox                controllers.Mupi.inbox
+GET   /inbox                  controllers.Mupi.inbox
 
 
 

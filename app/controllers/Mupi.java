@@ -24,6 +24,7 @@ import views.html.signup;
 import views.html.statistics;
 import views.html.terms;
 import views.html.promotion;
+import views.html.publicationSingle;
 import be.objectify.deadbolt.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -96,7 +97,7 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Feed.selectFeed(),
             controllers.routes.javascript.Feed.comment(),
             controllers.routes.javascript.Feed.promote(),
-            controllers.routes.javascript.Feed.commentPromotion(),
+            controllers.routes.javascript.Feed.commentPublication(),
             controllers.routes.javascript.Feed.nextPublications(),
             controllers.routes.javascript.Feed.nextPromotions(),
             controllers.routes.javascript.Feed.refreshPublications(),
@@ -137,6 +138,10 @@ public class Mupi extends Controller {
 
   public static Result promotion(Long id) {
     return ok(promotion.render(models.Promotion.find.byId(id)));
+  }
+
+  public static Result publication(Long id) {
+    return ok(publicationSingle.render(models.Publication.find.byId(id)));
   }
 
   public static Result media() {
