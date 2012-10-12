@@ -202,8 +202,9 @@ public class Feed extends Controller {
           models.Interest.find.byId(i),
           models.Publication.PUBLICATION,
           safeBody);
+          return selectFeed(i,l);
     }
-    return selectFeed(i,l);
+    return feed();
   }
 
   @Restrict(Mupi.USER_ROLE)
