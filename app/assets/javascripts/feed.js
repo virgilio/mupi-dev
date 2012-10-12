@@ -16,9 +16,6 @@ jQuery(function(){
 			jQuery("#input_publication").slideDown();
 			jQuery('#pub_form').validate({
 				rules : {
-					body:{
-						required: true
-					},
 					interest : {
 						min: 0
 					},
@@ -34,17 +31,21 @@ jQuery(function(){
 				success : function(element) {
 					jQuery(element).removeClass('error').addClass('success');
 				},
-				errorPlacement: function(error, element) {}, // Necessary for not to put error/success label
-				submitHandler: function(form, e) {
-					if(jQuery('#pub_form').valid()){
-						jQuery("#preview_publication > .modal-body").html(    			
-				    		jQuery("#interest_publication").find(":selected").text() + " " +
-				    		jQuery("#location_publication").find(":selected").text() + "<br/>" +
-				    		jQuery("#body_publication").val()
-				    	);
-						jQuery("#preview_publication").modal('show');
-					}
-			    }
+				submitHandler: function(form) {
+					var serialized= jQuery(form).serializeArray();
+					jQuery("#interest_publication").val(serialized[1].value);
+					jQuery("#location_publication").val(serialized[3].value);
+					
+					jQuery("#preview_publication > .modal-body").html(
+						jQuery("#interest_publication > option[value="+serialized[1].value +"]").text() +  " " +
+						jQuery("#location_publication > option[value="+serialized[3].value +"]").text() +  "<br/>" +
+			    		jQuery("#body_publication").val()
+			    	);
+					
+					jQuery("#preview_publication").modal('show');
+			    },
+				errorPlacement: function(error, element) {} // Necessary for not to put error/success label
+				
 			});
 			jQuery('#pub_form').valid();
 		}
@@ -102,7 +103,7 @@ jQuery(function(){
     	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
     	var l = jQuery("#selectedLocation").val();
-    	jsRoutes.controllers.Feed.publish(
+    	jsRoutes.controllers.Feed.publish(    			
 			jQuery("#interest_publication").val(),
 			jQuery("#location_publication").val(),
 			encodeURIComponent(
