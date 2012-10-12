@@ -8,25 +8,32 @@
 
 <div class="publication" pub_id="@pub.getId">
   @if(pub.getPub_typ == 0){
+   <a href="#" rel="clickover" data-placement="bottom" 
+					data-content="<small>Entrou em @pub.getProfile.getCreated.format("dd/mm/yy")</small>
+					<p>&quot;@pub.getProfile.getAbout&quot;</p>
+					<p><small><b>@pub.getProfile.getPublications.size()</b> publicações<br/>
+					   <b>@pub.getProfile.getPubComments.size()</b> comentários</small></p>" 
+					data-original-title="@pub.getProfile.getFirstName @pub.getProfile.getLastName asssssssssssssss">
 	  <div class="profile-thumb mupi_thumbs">
 		  <div class="fix_img">
 		    <img src="@routes.Mupi.at(publisherPic)" />
 		  </div>
 	  </div>
+	</a>
 	  <i class="icon-caret-left caret_publication"></i>
 	  <div class="publication_body">
-	  	  <a class="pub_link" title="Ver publicação" href="@routes.Mupi.publication(pub.getId)">
 			  <span class="publisher_name">@pub.getProfile.getFirstName @pub.getProfile.getLastName</span>
-			  <span class="pub_date">@pub.getCreated.format("dd/MMM - HH:mm")</span>
-			  @if(interest == null || pub.getInterest.getId != interest.getId){
-			    em <span class="pub_int">@pub.getInterest.getName</span>@if(location == null || pub.getLocation.getId != location.getId){, <span class="pub_loc">@pub.getLocation.getName</span>}
-			  }else{
-			    @if(location == null || pub.getLocation.getId != location.getId){
-		        em <span class="pub_loc">@pub.getLocation.getName</span>
-		      	}
-		  	  }
-		  	  <i class="icon-plus-sign"></i>
-		  </a>
+			  <a class="pub_link" title="Ver publicação" href="@routes.Mupi.publication(pub.getId)">
+				  <span class="pub_date">@pub.getCreated.format("dd/MMM - HH:mm")</span>
+				  @if(interest == null || pub.getInterest.getId != interest.getId){
+				    <i class="icon-star"></i> <span class="pub_int">@pub.getInterest.getName</span>@if(location == null || pub.getLocation.getId != location.getId){ <i class="icon-map-marker"></i> <span class="pub_loc">@pub.getLocation.getName</span>}
+				  }else{
+				    @if(location == null || pub.getLocation.getId != location.getId){
+			        <i class="icon-map-marker"></i> <span class="pub_loc">@pub.getLocation.getName</span>
+			      	}
+			  	  }
+			  	  <i class="icon-plus-sign"></i>
+		  	  </a>
 		  <p>@Html(pub.getBody)</p>
 	  </div>
 	  <ul class="pub_interact">

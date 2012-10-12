@@ -23,13 +23,27 @@
 		<div class="publication" pub_id="@publication.getId">
 			  <div class="pub_header">
 				  <p>
-				  	por <span class="publisher_name">@publication.getProfile.getFirstName @publication.getProfile.getLastName</span> <span class="pub_date">@publication.getCreated.format("dd/MMM - HH:mm")</span>
+				  	por 
+					<a href="#" rel="clickover" data-placement="bottom" 
+					data-content="<div class='mini_profile_thumb profile_thumb'>
+				      	<div class='fix_img'>
+				         	<img src='@routes.Mupi.at(publisherPic)' />
+				         </div>
+				      </div> 
+					<small>Entrou em @publication.getProfile.getCreated.format("dd/mm/yy")</small>
+					@if(publication.getProfile.getAbout!=null){<p>&quot;@publication.getProfile.getAbout&quot;</p>}
+					<p><small><b>@publication.getProfile.getPublications.size()</b> publicações<br/>
+					   <b>@publication.getProfile.getPubComments.size()</b> comentários</small></p>" 
+					data-original-title="@publication.getProfile.getFirstName @publication.getProfile.getLastName">
+						<span class="publisher_name">@publication.getProfile.getFirstName @publication.getProfile.getLastName</span>
+					</a>
+					<span class="pub_date">@publication.getCreated.format("dd/MMM - HH:mm")</span>
 				    <span class="pub_loc"><i class="icon-map-marker"></i> @publication.getLocation.getName</span>	
 				    <span class="pub_int"><i class="icon-star"></i> @publication.getInterest.getName</span>
 				  </p>
 			  </div>
 			  <div class="profile-thumb mupi_thumbs">
-				  <div class="fix_img">
+				  <div class="fix_img">		  	
 				    <img src="@routes.Mupi.at(publisherPic)" />
 				  </div>
 			  </div>

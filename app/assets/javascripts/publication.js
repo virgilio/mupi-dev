@@ -34,8 +34,8 @@ jQuery(function(){
             }
         }
     }
-    
-    
+
+
     jQuery('.textarea_comment textarea').live('focus', function(){
     	jQuery(this).autosize();
     });

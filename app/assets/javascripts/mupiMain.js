@@ -20,6 +20,9 @@ jQuery(function(){
 //        		jQuery(img).css({'margin-left': '-'+ dw +'px'});
     	}
     })
+
+    
+    jQuery("a[rel=clickover]").clickover();
 })
 
 
