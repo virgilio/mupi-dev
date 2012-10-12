@@ -189,8 +189,11 @@ public class Feed extends Controller {
   }
 
   @Restrict(Mupi.USER_ROLE)
-  public static Result publish(Long i, Long l, String body){
-    if(i != null && i!= -1 && l != null && l!= -1 ){
+  public static Result publish(String interest, String location, String body){ 
+    Long l = getLocation(location);
+    Long i = getInterest(interest);
+    
+    if(i != null && l != null){
       final User u = Mupi.getLocalUser(session());
       final models.Profile p = u.profile;
       
@@ -202,9 +205,8 @@ public class Feed extends Controller {
           models.Interest.find.byId(i),
           models.Publication.PUBLICATION,
           safeBody);
-          return selectFeed(i,l);
     }
-    return feed();
+    return selectFeed(getLocalInterest(),getLocalLocation());
   }
 
   @Restrict(Mupi.USER_ROLE)

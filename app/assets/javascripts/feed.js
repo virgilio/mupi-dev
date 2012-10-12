@@ -33,9 +33,8 @@ jQuery(function(){
 				},
 				submitHandler: function(form) {
 					var serialized = jQuery(form).serializeArray();
-//					alert(serialized);
-//					jQuery("#interest_publication").val(serialized[2].value);
-//					jQuery("#location_publication").val(serialized[3].value);
+					jQuery("#interest_publication").val(serialized[2].value);
+					jQuery("#location_publication").val(serialized[3].value);
 					
 					jQuery("#preview_publication > .modal-body").html(
 						jQuery("#interest_publication > option[value="+serialized[2].value +"]").text() +  " " +
@@ -46,7 +45,6 @@ jQuery(function(){
 					jQuery("#preview_publication").modal('show');
 			    },
 				errorPlacement: function(error, element) {} // Necessary for not to put error/success label
-				
 			});
 			jQuery('#pub_form').valid();
 		}
@@ -104,7 +102,7 @@ jQuery(function(){
     	event.preventDefault();
     	var i = jQuery("#selectedInterest").val();
     	var l = jQuery("#selectedLocation").val();
-    	jsRoutes.controllers.Feed.publish(    			
+    	jsRoutes.controllers.Feed.publish(
 			jQuery("#interest_publication").val(),
 			jQuery("#location_publication").val(),
 			encodeURIComponent(
