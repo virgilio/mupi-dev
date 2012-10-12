@@ -30,12 +30,12 @@
   <script type="text/javascript" src="@routes.Assets.at("javascripts/mupiFileUpload.js")"></script>
     
   <div class="sidebar">
-     @if(user.getProfile.getInterests.size() > 0){
+     @if(interests.filter(_.getStatus() > 0).size() > 0){
      <ul class="interestList">
    	    <li @if(selectedi == null || selectedi.getId == -1){class="selected_i"}>
         	<span class="interestIcon all_interests_icon" id="-1">Todos</span>
         </li>
-	     @for(interest <- user.getProfile.getInterests.filter(_.getStatus() > 0)) {
+	     @for(interest <- interests.filter(_.getStatus() > 0)) {
 	       <li @if(selectedi != null && selectedi.getId == interest.getId){class="selected_i"}>
 		       <div id="@interest.getId" class="interestIcon">
 		      	    <div class="sidebar_interest mupi_thumbs">
@@ -53,7 +53,7 @@
 	   }
   </div>
   <div id="feed_content">
-  @feedContent(locations, publications, promotions, selectedi, selectedl, promoteForm, promoteMeetupForm, hostMeetupForm)
+  @feedContent(locations, interests.filter(_.getStatus() > 0), publications, promotions, selectedi, selectedl, promoteForm, promoteMeetupForm, hostMeetupForm)
   </div>
   }
 }

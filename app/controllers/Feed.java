@@ -189,22 +189,20 @@ public class Feed extends Controller {
   }
 
   @Restrict(Mupi.USER_ROLE)
-  public static Result publish(String body){
-    Long i = getLocalInterest();
-    Long l = getLocalLocation();
-    final User u = Mupi.getLocalUser(session());
-    final models.Profile p = u.profile;
-
-    String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank"));
-
-
-    Publication.create(
-        p,
-        models.Location.find.byId(l),
-        models.Interest.find.byId(i),
-        models.Publication.PUBLICATION,
-        safeBody);
-
+  public static Result publish(Long i, Long l, String body){
+    if(i != null && i!= -1 && l != null && l!= -1 ){
+      final User u = Mupi.getLocalUser(session());
+      final models.Profile p = u.profile;
+      
+      String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank"));
+      
+      Publication.create(
+          p,
+          models.Location.find.byId(l),
+          models.Interest.find.byId(i),
+          models.Publication.PUBLICATION,
+          safeBody);
+    }
     return selectFeed(i,l);
   }
 
@@ -298,7 +296,16 @@ public class Feed extends Controller {
     session().put("interest", iSession);
     session().put("location", lSession);
 
-    return AjaxResponse.build(status, feedContent.render(p.getLocations(), l_pubs, l_prom, i, l, PROMOTION_FORM, PROMOTE_MEETUP_FORM,HOST_MEETUP_FORM).body());
+    return AjaxResponse.build(status, feedContent.render(
+        p.getLocations(),
+        p.getInterests(),
+        l_pubs, 
+        l_prom, 
+        i,
+        l,
+        PROMOTION_FORM,
+        PROMOTE_MEETUP_FORM,
+        HOST_MEETUP_FORM).body());
   }
 
   @Restrict(Mupi.USER_ROLE)
@@ -358,8 +365,8 @@ public class Feed extends Controller {
     String picturePath = BLANK_EVT;
 
     DynamicForm bindedForm = form().bindFromRequest();
-    Long i = getLocalInterest();
-    Long l = getLocalLocation();
+    Long i = getInterest(bindedForm.get("interest"));
+    Long l = getLocation(bindedForm.get("location"));
     models.Interest iObj = null;
     models.Location lObj = null;
     if(i != null) iObj = models.Interest.find.byId(i);
@@ -421,13 +428,22 @@ public class Feed extends Controller {
 
   public static Long getLocalInterest(){
     String i = session().get("interest");
+    return getInterest(i);
+  }
+  
+  public static Long getInterest(String i){
     if(i != null && !i.isEmpty())
       return Long.parseLong(i);
     else
       return null;
   }
+  
   public static Long getLocalLocation(){
     String l = session("location");
+    return getLocation(l);
+  }
+  
+  public static Long getLocation(String l){
     if(l != null && !l.isEmpty())
       return Long.parseLong(l);
     else

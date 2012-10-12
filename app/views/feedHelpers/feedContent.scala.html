@@ -1,5 +1,6 @@
 @(
   locations: List[models.Location],
+  interests: List[models.Interest],
   publications: Page[models.Publication],
   promotions: Page[models.Promotion],
   selectedi: models.Interest = null,
@@ -23,7 +24,7 @@
 		  @feedMeetUps(promotions, selectedi, selectedl, promoteMeetupForm, hostMeetupForm)
 		
 			<div id="publications">
-			  @feedPublications(publications, selectedi, selectedl, promoteForm)
+			  @feedPublications(locations, interests, publications, selectedi, selectedl, promoteForm)
 			</div>
 		</div>
 

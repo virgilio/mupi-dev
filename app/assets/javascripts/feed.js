@@ -14,6 +14,39 @@ jQuery(function(){
 			jQuery("#input_publication").slideUp('fast');
 		else{
 			jQuery("#input_publication").slideDown();
+			jQuery('#pub_form').validate({
+				rules : {
+					body:{
+						required: true
+					},
+					interest : {
+						min: 0
+					},
+					location : {
+						min: 0
+					}			
+				},
+				validClass: "success",
+				errorClass: "error",
+				highlight : function(element) {
+					jQuery(element).removeClass('success').addClass('error');
+				},
+				success : function(element) {
+					jQuery(element).removeClass('error').addClass('success');
+				},
+				errorPlacement: function(error, element) {}, // Necessary for not to put error/success label
+				submitHandler: function(form, e) {
+					if(jQuery('#pub_form').valid()){
+						jQuery("#preview_publication > .modal-body").html(    			
+				    		jQuery("#interest_publication").find(":selected").text() + " " +
+				    		jQuery("#location_publication").find(":selected").text() + "<br/>" +
+				    		jQuery("#body_publication").val()
+				    	);
+						jQuery("#preview_publication").modal('show');
+					}
+			    }
+			});
+			jQuery('#pub_form').valid();
 		}
     });
 	jQuery("#disabled_publication_input").live('click', function(event){
@@ -70,18 +103,13 @@ jQuery(function(){
     	var i = jQuery("#selectedInterest").val();
     	var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.publish(
-			encodeURIComponent(jQuery('#body_publication').val())
-            //receber mais dois parametros: interesse e localização do select
+			jQuery("#interest_publication").val(),
+			jQuery("#location_publication").val(),
+			encodeURIComponent(
+				jQuery('#body_publication').val()
+			)
     	).ajax(loadFeed(i,l));
     });
-
-    jQuery("#btn_publish").live('click', function(event){
-        //if
-        // var i = jQuery("#selectedInterest").val();
-        // var l = jQuery("#selectedLocation").val();
-    	event.preventDefault();
-    	jQuery("#preview_publication > .modal-body").html(jQuery("#body_publication").val());
-    });    	
     
     jQuery('.textarea_comment textarea').live('focus', function(){
     	jQuery(this).autosize();
@@ -119,7 +147,10 @@ jQuery(function(){
 	    }
 	  }
 	}
-        
+    
+    
+    
+    
 })
 
 

@@ -1,4 +1,9 @@
-@(publicationsPage: Page[models.Publication], interest: models.Interest, location: models.Location,  promoteForm: Form[models.Promotion])
+@(locations: List[models.Location],
+  interests: List[models.Interest],
+  publicationsPage: Page[models.Publication], 
+  interest: models.Interest,
+  location: models.Location,
+  promoteForm: Form[models.Promotion])
 
 @publications = @{publicationsPage.getList}
 
@@ -8,15 +13,7 @@
   	<i class="icon-refresh"></i>
   </button>
   
-
-  @if(interest != null && location != null){
-    @inputPublication(interest, location, promoteForm)
-  } else {
-  <span class="btns">	
-    <a class="btns_publication" id="disabled_publication_input">Nova publicação</a>
-  </span>
-  
-  }
+  @inputPublication(locations, interests, interest, location, promoteForm)
  
   @if(publications.size > 0 ){
 	 @pubList(publications, interest, location)

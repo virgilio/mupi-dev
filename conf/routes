@@ -55,7 +55,7 @@ GET     /                       controllers.Feed.feed()
 # FEED
 GET   /feed/reset               controllers.Feed.resetFeed()
 POST  /feed/select/:i/:l        controllers.Feed.selectFeed(i: Long, l: Long)
-POST  /feed/publish/:t          controllers.Feed.publish(t: String)
+POST  /feed/publish/:i/:l/:t    controllers.Feed.publish(i:Long, l: Long, t: String)
 POST  /feed/comment/:t/:p       controllers.Feed.comment(t: String, p: Long)
 POST  /feed/promote/event       controllers.Feed.promote
 POST  /feed/promote/meetup      controllers.Feed.promoteMeetUp
@@ -93,7 +93,7 @@ GET   /privacyPolicies  	  controllers.Mupi.privacyPolicies
 GET   /statistics       	  controllers.Mupi.statistics
 GET   /terms            	  controllers.Mupi.terms
 GET   /signup           	  controllers.Mupi.signup
-GET   /inbox                  controllers.Mupi.inbox
+GET   /inbox                controllers.Mupi.inbox
 
 
 

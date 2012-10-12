@@ -43,6 +43,12 @@ jQuery(function(){
 			},
 			picture :{
 				accept: "png|jpe?g|gif"
+			},
+			interest : {
+				min: 0
+			},
+			location : {
+				min: 0
 			}
 		},
 		messages: {
@@ -71,6 +77,12 @@ jQuery(function(){
 			},
 			picture :{
 				accept: "Sua imagem deve estar em um dos sequintes formatos: png, jpg, jpeg, gif"
+			},
+			interest : {
+				min: "Você precisa escolher um interesse para a divulgação"
+			},
+			location : {
+				min: "Você precisa escolher uma localidade para a divulgação"
 			}
 		},
 		highlight : function(label) {
