@@ -30,8 +30,8 @@
 				         	<img src='@routes.Mupi.at(publisherPic)' />
 				         </div>
 				      </div> 
-					<small>Entrou em @publication.getProfile.getCreated.format("dd/mm/yy")</small>
-					@if(publication.getProfile.getAbout!=null){<p>&quot;@publication.getProfile.getAbout&quot;</p>}
+					<small>Contribui desde @publication.getProfile.getCreated.format("dd/mm/yy")</small>
+					@if(!publication.getProfile.getAbout.isEmpty()){<p>&quot;@publication.getProfile.getAbout&quot;</p>}
 					<p><small><b>@publication.getProfile.getPublications.size()</b> publicações<br/>
 					   <b>@publication.getProfile.getPubComments.size()</b> comentários</small></p>" 
 					data-original-title="@publication.getProfile.getFirstName @publication.getProfile.getLastName">
