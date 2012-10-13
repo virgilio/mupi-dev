@@ -61,8 +61,9 @@ import play.db.ebean.Model;
 	
 
 	public static void create(Publication publication, Profile profile){
+	    int size = publication.getBody().length() > 10 ? 10 : publication.getBody().length();
 	    String body = "A publicação '" 
-		+ publication.getBody().substring(0, 10) 
+		+ publication.getBody().substring(0, size) 
 		+ "...' no interesse " 
 		+ publication.getInterest().getName() 
 		+ " foi atualiza!";
