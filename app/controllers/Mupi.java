@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import models.User;
+import models.NotificationBucket;
 import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
@@ -141,7 +142,12 @@ public class Mupi extends Controller {
   }
 
   public static Result publication(Long id) {
-    return ok(publicationSingle.render(models.Publication.find.byId(id)));
+      final User user = getLocalUser(session());
+      if(user != null){
+	  System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
+	  NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
+      }
+      return ok(publicationSingle.render(models.Publication.find.byId(id)));
   }
 
   public static Result media() {

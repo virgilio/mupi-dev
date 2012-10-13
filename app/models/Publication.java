@@ -85,6 +85,7 @@ public class Publication extends Model {
 	public static Publication create(Profile profile, Location location, Interest interest, Integer pType, String body){
 		Publication pub = new Publication(profile, location, interest, pType, body);
 		pub.save();
+		NotificationBucket.updateBucket(pub, profile);
 		return pub;
 	}
 	
@@ -99,9 +100,9 @@ public class Publication extends Model {
 	}
 	
 	public static void remove(Publication p){
-    p.delete();
-  }
-	
+	    p.delete();
+	}
+    
 	public static void unpublish(Long id){
 		Publication pub = find.byId(id);
 		pub.setStatus(INACTIVE);

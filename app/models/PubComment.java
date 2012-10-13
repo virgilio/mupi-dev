@@ -65,6 +65,7 @@ public class PubComment extends Model {
 	public static void create(Publication publication, Profile profile, String body){
 		PubComment pubComment = new PubComment(publication, profile, body);
 		pubComment.save();
+		NotificationBucket.updateBucket(publication, profile);
 	}
 	
 	public static void uncomment(Long id){
