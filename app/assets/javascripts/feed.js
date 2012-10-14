@@ -95,7 +95,7 @@ jQuery(function(){
     	jsRoutes.controllers.Feed.comment(
 	    encodeURIComponent(jQuery(this).parent().prev('textarea').val()),
 	    jQuery(this).attr('publication')
-	).ajax(loadFeed(i,l))
+	).ajax(loadFeed(i,l, jQuery(this).attr('publication')))
     });
     
     jQuery('#btn_confirm_publication').live('click', function(event){
@@ -124,12 +124,17 @@ jQuery(function(){
     	
     });
     
-    var loadFeed = function(i, l){
+    var loadFeed = function(i, l, p){
     	return {
     	    success : function(data) {
     		var response = data.split("||");
     		if(response[0] == 0) jQuery('#feed_content').html(response[1]);
 		jQuery("a[rel=clickover]").clickover();
+		if(typeof p != undefined){
+		    console.log(".comment_lnk[comments=comments_" + p + "]");
+		    //jQuery(".comment_lnk[comments=comments_" + p + "]").click();
+		    jQuery("#comments_" + p).removeClass("hide");
+		}
     	    },
     	    error : function() {
                 jQuery('.page-alert').html("<div class='alert hide'> </div>");

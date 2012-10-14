@@ -413,7 +413,8 @@ ul.wysihtml5-toolbar > li{
 	height: 24px;
 	margin-right: -14px;
 }
-.btns_comment div{
+.btns_comment div, .btns_comment input[type=button] {
+	      border: none;
 	background: none repeat scroll 0 0 #E5E5E5;
 	border-radius: 4px 4px 4px 4px;
 	font-size: 0.8em;
@@ -424,9 +425,18 @@ ul.wysihtml5-toolbar > li{
 }
 .enter_comment{
 /* 	float: right; */
+	color: #08C;
+	font-family: 'Century Gothic','URW Gothic L','Gill Sans',Helvetica,sans-serif;
 }
+
+.enter_comment:hover{
+/* 	float: right; */
+	color: #005580;
+}
+
 .enter_cancel{
 	color: red;
+	font-family: 'Century Gothic','URW Gothic L','Gill Sans',Helvetica,sans-serif;
 }
 #promote_event div{
 	overflow-x: hidden;
