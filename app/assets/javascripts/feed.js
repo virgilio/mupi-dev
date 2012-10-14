@@ -6,9 +6,9 @@ jQuery(function(){
 	else
 	    jQuery("#" + jQuery(this).attr("comments")).slideDown('fast');
 	
-	//console.log(jQuery("#" + jQuery(this).attr("comments")).position().top);
+	console.log(jQuery("#" + jQuery(this).attr("comments")).offset().top);
 	//console.log(jQuery(this).attr("comments"));
-	//jQuery("html, body").animate({ scrollTop : jQuery("#" + jQuery(this).attr("comments")).position().top});
+	jQuery("html, body").animate({ scrollTop : (jQuery("#" + jQuery(this).attr("comments")).offset().top - 50)});
 	
     });
 
@@ -138,7 +138,7 @@ jQuery(function(){
 		    console.log(".comment_lnk[comments=comments_" + p + "]");
 		    //jQuery(".comment_lnk[comments=comments_" + p + "]").click();
 		    jQuery("#comments_" + p).removeClass("hide");
-		    jQuery("html, body").animate({ scrollTop: jQuery(".publication[pub_id=" + p + "]").position().top + 20});
+		    jQuery("html, body").animate({ scrollTop: jQuery(".publication[pub_id=" + p + "]").offset().top - 20});
 		}
     	    },
     	    error : function() {
