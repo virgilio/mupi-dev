@@ -33,16 +33,16 @@ jQuery(function(){
 				},
 				submitHandler: function(form) {
 					var serialized = jQuery(form).serializeArray();
-					jQuery("#interest_publication").val(serialized[2].value);
-					jQuery("#location_publication").val(serialized[3].value);
-					
-					jQuery("#preview_publication > .modal-body").html(
-						jQuery("#interest_publication > option[value="+serialized[2].value +"]").text() +  " " +
-						jQuery("#location_publication > option[value="+serialized[3].value +"]").text() +  "<br/>" +
-			    		jQuery("#body_publication").val()
-			    	);
-					
-					jQuery("#preview_publication").modal('show');
+                    jQuery("#interest_publication").val(serialized[2].value);
+                    jQuery("#location_publication").val(serialized[3].value);
+                    jQuery("#preview_publication > .modal-body").html(
+                        "<span class='pub_opts'><i class='icon-star'></i> " +
+                        jQuery("#interest_publication > option[value="+serialized[2].value +"]").text() +  " " +
+                        "<i class='icon-map-marker'></i> " +
+                        jQuery("#location_publication > option[value="+serialized[3].value +"]").text() +  "</span><br/>" +
+                        jQuery("#body_publication").val()
+                    );
+                    jQuery("#preview_publication").modal('show');
 			    },
 				errorPlacement: function(error, element) {} // Necessary for not to put error/success label
 			});
@@ -147,13 +147,8 @@ jQuery(function(){
 	    }
 	  }
 	}
-    
-    
-    
-    
+
 })
-
-
 
 
 

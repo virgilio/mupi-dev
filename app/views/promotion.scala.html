@@ -69,9 +69,21 @@
 		<div class="span10 offset1 white_background">
 			<div id="promotion_body">
 				<div id="promotion_promoter">
-					<label>Postado em</label> <span>@promotion.getPublication.getInterest.getName, @promotion.getPublication.getLocation.getName</span><br/>
+					<label>Postado em </label> <i class="icon-star"></i> <span>@promotion.getPublication.getInterest.getName <i class="icon-map-marker"></i> @promotion.getPublication.getLocation.getName</span><br/>
 					<label>Promovido por</label>
+					<a href="#" rel="clickover" data-placement="top"
+			            data-content="<div class='mini_profile_thumb profile_thumb'>
+			            <div class='fix_img'>
+			                    <img src='@routes.Mupi.at("profile/picture/thumb" + promotion.getPublication.getProfile.getPicture)' />
+			             </div>
+			          </div>
+			            <small>Contribui desde @promotion.getPublication.getProfile.getCreated.format("dd/MM/yy")</small>
+			            @if(!promotion.getPublication.getProfile.getAbout.isEmpty()){<p>&quot;@promotion.getPublication.getProfile.getAbout&quot;</p>}
+			            <p><small><b>@promotion.getPublication.getProfile.getPublications.size()</b> publicações<br/>
+			               <b>@promotion.getPublication.getProfile.getPubComments.size()</b> comentários</small></p>"
+			            data-original-title="@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName">
 					<span>@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName</span>
+				</a>
 				</div>
 				<div id="promotion_description">
 					<p>

@@ -4,15 +4,28 @@
 
 @if(comments.size() > 0){
    @for(comment <- comments){
+
     <div class="comment">
       <div class="profile_thumb mupi_thumbs">
-      	<div class="fix_img">
-         	<img src="@routes.Mupi.at("profile/picture/thumb" + comment.getProfile.getPicture)" />
+        <div class="fix_img">
+                <img src="@routes.Mupi.at("profile/picture/thumb" + comment.getProfile.getPicture)" />
          </div>
-      </div> 
-
-      <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
+      </div>
+      <a href="#" rel="clickover" data-placement="left"
+          data-content="<div class='mini_profile_thumb profile_thumb'>
+                <div class='fix_img'>
+                  <img src='@routes.Mupi.at("profile/picture/thumb" + comment.getProfile.getPicture)' />
+                 </div>
+              </div>
+          <small>Contribui desde @comment.getProfile.getCreated.format("dd/MM/yy")</small>
+          @if(!comment.getProfile.getAbout.isEmpty()){<p>&quot;@comment.getProfile.getAbout&quot;</p>}
+          <p><small><b>@comment.getProfile.getPublications.size()</b> publicações<br/>
+             <b>@comment.getProfile.getPubComments.size()</b> comentários</small></p>"
+          data-original-title="@comment.getProfile.getFirstName @comment.getProfile.getLastName">
+        <span class="commenter_name">@comment.getProfile.getFirstName @comment.getProfile.getLastName</span>
+      </a>
       <span class="pub_date">@comment.getCreated.format("dd/MMM - HH:mm")</span>
+
       <p>@URLDecoder.decode(comment.getBody)</p>
 
     </div>
