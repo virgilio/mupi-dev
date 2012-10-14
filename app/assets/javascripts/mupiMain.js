@@ -23,7 +23,7 @@ jQuery(function(){
 
     
     jQuery("a[rel=clickover]").clickover();
-})
+});
 
 
 //function getsize(img){
