@@ -8,7 +8,7 @@ jQuery(function(){
 	
 	console.log(jQuery("#" + jQuery(this).attr("comments")).offset().top);
 	//console.log(jQuery(this).attr("comments"));
-	jQuery("html, body").animate({ scrollTop : (jQuery("#" + jQuery(this).attr("comments")).offset().top - 50)});
+	//jQuery("html, body").animate({ scrollTop : (jQuery("#" + jQuery(this).attr("comments")).offset().top - 50)});
 	
     });
 
@@ -90,6 +90,7 @@ jQuery(function(){
     	var i =jQuery(this).attr('id');
     	var l = jQuery("#selectedLocation").val();
     	jsRoutes.controllers.Feed.selectFeed(i, l).ajax(loadFeed(i, l));
+        jQuery("html, body").animate({ scrollTop : 0});
     });
     
     jQuery('.sendComent').live('click', function(event){

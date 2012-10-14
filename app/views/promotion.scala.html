@@ -99,9 +99,12 @@
 		</div>
 	</div>
 	<div class="row">
-	
 	   <div id="promotion_comments" class="span6 offset3">
-	     @if(Deadbolt.viewRoleHolderPresent()) {
+			<span>@promotion.getPublication.getComments.size comentários</span>
+			<div id="comments" id="comments_@promotion.getPublication.id">
+		        @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated).reverse)
+			</div>
+			@if(Deadbolt.viewRoleHolderPresent()) {
 				<div  class="textarea_comment">
 					  <textarea id="textToSend" name="input_comment" placeholder="Comentar"></textarea>
 					  <div class="btns_comment">
@@ -113,10 +116,6 @@
 			} else{
 				<p><a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a> para postar um comentário.</p>
 			}
-			<span>@promotion.getPublication.getComments.size comentários</span>
-			<div id="comments" id="comments_@promotion.getPublication.id">
-		        @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated).reverse)
-			</div>
 		</div>
 	</div>
 </div>
