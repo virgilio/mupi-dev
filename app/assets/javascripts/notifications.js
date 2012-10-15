@@ -2,10 +2,10 @@ jQuery(function(){
    
 	jQuery("#open_notifications").toggle(
 		function(){
-			jQuery("#notifications").slideDown('fast');
+			jQuery("#notifications").fadeIn('fast');
 		},
 		function(){
-			jQuery("#notifications").slideUp('fast');
+			jQuery("#notifications").fadeOut('fast');
 		}
 	)
 	jQuery("#clearNotifications").click( function(){

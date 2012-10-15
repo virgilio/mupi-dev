@@ -41,9 +41,9 @@
  <i class="icon-caret-up caret_not"></i>
  <ul>
  	@if(!nBucket.isEmpty){
- 	<li><button id="clearNotifications">Marcar todas como lidas</button></li>
+ 	<li><button id="clearNotifications"><i class="icon-ok"></i>Marcar todas como lidas</button></li>
      @for(notification <- nBucket){
-	   <li>
+	   <li class="li_notification">
 	     <a href="@routes.Mupi.publication(notification.getPublication.getId)">@notification.getBody</a>
 	   </li>
 	 }
