@@ -61,12 +61,19 @@ import play.db.ebean.Model;
 	
 
 	public static void create(Publication publication, Profile profile){
-	    int size = publication.getBody().length() > 10 ? 10 : publication.getBody().length();
-	    String body = "A publicação '" 
-		+ publication.getBody().substring(0, size) 
-		+ "...' no interesse " 
+	    String body;
+	    int size;
+	    if(publication.getPub_typ() == 1){
+		Promotion p = Promotion.find.where().eq("publication_id", publication.getId()).findUnique();
+		size = p.getTitle().length() > 10 ? 10 : p.getTitle().length();
+		body = "O evento '" + p.getTitle().substring(0, size);
+	    } else {
+		size = publication.getBody().length() > 10 ? 10 : publication.getBody().length();
+		body = "A publicação '" + publication.getBody().substring(0, size);
+	    }
+	    body += "...' no interesse " 
 		+ publication.getInterest().getName() 
-		+ " foi atualiza!";
+		+ " recebeu comentários!";
 	    NotificationBucket notificationBucket = new NotificationBucket(publication, profile, body);
 	    notificationBucket.save();
 	}
