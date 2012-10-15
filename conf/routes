@@ -86,7 +86,7 @@ GET   /promotion/:id              controllers.Mupi.promotion(id: Long)
 POST  /promotion/comment/:t/:p    controllers.Feed.commentPublication(t: String, p: Long)
 
 # NOTIFICATIONS
-POST  /notifications/clear  controllers.Mupi.clearBucket
+POST  /notifications/clear  controllers.Mupi.clearBucket()
 
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
