@@ -3,14 +3,23 @@
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.Deadbolt
 
+@localUser = @{Mupi.getLocalUser(session())}
+@nBucket   = @{models.NotificationBucket.getBucket(localUser.profile)}
+
 <link href="@routes.Assets.at("stylesheets/logged_header.css")" rel="stylesheet">
 
-
+<script type="text/javascript" src="@routes.Assets.at("javascripts/notifications.js")"></script>
 
 <div class="mupi-navbar navbar-fixed-top">
 	<div id ="menu_user" class="pull-right">
 		<a href="@routes.Feed.resetFeed()" title="Ir para publicações">
 			<i class="icon-home"></i>
+		</a>
+		<a href="#" id="open_notifications" title="Notificações">
+			<i class="icon-comments" class="hide"></i>
+			@if(!nBucket.isEmpty){
+				<div id="notification_popup">@nBucket.size()</div>
+			}
 		</a>
 		<a href="@routes.Profile.profile()" title="Meu perfil">
 			<i class="icon-user"></i>
@@ -26,4 +35,20 @@
 
 <div class="mupi_logo">
   <a class="logo" href="@routes.Feed.resetFeed()" alt="mupi"></a>
+</div>
+
+<div id="notifications" class="hide">
+ <i class="icon-caret-up caret_not"></i>
+ <ul>
+ 	@if(!nBucket.isEmpty){
+ 	<li><button id="clearNotifications">Marcar todas como lidas</button></li>
+     @for(notification <- nBucket){
+	   <li>
+	     <a href="@routes.Mupi.publication(notification.getPublication.getId)">@notification.getBody</a>
+	   </li>
+	 }
+	}else{
+		<li>Não há novas notificações</li>
+	}
+  </ul>
 </div>
