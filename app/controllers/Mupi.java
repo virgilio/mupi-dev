@@ -187,7 +187,7 @@ public class Mupi extends Controller {
   @Restrict(Mupi.USER_ROLE)
   public static Result notifications() {
     final User user = getLocalUser(session());
-    return ok(views.html.notifications.render(user));
+    return ok(views.html.notifications.render(user, NotificationBucket.getBucket(user.profile)));
   }
 
 }
