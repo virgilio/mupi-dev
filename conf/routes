@@ -85,6 +85,9 @@ POST  /interest/manager              controllers.Interest.doAddInterest
 GET   /promotion/:id              controllers.Mupi.promotion(id: Long)
 POST  /promotion/comment/:t/:p    controllers.Feed.commentPublication(t: String, p: Long)
 
+# NOTIFICATIONS
+POST  /notifications/clear  controllers.Mupi.clearBucket
+
 GET   /about            	  controllers.Mupi.about
 GET   /contact          	  controllers.Mupi.contact
 GET   /help             	  controllers.Mupi.help

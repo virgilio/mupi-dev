@@ -116,6 +116,19 @@ import play.db.ebean.Model;
 		nb.update();
             }
 	}
+	
+	public static void setAllNotified(Profile profile){
+    List<NotificationBucket> nb_l = find.where()
+          .eq("profile_id", profile.getId())
+          .findList();
+      
+    if(nb_l != null) {
+      for(NotificationBucket nb : nb_l){
+        nb.setStatus(0);
+        nb.update();
+      }
+    }
+	}
 
 	public static List<NotificationBucket> getBucket(Profile profile){
 	    return find.where()

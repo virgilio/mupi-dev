@@ -102,7 +102,8 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Feed.nextPublications(),
             controllers.routes.javascript.Feed.nextPromotions(),
             controllers.routes.javascript.Feed.refreshPublications(),
-            controllers.routes.javascript.Profile.suggestLocation()
+            controllers.routes.javascript.Profile.suggestLocation(),
+            controllers.routes.javascript.Mupi.clearBucket()
             )).as("text/javascript");
   }
 
@@ -188,6 +189,13 @@ public class Mupi extends Controller {
   public static Result notifications() {
     final User user = getLocalUser(session());
     return ok(views.html.notifications.render(user, NotificationBucket.getBucket(user.profile)));
+  }
+  
+  @Restrict(Mupi.USER_ROLE)
+  public static Result clearBucket() {
+    final User user = getLocalUser(session());
+    NotificationBucket.setAllNotified(user.getProfile());
+    return ok();
   }
 
 }
