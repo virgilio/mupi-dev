@@ -138,18 +138,24 @@ public class Mupi extends Controller {
   }
 
   public static Result promotion(Long id) {
-    return ok(promotion.render(models.Promotion.find.byId(id)));
+      final User user = getLocalUser(session());
+      if(user != null){
+	  //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
+          NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
+      }
+      return ok(promotion.render(models.Promotion.find.byId(id)));
+      
   }
-
+    
   public static Result publication(Long id) {
       final User user = getLocalUser(session());
       if(user != null){
-	  System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
+	  //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
 	  NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
       }
       return ok(publicationSingle.render(models.Publication.find.byId(id)));
   }
-
+    
   public static Result media() {
     return ok(media.render());
   }
