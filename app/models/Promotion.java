@@ -276,6 +276,10 @@ public class Promotion extends Model {
           .findPagingList(PER_PAGE)
           .getPage(0);
   }
+  
+  public static Promotion getByPublicationId(Long id){
+    return find.where().eq("publication_id", id).findUnique();
+  }
 
   public Long getId() {
     return id;

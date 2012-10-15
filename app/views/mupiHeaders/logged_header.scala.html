@@ -2,6 +2,7 @@
 
 @import be.objectify.deadbolt.views.html._
 @import be.objectify.deadbolt.Deadbolt
+@import org.jsoup._
 
 @localUser = @{Mupi.getLocalUser(session())}
 @nBucket   = @{models.NotificationBucket.getBucket(localUser.profile)}
@@ -44,7 +45,7 @@
  	<li><button id="clearNotifications"><i class="icon-ok"></i>Marcar todas como lidas</button></li>
      @for(notification <- nBucket){
 	   <li class="li_notification">
-	     <a href="@routes.Mupi.publication(notification.getPublication.getId)">@notification.getBody</a>
+	       <a href="@routes.Mupi.publication(notification.getPublication.getId)">@notification.getBody</a>
 	   </li>
 	 }
 	}else{

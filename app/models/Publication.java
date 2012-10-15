@@ -318,8 +318,7 @@ public class Publication extends Model {
         .findPagingList(PER_PAGE)
         .getPage(0);
   }
-	
-	
+  
 	
 	public static Profile getProfilePicById(Long id){		
 		return Profile.find.byId(find.byId(id).getProfile().getId());

@@ -199,6 +199,8 @@ public class Feed extends Controller {
       
       String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank"));
       
+//      System.out.println("text: " + Jsoup.parse(safeBody).text());
+      
       Publication.create(
           p,
           models.Location.find.byId(l),

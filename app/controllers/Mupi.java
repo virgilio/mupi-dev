@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import models.Promotion;
 import models.User;
 import models.NotificationBucket;
 import play.Routes;
@@ -151,10 +152,14 @@ public class Mupi extends Controller {
   public static Result publication(Long id) {
       final User user = getLocalUser(session());
       if(user != null){
-	  //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
-	  NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
+        //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
+        NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
       }
-      return ok(publicationSingle.render(models.Publication.find.byId(id)));
+      models.Publication pub = models.Publication.find.byId(id);
+      if(pub.getPub_typ() == models.Publication.EVENT)
+        return promotion(Promotion.getByPublicationId(id).getId());
+      else
+        return ok(publicationSingle.render(pub));
   }
     
   public static Result media() {
@@ -197,5 +202,4 @@ public class Mupi extends Controller {
     NotificationBucket.setAllNotified(user.getProfile());
     return ok();
   }
-
 }
