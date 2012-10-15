@@ -102,7 +102,7 @@
 	   <div id="promotion_comments" class="span6 offset3">
 			<span>@promotion.getPublication.getComments.size comentários</span>
 			<div id="comments" id="comments_@promotion.getPublication.id">
-		        @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated).reverse)
+		        @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated))
 			</div>
 			@if(Deadbolt.viewRoleHolderPresent()) {
 				<div  class="textarea_comment">
