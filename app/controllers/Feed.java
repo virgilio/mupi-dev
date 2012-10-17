@@ -99,16 +99,20 @@ public class Feed extends Controller {
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.getProfile();
     String lastName = p.getLastName(); if(lastName == null) lastName = "";
-    String interest = "";
+    String interest = "--desconhecido--";
+    String location = "--desconhecida--";
 
     if(getLocalInterest() != null && getLocalInterest() != -1)
       interest = models.Interest.find.byId(getLocalInterest()).getName();
+    
+    if(getLocalLocation() != null && getLocalLocation() != -1)
+      location = models.Location.find.byId(getLocalLocation()).getName();
 
     final String subject = p.getFirstName() + " " + lastName + " quer receber encontros amiguinhos!  Yayyy!!";
 
     final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "quer receber encontros da seguinte comunidade:\n" +
-        "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
+        "\n    Localidade - " + location +
         "\n    Interesse - " + interest +
         "\n\n Ele redigiu a seguinte descrição:\n" +
         filledForm.get().description;
@@ -131,13 +135,22 @@ public class Feed extends Controller {
     final models.Profile p = u.getProfile();
     String lastName = p.getLastName();
     if(lastName == null) lastName = "";
+    
+    String interest = "--desconhecido--";
+    String location = "--desconhecida--";
+
+    if(getLocalInterest() != null && getLocalInterest() != -1)
+      interest = models.Interest.find.byId(getLocalInterest()).getName();
+    
+    if(getLocalLocation() != null && getLocalLocation() != -1)
+      location = models.Location.find.byId(getLocalLocation()).getName();
 
     final String subject = p.getFirstName() + " " + lastName + " quer organizar um encontro amiguinhos!  Yayyy!!";
 
     final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "quer organizar um encontro na seguinte comunidade:\n" +
-        "\n    Localidade - " + models.Location.find.byId(getLocalLocation()).getName() +
-        "\n    Interesse - " + models.Interest.find.byId(getLocalInterest()).getName() +
+        "\n    Localidade - " +location +
+        "\n    Interesse - " + interest +
         "\n\n Ele redigiu a seguinte descrição do evento:\n" +
         filledForm.get().description;
 
