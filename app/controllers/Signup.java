@@ -15,6 +15,7 @@ import views.html.signup;
 import views.html.account.signup.*;
 
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 
 public class Signup extends Controller {
@@ -33,10 +34,13 @@ public class Signup extends Controller {
 
 	private static final Form<PasswordReset> PASSWORD_RESET_FORM = form(PasswordReset.class);
 
-	public static Result unverified() {
+	public static Result unverified(final String email) {
+	  //TODO: UNVERIFIED -> REDIRECT TO FEED!
 	  final User user = Mupi.getLocalUser(session());
     if(user == null){
-      return ok(unverified.render());
+      return PlayAuthenticate.loginAndRedirect(ctx(), new MyLoginUsernamePasswordAuthUser(email));
+      
+//      return ok(unverified.render());
     }
     else{
       flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));

@@ -23,6 +23,7 @@ import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.mail.Mailer.Mail.Body;
 
+import controllers.Mupi;
 import controllers.routes;
 
 public class MyUsernamePasswordAuthProvider
@@ -180,7 +181,17 @@ public class MyUsernamePasswordAuthProvider
 
 	@Override
 	protected Call userUnverified(final UsernamePasswordAuthUser authUser) {
-		return routes.Signup.unverified();
+		return routes.Signup.unverified(authUser.getEmail());
+	  
+//	  if(authUser == null){
+//      return PlayAuthenticate.loginAndRedirect(ctx(), new MyLoginUsernamePasswordAuthUser(user.email));
+//      
+////      return ok(unverified.render());
+//    }
+//    else{
+//      flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
+//      return redirect(routes.Feed.feed());
+//    }
 	}
 
 	@Override

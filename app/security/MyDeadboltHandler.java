@@ -6,6 +6,7 @@ import models.User;
 import play.api.Application;
 import play.i18n.Messages;
 import play.mvc.Http;
+import play.mvc.Http.Request;
 import play.mvc.Result;
 import play.mvc.Http.Context;
 import be.objectify.deadbolt.AbstractDeadboltHandler;
@@ -54,15 +55,17 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 	@Override
 	public DynamicResourceHandler getDynamicResourceHandler(
 			final Http.Context context) {
-		return null;
+      return new MyDynamicResourceHandler();
 	}
 
 	@Override
-	public Result onAccessFailure(final Http.Context context,
-			final String content) {
+	public Result onAccessFailure(final Http.Context context,	final String content) {
 		// if the user has a cookie with a valid user and the local user has
 		// been deactivated/deleted in between, it is possible that this gets
 		// shown. You might want to consider to sign the user out in this case.
-		return forbidden("Forbidden");
+//	  return forbidden("Forbidden");
+	  // TODO: Get the origin url to redirect to this one;
+	  return redirect(routes.Feed.feed());
+		
 	}
 }

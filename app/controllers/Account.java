@@ -53,20 +53,15 @@ public class Account extends Controller {
 		final User user = Mupi.getLocalUser(session());
 		if (user.status == 1) {
 			// E-Mail has been validated already
-			flash(Mupi.FLASH_MESSAGE_KEY,
-					Messages.get("playauthenticate.verify_email.error.already_validated"));
+			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.verify_email.error.already_validated"));
 		} else if(user.email != null && !user.email.trim().isEmpty()){
-			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get(
-					"playauthenticate.verify_email.message.instructions_sent",
-					user.email));
-			MyUsernamePasswordAuthProvider.getProvider()
-					.sendVerifyEmailMailingAfterSignup(user, ctx());
+			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get( "playauthenticate.verify_email.message.instructions_sentto", user.email));
+			MyUsernamePasswordAuthProvider.getProvider().sendVerifyEmailMailingAfterSignup(user, ctx());
+			
 		} else {
-			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get(
-					"playauthenticate.verify_email.error.set_email_first",
-					user.email));
+			flash(Mupi.FLASH_MESSAGE_KEY, Messages.get( "playauthenticate.verify_email.error.set_email_first", user.email));
 		}
-		return redirect(routes.Profile.profile());
+		return redirect(routes.Feed.feed());
 	}
 
 	@Restrict(Mupi.USER_ROLE)

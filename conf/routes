@@ -6,7 +6,7 @@
 GET     /signup                     controllers.Mupi.signup
 POST    /signup                     controllers.Mupi.doSignup
 
-GET     /accounts/unverified        controllers.Signup.unverified
+GET     /accounts/unverified/:email        controllers.Signup.unverified(email: String)
 
 GET     /accounts/verify/:token     controllers.Signup.verify(token: String)
 GET     /accounts/exists            controllers.Signup.exists

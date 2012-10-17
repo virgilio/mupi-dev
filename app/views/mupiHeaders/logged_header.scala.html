@@ -11,6 +11,12 @@
 
 <script type="text/javascript" src="@routes.Assets.at("javascripts/notifications.js")"></script>
 
+@if(localUser.status == 0){
+	<div class"navbar-fixed-top">
+	  @Html(Messages("mupi.email.notVerified", localUser.email))
+	</div>
+}
+
 <div class="mupi-navbar navbar-fixed-top">
 	<div id ="menu_user" class="pull-right">
 		<a href="@routes.Feed.resetFeed()" title="Ir para publicações">

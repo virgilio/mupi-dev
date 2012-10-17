@@ -74,11 +74,10 @@ public class Global extends GlobalSettings{
 
 	@Override
   public Result onHandlerNotFound(RequestHeader request) {
-	  //Context.current.set(new Context(new Request, new HashMap <String, String>(), new HashMap <String, String>()));
-//	  Context.current().session().put("onHandlerNotFound", "true");
+	  // TODO: Inform to the notFound page which was the address tried
+	  // It will be easy at play 2.1 !!
+	  // LOOK AT: https://play.lighthouseapp.com/projects/82401-play-20/tickets/382-messages-in-onhandlernotfound-globalsettings
     return Results.ok(views.html.pageNotFound.render());
-//    LOOK AT: https://play.lighthouseapp.com/projects/82401-play-20/tickets/382-messages-in-onhandlernotfound-globalsettings
-//	  return super.onHandlerNotFound(request);
   }
 	
 	private void initialData() {
@@ -89,5 +88,7 @@ public class Global extends GlobalSettings{
 				role.save();
 			}
 		}
+		Location.create("Campinas (SP)", "");
+		Location.create("São Paulo (SP)", "");
 	}
 }

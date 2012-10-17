@@ -32,6 +32,7 @@ import views.html.feedHelpers.feedContent;
 import views.html.feedHelpers.pubList;
 import views.html.feedHelpers.promList;
 import views.html.mupiHelpers.comments;
+import be.objectify.deadbolt.actions.Dynamic;
 import be.objectify.deadbolt.actions.Restrict;
 
 import com.avaje.ebean.Page;
@@ -93,7 +94,7 @@ public class Feed extends Controller {
   }
 
 
-  @Restrict(Mupi.USER_ROLE)
+  @Dynamic("editor")
   public static Result hostMeetUp(){
     final Form<utils.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
     final User u = Mupi.getLocalUser(session());
@@ -128,7 +129,7 @@ public class Feed extends Controller {
   }
 
 
-  @Restrict(Mupi.USER_ROLE)
+  @Dynamic("editor")
   public static Result promoteMeetUp(){
     final Form<utils.MeetUpPromotion> filledForm = PROMOTE_MEETUP_FORM.bindFromRequest();
     final User u = Mupi.getLocalUser(session());
@@ -165,7 +166,7 @@ public class Feed extends Controller {
   }
 
 
-  @Restrict(Mupi.USER_ROLE)
+  @Dynamic("editor")
   public static Result comment(String body, Long id){
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
@@ -177,7 +178,7 @@ public class Feed extends Controller {
     return selectFeed(getLocalInterest(), getLocalLocation());
   }
 
-  @Restrict(Mupi.USER_ROLE)
+  @Dynamic("editor")
   public static Result commentPublication(String body, Long id){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
     final models.Publication pub = models.Publication.find.byId(id);
@@ -201,7 +202,7 @@ public class Feed extends Controller {
     }
   }
 
-  @Restrict(Mupi.USER_ROLE)
+  @Dynamic("editor")
   public static Result publish(String interest, String location, String body){ 
     Long l = getLocation(location);
     Long i = getInterest(interest);
@@ -376,15 +377,15 @@ public class Feed extends Controller {
   // TODO: Global?
   static String BLANK_EVT = "/blank_event.jpg";
 
-  @Restrict(Mupi.USER_ROLE)
+  @Dynamic("editor")
   public static Result promote(){
     MultipartFormData body = request().body().asMultipartFormData();
     FilePart picture = body.getFile("picture");
     String picturePath = BLANK_EVT;
 
-    DynamicForm bindedForm = form().bindFromRequest();
-    Long i = getInterest(bindedForm.get("interest"));
-    Long l = getLocation(bindedForm.get("location"));
+//    DynamicForm bindedForm = form().bindFromRequest();
+    Long i = getLocalInterest();
+    Long l = getLocalLocation();;
     models.Interest iObj = null;
     models.Location lObj = null;
     if(i != null) iObj = models.Interest.find.byId(i);

@@ -26,6 +26,7 @@ import play.mvc.Result;
 import utils.AjaxResponse;
 import utils.ImageHandler;
 import views.html.interestManager;
+import be.objectify.deadbolt.actions.Dynamic;
 import be.objectify.deadbolt.actions.Restrict;
 
 public class Interest extends Controller { 
@@ -75,7 +76,7 @@ public class Interest extends Controller {
 
 
 
-	@Restrict(Mupi.USER_ROLE)
+	@Dynamic("editor")
 	public static Result doAddInterest() {
 		final Form<models.Interest> filledForm = INTEREST_FORM.bindFromRequest();
 		final User user = Mupi.getLocalUser(session());
