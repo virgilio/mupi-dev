@@ -151,9 +151,12 @@ playauthenticate.restricted.secrets=Segredos, em todos os lugares!
 
 
 ###--- START MUPI
-mupi.signup.error.terms_not_accepted=Você precisa aceitar os termos de uso para que possa se inscrever no Mupi
+mupi.notfound=Página não encontrada 
+mupi.notfound.message=Puts, não encontramos a página, verifique se digitou o endereço corretamente!
 
+mupi.signup.error.terms_not_accepted=Você precisa aceitar os termos de uso para que possa se inscrever no Mupi
 mupi.signup.terms_acceptance=Li e aceito os <a target='_blank' href="routes.Mupi.terms()"> Messages("mupi.navigation.terms.title") </a>
+mupi.signup.already_logged=Você já está cadastrado e logado em sua conta!
 
 mupi.index.description=O Mupi é uma plataforma que promove o encontro entre pessoas com os mesmos interesses de aprendizado e que estejam na mesma região
 mupi.wizard.welcome_message=Olá {0}, este é o seu primeiro acesso ao Mupi. Atualize seus dados de perfil e interesses para melhor aproveitar a plataforma!  
@@ -176,7 +179,6 @@ mupi.navigation.feed=Mupi
 mupi.navigation.configuration=Mupi - Configurações
 mupi.navigation.inbox=Mupi - Mensagens
 mupi.navigation.notifications=Mupi - Notificações
-
 
 mupi.feed.noInterests=Você não possui interesses cadastrados!
 

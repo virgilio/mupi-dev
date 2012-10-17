@@ -11,9 +11,11 @@ import providers.MyLoginUsernamePasswordAuthUser;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyIdentity;
 import providers.MyUsernamePasswordAuthUser;
+import views.html.signup;
 import views.html.account.signup.*;
 
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.user.AuthUser;
 
 public class Signup extends Controller {
 
@@ -32,7 +34,15 @@ public class Signup extends Controller {
 	private static final Form<PasswordReset> PASSWORD_RESET_FORM = form(PasswordReset.class);
 
 	public static Result unverified() {
-		return ok(unverified.render());
+	  final User user = Mupi.getLocalUser(session());
+    if(user == null){
+      return ok(unverified.render());
+    }
+    else{
+      flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
+      return redirect(routes.Feed.feed());
+    }
+		
 	}
 
 	private static final Form<MyIdentity> FORGOT_PASSWORD_FORM = form(MyIdentity.class);
@@ -173,22 +183,35 @@ public class Signup extends Controller {
 	}
 
 	public static Result exists() {
-		return ok(exists.render());
+	  final User user = Mupi.getLocalUser(session());
+    if(user == null){
+      return ok(exists.render());
+    }
+    else{
+      flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
+      return redirect(routes.Feed.feed());
+    }
+		
 	}
 
-	public static Result verify(final String token) {
-		final TokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
-		if (ta == null) {
-			return badRequest(no_token_or_invalid.render());
-		}
-		final String email = ta.targetUser.email;
-		User.verify(ta.targetUser);
-		flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.verify_email.success", email));
-		if (Mupi.getLocalUser(session()) != null) {
-			flash(Messages.get("mupi.profile.firstLogin"));
-			return redirect(routes.Profile.profile());
-		} else {
-			return redirect(routes.Feed.feed());
-		}
+	public static Result verify(final String token) {	  
+	  final User user = Mupi.getLocalUser(session());
+    if(user == null){
+      final TokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
+      if (ta == null) {
+        flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.token.error.message"));
+        return redirect(routes.Feed.feed());
+      }else{
+        final String email = ta.targetUser.email;
+        User.verify(ta.targetUser);
+        flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.verify_email.success", email));
+        return PlayAuthenticate.loginAndRedirect(ctx(), new MyLoginUsernamePasswordAuthUser(ta.targetUser.email));
+//        PlayAuthenticate.storeUser(session(), ta.targetUser);
+      }      
+    }
+    else{
+      flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
+      return redirect(routes.Feed.feed());
+    }
 	}
 }

@@ -96,7 +96,6 @@ public class MyUsernamePasswordAuthProvider
     public Boolean terms_accepted;
 
 		public String validate() {
-		  System.out.println("accepted: " + terms_accepted);
 			if (password == null || !password.equals(repeatPassword)) {
 				return Messages.get("playauthenticate.password.signup.error.passwords_not_same");
 			}

@@ -9,9 +9,11 @@ import models.User;
 import models.NotificationBucket;
 import play.Routes;
 import play.data.Form;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
 import play.mvc.Result;
+import play.mvc.Results;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
@@ -19,7 +21,6 @@ import views.html.about;
 import views.html.contact;
 import views.html.help;
 import views.html.index;
-import views.html.login;
 import views.html.media;
 import views.html.privacyPolicies;
 import views.html.signup;
@@ -57,7 +58,6 @@ public class Mupi extends Controller {
 
   public static Result index() {
     return redirect(routes.Feed.feed());
-//        ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
   }
 
   public static User getLocalUser(final Session session) {
@@ -67,23 +67,15 @@ public class Mupi extends Controller {
 
   public static Result login() {
     return redirect(routes.Feed.feed());
-//    return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-//    return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
   }
 
   public static Result doLogin() {
     final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
     if (filledForm.hasErrors()) { // User did not fill everything properly
-//		  return redirect(routes.Feed.feed());
-      // TODO: It would be nice to return the form already filled
-      return badRequest(login.render(filledForm));
+      return badRequest(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
     } else { // Everything was filled
       return UsernamePasswordAuthProvider.handleLogin(ctx());
     }
-  }
-
-  public static Result signup() {
-    return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
   }
 
   public static Result jsRoutes() {
@@ -105,9 +97,20 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Feed.refreshPublications(),
             controllers.routes.javascript.Profile.suggestLocation(),
             controllers.routes.javascript.Mupi.clearBucket()
-            )).as("text/javascript");
+        )).as("text/javascript");
   }
 
+  public static Result signup() {
+    final User user = getLocalUser(session());
+    if(user == null){
+      return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+    }
+    else{
+      flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
+      return redirect(routes.Feed.feed());
+    }
+  }
+  
   public static Result doSignup() {
     final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
         .bindFromRequest();
@@ -126,7 +129,7 @@ public class Mupi extends Controller {
   public static String formatTimestamp(final long t) {
     return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
   }
-
+  
   public static Result about() {
     return ok(about.render());
   }

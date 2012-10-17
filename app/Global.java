@@ -1,10 +1,17 @@
 import java.util.Arrays;
+import java.util.HashMap;
 
 import models.Location;
 import models.SecurityRole;
 import play.Application;
 import play.GlobalSettings;
 import play.mvc.Call;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
+import play.mvc.Http.RequestHeader;
+import play.mvc.Result;
+import play.mvc.Results;
+import views.html.pageNotFound;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.PlayAuthenticate.Resolver;
@@ -22,7 +29,7 @@ public class Global extends GlobalSettings{
 			@Override
 			public Call login() {
 				// Your login page
-				return routes.Mupi.login();
+				return routes.Feed.feed();
 			}
 
 			@Override
@@ -48,29 +55,32 @@ public class Global extends GlobalSettings{
 
 			@Override
 			public Call askMerge() {
-				return routes.Account.askMerge();
+			  return routes.Feed.feed();
 			}
 
 			@Override
 			public Call askLink() {
-				return routes.Account.askLink();
+				return routes.Feed.feed();
 			}
 
 			@Override
 			public Call onException(final AuthException e) {
-				if (e instanceof AccessDeniedException) {
-					return routes.Signup
-							.oAuthDenied(((AccessDeniedException) e)
-									.getProviderKey());
-				}
-				// more custom problem handling here...
 				return super.onException(e);
-			}
+			}			
 		});
-
-		initialData();
+		
+				initialData();
 	}
 
+	@Override
+  public Result onHandlerNotFound(RequestHeader request) {
+	  //Context.current.set(new Context(new Request, new HashMap <String, String>(), new HashMap <String, String>()));
+//	  Context.current().session().put("onHandlerNotFound", "true");
+    return Results.ok(views.html.pageNotFound.render());
+//    LOOK AT: https://play.lighthouseapp.com/projects/82401-play-20/tickets/382-messages-in-onhandlernotfound-globalsettings
+//	  return super.onHandlerNotFound(request);
+  }
+	
 	private void initialData() {
 		if (SecurityRole.find.findRowCount() == 0) {
 			for (final String roleName : Arrays.asList(controllers.Mupi.USER_ROLE, controllers.Mupi.ADMIN_ROLE)) {
@@ -79,8 +89,5 @@ public class Global extends GlobalSettings{
 				role.save();
 			}
 		}
-		Location.create("Campinas (SP)", "");
-		Location.create("São Paulo (SP)", "");
-		/*Location.create("Araçatuba (SP)", "");*/
 	}
 }

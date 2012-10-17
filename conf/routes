@@ -2,20 +2,11 @@
 # This file defines all Mupi routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /assets/javascript/routes   controllers.Mupi.jsRoutes
-
-GET     /login                      controllers.Mupi.login
-POST    /login                      controllers.Mupi.doLogin
-
-GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
-GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
-
+# Authentication routes
 GET     /signup                     controllers.Mupi.signup
 POST    /signup                     controllers.Mupi.doSignup
 
 GET     /accounts/unverified        controllers.Signup.unverified
-GET     /authenticate/:provider/denied     controllers.Signup.oAuthDenied(provider: String)
 
 GET     /accounts/verify/:token     controllers.Signup.verify(token: String)
 GET     /accounts/exists            controllers.Signup.exists
@@ -28,30 +19,29 @@ POST   /accounts/password/change    controllers.Account.doChangePassword
 
 GET     /accounts/verify            controllers.Account.verifyEmail
 
-GET     /accounts/add               controllers.Account.link
-
-GET     /accounts/link              controllers.Account.askLink
-POST    /accounts/link              controllers.Account.doLink
-
-GET     /accounts/merge             controllers.Account.askMerge
-POST    /accounts/merge             controllers.Account.doMerge
+#GET     /login                      controllers.Mupi.login
+POST    /login                      controllers.Mupi.doLogin
 
 GET     /login/password/forgot     controllers.Signup.forgotPassword(email: String ?= "")
 POST    /login/password/forgot     controllers.Signup.doForgotPassword
 
+GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 
 
 ############################ MUPI ############################
+
+GET   /                         controllers.Feed.feed()
+
+GET   /assets/javascript/routes controllers.Mupi.jsRoutes
 
 GET   /upload/*file             controllers.Mupi.at(file)
 
 GET   /assets/*file             controllers.Assets.at(path="/public", file)
 
 
+# MUPI PAGES
 
-GET     /                       controllers.Feed.feed()
-
-# Mupi Pages
 # FEED
 GET   /feed/reset               controllers.Feed.resetFeed()
 POST  /feed/select/:i/:l        controllers.Feed.selectFeed(i: Long, l: Long)
@@ -102,3 +92,6 @@ GET   /inbox                controllers.Mupi.inbox
 
 # GET   /configuration    	controllers.Mupi.configuration
 # POST  /notifications    	controllers.Mupi.notifications
+
+
+

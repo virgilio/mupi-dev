@@ -45,14 +45,8 @@ public class Account extends Controller {
 			return null;
 		}
 	}
-
-	private static final Form<Accept> ACCEPT_FORM = form(Accept.class);
+	
 	private static final Form<Account.PasswordChange> PASSWORD_CHANGE_FORM = form(Account.PasswordChange.class);
-
-	@RoleHolderPresent
-	public static Result link() {
-		return ok(link.render());
-	}
 
 	@Restrict(Mupi.USER_ROLE)
 	public static Result verifyEmail() {
@@ -103,82 +97,4 @@ public class Account extends Controller {
 			return redirect(routes.Profile.profile());
 		}
 	}
-
-	@RoleHolderPresent
-	public static Result askLink() {
-		final AuthUser u = PlayAuthenticate.getLinkUser(session());
-		if (u == null) {
-			// account to link could not be found, silently redirect to login
-			return redirect(routes.Feed.feed());
-		}
-		return ok(ask_link.render(ACCEPT_FORM, u));
-	}
-
-	@RoleHolderPresent
-	public static Result doLink() {
-		final AuthUser u = PlayAuthenticate.getLinkUser(session());
-		if (u == null) {
-			// account to link could not be found, silently redirect to login
-			return redirect(routes.Feed.feed());
-		}
-
-		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
-		if (filledForm.hasErrors()) {
-			// User did not select whether to link or not link
-			return badRequest(ask_link.render(filledForm, u));
-		} else {
-			// User made a choice :)
-			final boolean link = filledForm.get().accept;
-			if (link) {
-				flash(Mupi.FLASH_MESSAGE_KEY,
-						Messages.get("playauthenticate.accounts.link.success"));
-			}
-			return PlayAuthenticate.link(ctx(), link);
-		}
-	}
-
-	@RoleHolderPresent
-	public static Result askMerge() {
-		// this is the currently logged in user
-		final AuthUser aUser = PlayAuthenticate.getUser(session());
-
-		// this is the user that was selected for a login
-		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
-		if (bUser == null) {
-			// user to merge with could not be found, silently redirect to login
-			return redirect(routes.Feed.feed());
-		}
-
-		// You could also get the local user object here via
-		// User.findByAuthUserIdentity(newUser)
-		return ok(ask_merge.render(ACCEPT_FORM, aUser, bUser));
-	}
-
-	@RoleHolderPresent
-	public static Result doMerge() {
-		// this is the currently logged in user
-		final AuthUser aUser = PlayAuthenticate.getUser(session());
-
-		// this is the user that was selected for a login
-		final AuthUser bUser = PlayAuthenticate.getMergeUser(session());
-		if (bUser == null) {
-			// user to merge with could not be found, silently redirect to login
-			return redirect(routes.Feed.feed());
-		}
-
-		final Form<Accept> filledForm = ACCEPT_FORM.bindFromRequest();
-		if (filledForm.hasErrors()) {
-			// User did not select whether to merge or not merge
-			return badRequest(ask_merge.render(filledForm, aUser, bUser));
-		} else {
-			// User made a choice :)
-			final boolean merge = filledForm.get().accept;
-			if (merge) {
-				flash(Mupi.FLASH_MESSAGE_KEY,
-						Messages.get("playauthenticate.accounts.merge.success"));
-			}
-			return PlayAuthenticate.merge(ctx(), merge);
-		}
-	}
-
 }
