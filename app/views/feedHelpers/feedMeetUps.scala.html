@@ -9,14 +9,10 @@
 @promotions = @{promotionsPage.getList}
 
 <div class="meetups">
-  @if(location != null){
 	  <div class="btns_meetups">
-	   @if(interest != null){
-	     @promoteMeetup(promoteMeetupForm, interest, location)
-	   }
-	   @hostMeetup(hostMeetupForm, location)
+		   @promoteMeetup(promoteMeetupForm, interest, location)
+		   @hostMeetup(hostMeetupForm, location)
 	  </div>
-  }
   
   <h3>Próximos eventos</h3>
   
