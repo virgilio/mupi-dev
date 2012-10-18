@@ -383,9 +383,11 @@ public class Feed extends Controller {
     FilePart picture = body.getFile("picture");
     String picturePath = BLANK_EVT;
 
-//    DynamicForm bindedForm = form().bindFromRequest();
-    Long i = getLocalInterest();
-    Long l = getLocalLocation();;
+//    Long i = getLocalInterest();
+//    Long l = getLocalLocation();
+    DynamicForm bindedForm = form().bindFromRequest();
+    Long i = getInterest(bindedForm.get("interest"));
+    Long l = getLocation(bindedForm.get("location"));
     models.Interest iObj = null;
     models.Location lObj = null;
     if(i != null) iObj = models.Interest.find.byId(i);
