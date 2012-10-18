@@ -12,9 +12,10 @@
 <script type="text/javascript" src="@routes.Assets.at("javascripts/notifications.js")"></script>
 
 @if(localUser.status == 0){
-	<div class"navbar-fixed-top">
-	  @Html(Messages("mupi.email.notVerified", localUser.email))
+	<div id ="verify_alert" class"navbar-fixed-top">
+	  <i class="icon-envelope"></i> @Html(Messages("mupi.email.notVerified", localUser.email))
 	</div>
+	<div class="verify_margin"></div>
 }
 
 <div class="mupi-navbar navbar-fixed-top">

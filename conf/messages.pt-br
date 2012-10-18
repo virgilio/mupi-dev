@@ -153,7 +153,7 @@ playauthenticate.restricted.secrets=Segredos, em todos os lugares!
 ###--- START MUPI
 mupi.notfound=Página não encontrada 
 mupi.notfound.message=Puts, não encontramos a página, verifique se digitou o endereço corretamente!
-mupi.email.notVerified=O seu e-mail ({0}) ainda não foi validado. Clique <a href="/accounts/verify">aqui</a> para receber outro e-mail de validação.
+mupi.email.notVerified=O seu e-mail ({0}) ainda não foi validado. <a href="/accounts/verify">Clique aqui</a> para receber outro e-mail de validação.
 
 mupi.signup.error.terms_not_accepted=Você precisa aceitar os termos de uso para que possa se inscrever no Mupi
 mupi.signup.terms_acceptance=Li e aceito os <a target='_blank' href="routes.Mupi.terms()"> Messages("mupi.navigation.terms.title") </a>
