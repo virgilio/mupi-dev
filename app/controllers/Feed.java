@@ -439,7 +439,8 @@ public class Feed extends Controller {
       return redirect(routes.Feed.feed());
     }catch (Exception e) {
       flash(Mupi.FLASH_ERROR_KEY, "Erro ao divulgar evento, por favor contate-nos para que possamos resolver este problema.");
-      System.out.println(e.getMessage());
+      //System.out.println(e.getMessage());
+      e.printStackTrace();
       return redirect(routes.Feed.feed());
     }
 

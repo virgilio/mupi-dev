@@ -100,6 +100,7 @@ public class Promotion extends Model {
     try {
       Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);
       prom.save();
+      NotificationBucket.updateBucket(pub, profile);
     }catch (Exception e) {
       if(pub!=null)
         Publication.remove(pub);

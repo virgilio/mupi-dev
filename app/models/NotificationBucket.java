@@ -63,23 +63,35 @@ import play.db.ebean.Model;
 	
 
 	public static void create(Publication publication, Profile profile){
-	    String body;
+	    String body  = "";
 	    int size;
+	    boolean notify = false;
 	    if(publication.getPub_typ() == 1){
 	      Promotion p = Promotion.getByPublicationId(publication.getId());
-	      String text = Jsoup.parse(p.getTitle()).text();
-	      size = text.length() > 50 ? 50 : text.length();
-    		body = "O evento '" + Jsoup.parse(p.getTitle()).text().substring(0, size);
+	      if(p != null) {
+		  String text = Jsoup.parse(p.getTitle()).text();
+		  size = text.length() > 50 ? 50 : text.length();
+		  body = "O evento '" + Jsoup.parse(p.getTitle()).text().substring(0, size);
+		  notify = true;
+		  //System.out.println("Não sou nulo");
+	      }
+	      //else 
+	      //System.out.println("Sou nulo");
 	    } else {
-	      String text = Jsoup.parse(publication.getBody()).text();
-      	size = text.length() > 50 ? 50 : text.length();
-      	body = "A publicação '" + Jsoup.parse(publication.getBody()).text().substring(0, size);
+		String text = Jsoup.parse(publication.getBody()).text();
+		size = text.length() > 50 ? 50 : text.length();
+		body = "A publicação '" + Jsoup.parse(publication.getBody()).text().substring(0, size);
+		notify = true;
 	    }
-	    body += "...' no interesse " 
-  		+ publication.getInterest().getName() 
-  		+ " recebeu comentários!";
-	    NotificationBucket notificationBucket = new NotificationBucket(publication, profile, body);
-	    notificationBucket.save();
+	    //System.out.println("Salva? " + (notify ? "sim" : "não"));
+	    if(notify == true){
+		body += "...' no interesse " 
+		    + publication.getInterest().getName() 
+		    + " recebeu comentários!";
+		//System.out.println("Vou salvar!");
+		NotificationBucket notificationBucket = new NotificationBucket(publication, profile, body);
+		notificationBucket.save();
+	    }
 	}
 	
 	
