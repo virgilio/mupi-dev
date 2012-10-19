@@ -43,7 +43,7 @@
 	  </div>
 	  <ul class="pub_interact">
 	    <li class="comment_lnk" comments="comments_@pub.getId">
-	      <i class="icon-comments-alt"></i>@pub.getComments.size() Comentários
+	      <i class="icon-comments-alt"></i>@pub.getComments.asScala.filter(_.getStatus == models.PubComment.ACTIVE).size() Comentários
 	    </li>
 	  </ul>
 	

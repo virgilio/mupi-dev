@@ -3,7 +3,7 @@
 @import java.net.URLDecoder
 
 @if(comments.size() > 0){
-   @for(comment <- comments.asScala.sortBy(_.getCreated)){
+   @for(comment <- comments.asScala.filter(_.getStatus == models.PubComment.ACTIVE).sortBy(_.getCreated)){
 
     <div class="comment" comment_id="@comment.getId">
       <div class="profile_thumb mupi_thumbs">
@@ -28,9 +28,9 @@
 
       <p>@Html(comment.getBody)</p>
       
-<!--       @if(Mupi.getLocalUser(session()).getProfile.getId == comment.getProfile.getId){ -->
-<!--         <button type="button" class="remove_comment">x</button> -->
-<!--       } -->
+      @if(Mupi.getLocalUser(session()).getProfile.getId == comment.getProfile.getId){
+        <button type="button" class="remove_comment">x</button>
+      }
 
     </div>
   }

@@ -17,8 +17,8 @@ import play.db.ebean.Model;
 public class PubComment extends Model {
 	
 	private static final long serialVersionUID = 1L;
-	private static final int  ACTIVE = 1;
-	private static final int  INACTIVE = 0;
+	public static final int  ACTIVE = 1;
+	public static final int  INACTIVE = 0;
 	
 	@Id
 	private Long id;
@@ -70,7 +70,7 @@ public class PubComment extends Model {
 	
 	public static void uncomment(Long id){
 		PubComment pubComment = find.byId(id);
-		pubComment.setStatus(ACTIVE);
+		pubComment.setStatus(INACTIVE);
 		pubComment.modified = new Date();
 		pubComment.update();
 	}
