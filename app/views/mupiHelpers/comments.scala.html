@@ -3,9 +3,9 @@
 @import java.net.URLDecoder
 
 @if(comments.size() > 0){
-   @for(comment <- comments){
+   @for(comment <- comments.asScala.sortBy(_.getCreated)){
 
-    <div class="comment">
+    <div class="comment" comment_id="@comment.getId">
       <div class="profile_thumb mupi_thumbs">
         <div class="fix_img">
                 <img src="@routes.Mupi.at("profile/picture/thumb" + comment.getProfile.getPicture)" />
@@ -26,7 +26,11 @@
       </a>
       <span class="pub_date">@comment.getCreated.format("dd/MMM - HH:mm")</span>
 
-      <p>@URLDecoder.decode(comment.getBody)</p>
+      <p>@Html(comment.getBody)</p>
+      
+<!--       @if(Mupi.getLocalUser(session()).getProfile.getId == comment.getProfile.getId){ -->
+<!--         <button type="button" class="remove_comment">x</button> -->
+<!--       } -->
 
     </div>
   }

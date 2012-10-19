@@ -14,7 +14,9 @@ object ApplicationBuild extends Build {
       "com.typesafe"              %% "play-plugins-mailer"       % "2.0.4",
       "commons-io"                %  "commons-io"                % "2.3",
       "commons-collections"       %  "commons-collections"       % "3.0",
-      "org.jsoup"                 %  "jsoup"                     % "1.7.1"
+      "org.jsoup"                 %  "jsoup"                     % "1.7.1",
+      "commons-validator"         %  "commons-validator"         % "1.3.1",
+      "oro"                       %  "oro"                       % "2.0.8"
     )
     
      

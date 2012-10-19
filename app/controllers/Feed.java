@@ -3,11 +3,15 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -16,6 +20,7 @@ import models.PubComment;
 import models.Publication;
 import models.User;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.validator.UrlValidator;
 
 import play.data.DynamicForm;
 import play.data.Form;
@@ -43,7 +48,6 @@ import conf.MupiParams;
 
 import org.jsoup.*;
 import org.jsoup.safety.Whitelist;
-
 
 
 
@@ -105,7 +109,7 @@ public class Feed extends Controller {
 
     if(getLocalInterest() != null && getLocalInterest() != -1)
       interest = models.Interest.find.byId(getLocalInterest()).getName();
-    
+
     if(getLocalLocation() != null && getLocalLocation() != -1)
       location = models.Location.find.byId(getLocalLocation()).getName();
 
@@ -136,13 +140,13 @@ public class Feed extends Controller {
     final models.Profile p = u.getProfile();
     String lastName = p.getLastName();
     if(lastName == null) lastName = "";
-    
+
     String interest = "--desconhecido--";
     String location = "--desconhecida--";
 
     if(getLocalInterest() != null && getLocalInterest() != -1)
       interest = models.Interest.find.byId(getLocalInterest()).getName();
-    
+
     if(getLocalLocation() != null && getLocalLocation() != -1)
       location = models.Location.find.byId(getLocalLocation()).getName();
 
@@ -164,6 +168,19 @@ public class Feed extends Controller {
 
     return redirect(routes.Feed.feed());
   }
+  
+  @Dynamic("editor")
+  public static Result removeComment(Long id){
+    final User u = Mupi.getLocalUser(session());
+    final models.Profile p = u.profile;
+
+    if(models.PubComment.find.byId(id).getProfile().getId() == p.getId()){
+      models.PubComment.uncomment(id);
+      return AjaxResponse.build(0, "Cometário removido!");
+    }else{
+      return AjaxResponse.build(2, "Este comentário não é seu! Você não pode removê-lo");
+    }
+  }
 
 
   @Dynamic("editor")
@@ -172,8 +189,10 @@ public class Feed extends Controller {
     final models.Profile p = u.profile;
     final models.Publication pub = models.Publication.find.byId(id);
 
+    String safeBody = Jsoup.clean(textWithLinks(body.replaceAll("(\r\n|\n)", " <br/> ")), Whitelist.none().addTags("br", "a").addAttributes("a", "href", "target"));
+
     if(pub != null)
-      PubComment.create(pub, p, body);
+      PubComment.create(pub, p, safeBody);
 
     return selectFeed(getLocalInterest(), getLocalLocation());
   }
@@ -182,15 +201,11 @@ public class Feed extends Controller {
   public static Result commentPublication(String body, Long id){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
     final models.Publication pub = models.Publication.find.byId(id);
-
+    String safeBody = Jsoup.clean(textWithLinks(body.replaceAll("(\r\n|\n)", " <br/> ")), Whitelist.none().addTags("br", "a").addAttributes("a", "href", "target"));
     if(pub != null){
-      PubComment.create(pub, p, body);
-//      List<PubComment> reverseComments = pub.getComments();
-
-//      Collections.reverse(reverseComments);
+      PubComment.create(pub, p, safeBody);
       return AjaxResponse.build(
-          0, 
-//          comments.render(reverseComments).body()
+          0,
           comments.render(pub.getComments()).body()
           );
     }
@@ -203,18 +218,16 @@ public class Feed extends Controller {
   }
 
   @Dynamic("editor")
-  public static Result publish(String interest, String location, String body){ 
+  public static Result publish(String interest, String location, String body){
     Long l = getLocation(location);
     Long i = getInterest(interest);
-    
+
     if(i != null && l != null){
       final User u = Mupi.getLocalUser(session());
       final models.Profile p = u.profile;
-      
+
       String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank"));
-      
-//      System.out.println("text: " + Jsoup.parse(safeBody).text());
-      
+
       Publication.create(
           p,
           models.Location.find.byId(l),
@@ -318,8 +331,8 @@ public class Feed extends Controller {
     return AjaxResponse.build(status, feedContent.render(
         p.getLocations(),
         p.getInterests(),
-        l_pubs, 
-        l_prom, 
+        l_pubs,
+        l_prom,
         i,
         l,
         PROMOTION_FORM,
@@ -383,8 +396,6 @@ public class Feed extends Controller {
     FilePart picture = body.getFile("picture");
     String picturePath = BLANK_EVT;
 
-//    Long i = getLocalInterest();
-//    Long l = getLocalLocation();
     DynamicForm bindedForm = form().bindFromRequest();
     Long i = getInterest(bindedForm.get("interest"));
     Long l = getLocation(bindedForm.get("location"));
@@ -452,19 +463,19 @@ public class Feed extends Controller {
     String i = session().get("interest");
     return getInterest(i);
   }
-  
+
   public static Long getInterest(String i){
     if(i != null && !i.isEmpty())
       return Long.parseLong(i);
     else
       return null;
   }
-  
+
   public static Long getLocalLocation(){
     String l = session("location");
     return getLocation(l);
   }
-  
+
   public static Long getLocation(String l){
     if(l != null && !l.isEmpty())
       return Long.parseLong(l);
@@ -491,5 +502,43 @@ public class Feed extends Controller {
       return null;
     }
 
+  }
+  
+  private static String textWithLinks(String text) {
+    String regex = "\\b(https?://)(www\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+    String regex2 = "\\b(www\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+
+    String[] parts = text.split("\\s");
+    String withLinks = new String("");
+
+
+    for( String item : parts ){
+
+      if (item.matches(regex)) {
+        withLinks = withLinks.concat("<a target=\"_blank\" href=\"" + item + "\">"+ item + "</a> ");
+      } else if(item.matches(regex2)){
+        withLinks = withLinks.concat("<a target=\"_blank\" href=\"http://" + item + "\">"+ item + "</a> ");
+      }
+      else {
+        withLinks = withLinks.concat(item+" ");
+      }
+    }
+    return withLinks;
+    
+    
+//    String[] parts = text.split("\\s");
+//    String withLinks = new String("");
+//    
+//    String[] schemes = {"http","https"};
+//    UrlValidator urlValidator = new UrlValidator(schemes);
+//    
+//    for( String item : parts ){
+//      if (urlValidator.isValid(item)) {
+//          withLinks = withLinks.concat("<a target=\"_blank\" href=\"" + item + "\">"+ item + "</a> ");
+//        } else {
+//          withLinks = withLinks.concat(item+" ");
+//        }
+//    }
+//    return withLinks;
   }
 }

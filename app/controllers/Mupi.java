@@ -96,7 +96,8 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Feed.nextPromotions(),
             controllers.routes.javascript.Feed.refreshPublications(),
             controllers.routes.javascript.Profile.suggestLocation(),
-            controllers.routes.javascript.Mupi.clearBucket()
+            controllers.routes.javascript.Mupi.clearBucket(),
+            controllers.routes.javascript.Feed.removeComment()
         )).as("text/javascript");
   }
 
