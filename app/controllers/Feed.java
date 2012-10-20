@@ -226,7 +226,7 @@ public class Feed extends Controller {
       final User u = Mupi.getLocalUser(session());
       final models.Profile p = u.profile;
 
-      String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank"));
+      String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank").addTags("h1", "h2"));
 
       Publication.create(
           p,

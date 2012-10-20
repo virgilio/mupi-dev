@@ -172,7 +172,9 @@
         height: 24px;
         margin-right: -14px;
 }
-.btns_comment div{
+.btns_comment div, .btns_comment input[type="button"]{
+        font-family: 'Century Gothic','URW Gothic L','Gill Sans',Helvetica,sans-serif; 
+	border: none;
         background: none repeat scroll 0 0 #E5E5E5;
         border-radius: 4px 4px 4px 4px;
         font-size: 0.8em;
@@ -180,10 +182,14 @@
         float: right;
         margin-left: 10px;
         cursor: pointer;
+	color: #08C;
 }
-.enter_comment{
-/*      float: right; */
-}
+
 .enter_cancel{
         color: red;
 }
+
+.btns_comment input[type="button"]:hover, .btns_comment div:hover {
+     color: #005580; 
+}
+
