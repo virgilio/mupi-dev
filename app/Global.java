@@ -74,8 +74,8 @@ public class Global extends GlobalSettings{
 
 	@Override
   public Result onHandlerNotFound(RequestHeader request) {
-	  // TODO: Inform to the notFound page which was the address tried
-	  // It will be easy at play 2.1 !!
+	  // TODO: Inform to the notFound page which was the address tried 
+	  // It will be easy at play 2.1
 	  // LOOK AT: https://play.lighthouseapp.com/projects/82401-play-20/tickets/382-messages-in-onhandlernotfound-globalsettings
     return Results.ok(views.html.pageNotFound.render());
   }

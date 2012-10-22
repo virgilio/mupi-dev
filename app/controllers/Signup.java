@@ -35,12 +35,9 @@ public class Signup extends Controller {
 	private static final Form<PasswordReset> PASSWORD_RESET_FORM = form(PasswordReset.class);
 
 	public static Result unverified(final String email) {
-	  //TODO: UNVERIFIED -> REDIRECT TO FEED!
 	  final User user = Mupi.getLocalUser(session());
     if(user == null){
       return PlayAuthenticate.loginAndRedirect(ctx(), new MyLoginUsernamePasswordAuthUser(email));
-      
-//      return ok(unverified.render());
     }
     else{
       flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
@@ -200,7 +197,12 @@ public class Signup extends Controller {
 
 	public static Result verify(final String token) {	  
 	  final User user = Mupi.getLocalUser(session());
-    if(user == null){
+	  // TODO: GLOBAL?
+    if(user != null && user.status == 1){
+      flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
+      return redirect(routes.Feed.feed());          
+    }
+    else{
       final TokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
       if (ta == null) {
         flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.token.error.message"));
@@ -211,11 +213,7 @@ public class Signup extends Controller {
         flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.verify_email.success", email));
         return PlayAuthenticate.loginAndRedirect(ctx(), new MyLoginUsernamePasswordAuthUser(ta.targetUser.email));
 //        PlayAuthenticate.storeUser(session(), ta.targetUser);
-      }      
-    }
-    else{
-      flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
-      return redirect(routes.Feed.feed());
+      }  
     }
 	}
 }
