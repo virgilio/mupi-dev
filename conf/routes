@@ -55,6 +55,7 @@ POST  /feed/updatePubs          controllers.Feed.refreshPublications(last: Long)
 POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 
 POST  /comment/remove/:id       controllers.Feed.removeComment(id: Long)
+POST  /publication/remove/:id   controllers.Feed.removePublication(id: Long)
 
 # PUBLICATION
 GET   /publication/:id          controllers.Mupi.publication(id: Long)

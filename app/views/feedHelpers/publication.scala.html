@@ -3,7 +3,6 @@
 @import collection.JavaConverters._
 @import mupiHelpers._
 
-
 @publisherPic = @{"profile/picture/thumb" + pub.getProfile.getPicture}
 
 <div class="publication" pub_id="@pub.getId">
@@ -39,11 +38,16 @@
 	  	  }
 	  	  <i class="icon-plus-sign"></i>
 		  </a>
+		  
+		  @if(Mupi.getLocalUser(session()).getProfile.getId == pub.getProfile.getId && pub.getPub_typ == models.Publication.PUBLICATION){
+        <button type="button" class="remove_publication">excluir publicação</button>
+		  }
+		  
 		  <p>@Html(pub.getBody)</p>
 	  </div>
 	  <ul class="pub_interact">
 	    <li class="comment_lnk" comments="comments_@pub.getId">
-	      <i class="icon-comments-alt"></i>@pub.getComments.asScala.filter(_.getStatus == models.PubComment.ACTIVE).size() Comentários
+	      <i class="icon-comments-alt"></i><span class="comments_size">@pub.getComments.asScala.filter(_.getStatus == models.PubComment.ACTIVE).size()</span> Comentários
 	    </li>
 	  </ul>
 	

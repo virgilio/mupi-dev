@@ -1,5 +1,8 @@
 @(publications: List[models.Publication], interest: models.Interest, location: models.Location)
 
-@for(pub <- publications){
+<script type="text/javascript" src="@routes.Assets.at("javascripts/publications.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/comments.js")"></script>
+
+@for(pub <- publications.filter(_.getStatus == models.Publication.ACTIVE)){
   @publication(pub, interest, location)
 }

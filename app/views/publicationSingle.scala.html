@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="@routes.Assets.at("stylesheets/publication.css")" type="text/css" media="screen"/>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/publication.js")"></script>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.autosize-min.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/publications.js")"></script>
 
 <input type="hidden" id="selectedInterest" value="@publication.getInterest.getId"/>
 <input type="hidden" id="selectedLocation" value="@publication.getLocation.getId"/>
@@ -40,6 +41,9 @@
 				    <span class="pub_loc"><i class="icon-map-marker"></i> @publication.getLocation.getName</span>	
 				    <span class="pub_int"><i class="icon-star"></i> @publication.getInterest.getName</span>
 				  </p>
+				  @if(Mupi.getLocalUser(session()).getProfile.getId == publication.getProfile.getId && publication.getPub_typ == models.Publication.PUBLICATION){
+		        <button type="button" class="remove_publication">excluir publicação</button>
+		      }
 			  </div>
 			  <div class="profile-thumb mupi_thumbs">
 				  <div class="fix_img">

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import models.Promotion;
+import models.Publication;
 import models.User;
 import models.NotificationBucket;
 import play.Routes;
@@ -97,7 +98,8 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Feed.refreshPublications(),
             controllers.routes.javascript.Profile.suggestLocation(),
             controllers.routes.javascript.Mupi.clearBucket(),
-            controllers.routes.javascript.Feed.removeComment()
+            controllers.routes.javascript.Feed.removeComment(),
+            controllers.routes.javascript.Feed.removePublication()
         )).as("text/javascript");
   }
 
@@ -144,26 +146,37 @@ public class Mupi extends Controller {
   }
 
   public static Result promotion(Long id) {
-      final User user = getLocalUser(session());
-      if(user != null){
-	  //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
+      Publication pub = models.Promotion.find.byId(id).getPublication();
+      if(pub.getStatus() == models.Publication.ACTIVE){
+        final User user = getLocalUser(session());
+        if(user != null){
+          //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
           NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
+        }
+        return ok(promotion.render(models.Promotion.find.byId(id)));
+      } else {
+        flash(Mupi.FLASH_MESSAGE_KEY, "Esta divulgação não existe ou foi removida!");
+        return redirect(routes.Feed.feed());
       }
-      return ok(promotion.render(models.Promotion.find.byId(id)));
       
   }
     
   public static Result publication(Long id) {
+    Publication pub = models.Publication.find.byId(id);
+    if(pub.getStatus() == models.Publication.ACTIVE){
       final User user = getLocalUser(session());
       if(user != null){
         //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
         NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
       }
-      models.Publication pub = models.Publication.find.byId(id);
       if(pub.getPub_typ() == models.Publication.EVENT)
         return promotion(Promotion.getByPublicationId(id).getId());
       else
         return ok(publicationSingle.render(pub));
+    } else {
+      flash(Mupi.FLASH_MESSAGE_KEY, "Esta publicação não existe ou foi removida!");
+      return redirect(routes.Feed.feed());
+    }
   }
     
   public static Result media() {

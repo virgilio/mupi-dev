@@ -181,6 +181,23 @@ public class Feed extends Controller {
       return AjaxResponse.build(2, "Este comentário não é seu! Você não pode removê-lo");
     }
   }
+  
+  @Dynamic("editor")
+  public static Result removePublication(Long id){
+    final User u = Mupi.getLocalUser(session());
+    final models.Profile p = u.profile;
+
+    Publication pub = models.Publication.find.byId(id);
+    
+    if(pub.getProfile().getId() == p.getId() && pub.getPub_typ() == models.Publication.PUBLICATION){
+      models.Publication.unpublish(id);
+      return AjaxResponse.build(0, "Publicação removida!");
+    } else if(pub.getProfile().getId() == p.getId() && pub.getPub_typ() == models.Publication.EVENT) {
+      return AjaxResponse.build(2, "Esta publicação pertenceà um evento! Você não pode removê-la!");
+    } else {
+      return AjaxResponse.build(4, "Esta publicação não é sua! Você não pode removê-la");
+    }
+  }
 
 
   @Dynamic("editor")
@@ -505,7 +522,7 @@ public class Feed extends Controller {
   }
   
   private static String textWithLinks(String text) {
-    String regex = "\\b(https?://)(www\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+    String regex = "\\b(https?://)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     String regex2 = "\\b(www\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
     String[] parts = text.split("\\s");
@@ -524,21 +541,5 @@ public class Feed extends Controller {
       }
     }
     return withLinks;
-    
-    
-//    String[] parts = text.split("\\s");
-//    String withLinks = new String("");
-//    
-//    String[] schemes = {"http","https"};
-//    UrlValidator urlValidator = new UrlValidator(schemes);
-//    
-//    for( String item : parts ){
-//      if (urlValidator.isValid(item)) {
-//          withLinks = withLinks.concat("<a target=\"_blank\" href=\"" + item + "\">"+ item + "</a> ");
-//        } else {
-//          withLinks = withLinks.concat(item+" ");
-//        }
-//    }
-//    return withLinks;
   }
 }
