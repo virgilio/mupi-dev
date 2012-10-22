@@ -77,7 +77,14 @@
               mask="99/99/9999"              
             )
             
-	    
+            @*@mupiFormSelect(
+              field=profileForm("notificationLevel"),
+              label="Notificações",
+              (0,"Sem notificações"),
+              (1,"Apenas resumo mensal"),
+              (2,"Notificações das atividades que participo")
+            )*@
+            	    
 	    @if(p.getStatus == conf.MupiParams.FIRST_LOGIN){
 		<input type="submit" value="Avançar" class="btn btn-primary btn_submitprofile">
 	    }else{
