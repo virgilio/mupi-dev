@@ -556,24 +556,23 @@ public class Feed extends Controller {
   }
   
   private static String textWithLinks(String text) {
-    String regex = "\\b(https?://)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-    String regex2 = "\\b(www\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-
-    String[] parts = text.split("\\s");
-    String withLinks = new String("");
-
-
-    for( String item : parts ){
-
-      if (item.matches(regex)) {
-        withLinks = withLinks.concat("<a target=\"_blank\" href=\"" + item + "\">"+ item + "</a> ");
-      } else if(item.matches(regex2)){
-        withLinks = withLinks.concat("<a target=\"_blank\" href=\"http://" + item + "\">"+ item + "</a> ");
-      }
-      else {
-        withLinks = withLinks.concat(item+" ");
-      }
+    String regex1 = "(?<!http://)(www[0-9]?\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+    Pattern pattern1 = Pattern.compile(regex1);
+    Matcher m1 = pattern1.matcher(text);
+    StringBuffer sb1 = new StringBuffer(text.length());
+    while(m1.find()){
+      m1.appendReplacement(sb1, "http://"+ m1.group());
     }
-    return withLinks;
+    text = m1.appendTail(sb1).toString();
+    
+    String regex2 = "(https?://)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+    Pattern pattern2 = Pattern.compile(regex2);
+    Matcher m2 = pattern2.matcher(text);
+    StringBuffer sb2 = new StringBuffer(text.length());
+    while(m2.find()){
+      m2.appendReplacement(sb2, "<a target=\"_blank\" href=\"" + m2.group() + "\">" + m2.group() + "</a>");
+    }
+    
+    return m2.appendTail(sb2).toString();
   }
 }
