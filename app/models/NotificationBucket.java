@@ -66,7 +66,7 @@ public class NotificationBucket extends Model {
     String body  = "";
     int size;
     boolean notify = false;
-    if(publication.getPub_typ() == 1){
+    if(publication.getPub_typ() == conf.MupiParams.PubType.EVENT){
       Promotion p = Promotion.getByPublicationId(publication.getId());
       if(p != null) {
 	String text = Jsoup.parse(p.getTitle()).text();

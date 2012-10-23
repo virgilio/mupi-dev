@@ -17,6 +17,9 @@ import play.db.ebean.Model;
 
 import com.avaje.ebean.Page;
 
+import conf.MupiParams;
+import conf.MupiParams.PubType;
+
 @Entity
 @Table(name = "publications")
 public class Publication extends Model {
@@ -24,8 +27,6 @@ public class Publication extends Model {
 	static final int PER_PAGE = 10;
 	public static final int ACTIVE = 1;
 	public static final int INACTIVE = 0;
-	public static final int PUBLICATION = 0;
-	public static final int EVENT = 1;
 	
 	@Id
 	public Long id;
@@ -50,7 +51,7 @@ public class Publication extends Model {
 	private List<PubComment> comments = new ArrayList<PubComment>();
 	
 	@Required
-	private Integer pub_typ;
+	private MupiParams.PubType pub_typ;
 	
 	@Required
 	@Column(columnDefinition = "TEXT")
@@ -70,19 +71,19 @@ public class Publication extends Model {
 	public static final Finder<Long, Publication> find = new Finder<Long, Publication>(
 			Long.class, Publication.class);
 	
-	public Publication(Profile profile, Location location, Interest interest, Integer pub_typ, String body){
+	public Publication(Profile profile, Location location, Interest interest, PubType pub_typ, String body){
 		this.profile   	= profile;
 		this.location	= location;
 		this.interest	= interest;
 		this.body	 	= body;
 		this.pub_typ	= pub_typ;
-		if(pub_typ == EVENT) {this.status = INACTIVE;}
+		if(MupiParams.PubType.EVENT == pub_typ || MupiParams.PubType.MUPI_EVENT == pub_typ) {this.status = INACTIVE;}
 		else this.status = ACTIVE;
 		this.created 	= new Date();
 		this.modified 	= new Date();
 	}
 	
-	public static Publication create(Profile profile, Location location, Interest interest, Integer pType, String body){
+	public static Publication create(Profile profile, Location location, Interest interest, PubType pType, String body){
 		Publication pub = new Publication(profile, location, interest, pType, body);
 		pub.save();
 		NotificationBucket.updateBucket(pub, profile);
@@ -344,7 +345,7 @@ public class Publication extends Model {
 		return comments;
 	}
 
-	public Integer getPub_typ() {
+	public MupiParams.PubType getPub_typ() {
 		return pub_typ;
 	}
 
@@ -384,7 +385,7 @@ public class Publication extends Model {
 		this.comments = comments;
 	}
 
-	public void setPub_typ(Integer pub_typ) {
+	public void setPub_typ(MupiParams.PubType pub_typ) {
 		this.pub_typ = pub_typ;
 	}
 

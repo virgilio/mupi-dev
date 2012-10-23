@@ -20,72 +20,76 @@
 </span>
 
 <div class="hide" id="input_publication" >
-  <form id="pub_form">
+  
 		<div id="body_publication_toolbar">
-	      <div class="header_editor">
-	        <ul class="commands">
-	          <li data-wysihtml5-command="bold" title="Texto em negrito (Ctrl + B)" class="command"></li>
-	          <li data-wysihtml5-command="italic" title="Texto em itálico (Ctrl + I)" class="command"></li>
-	          <li data-wysihtml5-command="insertUnorderedList" title="Inserir lista não ordenada" class="command"></li>
-	          <li data-wysihtml5-command="insertOrderedList" title="Inserir lista ordenada" class="command"></li>
-	          <li data-wysihtml5-command="createLink" title="Inserir link" class="command"></li>
-	          <li data-wysihtml5-command="insertImage" title="Inserir imagem" class="command"></li>
-	          <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" title="Inserir título 1" class="command"></li>
-	          <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" title="Inserir título 2" class="command"></li>
-	        </ul>
-	      </div>
-	      <div data-wysihtml5-dialog="createLink" style="display: none;">
-	        <label>
-	          Link:
-	          <input data-wysihtml5-dialog-field="href" value="http://">
-	        </label>
-	        <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
-	      </div>
-	
-	      <div data-wysihtml5-dialog="insertImage" style="display: none;">
-	        <label>
-	          Image:
-	          <input data-wysihtml5-dialog-field="src" value="http://">
-	        </label>
-	        <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
-	      </div>
+	    <div class="header_editor">
+	      <ul class="commands">
+	        <li data-wysihtml5-command="bold" title="Texto em negrito (Ctrl + B)" class="command"></li>
+	        <li data-wysihtml5-command="italic" title="Texto em itálico (Ctrl + I)" class="command"></li>
+	        <li data-wysihtml5-command="insertUnorderedList" title="Inserir lista não ordenada" class="command"></li>
+	        <li data-wysihtml5-command="insertOrderedList" title="Inserir lista ordenada" class="command"></li>
+	        <li data-wysihtml5-command="createLink" title="Inserir link" class="command"></li>
+	        <li data-wysihtml5-command="insertImage" title="Inserir imagem" class="command"></li>
+	        <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" title="Inserir título 1" class="command"></li>
+	        <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" title="Inserir título 2" class="command"></li>
+	      </ul>
 	    </div>
-	    <textarea id="body_publication" spellcheck="false" wrap="off" name="body" autofocus placeholder="Digite sua publicação..."></textarea>
+	    <div data-wysihtml5-dialog="createLink" style="display: none;">
+	      <label>
+	        Link: <input data-wysihtml5-dialog-field="href" value="http://">
+	      </label>
+	      <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+	    </div>
 	
-		  <script>
-				var editor = new wysihtml5.Editor("body_publication", { // id of textarea element
-				  toolbar:      "body_publication_toolbar", // id of toolbar element
-				  parserRules:  wysihtml5ParserRules // defined in parser rules set 
-				});
-		    var iframeResizer = function() {
-		         editor.composer.iframe.scrolling = "no";
-		         editor.composer.iframe.style.height = editor.composer.element.scrollHeight + "px";
-		     }
-		     editor.on("load", function() {
-		       editor.composer.element.addEventListener("keyup", iframeResizer, false);
-		       editor.composer.element.addEventListener("blur", iframeResizer, false);
-		       editor.composer.element.addEventListener("focus", iframeResizer, false);
-		     })
-		  </script>
-		   <span class="btns">
-            <span>Publicando em <i class="icon-star"></i>
-              <select name='interest' id="interest_publication">
-                <option @if(interest == null){selected="selected"} value='-1'>Escolha o interesse</option>
-                            @for(i <- interests){
-                              <option value="@i.getId" @if(i == interest){selected="selected"}>@i.getName</option>
-                            }
-                          </select>
-                     <i class="icon-map-marker"></i>
-                    <select name='location' id="location_publication">
-                      <option @if(location == null){selected="selected"}value='-1'>Escolha a localização</option>
-                            @for(l <- locations){
-                        <option value="@l.getId" @if(l == location){selected="selected"}>@l.getName</option>
-                      }
-              </select>
-            </span>
-            <input type="submit" id="btn_publish" class="btns_publication" value="Publicar">
-          </span>
+	    <div data-wysihtml5-dialog="insertImage" style="display: none;">
+	      <label>
+	          Image: <input data-wysihtml5-dialog-field="src" value="http://"/>
+	      </label>
+	      <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+	    </div>
+	  </div>
+	    
+	  <form id="pub_form">
+	    <textarea id="body_publication" spellcheck="false" wrap="off" name="body" autofocus placeholder="Digite sua publicação..."></textarea>
+		  <span class="btns">
+        <span>Publicando em 
+          <i class="icon-star"></i>
+            <select name='interest' id="interest_publication">
+	            <option @if(interest == null){selected="selected"} value='-1'>Escolha o interesse</option>
+	            @for(i <- interests){
+	              <option value="@i.getId" @if(i == interest){selected="selected"}>@i.getName</option>
+	            }
+            </select>
+            <i class="icon-map-marker"></i>
+            <select name='location' id="location_publication">
+              <option @if(location == null){selected="selected"}value='-1'>Escolha a localização</option>
+              @for(l <- locations){
+                <option value="@l.getId" @if(l == location){selected="selected"}>@l.getName</option>
+              }
+            </select>
+        </span>
+        
+        <input type="hidden" name="pub_typ" value="0"/>
+        
+        <input type="submit" id="btn_publish" class="btns_publication" value="Publicar">
+      </span>
 	  </form>
+	  
+	  <script>
+        var editor = new wysihtml5.Editor("body_publication", { // id of textarea element
+          toolbar:      "body_publication_toolbar", // id of toolbar element
+          parserRules:  wysihtml5ParserRules // defined in parser rules set 
+        });
+        var iframeResizer = function() {
+             editor.composer.iframe.scrolling = "no";
+             editor.composer.iframe.style.height = editor.composer.element.scrollHeight + "px";
+         }
+         editor.on("load", function() {
+           editor.composer.element.addEventListener("keyup", iframeResizer, false);
+           editor.composer.element.addEventListener("blur", iframeResizer, false);
+           editor.composer.element.addEventListener("focus", iframeResizer, false);
+         })
+      </script>
 </div>
 
 <div id="preview_publication" class="modal fade hide">

@@ -37,4 +37,23 @@ public class MupiParams {
   public static enum NotificationLevel {
       NONE, SIMPLE, NORMAL, ALL          
   }
+  
+  public static enum PubType {
+    DISCUSSION, 
+    EVENT, 
+    QUESTION, 
+    IDEA,
+    MUPI_EVENT;
+    
+    static public PubType get(int id){
+      for(PubType typ : PubType.values()){
+        if(typ.ordinal() == id) return typ;
+      }
+      return null;
+    }
+    
+    public boolean compareTo(int id){
+      return get(id) != null;
+    }
+  }
 }

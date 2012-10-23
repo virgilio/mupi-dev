@@ -169,7 +169,7 @@ public class Mupi extends Controller {
         //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
         NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
       }
-      if(pub.getPub_typ() == models.Publication.EVENT)
+      if(pub.getPub_typ() == conf.MupiParams.PubType.EVENT)
         return promotion(Promotion.getByPublicationId(id).getId());
       else
         return ok(publicationSingle.render(pub));

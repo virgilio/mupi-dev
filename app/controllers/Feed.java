@@ -45,6 +45,7 @@ import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 
 import conf.MupiParams;
+import conf.MupiParams.PubType;
 
 import org.jsoup.*;
 import org.jsoup.safety.Whitelist;
@@ -52,8 +53,8 @@ import org.jsoup.safety.Whitelist;
 
 
 public class Feed extends Controller {
-  private static final Form<utils.MeetUpPromotion> PROMOTE_MEETUP_FORM = form(utils.MeetUpPromotion.class);
-  private static final Form<utils.MeetUpHosting> HOST_MEETUP_FORM = form(utils.MeetUpHosting.class);
+  private static final Form<utils.QueryBinder.MeetUpPromotion> PROMOTE_MEETUP_FORM = form(utils.QueryBinder.MeetUpPromotion.class);
+  private static final Form<utils.QueryBinder.MeetUpHosting> HOST_MEETUP_FORM = form(utils.QueryBinder.MeetUpHosting.class);
   private static final Form<models.Promotion> PROMOTION_FORM = form(models.Promotion.class);
 
   @Restrict(Mupi.USER_ROLE)
@@ -100,7 +101,7 @@ public class Feed extends Controller {
 
   @Dynamic("editor")
   public static Result hostMeetUp(){
-    final Form<utils.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
+    final Form<utils.QueryBinder.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.getProfile();
     String lastName = p.getLastName(); if(lastName == null) lastName = "";
@@ -135,7 +136,7 @@ public class Feed extends Controller {
 
   @Dynamic("editor")
   public static Result promoteMeetUp(){
-    final Form<utils.MeetUpPromotion> filledForm = PROMOTE_MEETUP_FORM.bindFromRequest();
+    final Form<utils.QueryBinder.MeetUpPromotion> filledForm = PROMOTE_MEETUP_FORM.bindFromRequest();
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.getProfile();
     String lastName = p.getLastName();
@@ -189,11 +190,18 @@ public class Feed extends Controller {
 
     Publication pub = models.Publication.find.byId(id);
     
-    if(pub.getProfile().getId() == p.getId() && pub.getPub_typ() == models.Publication.PUBLICATION){
+    if(pub.getProfile().getId() == p.getId() && (
+        pub.getPub_typ() == conf.MupiParams.PubType.DISCUSSION ||
+        pub.getPub_typ() == conf.MupiParams.PubType.IDEA ||
+        pub.getPub_typ() == conf.MupiParams.PubType.QUESTION
+      )
+    ){
       models.Publication.unpublish(id);
       return AjaxResponse.build(0, "Publicação removida!");
-    } else if(pub.getProfile().getId() == p.getId() && pub.getPub_typ() == models.Publication.EVENT) {
-      return AjaxResponse.build(2, "Esta publicação pertenceà um evento! Você não pode removê-la!");
+    } else if(pub.getProfile().getId() == p.getId() && pub.getPub_typ() == MupiParams.PubType.EVENT) {
+      return AjaxResponse.build(2, "Esta publicação pertence à um evento! Você não pode removê-la!");
+    } else if(pub.getProfile().getId() == p.getId() && pub.getPub_typ() == MupiParams.PubType.MUPI_EVENT) {
+      return AjaxResponse.build(2, "Esta publicação pertence à um evento Mupi! Você não pode removê-la!");
     } else {
       return AjaxResponse.build(4, "Esta publicação não é sua! Você não pode removê-la");
     }
@@ -234,22 +242,48 @@ public class Feed extends Controller {
     }
   }
 
+//  @Dynamic("editor")
+//  public static Result publish(String interest, String location, String body){
+//    Long l = getLocation(location);
+//    Long i = getInterest(interest);
+//
+//    if(i != null && l != null){
+//      final User u = Mupi.getLocalUser(session());
+//      final models.Profile p = u.profile;
+//
+//      String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank").addTags("h1", "h2"));
+//
+//      Publication.create(
+//          p,
+//          models.Location.find.byId(l),
+//          models.Interest.find.byId(i),
+//          models.Publication.PUBLICATION,
+//          safeBody);
+//    }
+//    return selectFeed(getLocalInterest(),getLocalLocation());
+//  }
+  
   @Dynamic("editor")
-  public static Result publish(String interest, String location, String body){
-    Long l = getLocation(location);
-    Long i = getInterest(interest);
+  public static Result publish(){
+    Form<utils.QueryBinder.PublicationBinder> bindedForm = form(utils.QueryBinder.PublicationBinder.class).bindFromRequest();
+     
+    Long l = bindedForm.get().location;
+    Long i = bindedForm.get().interest;
 
     if(i != null && l != null){
       final User u = Mupi.getLocalUser(session());
       final models.Profile p = u.profile;
 
-      String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank").addTags("h1", "h2"));
+      String safeBody = Jsoup.clean(
+          bindedForm.get().body, 
+          Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank").addTags("h1", "h2")
+      );
 
       Publication.create(
           p,
           models.Location.find.byId(l),
           models.Interest.find.byId(i),
-          models.Publication.PUBLICATION,
+          PubType.get(bindedForm.get().pub_typ),
           safeBody);
     }
     return selectFeed(getLocalInterest(),getLocalLocation());

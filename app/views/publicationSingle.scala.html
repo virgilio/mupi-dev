@@ -41,7 +41,7 @@
 				    <span class="pub_loc"><i class="icon-map-marker"></i> @publication.getLocation.getName</span>	
 				    <span class="pub_int"><i class="icon-star"></i> @publication.getInterest.getName</span>
 				  </p>
-				  @if(Mupi.getLocalUser(session()).getProfile.getId == publication.getProfile.getId && publication.getPub_typ == models.Publication.PUBLICATION){
+				  @if(Mupi.getLocalUser(session()).getProfile.getId == publication.getProfile.getId && publication.getPub_typ == conf.MupiParams.PubType.DISCUSSION.ordinal){
 		        <button type="button" class="remove_publication">excluir publicação</button>
 		      }
 			  </div>

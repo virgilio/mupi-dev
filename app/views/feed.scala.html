@@ -7,8 +7,8 @@
   publications: Page[models.Publication],
   promotions: Page[models.Promotion],
   promoteForm: Form[models.Promotion],
-  promoteMeetupForm: Form[utils.MeetUpPromotion],
-  hostMeetupForm: Form[utils.MeetUpHosting]
+  promoteMeetupForm: Form[utils.QueryBinder.MeetUpPromotion],
+  hostMeetupForm: Form[utils.QueryBinder.MeetUpHosting]
 )
 
 @import com.feth.play.module.pa.views.html._

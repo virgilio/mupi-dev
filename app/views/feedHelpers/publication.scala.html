@@ -6,7 +6,7 @@
 @publisherPic = @{"profile/picture/thumb" + pub.getProfile.getPicture}
 
 <div class="publication" pub_id="@pub.getId">
-  @if(pub.getPub_typ == 0){
+  @if(pub.getPub_typ.ordinal == 0){
 	  <div class="profile-thumb mupi_thumbs">
 		  <div class="fix_img">
 		    <img src="@routes.Mupi.at(publisherPic)" />
@@ -39,7 +39,11 @@
 	  	  <i class="icon-plus-sign"></i>
 		  </a>
 		  
-		  @if(Mupi.getLocalUser(session()).getProfile.getId == pub.getProfile.getId && pub.getPub_typ == models.Publication.PUBLICATION){
+		  @if(Mupi.getLocalUser(session()).getProfile.getId == pub.getProfile.getId && (
+		        pub.getPub_typ == conf.MupiParams.PubType.DISCUSSION ||
+		        pub.getPub_typ == conf.MupiParams.PubType.QUESTION ||
+		        pub.getPub_typ == conf.MupiParams.PubType.IDEA
+		  )){
         <button type="button" class="remove_publication">excluir publicação</button>
 		  }
 		  

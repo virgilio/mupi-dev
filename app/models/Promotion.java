@@ -18,6 +18,7 @@ import play.db.ebean.Model;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Page;
 
+import conf.MupiParams.PubType;
 import controllers.Mupi;
 import controllers.routes;
 
@@ -95,7 +96,7 @@ public class Promotion extends Model {
         profile, 
         location, 
         interest, 
-        models.Publication.EVENT, 
+        PubType.EVENT, 
         publicationBody);
     try {
       Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);

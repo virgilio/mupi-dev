@@ -2,8 +2,8 @@
   promotionsPage: Page[models.Promotion], 
   interest: models.Interest,
   location: models.Location,
-  promoteMeetupForm: Form[utils.MeetUpPromotion],
-  hostMeetupForm: Form[utils.MeetUpHosting]
+  promoteMeetupForm: Form[utils.QueryBinder.MeetUpPromotion],
+  hostMeetupForm: Form[utils.QueryBinder.MeetUpHosting]
 )
 
 @promotions = @{promotionsPage.getList}

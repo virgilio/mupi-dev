@@ -45,7 +45,8 @@ GET   /assets/*file             controllers.Assets.at(path="/public", file)
 # FEED
 GET   /feed/reset               controllers.Feed.resetFeed()
 POST  /feed/select/:i/:l        controllers.Feed.selectFeed(i: Long, l: Long)
-POST  /feed/publish/:i/:l/:t    controllers.Feed.publish(i:String, l: String, t: String)
+#POST  /feed/publish/:i/:l/:t    controllers.Feed.publish(i:String, l: String, t: String)
+POST   /feed/publish            controllers.Feed.publish
 POST  /feed/comment/:t/:p       controllers.Feed.comment(t: String, p: Long)
 POST  /feed/promote/event       controllers.Feed.promote
 POST  /feed/promote/meetup      controllers.Feed.promoteMeetUp

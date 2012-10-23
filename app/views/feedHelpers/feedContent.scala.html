@@ -6,8 +6,8 @@
   selectedi: models.Interest = null,
   selectedl: models.Location = null,
   promoteForm: Form[models.Promotion],
-  promoteMeetupForm: Form[utils.MeetUpPromotion],
-  hostMeetupForm: Form[utils.MeetUpHosting]
+  promoteMeetupForm: Form[utils.QueryBinder.MeetUpPromotion],
+  hostMeetupForm: Form[utils.QueryBinder.MeetUpHosting]
 )
 
 <script type="text/javascript" src="@routes.Assets.at("javascripts/feedPaginate.js")"></script>
