@@ -187,7 +187,7 @@ public class Mupi extends Controller {
 
   public static Result promotion(Long id) {
       Publication pub = models.Promotion.find.byId(id).getPublication();
-      if(pub.getStatus() == models.Publication.ACTIVE){
+      if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
         final User user = getLocalUser(session());
         if(user != null) NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
         
@@ -201,7 +201,7 @@ public class Mupi extends Controller {
     
   public static Result publication(Long id) {
     Publication pub = models.Publication.find.byId(id);
-    if(pub.getStatus() == models.Publication.ACTIVE){
+    if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
       final User user = getLocalUser(session());
       if(user != null) NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
       
