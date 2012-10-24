@@ -18,6 +18,7 @@ import play.mvc.Results;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
+import utils.AjaxResponse;
 import views.html.about;
 import views.html.contact;
 import views.html.help;
@@ -29,10 +30,13 @@ import views.html.statistics;
 import views.html.terms;
 import views.html.promotion;
 import views.html.publicationSingle;
+import be.objectify.deadbolt.actions.Dynamic;
 import be.objectify.deadbolt.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
+import com.typesafe.plugin.MailerAPI;
+import com.typesafe.plugin.MailerPlugin;
 
 import conf.MupiParams;
 
@@ -97,12 +101,48 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Feed.nextPromotions(),
             controllers.routes.javascript.Feed.refreshPublications(),
             controllers.routes.javascript.Profile.suggestLocation(),
+            controllers.routes.javascript.Mupi.subscribeToMeetUp(),
             controllers.routes.javascript.Mupi.clearBucket(),
             controllers.routes.javascript.Feed.removeComment(),
             controllers.routes.javascript.Feed.removePublication()
         )).as("text/javascript");
   }
 
+  @Dynamic("editor")
+  public static Result subscribeToMeetUp(Long id){
+    final User u = Mupi.getLocalUser(session());
+    final models.Profile p = u.profile;
+    String lastName = p.getLastName();
+    if(lastName == null) lastName = "";
+    
+    Promotion prom = Promotion.find.byId(id);
+    
+    final String subject = "[EventoMupi][Participante] " + prom.getTitle();
+    final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") quer participar deste evento!";
+    
+    MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+    mail.setSubject( subject );
+    mail.addRecipient(MupiParams.SUBSCRIBE_TO_METUP_EMAIL);
+    mail.addFrom("noreply@mupi.me");
+    mail.setReplyTo("noreply@mupi.me");
+    mail.send( body );
+    
+    final String userSubject = "Inscrição em Evento Mupi: " + prom.getTitle();
+    final String userBody    = "" +
+    		"Olá " + p.getFirstName() + ",\n\n" +
+    				"Sua inscrição foi submetida. Em breve entraremos em contato com mais detalhes sobre o evento.\n\n\n" +
+    				"Atenciosamente,\n" +
+    				"Equipe Mupi";
+    
+    mail.setSubject( userSubject );
+    mail.addRecipient(u.email);
+    mail.addFrom("contato@mupi.me");
+    mail.setReplyTo("contato@mupi.me");
+    mail.send( userBody );
+    
+    return AjaxResponse.build(0, "Sua inscrição foi submetida. Logo entraremos em contato para mais informações.");
+  }
+  
   public static Result signup() {
     final User user = getLocalUser(session());
     if(user == null){
@@ -149,10 +189,8 @@ public class Mupi extends Controller {
       Publication pub = models.Promotion.find.byId(id).getPublication();
       if(pub.getStatus() == models.Publication.ACTIVE){
         final User user = getLocalUser(session());
-        if(user != null){
-          //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
-          NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
-        }
+        if(user != null) NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
+        
         return ok(promotion.render(models.Promotion.find.byId(id)));
       } else {
         flash(Mupi.FLASH_MESSAGE_KEY, "Esta divulgação não existe ou foi removida!");
@@ -165,11 +203,9 @@ public class Mupi extends Controller {
     Publication pub = models.Publication.find.byId(id);
     if(pub.getStatus() == models.Publication.ACTIVE){
       final User user = getLocalUser(session());
-      if(user != null){
-        //System.out.println("Reset bucket of: " + user.getProfile().getFirstName());
-        NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
-      }
-      if(pub.getPub_typ() == conf.MupiParams.PubType.EVENT)
+      if(user != null) NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
+      
+      if(pub.getPub_typ() == conf.MupiParams.PubType.EVENT || pub.getPub_typ() == conf.MupiParams.PubType.MUPI_EVENT)
         return promotion(Promotion.getByPublicationId(id).getId());
       else
         return ok(publicationSingle.render(pub));

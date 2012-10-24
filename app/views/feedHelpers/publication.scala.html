@@ -39,13 +39,15 @@
 	  	  <i class="icon-plus-sign"></i>
 		  </a>
 		  
-		  @if(Mupi.getLocalUser(session()).getProfile.getId == pub.getProfile.getId && (
-		        pub.getPub_typ == conf.MupiParams.PubType.DISCUSSION ||
-		        pub.getPub_typ == conf.MupiParams.PubType.QUESTION ||
-		        pub.getPub_typ == conf.MupiParams.PubType.IDEA
-		  )){
-        <button type="button" class="remove_publication">excluir publicação</button>
-		  }
+		  @** 
+			  @if(Mupi.getLocalUser(session()).getProfile.getId == pub.getProfile.getId && (
+			        pub.getPub_typ == conf.MupiParams.PubType.DISCUSSION ||
+			        pub.getPub_typ == conf.MupiParams.PubType.QUESTION ||
+			        pub.getPub_typ == conf.MupiParams.PubType.IDEA
+			  )){
+	        <button type="button" class="remove_publication">excluir publicação</button>
+			  }
+		  **@
 		  
 		  <p>@Html(pub.getBody)</p>
 	  </div>

@@ -132,7 +132,7 @@ public class Profile extends Controller {
 
     final String subject = p.getFirstName() + " " + lastName + " sugeriu uma cidade!!  Yayyy!!";
 
-    final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
+    final String body = "[Cidade][Sugestão] O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "sugeriu que a cidade " + city + " seja inserida ao banco de dados!";
 
     MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();

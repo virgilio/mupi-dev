@@ -78,6 +78,7 @@ POST  /interest/manager              controllers.Interest.doAddInterest
 # PROMOTIONS
 GET   /promotion/:id              controllers.Mupi.promotion(id: Long)
 POST  /promotion/comment/:t/:p    controllers.Feed.commentPublication(t: String, p: Long)
+POST  /promotion/subscribe/:id    controllers.Mupi.subscribeToMeetUp(id: Long)
 
 # NOTIFICATIONS
 POST  /notifications/clear  controllers.Mupi.clearBucket()

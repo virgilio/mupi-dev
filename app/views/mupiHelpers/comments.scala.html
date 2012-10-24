@@ -28,9 +28,12 @@
 
       <p>@Html(comment.getBody)</p>
   
-      @if(Mupi.getLocalUser(session()).getProfile.getId == comment.getProfile.getId){
+      @**
+      @if(Mupi.getLocalUser(session()) != null &&
+          Mupi.getLocalUser(session()).getProfile.getId == comment.getProfile.getId){
         <button type="button" class="remove_comment">x</button>
       }
+      **@
 
     </div>
   }

@@ -98,7 +98,6 @@ public class Feed extends Controller {
     }
   }
 
-
   @Dynamic("editor")
   public static Result hostMeetUp(){
     final Form<utils.QueryBinder.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
@@ -114,7 +113,7 @@ public class Feed extends Controller {
     if(getLocalLocation() != null && getLocalLocation() != -1)
       location = models.Location.find.byId(getLocalLocation()).getName();
 
-    final String subject = p.getFirstName() + " " + lastName + " quer receber encontros amiguinhos!  Yayyy!!";
+    final String subject = "[EventoMupi][Local] " + p.getFirstName() + " " + lastName + " quer receber encontros amiguinhos!  Yayyy!!";
 
     final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "quer receber encontros da seguinte comunidade:\n" +
@@ -129,6 +128,19 @@ public class Feed extends Controller {
     mail.addFrom("noreply@mupi.me");
     mail.setReplyTo("noreply@mupi.me");
     mail.send( body );
+    
+    final String userSubject = "Receber Evento Mupi";
+    final String userBody    = "Olá " + p.getFirstName() + ",\n\n" +
+        "Recebemos sua mensagem sobre o interesse em receber Eventos Mupi. Em breve entraremos em contato para os próximos passos.\n\n\n" +
+            "Atenciosamente,\n" +
+            "Equipe Mupi";
+        
+    mail.setSubject( userSubject );
+    mail.addRecipient(u.email);
+    mail.addFrom("contato@mupi.me");
+    mail.setReplyTo("contato@mupi.me");
+    mail.send( userBody );   
+    
 
     return redirect(routes.Feed.feed());
   }
@@ -151,7 +163,7 @@ public class Feed extends Controller {
     if(getLocalLocation() != null && getLocalLocation() != -1)
       location = models.Location.find.byId(getLocalLocation()).getName();
 
-    final String subject = p.getFirstName() + " " + lastName + " quer organizar um encontro amiguinhos!  Yayyy!!";
+    final String subject = "[EventoMupi][Sugestão] " + p.getFirstName() + " " + lastName + " quer organizar um encontro-mupi!";
 
     final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "quer organizar um encontro na seguinte comunidade:\n" +
@@ -166,6 +178,20 @@ public class Feed extends Controller {
     mail.addFrom("noreply@mupi.me");
     mail.setReplyTo("noreply@mupi.me");
     mail.send( body );
+    
+    
+    final String userSubject = "Sugestão de Evento Mupi: ";
+    final String userBody    = "Olá " + p.getFirstName() + ",\n\n" +
+        "Recebemos sua mensagem sobre um Evento Mupi. Em breve entraremos em contato para os próximos passos.\n\n\n" +
+            "Atenciosamente,\n" +
+            "Equipe Mupi";
+        
+    mail.setSubject( userSubject );
+    mail.addRecipient(u.email);
+    mail.addFrom("contato@mupi.me");
+    mail.setReplyTo("contato@mupi.me");
+    mail.send( userBody );   
+    
 
     return redirect(routes.Feed.feed());
   }
@@ -242,27 +268,6 @@ public class Feed extends Controller {
     }
   }
 
-//  @Dynamic("editor")
-//  public static Result publish(String interest, String location, String body){
-//    Long l = getLocation(location);
-//    Long i = getInterest(interest);
-//
-//    if(i != null && l != null){
-//      final User u = Mupi.getLocalUser(session());
-//      final models.Profile p = u.profile;
-//
-//      String safeBody = Jsoup.clean(body, Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank").addTags("h1", "h2"));
-//
-//      Publication.create(
-//          p,
-//          models.Location.find.byId(l),
-//          models.Interest.find.byId(i),
-//          models.Publication.PUBLICATION,
-//          safeBody);
-//    }
-//    return selectFeed(getLocalInterest(),getLocalLocation());
-//  }
-  
   @Dynamic("editor")
   public static Result publish(){
     Form<utils.QueryBinder.PublicationBinder> bindedForm = form(utils.QueryBinder.PublicationBinder.class).bindFromRequest();
@@ -552,7 +557,6 @@ public class Feed extends Controller {
       e.printStackTrace();
       return null;
     }
-
   }
   
   private static String textWithLinks(String text) {

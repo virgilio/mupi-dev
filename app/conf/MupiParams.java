@@ -12,6 +12,7 @@ public class MupiParams {
   public static final String LOCATION_SUGGESTION_EMAIL = "contato@mupi.me";
   public static final String PROMOTE_MEETUP_EMAIL      = "contato@mupi.me";
   public static final String HOST_MEETUP_EMAIL         = "contato@mupi.me";
+  public static final String SUBSCRIBE_TO_METUP_EMAIL  = "contato@mupi.me";
 
   // Directories
   public static final String UPLOAD_ROOT    = conf.getString("upload.path");
