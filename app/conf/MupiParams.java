@@ -54,7 +54,7 @@ public class MupiParams {
     }
     
     public boolean compareTo(int id){
-      return get(id) != null;
+      return get(id) == this;
     }
   }
 }
