@@ -1,8 +1,9 @@
-@(verificationUrl: String, token: String, name: String, email: String)Howdy @name, 
+@(verificationUrl: String, token: String, name: String, email: String)Olá @name, 
 
 
-To verify your e-mail address, follow this link now:
-@verificationUrl
+  Para autenticar seu e-mail siga este link
+  @verificationUrl
 
-Cheers,
-The PlayAuthenticate Team
+
+  Atenciosamente, 
+  Equipe mupi
