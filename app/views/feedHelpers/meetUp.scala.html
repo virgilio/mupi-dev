@@ -6,11 +6,9 @@
 	<a class="meetup" href="@routes.Mupi.promotion(prom.getId)" prom_id="@prom.getId"> 
 		<div class="radius_overflow_fix">
 		  <div class="meetup_title_shadow"></div>
-		  <img src="@routes.Mupi.at(publisherPic)" /> 
-		  <span 
-		  
-		  >@prom.getTitle</span>
-		  <div class="meetup_date">
+		  <img class="meetup_img" src="@routes.Mupi.at(publisherPic)" /> 
+		  <span>@prom.getTitle</span>
+		  <div class="meetup_date meetup_info">
 		    <p>
 		      <i class="icon-calendar"></i> @prom.getDate.format("dd") de @prom.getDate.format("MMMM") de @prom.getDate.format("yyyy")
 		    </p>
@@ -23,12 +21,13 @@
 		  </div>
 	  </div>
 	</a>
+	<span class="num_subscribers meetup_info"><i class="icon-group"></i> 10 confirmados</span>
 
 	@if(prom.getPublication.getPub_typ.compareTo(4)){
-	  <div class="background-meetup">
-		  <button class="meetUp_subscription">Quero ir!</button>
-		  <div class="mini_logo"></div>
-		  <div class="subscribe_shadow"></div>
-	  </div>
+
+		  <button class="meetUp_subscription meetup_info" title="Fazer inscrição">Quero ir!</button>
+		  <div class="mini_logo" title="Evento Mupi!"></div>
+		  <div class="subscribe_shadow meetup_info"></div>
+
 	}
 </div>

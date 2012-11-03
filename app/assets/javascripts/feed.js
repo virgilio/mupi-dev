@@ -127,6 +127,14 @@ jQuery(function(){
 
 	});
 	
+	jQuery(".meetup_box").live('mouseenter', function(event){
+		jQuery(this).find('.meetup_img').css({'opacity':'0.3'});
+		jQuery(this).find('.meetup_info').fadeIn();
+	});
+	jQuery(".meetup_box").on('mouseleave', function(event){
+		jQuery(this).find('.meetup_img').css({'opacity':'1'});
+		jQuery(this).find('.meetup_info').hide();
+	});
 	
 	jQuery('.meetUp_subscription').live('click', function(){
 		jsRoutes.controllers.Mupi.subscribeToMeetUp(jQuery(this).prev('.meetup').attr('prom_id')).ajax({

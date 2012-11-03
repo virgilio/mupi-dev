@@ -477,7 +477,8 @@ ul.wysihtml5-toolbar > li{
 }
 
 .meetup, .meetup:hover {
-	background: #CCC;
+	background: white;
+	color: black;
 	height: 140px;
 	width: 360px;
 	border-radius: 8px;
@@ -524,7 +525,6 @@ ul.wysihtml5-toolbar > li{
 }
 .meetup .meetup_date {
 	position: absolute;
-	background: rgba(256, 256, 256, 0.8);
 	border-radius: 4px;
 	bottom: 10px;
 	left: 10px;
@@ -551,16 +551,6 @@ ul.wysihtml5-toolbar > li{
 	position: absolute;
 	top: 50px;
 	left: -9px;
-	z-index: 2;
-}
-.subscribe_shadow{
-	background: url('../img/eventspanshadow.png') 0 0 no-repeat;
-	width: 10px;
-	height: 4px;
-	position: absolute;
-	background-position: right center;
-	top: 90px;
-	right: -9px;
 	z-index: 2;
 }
 .btn_promote {
@@ -591,24 +581,49 @@ ul.wysihtml5-toolbar > li{
 	margin: 0 auto;
 	width: 300px;
 }
+.meetup_info{
+	display: none;
+}
+
 .meetUp_subscription{
 	position: absolute;
-	right: -9px;
+	right: -28px;
 	bottom: 50px;
 	border: none;
 	border-radius: 3px 0 0 3px;
-	background: white;
+	color: white;
 	padding: 5px 10px;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 	text-transform: uppercase;
-	color: #3794ED;
+	background-color: #3794ED;
 	font-weight: bold;
+}
+.meetUp_subscription:hover{
+	background-color: #33A847;
+}
+.num_subscribers{
+	position: absolute;
+    right: -19px;
+    top: 0;
+    font-weight: bold;
+    padding: 0 5px;
+}
+.subscribe_shadow{
+	background: url('../img/eventspanshadow.png') 0 0 no-repeat;
+	width: 10px;
+	height: 4px;
+	position: absolute;
+	background-position: right center;
+	top: 90px;
+	right: -28px;
+	z-index: 2;
 }
 .mini_logo{
 	position: absolute;
 	background: url('../img/logominitrans.png') 0 0 no-repeat;
 	width: 30px;
 	height: 30px;
-	right: 6px;
+	right: -14px;
 	bottom: 6px;
 }
 #feeds{
