@@ -135,33 +135,6 @@ jQuery(function(){
 		jQuery(this).find('.meetup_img').css({'opacity':'1'});
 		jQuery(this).find('.meetup_info').hide();
 	});
-	
-	jQuery('.meetUp_subscription').live('click', function(){
-		jsRoutes.controllers.Mupi.subscribeToMeetUp(jQuery(this).prev('.meetup').attr('prom_id')).ajax({
-				success : function(data) {
-					var response = data.split("||");
-					if(response[0] == 0) {
-						jQuery('.page-alert').html("<div class='alert hide'> </div>");
-						jQuery('.page-alert > .alert')
-						.addClass('alert-success')
-						.html(response[1]);
-					}else{
-						jQuery('.page-alert').html("<div class='alert hide'> </div>");
-						jQuery('.page-alert > .alert')
-						.addClass('alert-error')
-						.html(response[1]);
-					}
-				},
-				error : function() {
-					jQuery('.page-alert').html("<div class='alert hide'> </div>");
-					jQuery('.page-alert > .alert')
-					.addClass('alert-error')
-					.html("Erro no servidor, por favor tente novamente mais tarde");
-
-				}
-		});
-	});
-	
 
 	var loadFeed = function(i, l, p){
 		return {

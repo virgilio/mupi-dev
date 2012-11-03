@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -79,7 +80,8 @@ public class User extends Model implements RoleHolder {
 	@ManyToMany
 	public List<UserPermission> permissions;
 
-
+	@ManyToMany(cascade = CascadeType.ALL)
+  private List<Promotion> subscriptions = new ArrayList<Promotion>();
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	public Profile profile;

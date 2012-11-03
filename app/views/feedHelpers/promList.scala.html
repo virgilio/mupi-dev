@@ -1,5 +1,7 @@
 @(promotions: List[models.Promotion])
 
+<script type="text/javascript" src="@routes.Assets.at("javascripts/promotions.js")"></script>
+
 @for(prom <- promotions){
   @meetUp(prom)
 }

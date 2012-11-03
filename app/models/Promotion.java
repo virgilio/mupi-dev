@@ -1,11 +1,15 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -54,7 +58,6 @@ public class Promotion extends Model {
   @Column(columnDefinition = "TEXT")
   private String description;
 
-
   private String picture;
 
   @URL
@@ -62,6 +65,16 @@ public class Promotion extends Model {
 
   private Integer status = INACTIVE;
 
+  /* CHANGED */
+    private Integer quorum;
+    
+    private Integer subscriptionsLimit;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<User> subscribers = new ArrayList<User>();
+
+    private Double cost;
+  /* CHANGED */
 
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date created;
@@ -72,8 +85,8 @@ public class Promotion extends Model {
   public static final Finder<Long, Promotion> find = new Finder<Long, Promotion>(
       Long.class, Promotion.class);
 
-  public Promotion(Publication publication, String title, String address,
-      Date date, Date time, String description, String picture, String link) {
+  public Promotion(Publication publication, String title, String address, Date date, Date time, String description,
+       String picture, String link, Integer quorum, Integer subscriptionsLimit, Double cost) {
     this.publication = publication;
     this.title = title;
     this.address = address;
@@ -83,23 +96,37 @@ public class Promotion extends Model {
     this.picture = picture;
     this.status = INACTIVE;
     this.link = link;
+    this.quorum = quorum;
+    this.subscriptionsLimit = subscriptionsLimit;
+    this.cost = cost;
     this.created = new Date();
     this.modified = new Date();
   }
+  
+  public static void subscribeToEvent(User user, Promotion prom){
+    prom.addSubscriber(user);
+    prom.update();
+  }
 
-  public static void create(Profile profile, Location location, Interest interest, 
-      String title, String address, Date date, Date time, String description, String link, String image) {
-
+  public static void unsubscribeFromEvent(User user, Promotion prom){
+    prom.removeSubscriber(user);
+    prom.update();
+  }
+  
+  public static void create(Profile profile, Location location, Interest interest, String title, String address, Date date,
+       Date time, String description, String link, String image, PubType pub_typ, Integer quorum, Integer subscriptionsLimit, Double cost) {
     String publicationBody = "O evento " + title + " foi divulgado por ";
-    
+    if(pub_typ.compareTo(PubType.MUPI_EVENT) == 0){
+      publicationBody = "O evento mupi" + title + " foi divulgado por ";
+    }
     Publication pub = Publication.create(
         profile, 
         location, 
         interest, 
-        PubType.EVENT, 
+        pub_typ, 
         publicationBody);
     try {
-      Promotion prom = new Promotion(pub, title, address, date, time, description, image, link);
+      Promotion prom = new Promotion(pub, title, address, date, time, description, image, link, quorum, subscriptionsLimit, cost);
       prom.save();
       NotificationBucket.updateBucket(pub, profile);
     }catch (Exception e) {
@@ -108,19 +135,19 @@ public class Promotion extends Model {
     }
   }
 
-  public static void update(Long id, String title, String address, Date date,
-      String description, String picture) {
-    Promotion prom = find.byId(id);
-    if (prom != null) {
-      prom.setTitle(title);
-      prom.setAddress(address);
-      prom.setDate(date);
-      prom.setDescription(description);
-      prom.setPicture(picture);
-      prom.setModified(new Date());
-      prom.update();
-    }
-  }
+//  public static void update(Long id, String title, String address, Date date,
+//      String description, String picture) {
+//    Promotion prom = find.byId(id);
+//    if (prom != null) {
+//      prom.setTitle(title);
+//      prom.setAddress(address);
+//      prom.setDate(date);
+//      prom.setDescription(description);
+//      prom.setPicture(picture);
+//      prom.setModified(new Date());
+//      prom.update();
+//    }
+//  }
 
   public static void unpublish(Long id) {
     Promotion prom = find.byId(id);
@@ -331,6 +358,38 @@ public class Promotion extends Model {
     return modified;
   }
 
+  public Integer getQuorum() {
+    return quorum;
+  }
+
+  public void setQuorum(Integer quorum) {
+    this.quorum = quorum;
+  }
+
+  public Integer getSubscriptionsLimit() {
+    return subscriptionsLimit;
+  }
+
+  public void setSubscriptionsLimit(Integer subscriptionsLimit) {
+    this.subscriptionsLimit = subscriptionsLimit;
+  }
+
+  public List<User> getSubscribers() {
+    return subscribers;
+  }
+
+  public void setSubscribers(List<User> subscribers) {
+    this.subscribers = subscribers;
+  }
+
+  public Double getCost() {
+    return cost;
+  }
+
+  public void setCost(Double cost) {
+    this.cost = cost;
+  }
+
   public void setId(Long id) {
     this.id = id;
   }
@@ -379,6 +438,12 @@ public class Promotion extends Model {
     this.modified = modified;
   }
 
-
+  public void addSubscriber(User user) {
+    this.subscribers.add(user);
+  }
+  
+  public void removeSubscriber(User user) {
+    this.subscribers.remove(user);
+  }
 
 }

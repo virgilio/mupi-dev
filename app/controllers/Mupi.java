@@ -4,41 +4,40 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import models.NotificationBucket;
 import models.Promotion;
 import models.Publication;
 import models.User;
-import models.NotificationBucket;
 import play.Routes;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
 import play.mvc.Result;
-import play.mvc.Results;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import utils.AjaxResponse;
+import utils.AssyncEmailSender;
 import views.html.about;
 import views.html.contact;
 import views.html.help;
 import views.html.index;
 import views.html.media;
 import views.html.privacyPolicies;
+import views.html.promotion;
+import views.html.publicationSingle;
 import views.html.signup;
 import views.html.statistics;
 import views.html.terms;
-import views.html.promotion;
-import views.html.publicationSingle;
 import be.objectify.deadbolt.actions.Dynamic;
 import be.objectify.deadbolt.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
-import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
 
 import conf.MupiParams;
+import conf.MupiParams.PubType;
 
 public class Mupi extends Controller {
 
@@ -102,6 +101,7 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Feed.refreshPublications(),
             controllers.routes.javascript.Profile.suggestLocation(),
             controllers.routes.javascript.Mupi.subscribeToMeetUp(),
+            controllers.routes.javascript.Mupi.unsubscribeFromMeetUp(),
             controllers.routes.javascript.Mupi.clearBucket(),
             controllers.routes.javascript.Feed.removeComment(),
             controllers.routes.javascript.Feed.removePublication()
@@ -117,30 +117,77 @@ public class Mupi extends Controller {
     
     Promotion prom = Promotion.find.byId(id);
     
-    final String subject = "[EventoMupi][Participante] " + prom.getTitle();
-    final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") quer participar deste evento!";
+    if(prom.getSubscribers().contains(u)){
+      return AjaxResponse.build(4, "Você já se inscreveu neste Evento!");
+    } else{
+      if(prom.getPublication().getPub_typ().compareTo(PubType.MUPI_EVENT) == 0){
+        final String subject = "[EventoMupi][Participante] " + prom.getTitle();
+        final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") quer participar deste evento!";
+        final String from = "noreply@mupi.me";
+        final String to   = MupiParams.SUBSCRIBE_TO_METUP_EMAIL;
+        final String replyTo = "noreply@mupi.me";
+                
+        new AssyncEmailSender(subject, body, from, replyTo, to).send();
+        
+        final String userSubject = "Inscrição em Evento Mupi: " + prom.getTitle();
+        final String userBody    = "" +
+        		"Olá " + p.getFirstName() + ",\n\n" +
+        				"Sua inscrição foi submetida. Em breve entraremos em contato com mais detalhes sobre o evento.\n\n\n" +
+        				"Atenciosamente,\n" +
+        				"Equipe Mupi";
+        final String userFrom = "contato@mupi.me";
+        final String userTo   = u.email;
+        final String userReplyTo = "contato@mupi.me";
+        
+        new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
+        
+        return AjaxResponse.build(2, "Sua inscrição foi submetida. Logo entraremos em contato para mais informações.");
+      } else{
+        models.Promotion.subscribeToEvent(u, prom);
+        return AjaxResponse.build(0, "Acompanhe na página do evento quem também confirmou presença!");
+      }
+    }
+  }
+  
+  @Dynamic("editor")
+  public static Result unsubscribeFromMeetUp(Long id){
+    final User u = Mupi.getLocalUser(session());
+    final models.Profile p = u.profile;
+    String lastName = p.getLastName();
+    if(lastName == null) lastName = "";
     
-    MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-    mail.setSubject( subject );
-    mail.addRecipient(MupiParams.SUBSCRIBE_TO_METUP_EMAIL);
-    mail.addFrom("noreply@mupi.me");
-    mail.setReplyTo("noreply@mupi.me");
-    mail.send( body );
+    Promotion prom = Promotion.find.byId(id);
     
-    final String userSubject = "Inscrição em Evento Mupi: " + prom.getTitle();
-    final String userBody    = "" +
-    		"Olá " + p.getFirstName() + ",\n\n" +
-    				"Sua inscrição foi submetida. Em breve entraremos em contato com mais detalhes sobre o evento.\n\n\n" +
-    				"Atenciosamente,\n" +
-    				"Equipe Mupi";
-    
-    mail.setSubject( userSubject );
-    mail.addRecipient(u.email);
-    mail.addFrom("contato@mupi.me");
-    mail.setReplyTo("contato@mupi.me");
-    mail.send( userBody );
-    
-    return AjaxResponse.build(0, "Sua inscrição foi submetida. Logo entraremos em contato para mais informações.");
+    if(!prom.getSubscribers().contains(u)){
+      return AjaxResponse.build(0, "Você ainda não está inscrito neste evento neste Evento!");
+    } else{
+      if(prom.getPublication().getPub_typ().compareTo(PubType.MUPI_EVENT) == 0){
+        final String subject = "[EventoMupi][Participante][Cancelamento] " + prom.getTitle();
+        final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") não quer mais participar deste evento. Por favor, entre em contato com ele.";
+        final String from = "noreply@mupi.me";
+        final String to   = MupiParams.SUBSCRIBE_TO_METUP_EMAIL;
+        final String replyTo = "noreply@mupi.me";
+        
+        new AssyncEmailSender(subject, body, from, replyTo, to).send(); 
+        
+        final String userSubject = "Cancelamento de inscrição em Evento Mupi: " + prom.getTitle();
+        final String userBody    = "" +
+            "Olá " + p.getFirstName() + ",\n\n" +
+                "Sua solicitação de cancelamento de inscrição foi submetida. Em breve entraremos em contato com mais detalhes sobre o evento.\n\n\n" +
+                "Atenciosamente,\n" +
+                "Equipe Mupi";
+        final String userFrom = "contato@mupi.me";
+        final String userTo   = u.email;
+        final String userReplyTo = "contato@mupi.me";
+        
+        new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
+        
+        return AjaxResponse.build(0, "Sua solicitação de cancelamento de inscrição foi submetida. Logo entraremos em contato para mais informações.");
+      } else{
+        models.Promotion.unsubscribeFromEvent(u, prom);
+        return AjaxResponse.build(2, "Você nã vai mais... =(");
+      }
+    }
   }
   
   public static Result signup() {

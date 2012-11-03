@@ -3,12 +3,9 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,8 +16,10 @@ import models.Promotion;
 import models.PubComment;
 import models.Publication;
 import models.User;
+
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.validator.UrlValidator;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import play.data.DynamicForm;
 import play.data.Form;
@@ -31,24 +30,20 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import utils.AjaxResponse;
+import utils.AssyncEmailSender;
 import utils.ImageHandler;
 import views.html.index;
 import views.html.feedHelpers.feedContent;
-import views.html.feedHelpers.pubList;
 import views.html.feedHelpers.promList;
+import views.html.feedHelpers.pubList;
 import views.html.mupiHelpers.comments;
 import be.objectify.deadbolt.actions.Dynamic;
 import be.objectify.deadbolt.actions.Restrict;
 
 import com.avaje.ebean.Page;
-import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
 
 import conf.MupiParams;
 import conf.MupiParams.PubType;
-
-import org.jsoup.*;
-import org.jsoup.safety.Whitelist;
 
 
 
@@ -121,26 +116,22 @@ public class Feed extends Controller {
         "\n    Interesse - " + interest +
         "\n\n Ele redigiu a seguinte descrição:\n" +
         filledForm.get().description;
-
-    MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-    mail.setSubject( subject );
-    mail.addRecipient(MupiParams.HOST_MEETUP_EMAIL);
-    mail.addFrom("noreply@mupi.me");
-    mail.setReplyTo("noreply@mupi.me");
-    mail.send( body );
+    final String from = "noreply@mupi.me";
+    final String to   = MupiParams.HOST_MEETUP_EMAIL;
+    final String replyTo = "noreply@mupi.me";
+    
+    new AssyncEmailSender(subject, body, from, replyTo, to).send();
     
     final String userSubject = "Receber Evento Mupi";
     final String userBody    = "Olá " + p.getFirstName() + ",\n\n" +
         "Recebemos sua mensagem sobre o interesse em receber Eventos Mupi. Em breve entraremos em contato para os próximos passos.\n\n\n" +
             "Atenciosamente,\n" +
             "Equipe Mupi";
-        
-    mail.setSubject( userSubject );
-    mail.addRecipient(u.email);
-    mail.addFrom("contato@mupi.me");
-    mail.setReplyTo("contato@mupi.me");
-    mail.send( userBody );   
+    final String userFrom = "contato@mupi.me";
+    final String userTo   = u.email;
+    final String userReplyTo = "contato@mupi.me";
     
+    new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
 
     return redirect(routes.Feed.feed());
   }
@@ -171,27 +162,23 @@ public class Feed extends Controller {
         "\n    Interesse - " + interest +
         "\n\n Ele redigiu a seguinte descrição do evento:\n" +
         filledForm.get().description;
-
-    MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-    mail.setSubject( subject );
-    mail.addRecipient(MupiParams.PROMOTE_MEETUP_EMAIL);
-    mail.addFrom("noreply@mupi.me");
-    mail.setReplyTo("noreply@mupi.me");
-    mail.send( body );
+    final String from = "noreply@mupi.me";
+    final String to   = MupiParams.PROMOTE_MEETUP_EMAIL;
+    final String replyTo = "noreply@mupi.me";
     
+    new AssyncEmailSender(subject, body, from, replyTo, to).send();
+
     
     final String userSubject = "Sugestão de Evento Mupi: ";
     final String userBody    = "Olá " + p.getFirstName() + ",\n\n" +
         "Recebemos sua mensagem sobre um Evento Mupi. Em breve entraremos em contato para os próximos passos.\n\n\n" +
             "Atenciosamente,\n" +
             "Equipe Mupi";
-        
-    mail.setSubject( userSubject );
-    mail.addRecipient(u.email);
-    mail.addFrom("contato@mupi.me");
-    mail.setReplyTo("contato@mupi.me");
-    mail.send( userBody );   
+    final String userFrom = "contato@mupi.me";
+    final String userTo   = u.email;
+    final String userReplyTo = "contato@mupi.me";
     
+    new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
 
     return redirect(routes.Feed.feed());
   }
@@ -501,7 +488,11 @@ public class Feed extends Controller {
         filledForm.get().getTime(),
         filledForm.get().getDescription(),
         filledForm.get().getLink(),
-        picturePath);
+        picturePath,
+        PubType.EVENT,
+        new Integer(0),
+        new Integer(0),
+        new Double(0.0));
 
       flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.promotion.created"));
 

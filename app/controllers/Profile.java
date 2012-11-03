@@ -15,11 +15,6 @@ import models.User;
 
 import org.apache.commons.io.FileUtils;
 
-import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
-
-import conf.MupiParams;
-
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -28,9 +23,11 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.mvc.Results;
 import utils.AjaxResponse;
+import utils.AssyncEmailSender;
 import utils.ImageHandler;
 import views.html.profile;
 import be.objectify.deadbolt.actions.Restrict;
+import conf.MupiParams;
 
 public class Profile extends Controller {
 
@@ -131,17 +128,14 @@ public class Profile extends Controller {
     if(lastName == null) lastName = "";
 
     final String subject = p.getFirstName() + " " + lastName + " sugeriu uma cidade!!  Yayyy!!";
-
     final String body = "[Cidade][Sugestão] O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") " +
         "sugeriu que a cidade " + city + " seja inserida ao banco de dados!";
-
-    MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-    mail.setSubject( subject );
-    mail.addRecipient(MupiParams.LOCATION_SUGGESTION_EMAIL);
-    mail.addFrom("noreply@mupi.me");
-    mail.setReplyTo("noreply@mupi.me");
-    mail.send( body );
-
+    final String from = "noreply@mupi.me";
+    final String to   = MupiParams.LOCATION_SUGGESTION_EMAIL;
+    final String replyTo = "noreply@mupi.me";
+    
+    new AssyncEmailSender(subject, body, from, replyTo, to).send();
+    
     return  Results.ok("Esta localização não está disponível no momento, assim que estiver entraremos em contato");
   }
 
