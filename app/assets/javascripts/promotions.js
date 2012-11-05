@@ -15,7 +15,7 @@ jQuery(function(){
 						if(meetUp.attr('pub_typ') == 4)
 							subscribeButton.text("Desinscrever-me");
 					    else{
-					    	subscribeButton.text("Não vou");
+					    	subscribeButton.text("Não vou mais");
 					    }
 					}else if(response[0] == 2){
 						jQuery('.page-alert').html("<div class='alert hide'> </div>");
@@ -58,9 +58,9 @@ jQuery(function(){
 						jQuery('.page-alert').html("");
 						unsubscribeButton.removeClass('meetUp_unsubscription_feed').addClass('meetUp_subscription_feed');
 						if(meetUp.attr('pub_typ') == 4)
-							unsubscribeButton.text("Inscrever-me");
+							unsubscribeButton.text("Quero ir!");
 					    else{
-					    	unsubscribeButton.text("Eu vou");
+					    	unsubscribeButton.text("Eu vou!");
 					    }
 					}else{
 						jQuery('.page-alert').html("<div class='alert hide'> </div>");

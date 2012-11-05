@@ -491,6 +491,7 @@ ul.wysihtml5-toolbar > li{
 .meetup img {
 	min-height: 100%;
 	min-width: 100%;
+	border-radius: 8px;
 }
 
 .radius_overflow_fix{
@@ -505,7 +506,7 @@ ul.wysihtml5-toolbar > li{
 	width: 360px;
 	border-radius: 8px;
 }
-.meetup span {
+.meetup span.meetup_title {
 	height: 27px;
 	background: #4F7AA3;
 	color: white;
@@ -598,12 +599,19 @@ ul.wysihtml5-toolbar > li{
 	background-color: #3794ED;
 	font-weight: bold;
 }
-.meetUp_subscription:hover, .meetUp_unsubscription_feed:hover{
+.meetUp_subscription_feed:hover {
 	background-color: #33A847;
 }
+.meetUp_unsubscription_feed{
+	background-color: #888;
+}
+.meetUp_unsubscription_feed:hover{
+	background-color: #B94A48;
+}
+
 .num_subscribers{
 	position: absolute;
-    right: -19px;
+    right: 0;
     top: 0;
     font-weight: bold;
     padding: 0 5px;

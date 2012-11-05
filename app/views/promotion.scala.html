@@ -9,6 +9,9 @@
 @promPic = @{"event/picture" + promotion.getPicture}
 
 @main(promotion.getTitle,"promotion") {
+
+<script type="text/javascript" src="@routes.Assets.at("javascripts/promotions.js")"></script>
+
 <div id="fb-root"></div>
 <script>
   window.fbAsyncInit = function() {
@@ -63,6 +66,47 @@
 				<a class="external_link" target="_blank" href="@promotion.getLink">Link externo</a>
 			</div>	
 			<div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId).absoluteURL(request)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
+
+			<div id="price_box">
+				      
+			@if(promotion.getPublication.getPub_typ.compareTo(4)){
+				  <label>Quanto custa?</label>
+  				  <span>R$ 200,00</span>
+				  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+
+					  <p class="txt_center">
+					    <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar inscrição">Desinscrever-me</button>
+					  </p>
+				        <div class="mini_logo" title="Evento Mupi!"></div>
+				        <div class="subscribe_shadow meetup_info"></div>
+	      
+				  }else{
+				  	  <p class="txt_center">
+				      	<button class="meetUp_subscription_feed meetup_info" title="Clique para participar deste evento!">Fazer inscrição!</button>
+			          </p>
+			          <div class="mini_logo" title="Evento Mupi!"></div>
+			          <div class="subscribe_shadow meetup_info"></div>
+			          <p>Ao clicar em "Fazer inscrição" nós entraremos em contato para mais informações</p>
+				  }
+				}else{
+					<span class="txt_center">Você vai a este evento?</span>
+				  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+				    
+				  	<p class="txt_center">
+				      <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar presença">Não vou mais</button>
+				    </p>
+			          <div class="subscribe_shadow meetup_info"></div>
+				  }else{
+				    <p class="txt_center">
+				      <button class="meetUp_subscription_feed meetup_info" title="Confirmar presença">Eu vou!</button>
+				    </p>
+			        <div class="subscribe_shadow meetup_info"></div>
+				  }
+				  <p>Este evento é externo ao Mupi. Ao confirmar presença
+				  	você não está realmente se inscrevendo no evento.</p>
+				}
+			</div>
+			<span class="num_subscribers"><i class="icon-group"></i> @promotion.getSubscribers.size confirmados</span>
 		</div>
 	</div>
 	<div class="row">
@@ -85,11 +129,16 @@
 					<span>@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName</span>
 				</a>
 				</div>
+
 				<div id="promotion_description">
 					<p>
 						<span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("d") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span><br/>
-						<span>@promotion.getAddress</span>
+						<span>@promotion.getAddress</span> <br/>
 					</p>
+					<p>
+						<span><i class="icon-group"></i> @promotion.getSubscribers.size confirmados</span>
+					</p>
+
 					<label>Sobre o evento</label>
 					<p>
 					@promotion.getDescription

@@ -33,12 +33,12 @@
 }
 #promotion_header div, #promotion_header h1{
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
-	text-shadow: 1px 1px #444;	
-	color: white;
 }
 
 #promotion_header h1, #promotion_link, #promotion_local, #promotion_date, #promotion_complete_date  {
 	background: #4F7AA3;
+	text-shadow: 1px 1px #444;	
+	color: white;
 }
 
 #promotion_map{
@@ -89,6 +89,7 @@
 #promotion_body{
 	padding: 10px;
 	margin-bottom: 10px;
+	position: relative;
 }
 #promotion_comments{
 	background: white;
@@ -173,7 +174,7 @@
 	font-size: 0.8em;
 }
 #promotion_header div.fb-like{
-	top: 230px;
+	top: 100px;
 	left: 0;
 	padding: 5px;
 	background: rgba(256,256,256,0.4);
@@ -187,4 +188,58 @@
 	min-height: 100%;
   	min-width: 100%;
   	max-width: none;
+}
+.num_subscribers{
+	position: absolute;
+	bottom: 0;
+	background: rgba(256, 256, 256, 0.8);
+	font-size: 14pt;
+	padding: 4px 8px;
+	line-height: 14pt;
+	left: 0;
+}
+.meetUp_unsubscription_feed, .meetUp_subscription_feed{
+	font-size: 14pt;
+	background: #888;
+	border: none;
+	border-radius: 8px;
+	color: white;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+	padding: 10px;
+}
+.meetUp_subscription_feed{
+	background-color: #3794ED;
+}
+.meetUp_subscription_feed:hover {
+	background-color: #33A847;
+}
+.meetUp_unsubscription_feed{
+	background-color: #888;
+}
+.meetUp_unsubscription_feed:hover{
+	background-color: #B94A48;
+}
+#price_box{
+	position: absolute;
+	left: 20px;
+	bottom: 50px;
+	border-radius: 4px;
+	background: #f5f5f5;
+	color: #4F7AA3;
+	text-shadow: none;
+	width: 280px;
+	padding: 10px;
+}
+#price_box label{
+	font-size: 20pt;
+}
+#price_box span{
+	font-size: 14pt;
+	line-height: 40px;
+}
+#price_box p{
+	font-size: 8pt;
+}
+.txt_center{
+	text-align: center;
 }
