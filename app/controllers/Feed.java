@@ -493,7 +493,7 @@ public class Feed extends Controller {
         filledForm.get().getAddress(),
         filledForm.get().getDate(),
         filledForm.get().getTime(),
-        safeDesc;
+        safeDesc,
         filledForm.get().getLink(),
         picturePath,
         PubType.EVENT,
