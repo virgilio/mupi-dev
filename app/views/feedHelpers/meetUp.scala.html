@@ -20,10 +20,12 @@
 		    </p>
 		  </div>
 	  </div>
-	  <span class="num_subscribers meetup_info"><i class="icon-group"></i> @prom.getSubscribers.size confirmados</span>
+	  <span class="num_subscribers meetup_info">
+	    <i class="icon-group"></i> 
+	    <span class="n_confirmed">@prom.getSubscribers.size</span> confirmados
+	  </span>
 	</a>
 	
-
 	@if(prom.getPublication.getPub_typ.compareTo(4)){
 	  @if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
 	      <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar inscrição">Desinscrever-me</button>

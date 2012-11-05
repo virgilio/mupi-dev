@@ -10,7 +10,7 @@
 
 @main(promotion.getTitle,"promotion") {
 
-<script type="text/javascript" src="@routes.Assets.at("javascripts/promotions.js")"></script>
+
 
 <div id="fb-root"></div>
 <script>
@@ -38,12 +38,13 @@
 <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.autosize-min.js")"></script>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/promotion.js")"></script>
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/promotions.js")"></script>   
 
 <input type="hidden" id="selectedInterest" value="@promotion.getPublication.getInterest.getId"/>
 <input type="hidden" id="selectedLocation" value="@promotion.getPublication.getLocation.getId"/>
 
 
-<div class="container" id="event_body">
+<div class="container" id="event_body" pub_typ="@promotion.getPublication.getPub_typ" prom_id="@promotion.getId">
 	<div class="row">
 		<div id="promotion_header" class="span10 offset1">
 			<div id="promotion_img"><img src="@routes.Mupi.at(promPic)"/></div>
@@ -71,18 +72,18 @@
 				      
 			@if(promotion.getPublication.getPub_typ.compareTo(4)){
 				  <label>Quanto custa?</label>
-  				  <span>R$ 200,00</span>
+  				  <span>promotion.getCost</span>
 				  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
 
 					  <p class="txt_center">
-					    <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar inscrição">Desinscrever-me</button>
+					    <button class="meetUp_unsubscription_promotion meetup_info" title="Cancelar inscrição">Desinscrever-me</button>
 					  </p>
 				        <div class="mini_logo" title="Evento Mupi!"></div>
 				        <div class="subscribe_shadow meetup_info"></div>
 	      
 				  }else{
 				  	  <p class="txt_center">
-				      	<button class="meetUp_subscription_feed meetup_info" title="Clique para participar deste evento!">Fazer inscrição!</button>
+				      	<button class="meetUp_subscription_promotion meetup_info" title="Clique para participar deste evento!">Fazer inscrição!</button>
 			          </p>
 			          <div class="mini_logo" title="Evento Mupi!"></div>
 			          <div class="subscribe_shadow meetup_info"></div>
@@ -93,12 +94,12 @@
 				  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
 				    
 				  	<p class="txt_center">
-				      <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar presença">Não vou mais</button>
+				      <button class="meetUp_unsubscription_promotion meetup_info" title="Cancelar presença">Não vou mais</button>
 				    </p>
 			          <div class="subscribe_shadow meetup_info"></div>
 				  }else{
 				    <p class="txt_center">
-				      <button class="meetUp_subscription_feed meetup_info" title="Confirmar presença">Eu vou!</button>
+				      <button class="meetUp_subscription_promotion meetup_info" title="Confirmar presença">Eu vou!</button>
 				    </p>
 			        <div class="subscribe_shadow meetup_info"></div>
 				  }
@@ -106,7 +107,7 @@
 				  	você não está realmente se inscrevendo no evento.</p>
 				}
 			</div>
-			<span class="num_subscribers"><i class="icon-group"></i> @promotion.getSubscribers.size confirmados</span>
+			<span class="num_subscribers"><i class="icon-group"></i> <span id='n_confirmed'>@promotion.getSubscribers.size</span> confirmados</span>
 		</div>
 	</div>
 	<div class="row">
