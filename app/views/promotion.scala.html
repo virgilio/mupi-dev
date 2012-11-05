@@ -72,7 +72,7 @@
 				      
 			@if(promotion.getPublication.getPub_typ.compareTo(4)){
 				  <label>Quanto custa?</label>
-  				  <span>promotion.getCost</span>
+  				<span>R$ @promotion.getCost</span>
 				  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
 
 					  <p class="txt_center">
