@@ -477,7 +477,14 @@ public class Feed extends Controller {
         bi = ImageHandler.createMediumPromotion(destinationFile);
         ImageIO.write(bi, extension, medium);
       }else{picturePath = BLANK_EVT;}
-
+      
+      
+      String safeDesc = Jsoup.clean(
+          filledForm.get().getDescription(), 
+          Whitelist.simpleText()
+      );
+      
+      
       models.Promotion.create(
         p,
         lObj,
@@ -486,7 +493,7 @@ public class Feed extends Controller {
         filledForm.get().getAddress(),
         filledForm.get().getDate(),
         filledForm.get().getTime(),
-        filledForm.get().getDescription(),
+        safeDesc;
         filledForm.get().getLink(),
         picturePath,
         PubType.EVENT,
