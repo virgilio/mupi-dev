@@ -76,8 +76,9 @@ public class Mupi extends Controller {
   }
 
   public static Result doLogin() {
-    if(session("ref") != null){
-    	ctx().response().setHeader(HttpHeaders.REFERER, session("ref"));
+    if(session().get("ref") != null){
+      System.out.println("doLogin: " + request().getHeader(HttpHeaders.REFERER));
+      //ctx().response().setHeader(HttpHeaders.REFERER, session("ref"));
     }    
     final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
     if (filledForm.hasErrors()) { // User did not fill everything properly
