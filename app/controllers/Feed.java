@@ -18,6 +18,7 @@ import models.Publication;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpHeaders;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -65,14 +66,17 @@ public class Feed extends Controller {
     final User user = Mupi.getLocalUser(session());
 
     if(user == null || user.profile == null){
+      session("ref", request().getHeader(HttpHeaders.REFERER));
       return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-    }else if(user.getProfile().getInterests().isEmpty()){
+    } else if(user.getProfile().getInterests().isEmpty()){
       return redirect(routes.Interest.interestManager());
-    }
-    else if(user.getProfile().getStatus() == MupiParams.FIRST_LOGIN){
+    } else if(user.getProfile().getStatus() == MupiParams.FIRST_LOGIN){
       return redirect(routes.Profile.profile());
-    }
-    else{
+    } else if(session("ref") != null) {
+    	String url = session("ref");
+    	session().remove("ref");
+    	return redirect(url);
+    } else{
       Long interest = getLocalInterest();
       Long location = getLocalLocation();
 

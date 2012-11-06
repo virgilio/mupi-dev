@@ -4,6 +4,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.http.HttpHeaders;
+
 import models.NotificationBucket;
 import models.Promotion;
 import models.Publication;
@@ -74,6 +76,9 @@ public class Mupi extends Controller {
   }
 
   public static Result doLogin() {
+    if(session("ref") != null){
+    	ctx().response().setHeader(HttpHeaders.REFERER, session("ref"));
+    }    
     final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
     if (filledForm.hasErrors()) { // User did not fill everything properly
       return badRequest(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
