@@ -71,7 +71,7 @@
 			<div id="price_box">
 				      
 			@if(promotion.getPublication.getPub_typ.compareTo(4)){
-				  <label>Quanto custa?</label>
+				<label>Quanto custa?</label>
   				<span>R$ @promotion.getCost</span>
 				  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
 
