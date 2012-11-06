@@ -4,7 +4,7 @@
 
 @if(comments.size() > 0){
    @for(comment <- comments.asScala.filter(_.getStatus == models.PubComment.ACTIVE).sortBy(_.getCreated)){
-
+    @if(comment.getProfile.getFirstName != null){
     <div class="comment" comment_id="@comment.getId">
       <div class="profile_thumb mupi_thumbs">
         <div class="fix_img">
@@ -34,7 +34,8 @@
         <button type="button" class="remove_comment">x</button>
       }
       **@
-
     </div>
-  }
+    }
+ }
 }
+
