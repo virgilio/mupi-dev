@@ -73,14 +73,20 @@ ref.parentNode.insertBefore(js, ref);
               <label>Quanto custa?</label>
               <span>@if(promotion.getCost == 0) {Gratuito} else {R$ @promotion.getCost}</span>
                 @if(Mupi.getLocalUser(session()) != null){
-                  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
-                    
+                  @if(Mupi.getLocalUser(session()).status != 0){
+                    @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+                      
+                    } else {
+                      <p class="txt_center">
+                        <button class="meetUp_subscription_promotion meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
+                      </p>
+                      <p>Ao clicar em "Fazer inscrição" nós entraremos em contato para mais informações</p>
+                    }
                   } else {
                     <p class="txt_center">
-                      <button class="meetUp_subscription_promotion meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
+                      <button class="meetUp_unsubscription_promotion2 meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
                     </p>
-                    <p>Ao clicar em "Fazer inscrição" nós entraremos em contato para mais informações</p>
-                  }
+                  }                   
                 } else {
                   <p class="txt_center">
                     <button class="meetUp_unsubscription_promotion2 meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
@@ -89,16 +95,22 @@ ref.parentNode.insertBefore(js, ref);
                 }
               } else {
                 <span class="txt_center">Você vai a este evento?</span>
-                @if(Mupi.getLocalUser(session()) != null){
-                  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
-                    <p class="txt_center">
-                      <button class="meetUp_unsubscription_promotion meetup_info" title="Cancelar presença">Não vou mais</button>
-                    </p>
+                @if(Mupi.getLocalUser(session()) != null) {
+                  @if(Mupi.getLocalUser(session()).status != 0){
+                    @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+                      <p class="txt_center">
+                        <button class="meetUp_unsubscription_promotion meetup_info" title="Cancelar presença">Não vou mais</button>
+                      </p>
+                    } else {
+                      <p class="txt_center">
+                        <button class="meetUp_subscription_promotion meetup_info" title="Confirmar presença">Eu vou!</button>
+                      </p>
+                    }
                   } else {
                     <p class="txt_center">
-                      <button class="meetUp_subscription_promotion meetup_info" title="Confirmar presença">Eu vou!</button>
+                      <button class="meetUp_subscription_promotion2 meetup_info" title="Confirmar presença">Eu vou!</button>
                     </p>
-                  }
+                  }                  
                 } else {
                   <p class="txt_center">
                       <button class="meetUp_subscription_promotion2 meetup_info" title="Confirmar presença">Eu vou!</button>
