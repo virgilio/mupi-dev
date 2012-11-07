@@ -76,6 +76,7 @@ GET   /interest/manager              controllers.Interest.interestManager
 POST  /interest/manager              controllers.Interest.doAddInterest
 
 # PROMOTIONS
+GET   /eventos/transmidia		  controllers.Mupi.promotion(id: Long=44)
 GET   /promotion/:id              controllers.Mupi.promotion(id: Long)
 POST  /promotion/comment/:t/:p    controllers.Feed.commentPublication(t: String, p: Long)
 POST  /promotion/subscribe/:id    controllers.Mupi.subscribeToMeetUp(id: Long)
