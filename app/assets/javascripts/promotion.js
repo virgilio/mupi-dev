@@ -17,6 +17,7 @@ jQuery(function(){
     		if(response[0] == 0) jQuery('#comments').html(decodeURIComponent(response[1]));
     		jQuery("#textToSend").val("");
     		jQuery("#textToSend").resize();
+    		jQuery("#promotion_comments_number").text(parseInt(jQuery("#promotion_comments_number").text()) + 1);
 		jQuery("a[rel=clickover]").clickover();
     	    },
     	    error : function() {

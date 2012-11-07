@@ -73,8 +73,8 @@ public class Feed extends Controller {
     } else if(user.getProfile().getStatus() == MupiParams.FIRST_LOGIN){
       return redirect(routes.Profile.profile());
     } else if(session("ref") != null && !session().get("ref").equalsIgnoreCase("null")) {
-      System.out.println(session("ref"));
-      System.out.println("feed: " + request().getHeader(HttpHeaders.REFERER));
+//      System.out.println(session("ref"));
+//      System.out.println("feed: " + request().getHeader(HttpHeaders.REFERER));
       String url = session("ref");
       session().remove("ref");
       return redirect(url);

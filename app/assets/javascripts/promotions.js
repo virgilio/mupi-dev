@@ -100,7 +100,10 @@ jQuery(function(){
 					    else{
 					    	subscribeButton.text("Não vou mais");
 					    }
-						jQuery('#n_confirmed:first').text(parseInt(jQuery('#n_confirmed:first').text()) + 1);
+						jQuery('.n_confirmed').each(function(){
+							console.log(jQuery(this));
+							jQuery(this).text(parseInt(jQuery(this).text()) + 1);
+						});						
 					}else if(response[0] == 2){
 						jQuery('.page-alert').html("<div class='alert hide'> </div>");
 						jQuery('.page-alert > .alert')
@@ -151,7 +154,10 @@ jQuery(function(){
 						}else{
 					    	unsubscribeButton.text("Eu vou!");
 					    }
-						jQuery('#n_confirmed:first').text(parseInt(jQuery('#n_confirmed:first').text()) - 1);
+						jQuery('.n_confirmed').each(function(){
+							console.log(jQuery(this));
+							jQuery(this).text(parseInt(jQuery(this).text()) - 1);
+						});	
 					}else{
 						jQuery('.page-alert').html("<div class='alert hide'> </div>");
 						jQuery('.page-alert > .alert')

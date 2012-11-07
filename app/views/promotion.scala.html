@@ -14,26 +14,26 @@
 
 <div id="fb-root"></div>
 <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '292772274170801', // App ID
-      //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true  // parse XFBML
-    });
-  };
+window.fbAsyncInit = function() {
+FB.init({
+  appId      : '292772274170801', // App ID
+  //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
+  status     : true, // check login status
+  cookie     : true, // enable cookies to allow the server to access the session
+  xfbml      : true  // parse XFBML
+});
+};
 
-  // Load the SDK Asynchronously
-  (function(d){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/pt_BR/all.js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document));
+// Load the SDK Asynchronously
+(function(d){
+var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+if (d.getElementById(id)) {return;}
+js = d.createElement('script'); js.id = id; js.async = true;
+js.src = "//connect.facebook.net/pt_BR/all.js";
+ref.parentNode.insertBefore(js, ref);
+}(document));
 </script>
-
+<link href="@routes.Assets.at("stylesheets/jasny-bootstrap.css")" rel="stylesheet" type="text/css" media="screen"/>
 <link rel="stylesheet" href="@routes.Assets.at("stylesheets/promotion.css")" type="text/css" media="screen"/>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.autosize-min.js")"></script>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/promotion.js")"></script>
@@ -45,129 +45,133 @@
 
 
 <div class="container" id="event_body" pub_typ="@promotion.getPublication.getPub_typ" prom_id="@promotion.getId">
-	<div class="row">
-		<div id="promotion_header" class="span10 offset1">
-			<div id="promotion_img"><img src="@routes.Mupi.at(promPic)"/></div>
-			<h1>@promotion.getTitle</h1>
-			<div id="promotion_date">
-				<span class="pday">@promotion.getDate.format("dd")</span>
-				<span class="pmonth">@promotion.getDate.format("MMM")</span>
-			</div>
-			<div id="promotion_complete_date">
-				<i class="icon-calendar"></i>
-				<span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("d") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span>
-			</div>
-			<div id="promotion_local">
-				<i class="icon-map-marker"></i>
-				<span id="address_val">@promotion.getAddress</span>
-				<div id="promotion_map">Não há um mapa para esta localidade</div>
-			</div>
-			<div id="promotion_link">
-				<i class="icon-external-link"></i>
-				<a class="external_link" target="_blank" href="@promotion.getLink">Link externo</a>
-			</div>	
-			<div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId).absoluteURL(request)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
+    <div class="row">
+	    <div id="promotion_header" class="span10 offset1">
+		    <div id="promotion_img"><img src="@routes.Mupi.at(promPic)"/></div>
+		    <h1>@promotion.getTitle</h1>
+		    <div id="promotion_date">
+			    <span class="pday">@promotion.getDate.format("dd")</span>
+			    <span class="pmonth">@promotion.getDate.format("MMM")</span>
+		    </div>
+		    <div id="promotion_complete_date">
+			    <i class="icon-calendar"></i>
+			    <span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("d") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span>
+		    </div>
+		    <div id="promotion_local">
+			    <i class="icon-map-marker"></i>
+			    <span id="address_val">@promotion.getAddress</span>
+			    <div id="promotion_map">Não há um mapa para esta localidade</div>
+		    </div>
+		    <div id="promotion_link">
+			    <i class="icon-external-link"></i>
+			    <a class="external_link" target="_blank" href="@promotion.getLink">Link externo</a>
+		    </div>	
+		    <div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId).absoluteURL(request)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
 
-			<div id="price_box">
-				      
-			@if(promotion.getPublication.getPub_typ.compareTo(4)){
-				<label>Quanto custa?</label>
-  				<span>R$ @promotion.getCost</span>
-				  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+		    <div id="price_box">				  
+            @if(promotion.getPublication.getPub_typ.compareTo(4)){
+              <label>Quanto custa?</label>
+              <span>@if(promotion.getCost == 0) {Gratuito} else {R$ @promotion.getCost}</span>
+                @if(Mupi.getLocalUser(session()) != null){
+                  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+                    
+                  } else {
+                    <p class="txt_center">
+                      <button class="meetUp_subscription_promotion meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
+                    </p>
+                    <p>Ao clicar em "Fazer inscrição" nós entraremos em contato para mais informações</p>
+                  }
+                } else {
+                  <p class="txt_center">
+                    <button class="meetUp_unsubscription_promotion2 meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
+                  </p>
+                  <p>Para se inscrever <a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a></p>
+                }
+              } else {
+                <span class="txt_center">Você vai a este evento?</span>
+                @if(Mupi.getLocalUser(session()) != null){
+                  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+                    <p class="txt_center">
+                      <button class="meetUp_unsubscription_promotion meetup_info" title="Cancelar presença">Não vou mais</button>
+                    </p>
+                  } else {
+                    <p class="txt_center">
+                      <button class="meetUp_subscription_promotion meetup_info" title="Confirmar presença">Eu vou!</button>
+                    </p>
+                  }
+                } else {
+                  <p class="txt_center">
+                      <button class="meetUp_subscription_promotion2 meetup_info" title="Confirmar presença">Eu vou!</button>
+                  </p>
+                  <p>Para confirmar presença <a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a></p>
+                }
+                <p>Este evento é externo ao Mupi. Ao confirmar presença
+                você não está realmente se inscrevendo no evento.</p>
+              }
+		    </div>
+		    <span class="num_subscribers">
+            <i class="icon-group"></i><span class='n_confirmed'>@promotion.getSubscribers.size</span> confirmados
+          </span>
+	    </div>
+    </div>
+    <div class="row">
+	    <div class="span10 offset1 white_background">
+		    <div id="promotion_body">
+			    <div id="promotion_promoter">
+				    <label>Postado em </label> <i class="icon-star"></i> <span>@promotion.getPublication.getInterest.getName <i class="icon-map-marker"></i> @promotion.getPublication.getLocation.getName</span><br/>
+				    <label>Promovido por</label>
+				    <a href="#" rel="clickover" data-placement="top"
+				data-content="<div class='mini_profile_thumb profile_thumb'>
+                            <div class='fix_img'>
+                              <img src='@routes.Mupi.at("profile/picture/thumb" + promotion.getPublication.getProfile.getPicture)' />
+                            </div>
+                          </div>
+				<small>Contribui desde @promotion.getPublication.getProfile.getCreated.format("dd/MM/yy")</small>
+				@if(!promotion.getPublication.getProfile.getAbout.isEmpty()){<p>&quot;@promotion.getPublication.getProfile.getAbout&quot;</p>}
+				<p><small><b>@promotion.getPublication.getProfile.getPublications.size()</b> publicações<br/>
+				  <b>@promotion.getPublication.getProfile.getPubComments.size()</b> comentários</small></p>"
+				data-original-title="@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName">
+				    <span>@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName</span>
+			    </a>
+			    </div>
 
-					  <p class="txt_center">
-					    <button class="meetUp_unsubscription_promotion meetup_info" title="Cancelar inscrição">Desinscrever-me</button>
-					  </p>
-				        <div class="mini_logo" title="Evento Mupi!"></div>
-				        <div class="subscribe_shadow meetup_info"></div>
-	      
-				  }else{
-				  	  <p class="txt_center">
-				      	<button class="meetUp_subscription_promotion meetup_info" title="Clique para participar deste evento!">Fazer inscrição!</button>
-			          </p>
-			          <div class="mini_logo" title="Evento Mupi!"></div>
-			          <div class="subscribe_shadow meetup_info"></div>
-			          <p>Ao clicar em "Fazer inscrição" nós entraremos em contato para mais informações</p>
-				  }
-				}else{
-					<span class="txt_center">Você vai a este evento?</span>
-				  @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
-				    
-				  	<p class="txt_center">
-				      <button class="meetUp_unsubscription_promotion meetup_info" title="Cancelar presença">Não vou mais</button>
+			    <div id="promotion_description">
+				    <p>
+					    <span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("d") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span><br/>
+					    <span>@promotion.getAddress</span> <br/>
 				    </p>
-			          <div class="subscribe_shadow meetup_info"></div>
-				  }else{
-				    <p class="txt_center">
-				      <button class="meetUp_subscription_promotion meetup_info" title="Confirmar presença">Eu vou!</button>
+				    <p>
+					    <span><i class="icon-group"></i> <span class='n_confirmed'>@promotion.getSubscribers.size</span> confirmados</span>
 				    </p>
-			        <div class="subscribe_shadow meetup_info"></div>
-				  }
-				  <p>Este evento é externo ao Mupi. Ao confirmar presença
-				  	você não está realmente se inscrevendo no evento.</p>
-				}
-			</div>
-			<span class="num_subscribers"><i class="icon-group"></i> <span id='n_confirmed'>@promotion.getSubscribers.size</span> confirmados</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="span10 offset1 white_background">
-			<div id="promotion_body">
-				<div id="promotion_promoter">
-					<label>Postado em </label> <i class="icon-star"></i> <span>@promotion.getPublication.getInterest.getName <i class="icon-map-marker"></i> @promotion.getPublication.getLocation.getName</span><br/>
-					<label>Promovido por</label>
-					<a href="#" rel="clickover" data-placement="top"
-			            data-content="<div class='mini_profile_thumb profile_thumb'>
-			            <div class='fix_img'>
-			                    <img src='@routes.Mupi.at("profile/picture/thumb" + promotion.getPublication.getProfile.getPicture)' />
-			             </div>
-			          </div>
-			            <small>Contribui desde @promotion.getPublication.getProfile.getCreated.format("dd/MM/yy")</small>
-			            @if(!promotion.getPublication.getProfile.getAbout.isEmpty()){<p>&quot;@promotion.getPublication.getProfile.getAbout&quot;</p>}
-			            <p><small><b>@promotion.getPublication.getProfile.getPublications.size()</b> publicações<br/>
-			               <b>@promotion.getPublication.getProfile.getPubComments.size()</b> comentários</small></p>"
-			            data-original-title="@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName">
-					<span>@promotion.getPublication.getProfile.getFirstName @promotion.getPublication.getProfile.getLastName</span>
-				</a>
-				</div>
 
-				<div id="promotion_description">
-					<p>
-						<span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("d") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span><br/>
-						<span>@promotion.getAddress</span> <br/>
-					</p>
-					<p>
-						<span><i class="icon-group"></i> @promotion.getSubscribers.size confirmados</span>
-					</p>
-
-					<label>Sobre o evento</label>
-					<p>
-					@Html(promotion.getDescription)
-					</p>
-				</div>
-			</div>	
-		</div>
-	</div>
-	<div class="row">
-	   <div id="promotion_comments" class="span6 offset3">
-			<span>@promotion.getPublication.getComments.size comentários</span>
-			<div id="comments" id="comments_@promotion.getPublication.id">
-		        @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated))
-			</div>
-			@if(Deadbolt.viewRoleHolderPresent()) {
-				<div  class="textarea_comment">
-					  <textarea id="textToSend" name="input_comment" placeholder="Comentar"></textarea>
-					  <div class="btns_comment">
+				    <label>Sobre o evento</label>
+				    <p>
+				    @Html(promotion.getDescription)
+				    </p>
+			    </div>
+		    </div>	
+	    </div>
+    </div>
+    <div class="row">
+      <div id="promotion_comments" class="span6 offset3">
+		    <span><span id="promotion_comments_number">@promotion.getPublication.getComments.size</span> comentários</span>
+		    <div id="comments" id="comments_@promotion.getPublication.id">
+		    @comments(promotion.getPublication.getComments.asScala.sortBy(_.getCreated))
+		    </div>
+		    @if(Deadbolt.viewRoleHolderPresent()) {
+			    <div  class="textarea_comment">
+				      <textarea id="textToSend" name="input_comment" placeholder="Comentar"></textarea>
+				      <div class="btns_comment">
 <input type="button" id="sendComent" class="commentPub enter_comment"  value="Comentar" publication="@promotion.getPublication.id"></input>
-		<!--			   <a href="#" id="sendComent" class="commentPub sendComent"  publication="@promotion.getPublication.id">
-					     <div class="enter_comment">Comentar</div>
-					   </a>-->
-					  </div>
-				</div>
-			} else{
-				<p><a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a> para postar um comentário.</p>
-			}
-		</div>
-	</div>
+	    <!--			   <a href="#" id="sendComent" class="commentPub sendComent"  publication="@promotion.getPublication.id">
+					<div class="enter_comment">Comentar</div>
+				      </a>-->
+				      </div>
+			    </div>
+		    } else{
+			    <p><a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a> para postar um comentário.</p>
+		    }
+	    </div>
+    </div>
 </div>
 }

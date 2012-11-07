@@ -107,6 +107,16 @@ public class NotificationBucket extends Model {
     // Update Status, the user is already following! Notify everybody else =D
     notifyBuckets(publication, profile);
   }
+  
+//public static void updateBucket(Long publication, Long profile, String body){
+ public static void updateBucketWithoutNotify(Publication publication, Profile profile){
+   NotificationBucket nb = find.where()
+     .eq("publication_id", publication.getId())
+     .eq("profile_id", profile.getId()).findUnique();
+   if(nb == null) { // The user is not following that publication yet
+     NotificationBucket.create(publication, profile);
+   }
+ }
 
   public static void notifyBuckets(Publication publication, Profile profile){
     // Get everyone that have this publication in its bucket! =D

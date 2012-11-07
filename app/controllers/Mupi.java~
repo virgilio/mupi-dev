@@ -77,7 +77,7 @@ public class Mupi extends Controller {
 
   public static Result doLogin() {
     if(session().get("ref") != null){
-      //System.out.println("doLogin: " + request().getHeader(HttpHeaders.REFERER));
+      System.out.println("doLogin: " + request().getHeader(HttpHeaders.REFERER));
       //ctx().response().setHeader(HttpHeaders.REFERER, session("ref"));
     }    
     final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
@@ -146,11 +146,10 @@ public class Mupi extends Controller {
         final String userReplyTo = "contato@mupi.me";
         
         new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
-        NotificationBucket.updateBucketWithoutNotify(prom.getPublication(), p);
+        
         return AjaxResponse.build(2, "Sua inscrição foi submetida. Logo entraremos em contato para mais informações.");
       } else{
         models.Promotion.subscribeToEvent(u, prom);
-        NotificationBucket.updateBucketWithoutNotify(prom.getPublication(), p);
         return AjaxResponse.build(0, "Acompanhe na página do evento quem também confirmou presença!");
       }
     }
@@ -166,7 +165,7 @@ public class Mupi extends Controller {
     Promotion prom = Promotion.find.byId(id);
     
     if(!prom.getSubscribers().contains(u)){
-      return AjaxResponse.build(0, "Você ainda não está inscrito neste Evento!");
+      return AjaxResponse.build(0, "Você ainda não está inscrito neste evento neste Evento!");
     } else{
       if(prom.getPublication().getPub_typ().compareTo(PubType.MUPI_EVENT) == 0){
         final String subject = "[EventoMupi][Participante][Cancelamento] " + prom.getTitle();
@@ -188,11 +187,10 @@ public class Mupi extends Controller {
         final String userReplyTo = "contato@mupi.me";
         
         new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
-        NotificationBucket.removeFromBucket(p, prom.getPublication());
+        
         return AjaxResponse.build(0, "Sua solicitação de cancelamento de inscrição foi submetida. Logo entraremos em contato para mais informações.");
       } else{
         models.Promotion.unsubscribeFromEvent(u, prom);
-        NotificationBucket.removeFromBucket(p, prom.getPublication());
         return AjaxResponse.build(2, "Você nã vai mais... =(");
       }
     }
