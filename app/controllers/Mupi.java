@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map.Entry;
 
 import org.apache.http.HttpHeaders;
 
@@ -11,9 +12,12 @@ import models.Promotion;
 import models.Publication;
 import models.User;
 import play.Routes;
+import play.api.mvc.Cookies;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
+import play.mvc.Http;
+import play.mvc.Http.Cookie;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
@@ -67,8 +71,7 @@ public class Mupi extends Controller {
   }
 
   public static User getLocalUser(final Session session) {
-    final User localUser = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session));
-    return localUser;
+    return User.findByAuthUserIdentity(PlayAuthenticate.getUser(session));
   }
 
   public static Result login() {
@@ -116,11 +119,21 @@ public class Mupi extends Controller {
 
   @Dynamic("editor")
   public static Result subscribeToMeetUp(Long id){
+    
+    System.out.println("Cookies ");
+    for(Cookie ck : response().cookies()){
+      System.out.println("Cookie: " + ck);
+    }
+    
+    System.out.println("Session: ");
+    for(Entry sess : session().entrySet()){
+      System.out.println("Sess: " + sess.getKey().toString() + ": " + sess.getValue().toString());
+    }
+    
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
-    String lastName = p.getLastName();
-    if(lastName == null) lastName = "";
-    
+    String lastName = p.getLastName() != null ? p.getLastName() :  "";
+
     Promotion prom = Promotion.find.byId(id);
     
     if(prom.getSubscribers().contains(u)){
@@ -130,7 +143,7 @@ public class Mupi extends Controller {
         final String subject = "[EventoMupi][Participante] " + prom.getTitle();
         final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") quer participar deste evento!";
         final String from = "noreply@mupi.me";
-        final String to   = MupiParams.SUBSCRIBE_TO_METUP_EMAIL;
+        final String to   = MupiParams.SUBSCRIBE_TO_MEETUP_EMAIL;
         final String replyTo = "noreply@mupi.me";
                 
         new AssyncEmailSender(subject, body, from, replyTo, to).send();
@@ -172,7 +185,7 @@ public class Mupi extends Controller {
         final String subject = "[EventoMupi][Participante][Cancelamento] " + prom.getTitle();
         final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") não quer mais participar deste evento. Por favor, entre em contato com ele.";
         final String from = "noreply@mupi.me";
-        final String to   = MupiParams.SUBSCRIBE_TO_METUP_EMAIL;
+        final String to   = MupiParams.SUBSCRIBE_TO_MEETUP_EMAIL;
         final String replyTo = "noreply@mupi.me";
         
         new AssyncEmailSender(subject, body, from, replyTo, to).send(); 
