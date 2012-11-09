@@ -82,7 +82,7 @@ public class Mupi extends Controller {
     if(session().get("ref") != null){
       //System.out.println("doLogin: " + request().getHeader(HttpHeaders.REFERER));
       //ctx().response().setHeader(HttpHeaders.REFERER, session("ref"));
-    }    
+    }
     final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
     if (filledForm.hasErrors()) { // User did not fill everything properly
       return badRequest(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
@@ -119,23 +119,13 @@ public class Mupi extends Controller {
 
   @Dynamic("editor")
   public static Result subscribeToMeetUp(Long id){
-    
-    System.out.println("Cookies ");
-    for(Cookie ck : response().cookies()){
-      System.out.println("Cookie: " + ck);
-    }
-    
-    System.out.println("Session: ");
-    for(Entry sess : session().entrySet()){
-      System.out.println("Sess: " + sess.getKey().toString() + ": " + sess.getValue().toString());
-    }
-    
+
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
     String lastName = p.getLastName() != null ? p.getLastName() :  "";
 
     Promotion prom = Promotion.find.byId(id);
-    
+
     if(prom.getSubscribers().contains(u)){
       return AjaxResponse.build(4, "Você já se inscreveu neste Evento!");
     } else{
@@ -145,9 +135,9 @@ public class Mupi extends Controller {
         final String from = "noreply@mupi.me";
         final String to   = MupiParams.SUBSCRIBE_TO_MEETUP_EMAIL;
         final String replyTo = "noreply@mupi.me";
-                
+
         new AssyncEmailSender(subject, body, from, replyTo, to).send();
-        
+
         final String userSubject = "Inscrição em Evento Mupi: " + prom.getTitle();
         final String userBody    = "" +
         		"Olá " + p.getFirstName() + ",\n\n" +
@@ -157,7 +147,7 @@ public class Mupi extends Controller {
         final String userFrom = "contato@mupi.me";
         final String userTo   = u.email;
         final String userReplyTo = "contato@mupi.me";
-        
+
         new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
         NotificationBucket.updateBucketWithoutNotify(prom.getPublication(), p);
         return AjaxResponse.build(2, "Sua inscrição foi submetida. Logo entraremos em contato para mais informações.");
@@ -168,16 +158,16 @@ public class Mupi extends Controller {
       }
     }
   }
-  
+
   @Dynamic("editor")
   public static Result unsubscribeFromMeetUp(Long id){
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
     String lastName = p.getLastName();
     if(lastName == null) lastName = "";
-    
+
     Promotion prom = Promotion.find.byId(id);
-    
+
     if(!prom.getSubscribers().contains(u)){
       return AjaxResponse.build(0, "Você ainda não está inscrito neste Evento!");
     } else{
@@ -187,9 +177,9 @@ public class Mupi extends Controller {
         final String from = "noreply@mupi.me";
         final String to   = MupiParams.SUBSCRIBE_TO_MEETUP_EMAIL;
         final String replyTo = "noreply@mupi.me";
-        
-        new AssyncEmailSender(subject, body, from, replyTo, to).send(); 
-        
+
+        new AssyncEmailSender(subject, body, from, replyTo, to).send();
+
         final String userSubject = "Cancelamento de inscrição em Evento Mupi: " + prom.getTitle();
         final String userBody    = "" +
             "Olá " + p.getFirstName() + ",\n\n" +
@@ -199,7 +189,7 @@ public class Mupi extends Controller {
         final String userFrom = "contato@mupi.me";
         final String userTo   = u.email;
         final String userReplyTo = "contato@mupi.me";
-        
+
         new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
         NotificationBucket.removeFromBucket(p, prom.getPublication());
         return AjaxResponse.build(0, "Sua solicitação de cancelamento de inscrição foi submetida. Logo entraremos em contato para mais informações.");
@@ -210,7 +200,7 @@ public class Mupi extends Controller {
       }
     }
   }
-  
+
   public static Result signup() {
     final User user = getLocalUser(session());
     if(user == null){
@@ -221,7 +211,7 @@ public class Mupi extends Controller {
       return redirect(routes.Feed.feed());
     }
   }
-  
+
   public static Result doSignup() {
     final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
         .bindFromRequest();
@@ -240,7 +230,7 @@ public class Mupi extends Controller {
   public static String formatTimestamp(final long t) {
     return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
   }
-  
+
   public static Result about() {
     return ok(about.render());
   }
@@ -258,21 +248,21 @@ public class Mupi extends Controller {
       if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
         final User user = getLocalUser(session());
         if(user != null) NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
-        
+
         return ok(promotion.render(models.Promotion.find.byId(id)));
       } else {
         flash(Mupi.FLASH_MESSAGE_KEY, "Esta divulgação não existe ou foi removida!");
         return redirect(routes.Feed.feed());
       }
-      
+
   }
-    
+
   public static Result publication(Long id) {
     Publication pub = models.Publication.find.byId(id);
     if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
       final User user = getLocalUser(session());
       if(user != null) NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
-      
+
       if(pub.getPub_typ() == conf.MupiParams.PubType.EVENT || pub.getPub_typ() == conf.MupiParams.PubType.MUPI_EVENT)
         return promotion(Promotion.getByPublicationId(id).getId());
       else
@@ -282,7 +272,7 @@ public class Mupi extends Controller {
       return redirect(routes.Feed.feed());
     }
   }
-    
+
   public static Result media() {
     return ok(media.render());
   }
@@ -316,7 +306,7 @@ public class Mupi extends Controller {
     final User user = getLocalUser(session());
     return ok(views.html.notifications.render(user, NotificationBucket.getBucket(user.profile)));
   }
-  
+
   @Restrict(Mupi.USER_ROLE)
   public static Result clearBucket() {
     final User user = getLocalUser(session());
