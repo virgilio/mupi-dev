@@ -46,9 +46,9 @@
 		  _gaq.push(
             ['_setAccount', 'UA-35125468-1']
 				  // DEV -
-          , ['_setDomainName', 'none']
+          // , ['_setDomainName', 'none']
           // PROD
-          // , ['_setDomainName', 'mupi.me']
+          , ['_setDomainName', 'mupi.me']
 				  , ['_trackPageview']
 				  , ['_setCustomVar', 1, 'logged-in' , @if(isLogged) {'true'} else {'false'}, 2]
 				  , ['_setCustomVar', 2, 'member'    , @if(isLogged) {'true'} else {'false'}, 1]
@@ -59,9 +59,9 @@
         (function() {
             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
             // DEV
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js';
             // PROD
-            // ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga.js';
+            // ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js';
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
           })();
 
