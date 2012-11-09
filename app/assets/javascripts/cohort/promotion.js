@@ -32,13 +32,19 @@ jQuery(function() {
     promotion.event('subscription_click');
   });
 
-  // Requires the jQuery.inview plugin
-  jQuery('#promotion_comments').bind('inview', function (event, visible) {
-    if (visible == true) {
-      promotion.event('comments_view');
-      jQuery(this).unbind('inview');
-    }
-  });
+  var el = jQuery("#promotion_comments")[0].getBoundingClientRect();
+  if(el.top >= 0 && el.left >= 0 && el.top <= window.innerHeight && el.left <= window.innerWidth ){
+    promotion.event('comments_view');
+  } else{
+    jQuery("#promotion_comments").bind('inview', function (event, visible) {
+      if (visible == true) {
+        promotion.event('comments_view');
+        jQuery(this).unbind('inview');
+      }
+    });
+  }
+
+
 
   promotion.setCohort('subscribe')
 });
