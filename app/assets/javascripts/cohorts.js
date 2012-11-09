@@ -2,12 +2,12 @@ Cohorts = (function() {
     var Options = {
         debug: false
     };
-    
+
     var GoogleAnalyticsAdapter = {
         nameSpace: 'cohorts',
         trackEvent: function(category, action, opt_label, opt_value) {
             Utils.log('GA trackEvent: ' + category + ', ' + action + ', ' + opt_label + ', ' + opt_value);
-                
+
             if(window['_gaq']) {
                 _gaq.push(['_trackEvent', category, action, opt_label, opt_value]);
             } else {
@@ -23,12 +23,12 @@ Cohorts = (function() {
             this.trackEvent(this.nameSpace, testName, cohort + ' | ' + eventName);
         }
     };
-    
+
     // The main test object
-    
-    var Test = (function() {        
+
+    var Test = (function() {
         var cookiePrefix = '_cohorts';
-        
+
         var constructor = function(options) {
             this.options = Utils.extend({
                 name: null,
@@ -36,7 +36,7 @@ Cohorts = (function() {
                 sample: 1.0,
                 storageAdapter: null
             }, options);
-        
+
             // Check params
             if(this.options.name === null)
                 throw('A name for this test must be specified');
@@ -46,12 +46,12 @@ Cohorts = (function() {
                 throw('You must specify at least 2 cohorts for a test');
             if(!this.options.storageAdapter)
                 this.options.storageAdapter = GoogleAnalyticsAdapter;
-                
+
             this.cohorts = Utils.keys(this.options.cohorts);
 
             this.run();
         };
-    
+
         constructor.prototype = {
             run: function() {
                 // Determine whether there is forcing of cohorts via the URL
@@ -68,15 +68,15 @@ Cohorts = (function() {
                     }
 
                 }
-                
+
                 // Determine whether user should be in the test
                 var in_test = this.inTest();
                 if(in_test === null) // haven't seen this user before
                     in_test = Math.random() <= this.options.sample;
-                    
+
                 if(in_test) {
                     this.setCookie('in_test', 1);
-                    
+
                     if(!this.getCohort()) {
                         // determine which cohort the user is chosen to be in
                         var partitions = 1.0 / Utils.size(this.options.cohorts);
@@ -87,7 +87,7 @@ Cohorts = (function() {
                         var chosen_cohort = this.getCohort();
                     }
                     this.options.storageAdapter.onInitialize(in_test, this.options.name, chosen_cohort);
-                    
+
                     // call the onChosen handler, if it exists
                     if(this.options.cohorts[chosen_cohort].onChosen)
                         this.options.cohorts[chosen_cohort].onChosen();
@@ -137,10 +137,10 @@ Cohorts = (function() {
                 return Cookies.get(cookiePrefix + '_' + this.options.name + '_' + name);
             }
         };
-        
+
         return constructor;
     })();
-    
+
     var Utils = {
         extend: function(destination, source) {
             for (var property in source)
@@ -169,7 +169,7 @@ Cohorts = (function() {
             }
         }
     };
-    
+
     // Adapted from James Auldridge's jquery.cookies
     var Cookies = ( function()
     {
@@ -471,10 +471,10 @@ Cohorts = (function() {
 
         return new constructor();
     } )();
-    
-    
+
+
     // Return the public methods and objects
-    
+
     return {
         Test: Test,
         Cookies: Cookies,

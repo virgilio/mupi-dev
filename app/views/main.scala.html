@@ -44,8 +44,10 @@
 		  var _gaq = _gaq || [];
 
 		  _gaq.push(
-				    ['_setAccount', 'UA-35125468-1']
-				  // DEV - , ['_setDomainName', 'none']
+            ['_setAccount', 'UA-35125468-1']
+				  // DEV -
+          // , ['_setDomainName', 'none']
+          // PROD
           , ['_setDomainName', 'mupi.me']
 				  , ['_trackPageview']
 				  , ['_setCustomVar', 1, 'logged-in' , @if(isLogged) {'true'} else {'false'}, 2]
@@ -56,13 +58,15 @@
 
         (function() {
             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            // DEV - ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js';
+            // DEV
+            // ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js';
+            // PROD
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
           })();
 
      </script>
-		<!--<script src="@routes.Assets.at("javascripts/cohorts.js")"></script> -->
+		<script src="@routes.Assets.at("javascripts/cohorts.js")"></script>
 
   </head>
 

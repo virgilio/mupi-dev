@@ -1,17 +1,17 @@
 jQuery(function(){
-	
-	
-	
-	
+
+
+
+
 	jQuery('.mupi_thumbs .fix_img img').load(function(){
 
        	var h = jQuery(this).height();
     	var w = jQuery(this).width();
-        	
+
     	var hp = jQuery(this).parent().height();
     	var wp = jQuery(this).parent().width();
-    	
-    	
+
+
     	if (h > w){
     		jQuery(this).css({'width':'100%'});
 //        		var h2 = jQuery(img).height();
@@ -25,7 +25,7 @@ jQuery(function(){
     	}
     })
 
-    
+
     jQuery("a[rel=clickover]").clickover();
 });
 
@@ -33,11 +33,11 @@ jQuery(function(){
 //function getsize(img){
 //	var h = jQuery(img).height();
 //	var w = jQuery(img).width();
-//	
+//
 //	var hp = jQuery(img).parent().height();
 //	var wp = jQuery(img).parent().width();
-//	
-//	
+//
+//
 //	if (h > w){
 //		jQuery(img).css({'width':'100%'});
 ////		var h2 = jQuery(img).height();

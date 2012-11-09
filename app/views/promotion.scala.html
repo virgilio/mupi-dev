@@ -38,7 +38,12 @@ ref.parentNode.insertBefore(js, ref);
 <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.autosize-min.js")"></script>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/promotion.js")"></script>
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript" src="@routes.Assets.at("javascripts/promotions.js")"></script>   
+<script type="text/javascript" src="@routes.Assets.at("javascripts/promotions.js")"></script>
+
+<!-- Needed for cohort -->
+<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.inview.js")"></script>
+
+<script type="text/javascript" src="@routes.Assets.at("javascripts/cohort/promotion.js")"></script>
 
 <input type="hidden" id="selectedInterest" value="@promotion.getPublication.getInterest.getId"/>
 <input type="hidden" id="selectedLocation" value="@promotion.getPublication.getLocation.getId"/>
@@ -65,31 +70,31 @@ ref.parentNode.insertBefore(js, ref);
 		    <div id="promotion_link">
 			    <i class="icon-external-link"></i>
 			    <a class="external_link" target="_blank" href="@promotion.getLink">Link externo</a>
-		    </div>	
-		    <div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId).absoluteURL(request)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>	
+		    </div>
+		    <div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId).absoluteURL(request)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>
 
-		    <div id="price_box">				  
+		    <div id="price_box">
             @if(promotion.getPublication.getPub_typ.compareTo(4)){
               <label>Quanto custa?</label>
               <span>@if(promotion.getCost == 0) {Gratuito} else {R$ @promotion.getCost}</span>
                 @if(Mupi.getLocalUser(session()) != null){
                   @if(Mupi.getLocalUser(session()).status != 0){
                     @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
-                      
+
                     } else {
                       <p class="txt_center">
-                        <button class="meetUp_subscription_promotion meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
+                        <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
                       </p>
                       <p>Ao clicar em "Fazer inscrição" nós entraremos em contato para mais informações</p>
                     }
                   } else {
                     <p class="txt_center">
-                      <button class="meetUp_unsubscription_promotion2 meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
+                      <button class="meetUp_unsubscription_promotion2 meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
                     </p>
-                  }                   
+                  }
                 } else {
                   <p class="txt_center">
-                    <button class="meetUp_unsubscription_promotion2 meetup_info" title="Fazer Inscrição">Fazer Inscrição!</button>
+                    <button class="meetUp_unsubscription_promotion2 meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
                   </p>
                   <p>Para se inscrever <a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a></p>
                 }
@@ -99,21 +104,21 @@ ref.parentNode.insertBefore(js, ref);
                   @if(Mupi.getLocalUser(session()).status != 0){
                     @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
                       <p class="txt_center">
-                        <button class="meetUp_unsubscription_promotion meetup_info" title="Cancelar presença">Não vou mais</button>
+                        <button class="meetUp_unsubscription_promotion meetup_info subscription_button" title="Cancelar presença">Não vou mais</button>
                       </p>
                     } else {
                       <p class="txt_center">
-                        <button class="meetUp_subscription_promotion meetup_info" title="Confirmar presença">Eu vou!</button>
+                        <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Confirmar presença">Eu vou!</button>
                       </p>
                     }
                   } else {
                     <p class="txt_center">
-                      <button class="meetUp_subscription_promotion2 meetup_info" title="Confirmar presença">Eu vou!</button>
+                      <button class="meetUp_subscription_promotion2 meetup_info subscription_button" title="Confirmar presença">Eu vou!</button>
                     </p>
-                  }                  
+                  }
                 } else {
                   <p class="txt_center">
-                      <button class="meetUp_subscription_promotion2 meetup_info" title="Confirmar presença">Eu vou!</button>
+                      <button class="meetUp_subscription_promotion2 meetup_info subscription_button" title="Confirmar presença">Eu vou!</button>
                   </p>
                   <p>Para confirmar presença <a href="@routes.Mupi.signup">Registre-se</a> ou <a href="@routes.Feed.feed()">faça login</a></p>
                 }
@@ -161,7 +166,7 @@ ref.parentNode.insertBefore(js, ref);
 				    @Html(promotion.getDescription)
 				    </p>
 			    </div>
-		    </div>	
+		    </div>
 	    </div>
     </div>
     <div class="row">
