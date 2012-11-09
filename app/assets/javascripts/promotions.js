@@ -181,6 +181,9 @@ jQuery(function(){
 		.html("Para se inscrever, registre-se ou faça login");
 	});
 	
+	jQuery('#linkComments').click( function(){
+		jQuery("html, body").animate({ scrollTop: jQuery("#promotion_comments").offset().top - 20});
+	});
 })
 
 
