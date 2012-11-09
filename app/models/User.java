@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -277,8 +278,54 @@ public class User extends Model implements RoleHolder {
 		this.changePassword(authUser, create);
 		TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
 	}
-	
-	
-	
-	
+
+  public Date getCreated() {
+    return created;
+  }
+  
+  public String getCohortString() {
+//    Y: Year (4 characters)
+//    Q: Quarter (1 character, 1 – 4)
+//    M: Month (2 characters, 01-12)
+//    WY: Week Year (4 characters)
+//    WM: Week Month (2 characters, 01-12)
+//    WD: Week Day (2 characters, 01-31)
+//    D: Day (2 characters, 01-31)
+//    H: Hour (2 characters, 00-23)
+
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(this.getCreated());
+    
+    return "Y:"  + cal.get(Calendar.YEAR) + ";"
+    		 + "Q:"  + cal.get(Calendar.MONTH % 4) + ";"
+    		 + "M:"  + cal.get(Calendar.MONTH) + ";"
+    		 + "WY:" + cal.get(Calendar.WEEK_OF_YEAR) + ";"
+    		 + "WM:" + cal.get(Calendar.WEEK_OF_MONTH) + ";"
+    		 + "WD:" + cal.get(Calendar.DAY_OF_WEEK) + ";"
+    		 + "D:"  + cal.get(Calendar.DAY_OF_MONTH) + ";"
+   	  	 + "H:"  + cal.get(Calendar.HOUR_OF_DAY) + ";"
+   		  ;
+  }
+
+  public void setCreated(Date created) {
+    this.created = created;
+  }
+
+  public Date getModified() {
+    return modified;
+  }
+
+  public void setModified(Date modified) {
+    this.modified = modified;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  
+  
 }
