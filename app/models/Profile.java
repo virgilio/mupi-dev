@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import conf.MupiParams;
@@ -33,7 +34,7 @@ public class Profile extends Model {
     @Id
     private Long id;
     
-    private String firstName;
+    private String firstName = "";
     
     private String lastName;
     
@@ -62,6 +63,9 @@ public class Profile extends Model {
 
     @OneToMany
     private List<PubComment> pubComments = new ArrayList<PubComment>();
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    public User user;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
@@ -89,6 +93,7 @@ public class Profile extends Model {
     
     public Profile() {
         this.status = MupiParams.FIRST_LOGIN;
+        this.firstName = "";
         this.picture = NO_PIC;
         this.created = new Date();
         this.modified = new Date();

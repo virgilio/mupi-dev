@@ -79,10 +79,7 @@ public class Mupi extends Controller {
   }
 
   public static Result doLogin() {
-    if(session().get("ref") != null){
-      //System.out.println("doLogin: " + request().getHeader(HttpHeaders.REFERER));
-      //ctx().response().setHeader(HttpHeaders.REFERER, session("ref"));
-    }
+
     final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
     if (filledForm.hasErrors()) { // User did not fill everything properly
       return badRequest(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
@@ -117,15 +114,13 @@ public class Mupi extends Controller {
         )).as("text/javascript");
   }
 
-  @Dynamic("editor")
+  @Restrict(Mupi.USER_ROLE)
   public static Result subscribeToMeetUp(Long id){
-
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
     String lastName = p.getLastName() != null ? p.getLastName() :  "";
-
     Promotion prom = Promotion.find.byId(id);
-
+    
     if(prom.getSubscribers().contains(u)){
       return AjaxResponse.build(4, "Você já se inscreveu neste Evento!");
     } else{
@@ -159,7 +154,7 @@ public class Mupi extends Controller {
     }
   }
 
-  @Dynamic("editor")
+  @Restrict(Mupi.USER_ROLE)
   public static Result unsubscribeFromMeetUp(Long id){
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
@@ -244,12 +239,16 @@ public class Mupi extends Controller {
   }
 
   public static Result promotion(Long id) {
-      Publication pub = models.Promotion.find.byId(id).getPublication();
-      if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
-        final User user = getLocalUser(session());
-        if(user != null) NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
+    final User user = Mupi.getLocalUser(session());
 
-        return ok(promotion.render(models.Promotion.find.byId(id)));
+      if(user == null || user.profile == null)
+        session("ref", request().uri());
+      
+      Publication pub = models.Promotion.find.byId(id).getPublication();
+      
+      if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
+        if(user != null) NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
+        return ok(promotion.render(models.Promotion.find.byId(id), MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
       } else {
         flash(Mupi.FLASH_MESSAGE_KEY, "Esta divulgação não existe ou foi removida!");
         return redirect(routes.Feed.feed());

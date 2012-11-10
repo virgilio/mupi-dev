@@ -174,13 +174,6 @@ jQuery(function(){
 		});
 	});
 	
-	jQuery('.meetUp_unsubscription_promotion2, .meetUp_subscription_promotion2').live('click', function(){
-		jQuery('.page-alert').html("<div class='alert hide'> </div>");
-		jQuery('.page-alert > .alert')
-		.addClass('alert-error')
-		.html("Para se inscrever, registre-se ou faça login");
-	});
-	
 	jQuery('#linkComments').click( function(){
 		jQuery("html, body").animate({ scrollTop: jQuery("#promotion_comments").offset().top - 20});
 	});

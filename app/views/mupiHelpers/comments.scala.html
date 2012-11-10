@@ -18,7 +18,7 @@
                  </div>
               </div>
           <small>Contribui desde @comment.getProfile.getCreated.format("dd/MM/yy")</small>
-          @if(!comment.getProfile.getAbout.isEmpty()){<p>&quot;@comment.getProfile.getAbout&quot;</p>}
+          @if(comment.getProfile.getAbout == null || !comment.getProfile.getAbout.isEmpty()){<p>&quot;@comment.getProfile.getAbout&quot;</p>}
           <p><small><b>@comment.getProfile.getPublications.size()</b> publicações<br/>
              <b>@comment.getProfile.getPubComments.size()</b> comentários</small></p>"
           data-original-title="@comment.getProfile.getFirstName @comment.getProfile.getLastName">

@@ -86,13 +86,13 @@ public class MyUsernamePasswordAuthProvider
 
 	public static class MySignup extends MyLogin {
 	  String termsAcceptError = Messages.get("mupi.signup.error.terms_not_accepted");
-	  
+
 		@Required
 		@MinLength(5)
 		public String repeatPassword;
 
 		public String name;
-		
+
 		@Required(message = "Você precisa aceitar os termos de uso para que possa se cadastrar no Mupi")
     public Boolean terms_accepted;
 
@@ -151,9 +151,9 @@ public class MyUsernamePasswordAuthProvider
 		if (u == null) {
 			return LoginResult.NOT_FOUND;
 		} else {
-			if (u.status == 0) {
-				return LoginResult.USER_UNVERIFIED;
-			} else {
+			// if (u.status == 0) {
+			// 	return LoginResult.USER_UNVERIFIED;
+			// } else {
 				for (final LinkedAccount acc : u.linkedAccounts) {
 					if (getKey().equals(acc.providerKey)) {
 						if (authUser.checkPassword(acc.providerUserId,
@@ -170,7 +170,7 @@ public class MyUsernamePasswordAuthProvider
 					}
 				}
 				return LoginResult.WRONG_PASSWORD;
-			}
+			// }
 		}
 	}
 
@@ -182,10 +182,10 @@ public class MyUsernamePasswordAuthProvider
 	@Override
 	protected Call userUnverified(final UsernamePasswordAuthUser authUser) {
 		return routes.Signup.unverified(authUser.getEmail());
-	  
+
 //	  if(authUser == null){
 //      return PlayAuthenticate.loginAndRedirect(ctx(), new MyLoginUsernamePasswordAuthUser(user.email));
-//      
+//
 ////      return ok(unverified.render());
 //    }
 //    else{

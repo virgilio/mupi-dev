@@ -99,7 +99,7 @@ public class Profile extends Controller {
 				filledForm.get().getBirthDate(),
 				picturePath,
 				filledForm.get().getGender(),
-            filledForm.get().getNotificationLevel(),
+        filledForm.get().getNotificationLevel(),
 				filledForm.get().getLocations()
 				);
 

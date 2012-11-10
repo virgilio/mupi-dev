@@ -18,41 +18,41 @@ import play.db.ebean.Model;
 @Entity
 @Table(name = "notification_buckets")
 public class NotificationBucket extends Model {
-    
-  private static final long serialVersionUID = 1L;
-  
+
+  private static final long                            serialVersionUID = 1L;
+
   @Id
-  private Long id;
-    
+  private Long                                         id;
+
   @Required
   @ManyToOne
-  private Publication publication;
-    
+  private Publication                                  publication;
+
   @Required
   @ManyToOne
-  private Profile profile;
-    
+  private Profile                                      profile;
+
   @Required
   @Column(columnDefinition = "TEXT")
-  private String body;
-    
+  private String                                       body;
+
   @Required
-  private Integer status;	
-    
-  @Required
-  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date created;
+  private Integer                                      status;
 
   @Required
   @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date modified;
+  private Date                                         created;
 
+  @Required
+  @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date                                         modified;
 
-  public static final Finder<Long, NotificationBucket> find = new Finder<Long, NotificationBucket>(
-												   Long.class, NotificationBucket.class);
+  public static final Finder<Long, NotificationBucket> find             = new Finder<Long, NotificationBucket>(
+                                                                            Long.class,
+                                                                            NotificationBucket.class);
 
-
-  public NotificationBucket(Publication publication, Profile profile, String body) {
+  public NotificationBucket(Publication publication, Profile profile,
+      String body) {
     this.publication = publication;
     this.profile = profile;
     this.body = body;
@@ -61,118 +61,121 @@ public class NotificationBucket extends Model {
     this.modified = new Date();
   }
 
-
-  public static void create(Publication publication, Profile profile){
-    String body  = "";
+  public static void create(Publication publication, Profile profile) {
+    String body = "";
     int size;
     boolean notify = false;
-    if(publication.getPub_typ() == conf.MupiParams.PubType.EVENT){
+    if (publication.getPub_typ() == conf.MupiParams.PubType.EVENT) {
       Promotion p = Promotion.getByPublicationId(publication.getId());
-      if(p != null) {
-	String text = Jsoup.parse(p.getTitle()).text();
-	size = text.length() > 50 ? 50 : text.length();
-	body = "O evento '" + Jsoup.parse(p.getTitle()).text().substring(0, size);
-	notify = true;
-	//System.out.println("Não sou nulo");
+      if (p != null) {
+        String text = Jsoup.parse(p.getTitle()).text();
+        size = text.length() > 50 ? 50 : text.length();
+        body = "O evento '"
+            + Jsoup.parse(p.getTitle()).text().substring(0, size);
+        notify = true;
+        // System.out.println("Não sou nulo");
       }
-      //else 
-      //System.out.println("Sou nulo");
+      // else
+      // System.out.println("Sou nulo");
     } else {
       String text = Jsoup.parse(publication.getBody()).text();
       size = text.length() > 50 ? 50 : text.length();
-      body = "A publicação '" + Jsoup.parse(publication.getBody()).text().substring(0, size);
+      body = "A publicação '"
+          + Jsoup.parse(publication.getBody()).text().substring(0, size);
       notify = true;
     }
-    //System.out.println("Salva? " + (notify ? "sim" : "não"));
-    if(notify == true){
-      body += "...' no interesse " 
-	+ publication.getInterest().getName() 
-	+ " recebeu comentários!";
-      //System.out.println("Vou salvar!");
-      NotificationBucket notificationBucket = new NotificationBucket(publication, profile, body);
+    // System.out.println("Salva? " + (notify ? "sim" : "não"));
+    if (notify == true) {
+      body += "...' no interesse " + publication.getInterest().getName()
+          + " recebeu comentários!";
+      // System.out.println("Vou salvar!");
+      NotificationBucket notificationBucket = new NotificationBucket(
+          publication, profile, body);
       notificationBucket.save();
     }
   }
 
-
-  // public static void updateBucket(Long publication, Long profile, String body){
-  public static void updateBucket(Publication publication, Profile profile){
+  // public static void updateBucket(Long publication, Long profile, String
+  // body){
+  public static void updateBucket(Publication publication, Profile profile) {
     NotificationBucket nb = find.where()
-      .eq("publication_id", publication.getId())
-      .eq("profile_id", profile.getId()).findUnique();
-    if(nb == null) { // The user is not following that publication yet
+        .eq("publication_id", publication.getId())
+        .eq("profile_id", profile.getId()).findUnique();
+    if (nb == null) { // The user is not following that publication yet
       NotificationBucket.create(publication, profile);
-    } 
+    }
 
     // Update Status, the user is already following! Notify everybody else =D
     notifyBuckets(publication, profile);
   }
-  
-//public static void updateBucket(Long publication, Long profile, String body){
- public static void updateBucketWithoutNotify(Publication publication, Profile profile){
-   NotificationBucket nb = find.where()
-     .eq("publication_id", publication.getId())
-     .eq("profile_id", profile.getId()).findUnique();
-   if(nb == null) { // The user is not following that publication yet
-     NotificationBucket.create(publication, profile);
-   }
- }
 
-  public static void notifyBuckets(Publication publication, Profile profile){
+  // public static void updateBucket(Long publication, Long profile, String
+  // body){
+  public static void updateBucketWithoutNotify(Publication publication,
+      Profile profile) {
+    NotificationBucket nb = find.where()
+        .eq("publication_id", publication.getId())
+        .eq("profile_id", profile.getId()).findUnique();
+    if (nb == null) { // The user is not following that publication yet
+      NotificationBucket.create(publication, profile);
+    }
+  }
+
+  public static void notifyBuckets(Publication publication, Profile profile) {
     // Get everyone that have this publication in its bucket! =D
     List<NotificationBucket> nb_l = find.where()
-      .eq("publication_id", publication.getId()).findList();
-    for(NotificationBucket nb : nb_l){
-      if(nb.getProfile().getId() != profile.getId()){
-	nb.setStatus(nb.getStatus() + 1);
-	nb.update();
-      }
-      else {
-	setNotified(publication, profile);
+        .eq("publication_id", publication.getId()).findList();
+    for (NotificationBucket nb : nb_l) {
+      if (nb.getProfile().getId() != profile.getId()) {
+        nb.setStatus(nb.getStatus() + 1);
+        nb.update();
+      } else {
+        setNotified(publication, profile);
       }
     }
     //notifyMail(publication, profile);
   }
 
-  public static void notifyMail(Publication publication, Profile profile){
-    
-  }
+//  public static void notifyMail(Publication publication, Profile profile) {
+//    email dos usersq estão seguindo a pub e 
+//    List<NotificationBucket> nb_l = find.where()
+//        .eq("publication_id", publication.getId())
+//        .j
+//        .findList();
+//  }
 
-  public static void setNotified(Publication publication, Profile profile){
+  public static void setNotified(Publication publication, Profile profile) {
     NotificationBucket nb = find.where()
-      .eq("publication_id", publication.getId())
-      .eq("profile_id", profile.getId()).findUnique();
-    if(nb != null) { // The user is not following that publication yet
+        .eq("publication_id", publication.getId())
+        .eq("profile_id", profile.getId()).findUnique();
+    if (nb != null) { // The user is not following that publication yet
       nb.setStatus(0);
       nb.update();
     }
   }
 
-  public static void setAllNotified(Profile profile){
+  public static void setAllNotified(Profile profile) {
     List<NotificationBucket> nb_l = find.where()
-      .eq("profile_id", profile.getId())
-      .findList();
+        .eq("profile_id", profile.getId()).findList();
 
-    if(nb_l != null) {
-      for(NotificationBucket nb : nb_l){
-	nb.setStatus(0);
-	nb.update();
+    if (nb_l != null) {
+      for (NotificationBucket nb : nb_l) {
+        nb.setStatus(0);
+        nb.update();
       }
     }
   }
 
-  public static void removeFromBucket(Profile profile, Publication publication){
+  public static void removeFromBucket(Profile profile, Publication publication) {
     NotificationBucket nb = NotificationBucket.find.where()
-      .eq("profile_id", profile.getId())
-      .eq("publication_id", publication.getId()).findUnique();
+        .eq("profile_id", profile.getId())
+        .eq("publication_id", publication.getId()).findUnique();
     nb.delete();
   }
 
-  public static List<NotificationBucket> getBucket(Profile profile){
-    return find.where()
-      .eq("profile_id", profile.getId())
-      .gt("status", 0)
-      .findList();
+  public static List<NotificationBucket> getBucket(Profile profile) {
+    return find.where().eq("profile_id", profile.getId()).gt("status", 0)
+        .findList();
   }
 
   public Long getId() {
@@ -230,6 +233,5 @@ public class NotificationBucket extends Model {
   public void setModified(Date modified) {
     this.modified = modified;
   }
-
 
 }

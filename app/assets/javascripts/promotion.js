@@ -59,6 +59,36 @@ jQuery(function(){
 	}
     });
     
+    
+    
+    
+    jQuery("#login_modal").modal("hide");
+    jQuery("#login_modal_but").live('click', function(event){
+        event.preventDefault();
+        if(jQuery("#login_modal").is(':visible'))
+        	jQuery("#login_modal").modal("hide");
+        else{
+        	jQuery("#login_modal").modal("show");
+        }
+      });
+
+    jQuery("#not_logged_comments  input, #not_logged_comments textarea").live('click focus keyup', function(event){
+        event.preventDefault();
+        if(jQuery("#login_modal").is(':visible'))
+        	jQuery("#login_modal").modal("hide");
+        else{
+        	jQuery("#not_logged_comments textarea").val("");
+        	jQuery("#login_modal").modal("show");
+        } 
+      });
+    
+    if(window.location.hash == "#login_modal"){
+    	jQuery("#login_modal").modal("show");
+    }
+    
+    
+    
+    
 })
 
 

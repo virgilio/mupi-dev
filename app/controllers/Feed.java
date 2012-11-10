@@ -64,21 +64,18 @@ public class Feed extends Controller {
 
   public static Result feed(){
     final User user = Mupi.getLocalUser(session());
-
     if(user == null || user.profile == null){
       session("ref", request().getHeader(HttpHeaders.REFERER));
       return ok(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-    } else if(user.getProfile().getInterests().isEmpty()){
-      return redirect(routes.Interest.interestManager());
-    } else if(user.getProfile().getStatus() == MupiParams.FIRST_LOGIN){
-      return redirect(routes.Profile.profile());
     } else if(session("ref") != null && !session().get("ref").equalsIgnoreCase("null")) {
-//      System.out.println(session("ref"));
-//      System.out.println("feed: " + request().getHeader(HttpHeaders.REFERER));
       String url = session("ref");
       session().remove("ref");
       return redirect(url);
-    } else{
+    }else if(user.getProfile().getInterests().isEmpty()){
+      return redirect(routes.Interest.interestManager());
+    } else if(user.getProfile().getStatus() == MupiParams.FIRST_LOGIN){
+      return redirect(routes.Profile.profile());
+    }  else{
       Long interest = getLocalInterest();
       Long location = getLocalLocation();
 
@@ -227,7 +224,7 @@ public class Feed extends Controller {
   }
 
 
-  @Dynamic("editor")
+  @Restrict(Mupi.USER_ROLE)
   public static Result comment(String body, Long id){
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
@@ -241,7 +238,7 @@ public class Feed extends Controller {
     return selectFeed(getLocalInterest(), getLocalLocation());
   }
 
-  @Dynamic("editor")
+  @Restrict(Mupi.USER_ROLE)
   public static Result commentPublication(String body, Long id){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
     final models.Publication pub = models.Publication.find.byId(id);
