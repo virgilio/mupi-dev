@@ -4,7 +4,7 @@
 @import helper.twitterBootstrap._
 @import mupiHelpers._
 
-@implicitField = @{ FieldConstructor(terms_acceptance.f) }
+@** @implicitField = @{ FieldConstructor(terms_acceptance.f) } **@
              
 @main(Messages("playauthenticate.signup.title"),"signup") {
 <div class="mupi_container container_signup">
@@ -15,29 +15,30 @@
     	
         @if(signupForm.hasGlobalErrors) { 
             <p class="error">
-            <span class="label label-important">@signupForm.globalError.message</span>
-        </p>
+              <span class="label label-important">@signupForm.globalError.message</span>
+            </p>
         }
         
-         @{ /*@inputText(
-            signupForm("name"),
-            '_label -> Messages("playauthenticate.signup.name")
-         )*/}
+        @inputText(
+           signupForm("name"),
+           '_label -> Messages("playauthenticate.signup.name")
+        )
          
          @_emailPartial(signupForm)
          
          @_passwordPartial(signupForm)
 
 
-
-        
-        @checkbox(signupForm("terms_accepted"))
+        <div class="clearfix terms_acceptance ">
+          <div class="input">
+            <input type="checkbox" name='@signupForm("terms_accepted").name' id='@signupForm("terms_accepted").name' value="true">
+            <label for='@signupForm("terms_accepted").name'>Li e aceito os <a target='_blank' href="@routes.Mupi.terms()"> @Messages("mupi.navigation.terms.title") </a></label>
+          </div>
+        </div>
         
 
         <input type="submit" value="@Messages("playauthenticate.signup.now")" class="btn btn-primary">
     	}
     </div>
-
-</div>
-
+  </div>
 }

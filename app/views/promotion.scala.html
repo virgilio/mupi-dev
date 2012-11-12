@@ -53,8 +53,11 @@ ref.parentNode.insertBefore(js, ref);
 
 
 
-<div id="login_modal" class="modal fade hide">
-  <div class="modal-body" style="float: left;">
+<div id="login_modal" class="modal fade hide" style="width: 585px;">
+  <div class="modal-header">
+    <h3>Você precisa fazer login ou se cadastrar para que possa continuar.</h3>
+  </div>
+  <div class="modal-body" style="float: left; width: 260px;">
     @helper.form(routes.Mupi.doLogin) {
       @if(loginForm.hasGlobalErrors) { 
         <p class="error">
@@ -71,7 +74,7 @@ ref.parentNode.insertBefore(js, ref);
       
     }
   </div> 
-  <div class="modal-body" style="float: left; border-left: 1px #cdcdcd dashed">
+  <div class="modal-body" style="float: left; width: 260px; border-left: 1px #cdcdcd dashed">
     @helper.form(routes.Mupi.doSignup) {
       
         @if(signupForm.hasGlobalErrors) { 
@@ -92,8 +95,9 @@ ref.parentNode.insertBefore(js, ref);
         
         <div class="clearfix terms_acceptance ">
 				  <div class="input">
-				    <input type="checkbox" name='@signupForm("terms_accepted").name' id='@signupForm("terms_accepted").name' value="true">
-				    <label for='@signupForm("terms_accepted").name'>Li e aceito os <a target='_blank' href="@routes.Mupi.terms()"> @Messages("mupi.navigation.terms.title") </a></label>
+				    <input type="checkbox" name='@signupForm("terms_accepted").name' id='@signupForm("terms_accepted").name' value="true" style="display: inline; float: left">
+				    <label for='@signupForm("terms_accepted").name'>Li e aceito os <a target='_blank' href="@routes.Mupi.terms()" style="display: inline"> @Messages("mupi.navigation.terms.title") </a></label>
+				    </br>
 				  </div>
 				</div>
         

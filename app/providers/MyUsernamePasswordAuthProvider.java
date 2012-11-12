@@ -11,6 +11,7 @@ import models.User;
 import play.Application;
 import play.data.Form;
 import play.data.validation.Constraints.Email;
+import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.i18n.Messages;
@@ -91,6 +92,9 @@ public class MyUsernamePasswordAuthProvider
 		@MinLength(5)
 		public String repeatPassword;
 
+		@Required
+		@MinLength(2)
+		@MaxLength(20)
 		public String name;
 
 		@Required(message = "Você precisa aceitar os termos de uso para que possa se cadastrar no Mupi")

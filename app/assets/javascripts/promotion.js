@@ -72,7 +72,7 @@ jQuery(function(){
         }
       });
 
-    jQuery("#not_logged_comments  input, #not_logged_comments textarea").live('click focus keyup', function(event){
+    jQuery("#not_logged_comments input, #not_logged_comments textarea").live('click focus keyup', function(event){
         event.preventDefault();
         if(jQuery("#login_modal").is(':visible'))
         	jQuery("#login_modal").modal("hide");
@@ -90,9 +90,3 @@ jQuery(function(){
     
     
 })
-
-
-
-
-
-

@@ -193,10 +193,13 @@ public class User extends Model implements RoleHolder {
 			final String name = identity.getName();
 			if (name != null) {
 				user.name = name;
+				user.profile = new Profile(name);
+			}
+			else{
+			  user.profile = new Profile();
 			}
 		}
 		
-		user.profile = new Profile();
 		user.save();
 		
 		user.saveManyToManyAssociations("roles");

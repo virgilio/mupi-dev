@@ -244,12 +244,19 @@ public class Mupi extends Controller {
       if(user == null || user.profile == null)
         session("ref", request().uri());
       
-      Publication pub = models.Promotion.find.byId(id).getPublication();
-      
-      if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
-        if(user != null) NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
-        return ok(promotion.render(models.Promotion.find.byId(id), MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-      } else {
+      Promotion prom = models.Promotion.find.byId(id);
+      if(prom != null){      
+        Publication pub = prom.getPublication();
+        
+        if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
+          if(user != null) NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
+          return ok(promotion.render(models.Promotion.find.byId(id), MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+        } else {
+          flash(Mupi.FLASH_MESSAGE_KEY, "Esta divulgação não existe ou foi removida!");
+          return redirect(routes.Feed.feed());
+        }
+      }
+      else{
         flash(Mupi.FLASH_MESSAGE_KEY, "Esta divulgação não existe ou foi removida!");
         return redirect(routes.Feed.feed());
       }

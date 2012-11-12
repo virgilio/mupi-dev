@@ -47,7 +47,63 @@ jQuery(function() {
     });
   }
 
-
-
+  jQuery('#login_header_but').click(function() {
+    promotion.event('login_header_click');
+  });
+  
+  jQuery('#signup_header_but').click(function() {
+    promotion.event('signup_header_click');
+  });
+  
+  jQuery('#promotion_comments textarea').one('focus', function() {
+    promotion.event('comment_textarea_focus');
+  });
+  
   promotion.setCohort('subscribe')
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
