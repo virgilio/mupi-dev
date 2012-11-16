@@ -73,6 +73,14 @@ public class Location extends Model {
 		}
 		return json.replace("}{", "},{").concat("]");
 	}
+	
+	public static List<Long> getIds(List<Location> l){
+    ArrayList<Long> ids = new ArrayList<Long>();
+    for (Location location : l) {
+      ids.add(location.getId());
+    }
+    return ids;
+  }
 
 	public String getName() {
 		return name;

@@ -541,7 +541,7 @@ public class Feed extends Controller {
   }
 
 
-  private static List<Long> getInterestIds(List<models.Interest> i){
+  public static List<Long> getInterestIds(List<models.Interest> i){
     ArrayList<Long> ids = new ArrayList<Long>();
     for (models.Interest interest : i) {
       if(interest.getStatus() > 0)

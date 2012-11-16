@@ -63,9 +63,6 @@ public class Profile extends Model {
 
     @OneToMany
     private List<PubComment> pubComments = new ArrayList<PubComment>();
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    public User user;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date created;
@@ -73,8 +70,7 @@ public class Profile extends Model {
     private Date modified;
 
 
-    public static final Finder<Long, Profile> find = new Finder<Long, Profile>(
-                                                                               Long.class, Profile.class);
+    public static final Finder<Long, Profile> find = new Finder<Long, Profile>(Long.class, Profile.class);
     
     public Profile(User user, String firstName, String lastName, Date birthDate, String picture,
                    String about, Integer gender, Integer notificationLevel, List<Location> locations) {

@@ -1,0 +1,225 @@
+
+
+.promotions_header{
+  text-align: center;
+  width: 100%;
+  height: 90px;
+  margin-top: 30px;
+}
+
+.promotions_header h1{
+  font-size: 25px;
+  line-height: 34px;
+}
+
+.promotions_header h1, .location_selector, .interest_selector{
+  margin: 0;
+  float:left;
+}
+
+.location_selector, .interest_selector{
+  margin-left: 20px;
+  margin-top: 5px;
+}
+ 
+.align_center{
+  margin: 0 auto;
+  width: 900px;
+}
+
+.promotion_list{
+  margin: 0;
+}
+
+
+/*MEETUPS*/
+.meetups{
+  width: 960px;
+  margin: 0 auto;
+}
+
+.meetup, .meetup:hover {
+	background: white;
+	color: black;
+	height: 140px;
+	width: 280px;
+	border-radius: 8px;
+	position: relative;
+	display: block;
+	text-decoration: none;
+}
+
+.meetup img {
+	min-height: 100%;
+	min-width: 100%;
+	border-radius: 8px;
+}
+
+.radius_overflow_fix{
+	border-radius: 8px;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+.meetup_box{
+	position: relative;
+	height: 140px;
+	width: 280px;
+	border-radius: 8px;  float: left;
+  margin: 20px 20px 10px 20px;
+}
+.meetup span.meetup_title {
+	height: 27px;
+	background: #4F7AA3;
+	color: white;
+	width: 100%;
+	padding-left: 20px;
+	padding-top: 3px;
+	left: -10px;
+	line-height: 27px;
+	overflow: hidden;
+	display: block;
+	position: absolute;
+	top: 20px;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+	text-shadow: 1px 1px #444444;
+	z-index: 2;
+}
+.meetup span.mupi_event {
+	background: #3794ED;
+}
+.meetup .meetup_date {
+	position: absolute;
+	border-radius: 4px;
+	bottom: 10px;
+	left: 10px;
+	padding: 5px;
+}
+.background-meetup{
+	/*background: #333;*/
+	position: absolute;
+	width: 123px;
+	height: 100%;
+	right: -20px;
+	top: 0;
+	border-radius: 0 8px 8px 0;
+	z-index: 1;
+}
+.meetup .meetup_date p {
+	margin: 0;
+}
+
+.meetup_title_shadow {
+	background: url('../img/eventspanshadow.png') 0 0 no-repeat;
+	width: 280px;
+	height: 4px;
+	position: absolute;
+	top: 50px;
+	left: -9px;
+	z-index: 2;
+}
+
+.meetup_info{
+  display: none;
+}
+
+.meetUp_subscription_feed, .meetUp_unsubscription_feed {
+	position: absolute;
+	right: -8px;
+	bottom: 50px;
+	border: none;
+	border-radius: 3px 0 0 3px;
+	color: white;
+	padding: 5px 10px;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+	text-transform: uppercase;
+	background-color: #3794ED;
+	font-weight: bold;
+}
+
+.meetUp_subscription_feed2, .meetUp_unsubscription_feed2 {
+   position: absolute;
+   right: -8px;
+   bottom: 50px;
+   border: none;
+   border-radius: 3px 0 0 3px;
+   color: #DDD;
+   padding: 5px 10px;
+   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+   text-transform: uppercase;
+   background-color: #888;
+   font-weight: bold;
+}
+
+.meetUp_subscription_feed:hover {
+	background-color: #33A847;
+}
+.meetUp_unsubscription_feed{
+	background-color: #888;
+}
+.meetUp_unsubscription_feed:hover{
+	background-color: #B94A48;
+}
+
+.num_subscribers{
+	position: absolute;
+    right: 0;
+    top: 0;
+    font-weight: bold;
+    padding: 0 5px;
+}
+.subscribe_shadow{
+	background: url('../img/eventspanshadow.png') 0 0 no-repeat;
+	width: 10px;
+	height: 4px;
+	position: absolute;
+	background-position: right center;
+	top: 90px;
+	right: -8px;
+	z-index: 2;
+}
+.mini_logo{
+	position: absolute;
+	background: url('../img/logominitrans.png') 0 0 no-repeat;
+	width: 30px;
+	height: 30px;
+	right: 8px;
+	bottom: 6px;
+}
+#feeds{
+  margin: 0;
+  padding: 0
+}
+
+#description_promotionMeetup{
+	width:97%;
+}
+
+.pagination{
+  margin:0;
+  text-align: center;
+}
+
+/*
+.next{
+  right: 0px;
+  top: 0px;
+  height: 100%;
+  line-height: 100%;
+  width: 200px;
+  background: #777;
+  position: fixed;
+  opacity: 0.3;
+  cursor: pointer;
+  line-height: 100%;
+}
+.next:hover{
+  opacity: 0.6;
+}
+.next a{
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+  font-size: 80px;
+  border: none !important;
+}*/

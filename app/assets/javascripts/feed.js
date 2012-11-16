@@ -131,7 +131,7 @@ jQuery(function(){
 		jQuery(this).find('.meetup_img').css({'opacity':'0.3'});
 		jQuery(this).find('.meetup_info').fadeIn();
 	});
-	jQuery(".meetup_box").on('mouseleave', function(event){
+	jQuery(".meetup_box").live('mouseleave', function(event){
 		jQuery(this).find('.meetup_img').css({'opacity':'1'});
 		jQuery(this).find('.meetup_info').hide();
 	});
