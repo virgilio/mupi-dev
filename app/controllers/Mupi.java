@@ -2,11 +2,15 @@ package controllers;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.http.HttpHeaders;
 
+import models.Interest;
+import models.Location;
 import models.NotificationBucket;
 import models.Promotion;
 import models.Publication;
@@ -14,6 +18,9 @@ import models.User;
 import play.Routes;
 import play.api.mvc.Cookies;
 import play.data.Form;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.MinLength;
+import play.data.validation.Constraints.Required;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -36,9 +43,11 @@ import views.html.publicationSingle;
 import views.html.signup;
 import views.html.statistics;
 import views.html.terms;
+import views.html.feedHelpers.promList;
 import be.objectify.deadbolt.actions.Dynamic;
 import be.objectify.deadbolt.actions.Restrict;
 
+import com.avaje.ebean.Page;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 
@@ -319,4 +328,74 @@ public class Mupi extends Controller {
     NotificationBucket.setAllNotified(user.getProfile());
     return ok();
   }
+  
+
+  
+  
+  
+  public static class CommunitySelection {
+    public Long interest = new Long(0);
+    public Long location = new Long(0);
+    
+    public CommunitySelection(){}
+    
+    public CommunitySelection(Long interest, Long location) {
+      if(interest != null) this.interest = interest;
+      else                 this.interest = new Long(0);
+      if(location!= null)  this.location = location;
+      else                 this.location = new Long(0);
+    }
+    public Long getInterest() {
+      return interest;
+    }
+    public void setInterest(Long interest) {
+      this.interest = interest;
+    }
+    public Long getLocation() {
+      return location;
+    }
+    public void setLocation(Long location) {
+      this.location = location;
+    }
+    
+    
+  }
+  
+  public static Result getPromotions(){    
+    final Form<CommunitySelection> filledForm = new Form<CommunitySelection>(CommunitySelection.class).bindFromRequest();
+
+    Long i = new Long(0);
+    Long l = new Long(0);
+    
+    
+    if(filledForm.get().getInterest() != null)
+      i = filledForm.get().getInterest();
+    if(filledForm.get().getLocation() != null)
+      l = filledForm.get().getLocation();
+  
+    return listPromotions(i, l, 0, 9);
+  }
+  
+  public static Result promotions(){
+    return listPromotions(new Long(0), new Long(0), 0, 9);
+  }
+  
+  public static Result listPromotions(Long i, Long l, Integer p, Integer pp) {
+    List<models.Interest> i_l = new ArrayList<models.Interest>();
+    List<models.Location> l_l = new ArrayList<models.Location>();
+    
+    if(i != null && i != 0) i_l.add(Interest.find.byId(i));
+    if(l != null && l != 0) l_l.add(Location.find.byId(l));
+    
+    
+    return ok(views.html.promotions.render(
+      models.Interest.find.all(),
+      models.Location.find.all(),     
+      new Form<CommunitySelection>(CommunitySelection.class).fill(new CommunitySelection(i, l)),
+      Promotion.findByInterestLocation(i_l, l_l, p, pp, "date, time")
+    ));
+  }
+  
+  
+  
 }

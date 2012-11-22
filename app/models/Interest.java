@@ -1,6 +1,8 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -60,6 +62,15 @@ public class Interest extends Model{
 		interest.save();
 		return interest;
 	}
+	
+	 
+  public static List<Long> getIds(List<Interest> i){
+    ArrayList<Long> ids = new ArrayList<Long>();
+    for (Interest interest : i) {
+      ids.add(interest.getId());
+    }
+    return ids;
+  }
 	
 	public Long getId() {
 		return id;

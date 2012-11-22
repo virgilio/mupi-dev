@@ -1,0 +1,49 @@
+@(field: play.api.data.Field,
+  interestList : List[models.Interest])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import mupiHelpers._
+@import play.libs.Json
+
+@ints = @{interestList.map(i => "{'id': " + i.getId + ", 'text': '" + i.getName + "'}" ) }
+
+@interests = @{ Html(ints.mkString( "{'id': 0,'text':'Todos os interesses'},",",","" ) ) }
+
+  <link href="@routes.Assets.at("stylesheets/select2.css")" rel="stylesheet">
+  <script src="@routes.Assets.at("javascripts/normalizeChars.js")"></script>
+  <script src="@routes.Assets.at("javascripts/select2.js")"></script>
+
+  <select id="interestSelector" name="@field.name" style="width: 300px; display: none; ">
+      <option value="0"> Todos os interesses </option>
+  
+    @for(interest <- interestList){
+      @if(field.value != None && field.value.get != "" && interest.getId == field.value.get.toLong){
+        <option value="@interest.getId" selected="selected"> @interest.getName </option>
+      }else{
+        <option value="@interest.getId"> @interest.getName </option>
+      }
+    }
+
+  </select>
+
+
+<script>
+
+  jQuery(document).ready(function() {
+    jQuery("#interestSelector").select2({
+        clear: function() {
+            this.opts.element.val("0");
+            this.selection.find("span").empty();
+            this.selection.removeData("select2-data");
+            this.setPlaceholder();
+        },        
+        matcher: function(term, text) {
+          return normalize(text).toUpperCase().indexOf(normalize(term).toUpperCase())>=0;
+        }
+    });
+  });
+
+
+
+</script>

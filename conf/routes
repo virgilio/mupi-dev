@@ -55,6 +55,13 @@ POST  /feed/nextPubs            controllers.Feed.nextPublications(last: Long)
 POST  /feed/updatePubs          controllers.Feed.refreshPublications(last: Long)
 POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 
+
+GET   /promotion                controllers.Mupi.promotions()                
+GET   /eventos                  controllers.Mupi.promotions()
+POST  /promotion                controllers.Mupi.getPromotions()
+GET   /promotion/list           controllers.Mupi.listPromotions(i:Long ?= 0, l:Long ?= 0, p:java.lang.Integer ?= 0, pp:java.lang.Integer ?= 1)
+
+
 POST  /comment/remove/:id       controllers.Feed.removeComment(id: Long)
 POST  /publication/remove/:id   controllers.Feed.removePublication(id: Long)
 
@@ -65,7 +72,7 @@ POST  /publication/comment/:t/:p    controllers.Feed.commentPublication(t: Strin
 # PROFILE
 GET   /profile           	    controllers.Profile.profile
 POST  /profile           	    controllers.Profile.doProfile
-POST  /profile/:op/:id          controllers.Profile.changeLocation(op: Integer, id: Long)
+POST  /profile/:op/:id          controllers.Profile.changeLocation(op: java.lang.Integer, id: Long)
 POST  /profile/:city            controllers.Profile.suggestLocation(city: String)
 
 # INTERESTS

@@ -30,7 +30,7 @@ import controllers.routes;
 @Table(name = "promotions")
 public class Promotion extends Model {
   private static final long serialVersionUID = 1L;
-  private static final int PER_PAGE = 10;
+  public static final int PER_PAGE = 10;
   private static final int ACTIVE = models.Publication.ACTIVE;
   private static final int INACTIVE = models.Publication.INACTIVE;
 
@@ -307,6 +307,39 @@ public class Promotion extends Model {
           .findPagingList(PER_PAGE)
           .getPage(0);
   }
+
+  /**
+   * 
+   * @param i interest
+   * @param l location
+   * @param p page
+   * @param pp per page
+   * @param ob order by
+   * @return A page with the containing promotions
+   */
+  public static Page<Promotion> findByInterestLocation(List<Interest> i, List<Location> l, Integer p, Integer pp, String ob) {
+    if(i == null || i.isEmpty()) i = Interest.find.all();
+    if(l == null || l.isEmpty()) l = Location.find.all();
+    if(ob == null || ob.trim().isEmpty()) ob = "date, time";
+    if(p < 0) p = 0;
+    if(pp <= 0) pp = 1;
+    
+    
+  
+    return find.where()
+      .in("publication_id",
+          Publication.find.where()
+            .in("interest_id", Interest.getIds(i))
+            .in("location_id", Location.getIds(l))
+            .gt("status", 0)
+            .findIds()
+      )
+      .gt("date", new Date())
+      .orderBy(ob)
+      .findPagingList(pp)
+      .getPage(p);
+  }
+  
   
   public static Promotion getByPublicationId(Long id){
     return find.where().eq("publication_id", id).findUnique();

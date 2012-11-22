@@ -1,0 +1,47 @@
+@(field: play.api.data.Field,
+  locations: List[models.Location])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import mupiHelpers._
+@import play.libs.Json
+
+@locs = @{locations.map(l => "{'id': " + l.getId + ", 'text': '" + l.getName + "'}" ) }
+
+@allLocs = @{ Html(locs.mkString( "{'id':0,'text':'Todos as localidades'},",",","" ) ) }
+
+  <link href="@routes.Assets.at("stylesheets/select2.css")" rel="stylesheet">
+  <script src="@routes.Assets.at("javascripts/normalizeChars.js")"></script>
+  <script src="@routes.Assets.at("javascripts/select2.js")"></script>
+
+
+  <select id="locationSelector" name="@field.name" style="width: 300px; display: none; ">
+      <option value="0"> Todas as localidades </option>
+    
+    
+    @for(location <- locations){
+      @if(field.value != None && field.value.get != "" && location.getId == field.value.get.toLong){
+        <option value="@location.getId" selected="selected"> @location.getName </option>
+      }else{
+        <option value="@location.getId"> @location.getName </option>
+      }
+    }
+  </select>
+
+
+<script>
+  jQuery(document).ready(function() {
+    jQuery("#locationSelector").select2({
+        clear: function() {
+            this.opts.element.val("0");
+            this.selection.find("span").empty();
+            this.selection.removeData("select2-data");
+            this.setPlaceholder();
+        }, 
+    	  matcher: function(term, text) {
+          return normalize(text).toUpperCase().indexOf(normalize(term).toUpperCase()) >= 0;
+        }
+    });
+  });
+
+</script>

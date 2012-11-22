@@ -2,12 +2,14 @@
   uLocations: List[models.Location],
   locations: List[models.Location])
 
+
 @import helper._
 @import helper.twitterBootstrap._
 @import mupiHelpers._
 @import play.libs.Json
 
-@allLocs = @{Html(Json.stringify(Json.toJson(locations)))}
+@locs = @{locations.map(l => "{'id': " + l.getId + ", 'text': '" + l.getName + "'}" ) }
+@allLocs = @{ Html(locs.mkString( "",",","" ) ) }
 
 
   <link href="@routes.Assets.at("stylesheets/select2.css")" rel="stylesheet">
@@ -33,30 +35,24 @@
 
 
 <script>
-  var locationData = [];
-  jQuery(@allLocs).each(function () {
-      locationData.push({id: this.id, text: this.name});
-  });
   jQuery(document).ready(function() {
     jQuery("#locationSelector").select2({
         placeholder: "Digite a localizacao",
-        data: locationData,
+        data: [@allLocs],
         initSelection : function (element, callback) {
-            var data = [];
-            jQuery(locationData).each(function () {
-                data.push({id: this.id, text: this.name});
-            });
-            callback(data);
+          callback([@allLocs]);
         },
         id: "id",
-        matcher: function(term, text) { return normalize(text).toUpperCase().indexOf(term.toUpperCase())==0; },
+        matcher: function(term, text) {
+          return normalize(text).toUpperCase().indexOf(normalize(term).toUpperCase())>=0;
+        },
         createSearchChoice:function(term, data) {
             if (jQuery(data).filter(function() {
                 return this.text.localeCompare(term)===0;
             }).length===0) {
                 return {id:term, text: "Sugerir localizacao: "+ term};
             }
-        },
+        }
     });
 
     jQuery("#locationSelector")
@@ -64,10 +60,10 @@
     	      if(!isNaN(parseInt(jQuery("#locationSelector").select2("val"))))
     	    	  registerLocation(jQuery("#locationSelector").select2("data"));
     	      else
-    	    	  if (confirm("Você deseja sugerir a cidade " + jQuery("#locationSelector").select2("val") + "?")) { 
+    	    	  if (confirm("Você deseja sugerir a cidade " + jQuery("#locationSelector").select2("val") + "?")) {
     	    		  suggestLocation(jQuery("#locationSelector").select2("data"));
-    	    		}    	    	  
-            
+    	    		}
+
     	      jQuery("#locationSelector").select2("val", "");
       });
 
