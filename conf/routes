@@ -56,10 +56,10 @@ POST  /feed/updatePubs          controllers.Feed.refreshPublications(last: Long)
 POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 
 
-GET   /promotion                controllers.Mupi.promotions()                
-GET   /eventos                  controllers.Mupi.promotions()
-POST  /promotion                controllers.Mupi.getPromotions()
-GET   /promotion/list           controllers.Mupi.listPromotions(i:Long ?= 0, l:Long ?= 0, p:java.lang.Integer ?= 0, pp:java.lang.Integer ?= 1)
+GET   /promotion                controllers.EventController.events(p:java.lang.Integer ?= 0)                
+GET   /eventos                  controllers.EventController.events(p:java.lang.Integer ?= 0)    
+POST  /promotion                controllers.EventController.filterEvents()
+GET   /promotion/list           controllers.EventController.events(p:java.lang.Integer ?= 0)
 
 
 POST  /comment/remove/:id       controllers.Feed.removeComment(id: Long)

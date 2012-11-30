@@ -110,17 +110,53 @@ public class Publication extends Model {
 		pub.update();
 	}
 	
-	public static Page<Publication> findByInterests(List<Long> interest_ids, Long lastId){
+	/**
+	 * 
+	 * @param i interest
+	 * @param l location
+	 * @param p page
+	 * @param pp per page
+	 * @param ob order by
+	 * @return a page with the selected publications
+	 */
+	public static Page<Publication> findByInterestLocation(Long i, Long l, Integer p, Integer pp, String ob){
+	  //Getting selected interest, if it's null, get all interests
+    List<Object> interests = new ArrayList<Object>();
+    if(i == null || i <= 0l) interests = Interest.find.findIds();
+    else interests.add(i);
+    
+    //Getting selected location, if it's null, get all locations
+    List<Object> locations = new ArrayList<Object>();
+    if(i == null || l <= 0l) locations = Location.find.findIds();
+    else locations.add(i);
+    
+    // Setting orderBy, page and perPage parameters
+    if(ob == null || ob.trim().isEmpty()) ob = "created desc";
+    if(p < 0) p = 0;
+    if(pp <= 0) pp = 1;
+
+    
+    return find.where()
+      .in("interest_id", interests)
+      .in("location_id", locations)
+      .gt("status", 0)
+      .orderBy(ob)
+      .findPagingList(pp)
+      .getPage(p);
+	}
+	
+	
+	public static Page<Publication> findByInterests(List<Object> interests, Long lastId){
 	  if(lastId <= 0) 
 	    return find.where()
-	        .in("interest_id", interest_ids)
+	        .in("interest_id", interests)
 	        .gt("status", 0)
 	        .orderBy("created desc")
 	        .findPagingList(PER_PAGE)
 	         .getPage(0);
 	  else
   		return find.where()
-  		    .in("interest_id", interest_ids)
+  		    .in("interest_id", interests)
   		    .lt("created",
   		        find.byId(lastId).getCreated()
   		     )
@@ -172,7 +208,7 @@ public class Publication extends Model {
   				.getPage(0);
 	}
 	
-	public static Page<Publication> findByInterestsLocation(List<Long> interest_ids, long location_id, Long lastId){
+	public static Page<Publication> findByInterestsLocation(List<Object> interest_ids, long location_id, Long lastId){
 	  if(lastId <= 0)
 	    return find.where()
 	        .in("interest_id", interest_ids)
@@ -216,7 +252,7 @@ public class Publication extends Model {
 	
 	
 	
-	public static Page<Publication> findNewerByInterests(List<Long> interest_ids, Long firstId){
+	public static Page<Publication> findNewerByInterests(List<Object> interest_ids, Long firstId){
     if(firstId <= 0) 
       return find.where()
           .in("interest_id", interest_ids)
@@ -278,7 +314,7 @@ public class Publication extends Model {
           .getPage(0);
   }
   
-  public static Page<Publication> findNewerByInterestsLocation(List<Long> interest_ids, long location_id, Long firstId){
+  public static Page<Publication> findNewerByInterestsLocation(List<Object> interest_ids, long location_id, Long firstId){
     if(firstId <= 0)
       return find.where()
           .in("interest_id", interest_ids)

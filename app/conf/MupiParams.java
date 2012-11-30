@@ -35,6 +35,11 @@ public class MupiParams {
   public static final Integer ALL_HELPS     = HELP_INTEREST & HELP_PROFILE & HELP_FEED;
   public static final Integer NO_DEPS       = Integer.parseInt("10000",2);
 
+  
+  // Event Pagination
+  public static final Integer EVS_PER_PAGE  = 9;
+  
+  
   public static enum NotificationLevel {
       NONE, SIMPLE, NORMAL, ALL
   }

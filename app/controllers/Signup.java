@@ -165,11 +165,8 @@ public class Signup extends Controller {
 					.isLoginAfterPasswordReset();
 			if (login) {
 				// automatically log in
-				flash(Mupi.FLASH_MESSAGE_KEY,
-						Messages.get("playauthenticate.reset_password.message.success.auto_login"));
-
-				return PlayAuthenticate.loginAndRedirect(ctx(),
-						new MyLoginUsernamePasswordAuthUser(u.email));
+				flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.reset_password.message.success.auto_login"));
+				return PlayAuthenticate.loginAndRedirect(ctx(), new MyLoginUsernamePasswordAuthUser(u.email));
 			} else {
 				// send the user to the login page
 				flash(Mupi.FLASH_MESSAGE_KEY,

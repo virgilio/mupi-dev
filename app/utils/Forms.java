@@ -3,7 +3,34 @@ package utils;
 import conf.MupiParams;
 import play.data.validation.Constraints.Required;
 
-public class QueryBinder{
+public class Forms{
+  
+  
+  public static class Community {
+    public Long interest = new Long(0);
+    public Long location = new Long(0);
+    
+    public Community(){}
+    
+    public Community(Long interest, Long location) {
+      if(interest != null) this.interest = interest;
+      else                 this.interest = new Long(0);
+      if(location!= null)  this.location = location;
+      else                 this.location = new Long(0);
+    }
+    public Long getInterest() {
+      return interest;
+    }
+    public void setInterest(Long interest) {
+      this.interest = interest;
+    }
+    public Long getLocation() {
+      return location;
+    }
+    public void setLocation(Long location) {
+      this.location = location;
+    }    
+  }
   
   public static class MeetUpHosting {
     public String description;

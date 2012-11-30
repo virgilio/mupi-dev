@@ -49,8 +49,8 @@ import conf.MupiParams.PubType;
 
 
 public class Feed extends Controller {
-  private static final Form<utils.QueryBinder.MeetUpPromotion> PROMOTE_MEETUP_FORM = form(utils.QueryBinder.MeetUpPromotion.class);
-  private static final Form<utils.QueryBinder.MeetUpHosting> HOST_MEETUP_FORM = form(utils.QueryBinder.MeetUpHosting.class);
+  private static final Form<utils.Forms.MeetUpPromotion> PROMOTE_MEETUP_FORM = form(utils.Forms.MeetUpPromotion.class);
+  private static final Form<utils.Forms.MeetUpHosting> HOST_MEETUP_FORM = form(utils.Forms.MeetUpHosting.class);
   private static final Form<models.Promotion> PROMOTION_FORM = form(models.Promotion.class);
 
   @Restrict(Mupi.USER_ROLE)
@@ -87,8 +87,8 @@ public class Feed extends Controller {
         user.getProfile().getInterests(),
         user.getProfile().getLocations(),
         i, l,
-        Publication.findByInterests(getInterestIds(user.getProfile().getInterests()), new Long(0)),
-        Promotion.findByInterests(getInterestIds(user.getProfile().getInterests()), new Long(0)),
+        Publication.findByInterests(models.Interest.getIds(user.getProfile().getInterests()), 0l),
+        Promotion.findByInterests(models.Interest.getIds(user.getProfile().getInterests()), 0l),
         form(models.Promotion.class),
         PROMOTE_MEETUP_FORM,
         HOST_MEETUP_FORM
@@ -98,7 +98,7 @@ public class Feed extends Controller {
 
   @Dynamic("editor")
   public static Result hostMeetUp(){
-    final Form<utils.QueryBinder.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
+    final Form<utils.Forms.MeetUpHosting> filledForm = HOST_MEETUP_FORM.bindFromRequest();
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.getProfile();
     String lastName = p.getLastName(); if(lastName == null) lastName = "";
@@ -142,7 +142,7 @@ public class Feed extends Controller {
 
   @Dynamic("editor")
   public static Result promoteMeetUp(){
-    final Form<utils.QueryBinder.MeetUpPromotion> filledForm = PROMOTE_MEETUP_FORM.bindFromRequest();
+    final Form<utils.Forms.MeetUpPromotion> filledForm = PROMOTE_MEETUP_FORM.bindFromRequest();
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.getProfile();
     String lastName = p.getLastName();
@@ -260,7 +260,7 @@ public class Feed extends Controller {
 
   @Dynamic("editor")
   public static Result publish(){
-    Form<utils.QueryBinder.PublicationBinder> bindedForm = form(utils.QueryBinder.PublicationBinder.class).bindFromRequest();
+    Form<utils.Forms.PublicationBinder> bindedForm = form(utils.Forms.PublicationBinder.class).bindFromRequest();
      
     Long l = bindedForm.get().location;
     Long i = bindedForm.get().interest;
@@ -296,12 +296,12 @@ public class Feed extends Controller {
     List<models.Publication> pubs = new ArrayList<models.Publication>();
 
     if(i == null || i == -1){
-      if(l == null || l == -1){pubs = Publication.findNewerByInterests(getInterestIds(p.getInterests()), first).getList();}
-      else {pubs = Publication.findNewerByInterestsLocation(getInterestIds(p.getInterests()), l, first).getList();}
+      if(l == null || l == -1){pubs = models.Publication.findNewerByInterests(models.Interest.getIds(p.getInterests()), first).getList();}
+      else {pubs = models.Publication.findNewerByInterestsLocation(models.Interest.getIds(p.getInterests()), l, first).getList();}
     }
     else{
-      if(l == null || l == -1){pubs = Publication.findNewerByInterest(i, first).getList();}
-      else{pubs = Publication.findNewerByInterestLocation(i, l, first).getList();}
+      if(l == null || l == -1){pubs = models.Publication.findNewerByInterest(i, first).getList();}
+      else{pubs = models.Publication.findNewerByInterestLocation(i, l, first).getList();}
     }
 
     if(pubs.isEmpty())
@@ -323,8 +323,8 @@ public class Feed extends Controller {
     List<models.Publication> pubs = new ArrayList<models.Publication>();
 
     if(i == null || i == -1){
-      if(l == null || l == -1){pubs = Publication.findByInterests(getInterestIds(p.getInterests()), last).getList();}
-      else {pubs = Publication.findByInterestsLocation(getInterestIds(p.getInterests()), l, last).getList();}
+      if(l == null || l == -1){pubs = Publication.findByInterests(models.Interest.getIds(p.getInterests()), last).getList();}
+      else {pubs = Publication.findByInterestsLocation(models.Interest.getIds(p.getInterests()), l, last).getList();}
     }
     else{
       if(l == null || l == -1){pubs = Publication.findByInterest(i, last).getList();}
@@ -339,22 +339,15 @@ public class Feed extends Controller {
 
 
   @Restrict(Mupi.USER_ROLE)
-  public static Result nextPromotions(Long last){
+  public static Result nextPromotions(Long fromId){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
-    Long i = getLocalInterest();
-    Long l = getLocalLocation();
+    Long i = MupiSession.getLocalInterest();
+    Long l = MupiSession.getLocalLocation();
+    List<models.Promotion> proms = Promotion.findByInterestLocation(i, l, 0, 5, "date, time", fromId).getList();
+    
     Integer status = 0;
-    List<models.Promotion> proms = new ArrayList<models.Promotion>();
-
-    if(i == null || i == -1){
-      if(l == null || l == -1) proms = Promotion.findByInterests(getInterestIds(p.getInterests()), last).getList();
-      else proms = Promotion.findByInterestsLocation(getInterestIds(p.getInterests()), l, last).getList();
-    }else{
-      if(l == null || l == -1) proms = Promotion.findByInterest(i, last).getList();
-      else proms = Promotion.findByInterestLocation(i, l, last).getList();
-    }
-
     if(proms.isEmpty()) status = 2;
+    
     return AjaxResponse.build(status, promList.render(proms).body());
   }
 
@@ -387,50 +380,16 @@ public class Feed extends Controller {
   }
 
   @Restrict(Mupi.USER_ROLE)
-  public static Result selectFeed(Long interest, Long location){
+  public static Result selectFeed(Long i, Long l){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
-    if(interest == null || interest == -1){
-      List<Long> interests = getInterestIds(p.getInterests());
-      if(location == null || location == -1){
-        return renderFeedContent(
-            0,
-            Publication.findByInterests(interests,new Long(0)),
-            Promotion.findByInterests(interests, new Long(0)),
-            null,
-            null
-        );
-      } else {
-        final models.Location l = models.Location.find.byId(location);
-        return renderFeedContent(
-            0,
-            Publication.findByInterestsLocation(interests, location, new Long(0)),
-            Promotion.findByInterestsLocation(interests, location, new Long(0)),
-            null,
-            l
-        );
-      }
-    } else {
-      final models.Interest i = models.Interest.find.byId(interest);
-
-      if(location == null || location == -1){
-        return renderFeedContent(
-            0,
-            Publication.findByInterest(interest, new Long(0)),
-            Promotion.findByInterest(interest, new Long(0)),
-            i,
-            null
-        );
-      } else {
-        final models.Location l = models.Location.find.byId(location);
-        return renderFeedContent(
-            0,
-            Publication.findByInterestLocation(interest, location, new Long(0)),
-            Promotion.findByInterestLocation(interest, location, new Long(0)),
-            i,
-            l
-        );
-      }
-    }
+    
+    return renderFeedContent(
+        0,
+        Publication.findByInterestLocation(i, l, 0, 10, "created, desc"),
+        Promotion.findByInterestLocation(i, l, 0, 5, "date, time"),
+        models.Interest.find.byId(i),
+        models.Location.find.byId(l)
+    );
   }
 
   // TODO: Global?
@@ -538,16 +497,6 @@ public class Feed extends Controller {
       return Long.parseLong(l);
     else
       return null;
-  }
-
-
-  public static List<Long> getInterestIds(List<models.Interest> i){
-    ArrayList<Long> ids = new ArrayList<Long>();
-    for (models.Interest interest : i) {
-      if(interest.getStatus() > 0)
-        ids.add(interest.getId());
-    }
-    return ids;
   }
 
   private static String getMD5(Object input){

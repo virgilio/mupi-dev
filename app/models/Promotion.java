@@ -135,200 +135,44 @@ public class Promotion extends Model {
     }
   }
 
-//  public static void update(Long id, String title, String address, Date date,
-//      String description, String picture) {
-//    Promotion prom = find.byId(id);
-//    if (prom != null) {
-//      prom.setTitle(title);
-//      prom.setAddress(address);
-//      prom.setDate(date);
-//      prom.setDescription(description);
-//      prom.setPicture(picture);
-//      prom.setModified(new Date());
-//      prom.update();
-//    }
-//  }
+
 
   public static void unpublish(Long id) {
     Promotion prom = find.byId(id);
     prom.status = INACTIVE;
     prom.update();
   }
-
-  public static Page<Promotion> findByInterests(List<Long> interest_ids, Long lastId) {
-    if(lastId <= 0){
-      return find.where()
-          .in("publication_id",
-              Publication.find.where()
-                .in("interest_id", interest_ids)
-                .gt("status", 0)
-                .findIds()
-          )
-          .gt("date", new Date())
-          .orderBy("date, time")
-          .findPagingList(PER_PAGE)
-          .getPage(0);
-    }
-    else{
-      return find.where()
-          .in("publication_id",
-              Publication.find.where()
-                .in("interest_id", interest_ids)
-                .gt("status", 0)
-                .findIds()
-          )
-          .gt("date",
-              find.byId(lastId).getDate()
-          )
-          .orderBy("date, time")
-          .findPagingList(PER_PAGE)
-          .getPage(0);
-    }
-  }
-
-  public static Page<Promotion> findByInterest(long interest, Long lastId) {
-    if(lastId <= 0)
-      return find.where()
-        .in("publication_id",
-            Publication.find.where()
-              .eq("interest_id", interest)
-              .gt("status", 0)
-              .findIds()
-        )
-        .gt("date", new Date())
-        .orderBy("date, time")
-        .findPagingList(PER_PAGE)
-        .getPage(0);
-    else
-      return find.where()
-        .in("publication_id",
-            Publication.find.where()
-              .eq("interest_id", interest)
-              .gt("status", 0)
-              .findIds()
-        )
-        .gt("date",
-          find.byId(lastId).getDate()
-        )
-        .orderBy("date, time")
-        .findPagingList(PER_PAGE)
-        .getPage(0);
-  }
-
-  public static Page<Promotion> findByInterestLocation(long interest_id, long location_id, Long lastId) {
-    if(lastId <= 0)
-      return find.where()
-        .in("publication_id",
-            Publication.find.where()
-              .eq("interest_id", interest_id)
-              .eq("location_id", location_id)
-              .gt("status", 0)
-              .findIds()
-        )
-        .gt("date", new Date())
-        .orderBy("date, time")
-        .findPagingList(PER_PAGE)
-        .getPage(0);
-    else
-      return find.where()
-        .in("publication_id",
-            Publication.find.where()
-              .eq("interest_id", interest_id)
-              .eq("location_id", location_id)
-              .gt("status", 0)
-              .findIds()
-        )
-        .gt("date",
-          find.byId(lastId).getDate()
-        )
-        .orderBy("date, time")
-        .findPagingList(PER_PAGE)
-        .getPage(0);
-  }
-
-  public static Page<Promotion> findByInterestsLocation(List<Long> interest_ids, long location_id, Long lastId) {
-    if(lastId <= 0)
-      return find.where()
-        .in("publication_id",
-            Publication.find.where()
-              .in("interest_id", interest_ids)
-              .eq("location_id", location_id)
-              .gt("status", 0)
-              .findIds()
-        )
-        .gt("date", new Date())
-        .orderBy("date, time")
-        .findPagingList(PER_PAGE)
-        .getPage(0);
-    else
-      return find.where()
-          .in("publication_id",
-              Publication.find.where()
-                .in("interest_id", interest_ids)
-                .eq("location_id", location_id)
-                .gt("status", 0)
-                .findIds()
-          )
-          .gt("date",
-            find.byId(lastId).getDate()
-          )
-          .orderBy("date, time")
-          .findPagingList(PER_PAGE)
-          .getPage(0);
-  }
-
-  public static Page<Promotion> findByLocation(long location_id, Long lastId) {
-    if(lastId <= 0)
-      return find.where()
-        .in("publication_id",
-            Publication.find.where()
-              .eq("location_id", location_id)
-              .gt("status", 0)
-              .findIds()
-        )
-        .gt("date", new Date())
-        .orderBy("date, time")
-        .findPagingList(PER_PAGE)
-        .getPage(0);
-    else
-      return find.where()
-          .in("publication_id",
-              Publication.find.where()
-                .eq("location_id", location_id)
-                .gt("status", 0)
-                .findIds()
-          )
-          .gt("date",
-            find.byId(lastId).getDate()
-          )
-          .orderBy("date, time")
-          .findPagingList(PER_PAGE)
-          .getPage(0);
-  }
-
+  
   /**
-   * 
+   * Find Events for a given pair (interest, location)
    * @param i interest
    * @param l location
    * @param p page
    * @param pp per page
-   * @param ob order by
+   * @param ob order by (example: "date, time"
    * @return A page with the containing promotions
    */
-  public static Page<Promotion> findByInterestLocation(List<Interest> i, List<Location> l, Integer p, Integer pp, String ob) {
-    if(i == null || i.isEmpty()) i = Interest.find.all();
-    if(l == null || l.isEmpty()) l = Location.find.all();
+  public static Page<Promotion> findByInterestLocation(Long i, Long l, Integer p, Integer pp, String ob) {
+    //Getting selected interest, if it's null, get all interests
+    List<Object> interests = new ArrayList<Object>();
+    if(i == null || i <= 0l) interests = Interest.find.findIds();
+    else interests.add(i);
+    
+    //Getting selected location, if it's null, get all locations
+    List<Object> locations = new ArrayList<Object>();
+    if(i == null || l <= 0l) locations = Location.find.findIds();
+    else locations.add(l);
+    
+    // Setting orderBy, page and perPage parameters
     if(ob == null || ob.trim().isEmpty()) ob = "date, time";
     if(p < 0) p = 0;
     if(pp <= 0) pp = 1;
     
-    
-  
     return find.where()
       .in("publication_id",
           Publication.find.where()
-            .in("interest_id", Interest.getIds(i))
-            .in("location_id", Location.getIds(l))
+            .in("interest_id", interests)
+            .in("location_id", locations)
             .gt("status", 0)
             .findIds()
       )
@@ -337,6 +181,100 @@ public class Promotion extends Model {
       .findPagingList(pp)
       .getPage(p);
   }
+  
+  /**
+   * Find Events for a given pair (interest, location)
+   * @param i interest
+   * @param l location
+   * @param p page
+   * @param pp per page
+   * @param ob order by (example: "date, time"
+   * @return A page with the containing promotions
+   */
+  public static Page<Promotion> findByInterests(List<Object> interests, Long lastId) {
+    if(lastId <= 0) 
+      return find.where()
+        .in("publication_id",
+            Publication.find.where()
+              .in("interest_id", interests)
+              .gt("status", 0)
+              .findIds()
+        )
+        .gt("date", new Date())
+        .orderBy("date, time")
+        .findPagingList(5)
+        .getPage(0);
+    else
+      return find.where()
+          .in("publication_id",
+              Publication.find.where()
+                .in("interest_id", interests)
+                .gt("status", 0)
+                .findIds()
+          )
+          .gt("date",
+              find.byId(lastId).getCreated()
+          )
+          .gt("date", new Date())
+          .orderBy("date, time")
+          .findPagingList(5)
+          .getPage(0);
+  }
+  
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  // TODO: USE THE METHOD ABOVE TO REPLACE THESE ONES BELOW
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  public static Page<Promotion> findByInterestLocation(Long i, Long l, Integer p, Integer pp, String ob, Long lastId) {
+    //Getting selected interest, if it's null, get all interests
+    List<Object> interests = new ArrayList<Object>();
+    if(i == null || i <= 0l) interests = Interest.find.findIds();
+    else interests.add(i);
+    
+    //Getting selected location, if it's null, get all locations
+    List<Object> locations = new ArrayList<Object>();
+    if(i == null || l <= 0l) locations = Location.find.findIds();
+    else locations.add(i);
+    
+    // Setting orderBy, page and perPage parameters
+    if(ob == null || ob.trim().isEmpty()) ob = "date, time";
+    if(p < 0) p = 0;
+    if(pp <= 0) pp = 1;
+    
+    Date lastDate = new Date(0l);
+    if(lastId > 0) lastDate = find.byId(lastId).getDate(); 
+    
+    
+    return find.where()
+      .in("publication_id",
+          Publication.find.where()
+            .in("interest_id", interests)
+            .in("location_id", locations)
+            .gt("status", 0)
+            .findIds()
+      )
+      .gt("date", lastDate)
+      .orderBy(ob)
+      .findPagingList(pp)
+      .getPage(p);
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  // TODO: REPLACE THESE METHODS ABOVE
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+//public static void update(Long id, String title, String address, Date date,
+//String description, String picture) {
+//Promotion prom = find.byId(id);
+//if (prom != null) {
+//prom.setTitle(title);
+//prom.setAddress(address);
+//prom.setDate(date);
+//prom.setDescription(description);
+//prom.setPicture(picture);
+//prom.setModified(new Date());
+//prom.update();
+//}
+//}
   
   
   public static Promotion getByPublicationId(Long id){

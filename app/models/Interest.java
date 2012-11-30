@@ -64,8 +64,8 @@ public class Interest extends Model{
 	}
 	
 	 
-  public static List<Long> getIds(List<Interest> i){
-    ArrayList<Long> ids = new ArrayList<Long>();
+  public static List<Object> getIds(List<Interest> i){
+    ArrayList<Object> ids = new ArrayList<Object>();
     for (Interest interest : i) {
       ids.add(interest.getId());
     }

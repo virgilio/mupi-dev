@@ -57,18 +57,18 @@ import conf.MupiParams.PubType;
 public class Mupi extends Controller {
 
   public static final String FLASH_MESSAGE_KEY = "message";
-  public static final String FLASH_ERROR_KEY = "error";
+  public static final String FLASH_ERROR_KEY   = "error";
   public static final String FLASH_WARNING_KEY = "warning";
-  public static final String USER_ROLE = "user";
-  public static final String ADMIN_ROLE = "admin";
+  public static final String USER_ROLE         = "user";
+  public static final String ADMIN_ROLE        = "admin";
 
-  public static Result at(final String path){
+  public static Result at(final String path) {
     final File file = new File(MupiParams.UPLOAD_ROOT + "//" + path);
 
     if (!file.exists()) {
       return notFound();
-    }else{
-      if(file.isDirectory())
+    } else {
+      if (file.isDirectory())
         return notFound();
       else
         return ok(file);
@@ -89,9 +89,11 @@ public class Mupi extends Controller {
 
   public static Result doLogin() {
 
-    final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
+    final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+        .bindFromRequest();
     if (filledForm.hasErrors()) { // User did not fill everything properly
-      return badRequest(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+      return badRequest(index.render(MyUsernamePasswordAuthProvider.LOGIN_FORM,
+          MyUsernamePasswordAuthProvider.SIGNUP_FORM));
     } else { // Everything was filled
       return UsernamePasswordAuthProvider.handleLogin(ctx());
     }
@@ -99,8 +101,7 @@ public class Mupi extends Controller {
 
   public static Result jsRoutes() {
     return ok(
-        Routes.javascriptRouter(
-            "jsRoutes",
+        Routes.javascriptRouter("jsRoutes",
             controllers.routes.javascript.Signup.forgotPassword(),
             controllers.routes.javascript.Interest.checkInterest(),
             controllers.routes.javascript.Interest.uncheckInterest(),
@@ -119,85 +120,108 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Mupi.unsubscribeFromMeetUp(),
             controllers.routes.javascript.Mupi.clearBucket(),
             controllers.routes.javascript.Feed.removeComment(),
-            controllers.routes.javascript.Feed.removePublication()
-        )).as("text/javascript");
+            controllers.routes.javascript.Feed.removePublication())).as(
+        "text/javascript");
   }
 
   @Restrict(Mupi.USER_ROLE)
-  public static Result subscribeToMeetUp(Long id){
+  public static Result subscribeToMeetUp(Long id) {
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
-    String lastName = p.getLastName() != null ? p.getLastName() :  "";
+    String lastName = p.getLastName() != null ? p.getLastName() : "";
     Promotion prom = Promotion.find.byId(id);
-    
-    if(prom.getSubscribers().contains(u)){
+
+    if (prom.getSubscribers().contains(u)) {
       return AjaxResponse.build(4, "Você já se inscreveu neste Evento!");
-    } else{
-      if(prom.getPublication().getPub_typ().compareTo(PubType.MUPI_EVENT) == 0){
+    } else {
+      if (prom.getPublication().getPub_typ().compareTo(PubType.MUPI_EVENT) == 0) {
         final String subject = "[EventoMupi][Participante] " + prom.getTitle();
-        final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") quer participar deste evento!";
+        final String body = "O usuário " + p.getFirstName() + " " + lastName
+            + " (" + u.email + ") quer participar deste evento!";
         final String from = "noreply@mupi.me";
-        final String to   = MupiParams.SUBSCRIBE_TO_MEETUP_EMAIL;
+        final String to = MupiParams.SUBSCRIBE_TO_MEETUP_EMAIL;
         final String replyTo = "noreply@mupi.me";
 
         new AssyncEmailSender(subject, body, from, replyTo, to).send();
 
-        final String userSubject = "Inscrição em Evento Mupi: " + prom.getTitle();
-        final String userBody    = "" +
-        		"Olá " + p.getFirstName() + ",\n\n" +
-        				"Sua inscrição foi submetida. Em breve entraremos em contato com mais detalhes sobre o evento.\n\n\n" +
-        				"Atenciosamente,\n" +
-        				"Equipe Mupi";
+        final String userSubject = "Inscrição em Evento Mupi: "
+            + prom.getTitle();
+        final String userBody = ""
+            + "Olá "
+            + p.getFirstName()
+            + ",\n\n"
+            + "Sua inscrição foi submetida. Em breve entraremos em contato com mais detalhes sobre o evento.\n\n\n"
+            + "Atenciosamente,\n" + "Equipe Mupi";
         final String userFrom = "contato@mupi.me";
-        final String userTo   = u.email;
+        final String userTo = u.email;
         final String userReplyTo = "contato@mupi.me";
 
-        new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
+        new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo,
+            userTo).send();
         NotificationBucket.updateBucketWithoutNotify(prom.getPublication(), p);
-        return AjaxResponse.build(2, "Sua inscrição foi submetida. Logo entraremos em contato para mais informações.");
-      } else{
+        return AjaxResponse
+            .build(
+                2,
+                "Sua inscrição foi submetida. Logo entraremos em contato para mais informações.");
+      } else {
         models.Promotion.subscribeToEvent(u, prom);
         NotificationBucket.updateBucketWithoutNotify(prom.getPublication(), p);
-        return AjaxResponse.build(0, "Acompanhe na página do evento quem também confirmou presença!");
+        return AjaxResponse.build(0,
+            "Acompanhe na página do evento quem também confirmou presença!");
       }
     }
   }
 
   @Restrict(Mupi.USER_ROLE)
-  public static Result unsubscribeFromMeetUp(Long id){
+  public static Result unsubscribeFromMeetUp(Long id) {
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
     String lastName = p.getLastName();
-    if(lastName == null) lastName = "";
+    if (lastName == null)
+      lastName = "";
 
     Promotion prom = Promotion.find.byId(id);
 
-    if(!prom.getSubscribers().contains(u)){
-      return AjaxResponse.build(0, "Você ainda não está inscrito neste Evento!");
-    } else{
-      if(prom.getPublication().getPub_typ().compareTo(PubType.MUPI_EVENT) == 0){
-        final String subject = "[EventoMupi][Participante][Cancelamento] " + prom.getTitle();
-        final String body = "O usuário " + p.getFirstName() + " " + lastName + " (" + u.email + ") não quer mais participar deste evento. Por favor, entre em contato com ele.";
+    if (!prom.getSubscribers().contains(u)) {
+      return AjaxResponse
+          .build(0, "Você ainda não está inscrito neste Evento!");
+    } else {
+      if (prom.getPublication().getPub_typ().compareTo(PubType.MUPI_EVENT) == 0) {
+        final String subject = "[EventoMupi][Participante][Cancelamento] "
+            + prom.getTitle();
+        final String body = "O usuário "
+            + p.getFirstName()
+            + " "
+            + lastName
+            + " ("
+            + u.email
+            + ") não quer mais participar deste evento. Por favor, entre em contato com ele.";
         final String from = "noreply@mupi.me";
-        final String to   = MupiParams.SUBSCRIBE_TO_MEETUP_EMAIL;
+        final String to = MupiParams.SUBSCRIBE_TO_MEETUP_EMAIL;
         final String replyTo = "noreply@mupi.me";
 
         new AssyncEmailSender(subject, body, from, replyTo, to).send();
 
-        final String userSubject = "Cancelamento de inscrição em Evento Mupi: " + prom.getTitle();
-        final String userBody    = "" +
-            "Olá " + p.getFirstName() + ",\n\n" +
-                "Sua solicitação de cancelamento de inscrição foi submetida. Em breve entraremos em contato com mais detalhes sobre o evento.\n\n\n" +
-                "Atenciosamente,\n" +
-                "Equipe Mupi";
+        final String userSubject = "Cancelamento de inscrição em Evento Mupi: "
+            + prom.getTitle();
+        final String userBody = ""
+            + "Olá "
+            + p.getFirstName()
+            + ",\n\n"
+            + "Sua solicitação de cancelamento de inscrição foi submetida. Em breve entraremos em contato com mais detalhes sobre o evento.\n\n\n"
+            + "Atenciosamente,\n" + "Equipe Mupi";
         final String userFrom = "contato@mupi.me";
-        final String userTo   = u.email;
+        final String userTo = u.email;
         final String userReplyTo = "contato@mupi.me";
 
-        new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
+        new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo,
+            userTo).send();
         NotificationBucket.removeFromBucket(p, prom.getPublication());
-        return AjaxResponse.build(0, "Sua solicitação de cancelamento de inscrição foi submetida. Logo entraremos em contato para mais informações.");
-      } else{
+        return AjaxResponse
+            .build(
+                0,
+                "Sua solicitação de cancelamento de inscrição foi submetida. Logo entraremos em contato para mais informações.");
+      } else {
         models.Promotion.unsubscribeFromEvent(u, prom);
         NotificationBucket.removeFromBucket(p, prom.getPublication());
         return AjaxResponse.build(2, "Você nã vai mais... =(");
@@ -207,10 +231,9 @@ public class Mupi extends Controller {
 
   public static Result signup() {
     final User user = getLocalUser(session());
-    if(user == null){
+    if (user == null) {
       return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-    }
-    else{
+    } else {
       flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.signup.already_logged"));
       return redirect(routes.Feed.feed());
     }
@@ -250,40 +273,50 @@ public class Mupi extends Controller {
   public static Result promotion(Long id) {
     final User user = Mupi.getLocalUser(session());
 
-      if(user == null || user.profile == null)
-        session("ref", request().uri());
-      
-      Promotion prom = models.Promotion.find.byId(id);
-      if(prom != null){      
-        Publication pub = prom.getPublication();
-        
-        if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
-          if(user != null) NotificationBucket.setNotified((models.Promotion.find.byId(id)).getPublication(), user.getProfile());
-          return ok(promotion.render(models.Promotion.find.byId(id), MyUsernamePasswordAuthProvider.LOGIN_FORM, MyUsernamePasswordAuthProvider.SIGNUP_FORM));
-        } else {
-          flash(Mupi.FLASH_MESSAGE_KEY, "Esta divulgação não existe ou foi removida!");
-          return redirect(routes.Feed.feed());
-        }
-      }
-      else{
-        flash(Mupi.FLASH_MESSAGE_KEY, "Esta divulgação não existe ou foi removida!");
+    if (user == null || user.profile == null)
+      session("ref", request().uri());
+
+    Promotion prom = models.Promotion.find.byId(id);
+    if (prom != null) {
+      Publication pub = prom.getPublication();
+
+      if (pub != null && pub.getStatus() == models.Publication.ACTIVE) {
+        if (user != null)
+          NotificationBucket.setNotified(
+              (models.Promotion.find.byId(id)).getPublication(),
+              user.getProfile());
+        return ok(promotion.render(models.Promotion.find.byId(id),
+            MyUsernamePasswordAuthProvider.LOGIN_FORM,
+            MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+      } else {
+        flash(Mupi.FLASH_MESSAGE_KEY,
+            "Esta divulgação não existe ou foi removida!");
         return redirect(routes.Feed.feed());
       }
+    } else {
+      flash(Mupi.FLASH_MESSAGE_KEY,
+          "Esta divulgação não existe ou foi removida!");
+      return redirect(routes.Feed.feed());
+    }
 
   }
 
   public static Result publication(Long id) {
     Publication pub = models.Publication.find.byId(id);
-    if(pub != null && pub.getStatus() == models.Publication.ACTIVE){
+    if (pub != null && pub.getStatus() == models.Publication.ACTIVE) {
       final User user = getLocalUser(session());
-      if(user != null) NotificationBucket.setNotified(models.Publication.find.byId(id), user.getProfile());
+      if (user != null)
+        NotificationBucket.setNotified(models.Publication.find.byId(id),
+            user.getProfile());
 
-      if(pub.getPub_typ() == conf.MupiParams.PubType.EVENT || pub.getPub_typ() == conf.MupiParams.PubType.MUPI_EVENT)
+      if (pub.getPub_typ() == conf.MupiParams.PubType.EVENT
+          || pub.getPub_typ() == conf.MupiParams.PubType.MUPI_EVENT)
         return promotion(Promotion.getByPublicationId(id).getId());
       else
         return ok(publicationSingle.render(pub));
     } else {
-      flash(Mupi.FLASH_MESSAGE_KEY, "Esta publicação não existe ou foi removida!");
+      flash(Mupi.FLASH_MESSAGE_KEY,
+          "Esta publicação não existe ou foi removida!");
       return redirect(routes.Feed.feed());
     }
   }
@@ -319,7 +352,8 @@ public class Mupi extends Controller {
   @Restrict(Mupi.USER_ROLE)
   public static Result notifications() {
     final User user = getLocalUser(session());
-    return ok(views.html.notifications.render(user, NotificationBucket.getBucket(user.profile)));
+    return ok(views.html.notifications.render(user,
+        NotificationBucket.getBucket(user.profile)));
   }
 
   @Restrict(Mupi.USER_ROLE)
@@ -328,74 +362,4 @@ public class Mupi extends Controller {
     NotificationBucket.setAllNotified(user.getProfile());
     return ok();
   }
-  
-
-  
-  
-  
-  public static class CommunitySelection {
-    public Long interest = new Long(0);
-    public Long location = new Long(0);
-    
-    public CommunitySelection(){}
-    
-    public CommunitySelection(Long interest, Long location) {
-      if(interest != null) this.interest = interest;
-      else                 this.interest = new Long(0);
-      if(location!= null)  this.location = location;
-      else                 this.location = new Long(0);
-    }
-    public Long getInterest() {
-      return interest;
-    }
-    public void setInterest(Long interest) {
-      this.interest = interest;
-    }
-    public Long getLocation() {
-      return location;
-    }
-    public void setLocation(Long location) {
-      this.location = location;
-    }
-    
-    
-  }
-  
-  public static Result getPromotions(){    
-    final Form<CommunitySelection> filledForm = new Form<CommunitySelection>(CommunitySelection.class).bindFromRequest();
-
-    Long i = new Long(0);
-    Long l = new Long(0);
-    
-    
-    if(filledForm.get().getInterest() != null)
-      i = filledForm.get().getInterest();
-    if(filledForm.get().getLocation() != null)
-      l = filledForm.get().getLocation();
-  
-    return listPromotions(i, l, 0, 9);
-  }
-  
-  public static Result promotions(){
-    return listPromotions(new Long(0), new Long(0), 0, 9);
-  }
-  
-  public static Result listPromotions(Long i, Long l, Integer p, Integer pp) {
-    List<models.Interest> i_l = new ArrayList<models.Interest>();
-    List<models.Location> l_l = new ArrayList<models.Location>();
-    
-    if(i != null && i != 0) i_l.add(Interest.find.byId(i));
-    if(l != null && l != 0) l_l.add(Location.find.byId(l));
-    
-    
-    return ok(views.html.promotions.render(
-      models.Interest.find.all(),
-      models.Location.find.all(),     
-      new Form<CommunitySelection>(CommunitySelection.class).fill(new CommunitySelection(i, l)),
-      Promotion.findByInterestLocation(i_l, l_l, p, pp, "date, time")
-    ));
-  }
-  
-  
-  
 }

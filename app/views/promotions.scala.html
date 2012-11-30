@@ -1,6 +1,6 @@
 @( interests: List[models.Interest],
    locations: List[models.Location], 
-   communityForm : Form[Mupi.CommunitySelection],
+   community : Form[utils.Forms.Community],
    promotionsPage: Page[models.Promotion] )
 
 @promotions = @{promotionsPage.getList} 
@@ -22,12 +22,12 @@
 	<div id="promotions_header" class="container promotions_header">
 		<div class='align_center'>
 			<h1> Próximos eventos em   </h1>
-			@form(routes.Mupi.getPromotions, 'id -> "communitySelectionForm") {
+			@form(routes.EventController.filterEvents, 'id -> "communitySelectionForm") {
 			  <div id="interest_selector" class="interest_selector">
-					@mupiInterestSelect(field=communityForm("interest"), interests)
+					@mupiInterestSelect(field=community("interest"), interests)
 				</div>
 				<div id="location_selector" class="location_selector">
-					@mupiLocationSelect(field=communityForm("location"), locations)
+					@mupiLocationSelect(field=community("location"), locations)
 		    </div>
 		  }
 		</div>
@@ -38,7 +38,7 @@
 			<ul>
 			    @if(promotionsPage.hasPrev) {
 		        <li class="prev">
-		            <a href="@getPromotionPage(communityForm("interest").value, communityForm("location").value, promotionsPage.getPageIndex - 1)">< anterior </a>
+		            <a href="@getPromotionPage(community("interest").value, community("location").value, promotionsPage.getPageIndex - 1)">< anterior </a>
 		        </li>
 			    } else {
 		        <li class="prev disabled">
@@ -52,7 +52,7 @@
 			    
 			    @if(promotionsPage.hasNext) {
 		        <li class="next">
-		          <a href="@getPromotionPage(communityForm("interest").value, communityForm("location").value, promotionsPage.getPageIndex + 1)"> próxima ></a>
+		          <a href="@getPromotionPage(community("interest").value, community("location").value, promotionsPage.getPageIndex + 1)"> próxima ></a>
 		        </li>
 			    } else {
 		        <li class="next disabled">
