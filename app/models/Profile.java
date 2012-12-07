@@ -10,8 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Query;
+import com.avaje.ebean.RawSql;
+import com.avaje.ebean.RawSqlBuilder;
+import com.avaje.ebean.annotation.Sql;
 
 import conf.MupiParams;
 
@@ -210,126 +215,176 @@ public class Profile extends Model {
         return false;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public Integer getStatus() {
-        return status;
-    }
+	@Entity  
+	@Sql  
+	public class UserEmail {
+		String email;
 
-    public Integer getNotificationLevel() {
-        return notificationLevel;
-    }
+		public String getEmail() {
+			return email;
+		}
 
+		public void setEmail(String email) {
+			this.email = email;
+		}
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	/**
+	 * Return a list of e-mails of users given a publication
+	 * @param id
+	 * @return
+	 */
+	public static List<UserEmail> emailsFromPublication(Publication p){
+		String sql = "" +
+				"select 												" +
+				"	u.email as email									" +
+				"from notification_buckets nb							" +
+				"	left join profiles pr on nb.profile_id = pr.id 		" +
+				"	left join users u on u.profile_id = nb.profile_id 	";
+		RawSql rs = RawSqlBuilder.parse(sql).create();
 
-    public String getLastName() {
-        return lastName;
-    }
+		Query<UserEmail> q = Ebean.find(UserEmail.class);
+		q.setRawSql(rs)
+		.where().eq("nb.publication_id", p.getId());
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+		return q.findList();
+	}
+	
+	public static List<UserEmail> emailsFromInterestAndLocation(Interest i, Location l){
+		String sql = "" +
+				"select 												" +
+				"	u.email as email									" +
+				"from notification_buckets nb							" +
+				"	left join profiles pr on nb.profile_id = pr.id 		" +
+				"	left join users u on u.profile_id = nb.profile_id 	";
+		RawSql rs = RawSqlBuilder.parse(sql).create();
 
-    public String getPicture() {
-        return picture;
-    }
+		Query<UserEmail> q = Ebean.find(UserEmail.class);
+		q.setRawSql(rs);
+//		.where().eq("nb.publication_id", p.getId());
 
-    public String getAbout() {
-        return about;
-    }
+		return q.findList();
+	}
 
-    public Integer getGender() {
-        return gender;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public List<Location> getLocations() {
-        return locations;
-    }
+	public Integer getStatus() {
+		return status;
+	}
 
-    public List<Interest> getInterests() {
-        return interests;
-    }
-
-    public List<Publication> getPublications() {
-        return publications;
-    }
-
-    public List<PubComment> getPubComments() {
-        return pubComments;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public Date getModified() {
-        return modified;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public void setNotificationLevel(Integer notificationLevel) {
-        this.notificationLevel = notificationLevel;
-    }
-
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
-    }
-
-    public void setInterests(List<Interest> interests) {
-        this.interests = interests;
-    }
-
-    public void setPublications(List<Publication> publications) {
-        this.publications = publications;
-    }
-
-    public void setPubComments(List<PubComment> pubComments) {
-        this.pubComments = pubComments;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setModified(Date modified) {
-        this.modified = modified;
-    }
+	public Integer getNotificationLevel() {
+		return notificationLevel;
+	}
 
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public List<Location> getLocations() {
+		return locations;
+	}
+
+	public List<Interest> getInterests() {
+		return interests;
+	}
+
+	public List<Publication> getPublications() {
+		return publications;
+	}
+
+	public List<PubComment> getPubComments() {
+		return pubComments;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public void setNotificationLevel(Integer notificationLevel) {
+		this.notificationLevel = notificationLevel;
+	}
+
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+
+	public void setInterests(List<Interest> interests) {
+		this.interests = interests;
+	}
+
+	public void setPublications(List<Publication> publications) {
+		this.publications = publications;
+	}
+
+	public void setPubComments(List<PubComment> pubComments) {
+		this.pubComments = pubComments;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
 }

@@ -113,7 +113,7 @@ public class Promotion extends Model {
     prom.update();
   }
   
-  public static void create(Profile profile, Location location, Interest interest, String title, String address, Date date,
+  public static Promotion create(Profile profile, Location location, Interest interest, String title, String address, Date date,
        Date time, String description, String link, String image, PubType pub_typ, Integer quorum, Integer subscriptionsLimit, Double cost) {
     String publicationBody = "O evento " + title + " foi divulgado por ";
     if(pub_typ.compareTo(PubType.MUPI_EVENT) == 0){
@@ -129,9 +129,11 @@ public class Promotion extends Model {
       Promotion prom = new Promotion(pub, title, address, date, time, description, image, link, quorum, subscriptionsLimit, cost);
       prom.save();
       NotificationBucket.updateBucket(pub, profile);
+      return prom;
     }catch (Exception e) {
       if(pub!=null)
         Publication.remove(pub);
+      return null;
     }
   }
 

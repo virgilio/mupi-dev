@@ -23,11 +23,11 @@ public class EventController extends Controller {
     System.out.println("SHIPAW2:  " + i +"  " + l);
     
     return ok(views.html.promotions.render(
-        models.Interest.find.all(),
-        models.Location.find.all(),     
-        new Form<Community>(Community.class).fill(new Community(i, l)),
-        Promotion.findByInterestLocation(i, l, p, MupiParams.EVS_PER_PAGE, "date, time")
-      ));
+      models.Interest.find.all(),
+      models.Location.find.all(),     
+      new Form<Community>(Community.class).fill(new Community(i, l)),
+      Promotion.findByInterestLocation(i, l, p, MupiParams.EVS_PER_PAGE, "date, time")
+    ));
   }
   
 //  @Restrict(Mupi.USER_ROLE)

@@ -16,6 +16,13 @@ import models.Promotion;
 import models.PubComment;
 import models.Publication;
 import models.User;
+import models.Profile.UserEmail;
+
+import views.html.feedHelpers.feedContent;
+import views.html.feedHelpers.promList;
+import views.html.feedHelpers.pubList;
+import views.html.mupiHelpers.comments;
+
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpHeaders;
@@ -34,10 +41,6 @@ import utils.AjaxResponse;
 import utils.AssyncEmailSender;
 import utils.ImageHandler;
 import views.html.index;
-import views.html.feedHelpers.feedContent;
-import views.html.feedHelpers.promList;
-import views.html.feedHelpers.pubList;
-import views.html.mupiHelpers.comments;
 import be.objectify.deadbolt.actions.Dynamic;
 import be.objectify.deadbolt.actions.Restrict;
 
@@ -59,7 +62,6 @@ public class Feed extends Controller {
     session().put("location", "-1");
     return redirect(routes.Feed.feed());
   }
-
 
 
   public static Result feed(){
@@ -95,6 +97,8 @@ public class Feed extends Controller {
       ));
     }
   }
+  
+
 
   @Dynamic("editor")
   public static Result hostMeetUp(){
@@ -234,17 +238,35 @@ public class Feed extends Controller {
 
     if(pub != null)
       PubComment.create(pub, p, safeBody);
+    List<UserEmail> l_ue = models.Profile.emailsFromPublication(pub);
+    for(UserEmail ue : l_ue){
+      if(u.getEmail().equalsIgnoreCase(ue.getEmail()))
+        System.out.println("Commenter: " + ue.getEmail());
+      else 
+        System.out.println(ue.getEmail());
 
+    }
     return selectFeed(getLocalInterest(), getLocalLocation());
   }
 
+  
+
   @Restrict(Mupi.USER_ROLE)
   public static Result commentPublication(String body, Long id){
-    final models.Profile p = Mupi.getLocalUser(session()).profile;
+    final User u = Mupi.getLocalUser(session());
+    final models.Profile p = u.profile;
     final models.Publication pub = models.Publication.find.byId(id);
     String safeBody = Jsoup.clean(textWithLinks(body.replaceAll("(\r\n|\n)", " <br/> ")), Whitelist.none().addTags("br", "a").addAttributes("a", "href", "target"));
     if(pub != null){
       PubComment.create(pub, p, safeBody);
+      List<UserEmail> l_ue = models.Profile.emailsFromPublication(pub);
+      for(UserEmail ue : l_ue){
+        if(u.getEmail().equalsIgnoreCase(ue.getEmail()))
+          System.out.println("Commenter: " + ue.getEmail());
+        else 
+          System.out.println(ue.getEmail());
+
+      }
       return AjaxResponse.build(
           0,
           comments.render(pub.getComments()).body()
@@ -397,6 +419,7 @@ public class Feed extends Controller {
 
   @Dynamic("editor")
   public static Result promote(){
+    models.User u = Mupi.getLocalUser(session());
     MultipartFormData body = request().body().asMultipartFormData();
     FilePart picture = body.getFile("picture");
     String picturePath = BLANK_EVT;
@@ -447,7 +470,7 @@ public class Feed extends Controller {
       );
       
       
-      models.Promotion.create(
+      Promotion pr = models.Promotion.create(
         p,
         lObj,
         iObj,
@@ -465,6 +488,16 @@ public class Feed extends Controller {
 
       flash(Mupi.FLASH_MESSAGE_KEY, Messages.get("mupi.promotion.created"));
 
+      List<UserEmail> l_ue = models.Profile.emailsFromPublication(pr.getPublication());
+      for(UserEmail ue : l_ue){
+        if(u.getEmail().equalsIgnoreCase(ue.getEmail()))
+          System.out.println("Commenter: " + ue.getEmail());
+        else 
+          System.out.println(ue.getEmail());
+
+      }
+      
+          
       return redirect(routes.Feed.feed());
     }catch (Exception e) {
       flash(Mupi.FLASH_ERROR_KEY, "Erro ao divulgar evento, por favor contate-nos para que possamos resolver este problema.");
