@@ -225,8 +225,41 @@ ref.parentNode.insertBefore(js, ref);
               <span>@promotion.getAddress</span> <br/>
             </p>
             <p>
-              <span><i class="icon-group"></i> <span class='n_confirmed'>@promotion.getSubscribers.size</span> confirmados</span>
+              
             </p>
+            @if(promotion.getSubscribers.size() > 0){
+              <div id="box_subscribers">
+                <span><i class="icon-group"></i> Veja quem vai!</span>
+                <ul>
+
+                 @for(subscriber <- promotion.getSubscribers.take(11)){
+                  
+                  @if(subscriber.getProfile.getFirstName != null){
+                    <li>
+                      <a href="#" rel="clickover" data-placement="top"
+                      data-content="<div class='mini_profile_thumb profile_thumb'>
+                                          <div class='fix_img'>
+                                            <img src='@routes.Mupi.at("profile/picture/thumb" + subscriber.getProfile.getPicture)' />
+                                          </div>
+                                        </div>
+                      <small>Contribui desde @subscriber.getProfile.getCreated.format("dd/MM/yy")</small>
+                      @if((subscriber.getProfile.getAbout != null) && (!subscriber.getProfile.getAbout.isEmpty())){<p>&quot;@subscriber.getProfile.getAbout&quot;</p>}
+                      <p><small><b>@subscriber.getProfile.getPublications.size()</b> publicações<br/>
+                        <b>@subscriber.getProfile.getPubComments.size()</b> comentários</small></p>"
+                      data-original-title="@subscriber.getProfile.getFirstName @subscriber.getProfile.getLastName">
+                          <img class="img-polaroid" src='@routes.Mupi.at("profile/picture/thumb" + subscriber.getProfile.getPicture)' />
+                        </a>
+                    </li>
+                  }
+                 }
+                 @if(promotion.getSubscribers.size() > 11){
+                  <li id="num_subscribers_left">+@{promotion.getSubscribers.size() - 11}</li>
+                 }
+
+
+                </ul>
+              </div>
+            }
 
             <label>Sobre o evento</label>
             <p>
