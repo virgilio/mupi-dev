@@ -56,8 +56,8 @@ POST  /feed/updatePubs          controllers.Feed.refreshPublications(last: Long)
 POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 
 
-GET   /promotion                controllers.EventController.events(p:java.lang.Integer ?= 0)                
 GET   /eventos                  controllers.EventController.events(p:java.lang.Integer ?= 0)    
+GET   /promotion                controllers.EventController.events(p:java.lang.Integer ?= 0)                
 POST  /promotion                controllers.EventController.filterEvents()
 GET   /promotion/list           controllers.EventController.events(p:java.lang.Integer ?= 0)
 

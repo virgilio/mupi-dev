@@ -107,10 +107,6 @@ ref.parentNode.insertBefore(js, ref);
   </div>
 </div>
 
-
-
-
-
 <input type="hidden" id="selectedInterest" value="@promotion.getPublication.getInterest.getId"/>
 <input type="hidden" id="selectedLocation" value="@promotion.getPublication.getLocation.getId"/>
 
@@ -126,7 +122,7 @@ ref.parentNode.insertBefore(js, ref);
         </div>
         <div id="promotion_complete_date">
           <i class="icon-calendar"></i>
-          <span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("d") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span>
+          <span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("EEEE") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span>
         </div>
         <div id="promotion_local">
           <i class="icon-map-marker"></i>
