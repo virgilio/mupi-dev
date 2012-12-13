@@ -407,7 +407,7 @@ public class Feed extends Controller {
     
     return renderFeedContent(
         0,
-        Publication.findByInterestLocation(i, l, 0, 10, "created, desc"),
+        Publication.findByInterestLocation(i, l, 0, 10, "created desc"),
         Promotion.findByInterestLocation(i, l, 0, 5, "date, time"),
         models.Interest.find.byId(i),
         models.Location.find.byId(l)
