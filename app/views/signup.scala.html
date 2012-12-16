@@ -3,8 +3,6 @@
 @import helper._
 @import helper.twitterBootstrap._
 @import mupiHelpers._
-
-@** @implicitField = @{ FieldConstructor(terms_acceptance.f) } **@
              
 @main(Messages("playauthenticate.signup.title"),"signup") {
 <div class="mupi_container container_signup">
@@ -40,5 +38,11 @@
         <input type="submit" value="@Messages("playauthenticate.signup.now")" class="btn btn-primary">
     	}
     </div>
+    
+    <div class="span3">
+        @Messages("playauthenticate.signup.oauth")
+        @_providerPartial(skipCurrent=false)
+    </div>
+    
   </div>
 }

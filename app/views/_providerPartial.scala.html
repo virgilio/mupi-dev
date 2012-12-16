@@ -11,7 +11,7 @@ function askOpenID(url) {
 }
 </script>
 <ul class="providers">
-	@forProviders(skipCurrent) { p =>
+	@forProviders(false) { p =>
 		<li>
 		@if(p.getKey() == "openid") {
 			<a href="javascript:void(0);" onclick="askOpenID('@p.getUrl()');">
@@ -22,3 +22,4 @@ function askOpenID(url) {
 		</li>
 	}
 </ul>
+

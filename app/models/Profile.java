@@ -35,17 +35,17 @@ public class Profile extends Model {
      */
     private static final long serialVersionUID = 1L;
     private static final String NO_PIC = "/blank.jpg";
-    
+
     @Id
     private Long id;
-    
+
     private String firstName = "";
-    
+
     private String lastName;
-    
+
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     private Date birthDate;
-    
+
     private String picture = NO_PIC;
 
     @Column(columnDefinition = "TEXT")
@@ -74,9 +74,35 @@ public class Profile extends Model {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modified;
 
-
     public static final Finder<Long, Profile> find = new Finder<Long, Profile>(Long.class, Profile.class);
-    
+
+
+    public static Profile create(final User user) {
+        Profile p = new Profile();
+
+        p.setFirstName(user.name);
+        p.setStatus(MupiParams.FIRST_LOGIN);
+        p.setPicture(NO_PIC);
+        p.setLocations(new ArrayList<Location>());
+        p.setCreated(new Date());
+        p.setModified(new Date());
+
+
+        p.save();
+
+        return null;
+    }
+
+    ///////////
+    public Profile() {
+      this.status = MupiParams.FIRST_LOGIN;
+      this.firstName = "";
+      this.picture = NO_PIC;
+      this.created = new Date();
+      this.modified = new Date();
+    }
+
+
     public Profile(User user, String firstName, String lastName, Date birthDate, String picture,
                    String about, Integer gender, Integer notificationLevel, List<Location> locations) {
         this.firstName 	= firstName;
@@ -91,15 +117,8 @@ public class Profile extends Model {
         this.created	= new Date();
         this.modified	= new Date();
     }
-    
-    public Profile() {
-        this.status = MupiParams.FIRST_LOGIN;
-        this.firstName = "";
-        this.picture = NO_PIC;
-        this.created = new Date();
-        this.modified = new Date();
-    }
-    
+
+
     public Profile(String name) {
         this.firstName = name;
         this.status = MupiParams.FIRST_LOGIN;
@@ -116,20 +135,20 @@ public class Profile extends Model {
      * @return
      */
     public static Profile update(
-                                 final User user,
-                                 final String firstName,
-                                 final String lastName,
-                                 final String about,
-                                 final Date birthDate,
-                                 final String picture,
-                                 final Integer gender,
-                                 final Integer notificationLevel,
-                                 final List<Location> locations) {
+       final User user,
+       final String firstName,
+       final String lastName,
+       final String about,
+       final Date birthDate,
+       final String picture,
+       final Integer gender,
+       final Integer notificationLevel,
+       final List<Location> locations) {
 
 
         final Profile p = user.profile;
         System.out.println(notificationLevel + ": " + p.getNotificationLevel());
-        
+
 
         p.setFirstName(firstName);
         p.setLastName(lastName);
@@ -155,20 +174,7 @@ public class Profile extends Model {
         return profile;
     }
 
-    public static Profile create(final User user) {
-        Profile p = new Profile();
-        p.setFirstName(user.name);
-        p.setStatus(MupiParams.FIRST_LOGIN);
-        p.setPicture(NO_PIC);
-        p.setLocations(new ArrayList<Location>());
-        p.setCreated(new Date());
-        p.setModified(new Date());
 
-
-        p.save();
-
-        return p;
-    }
 
     public static Profile updateFirstName(final User user, final String name) {
         final Profile p = user.profile;
@@ -216,8 +222,8 @@ public class Profile extends Model {
     }
 
 
-	@Entity  
-	@Sql  
+	@Entity
+	@Sql
 	public class UserEmail {
 		String email;
 
@@ -250,7 +256,7 @@ public class Profile extends Model {
 
 		return q.findList();
 	}
-	
+
 	public static List<UserEmail> emailsFromInterestAndLocation(Interest i, Location l){
 		String sql = "" +
 				"select 												" +

@@ -19,8 +19,6 @@ public class EventController extends Controller {
   public static Result events(Integer p){
     Long i = MupiSession.getLocalInterest();
     Long l = MupiSession.getLocalLocation();
-        
-    System.out.println("SHIPAW2:  " + i +"  " + l);
     
     return ok(views.html.promotions.render(
       models.Interest.find.all(),
@@ -35,8 +33,6 @@ public class EventController extends Controller {
     Form<utils.Forms.Community> bindedForm = form(utils.Forms.Community.class).bindFromRequest();
     Long l = bindedForm.get().location;
     Long i = bindedForm.get().interest;
-    
-    System.out.println("SHIPAW:  " + i +"  " + l);
     
     MupiSession.setLocalInterest(i);
     MupiSession.setLocalLocation(l);

@@ -73,7 +73,7 @@ public class Feed extends Controller {
       String url = session("ref");
       session().remove("ref");
       return redirect(url);
-    }else if(user.getProfile().getInterests().isEmpty()){
+    } else if(user.getProfile().getInterests().isEmpty()){
       return redirect(routes.Interest.interestManager());
     } else if(user.getProfile().getStatus() == MupiParams.FIRST_LOGIN){
       return redirect(routes.Profile.profile());
@@ -97,7 +97,7 @@ public class Feed extends Controller {
       ));
     }
   }
-  
+
 
 
   @Dynamic("editor")
@@ -126,9 +126,9 @@ public class Feed extends Controller {
     final String from = "noreply@mupi.me";
     final String to   = MupiParams.HOST_MEETUP_EMAIL;
     final String replyTo = "noreply@mupi.me";
-    
+
     new AssyncEmailSender(subject, body, from, replyTo, to).send();
-    
+
     final String userSubject = "Receber Evento Mupi";
     final String userBody    = "Olá " + p.getFirstName() + ",\n\n" +
         "Recebemos sua mensagem sobre o interesse em receber Eventos Mupi. Em breve entraremos em contato para os próximos passos.\n\n\n" +
@@ -137,7 +137,7 @@ public class Feed extends Controller {
     final String userFrom = "contato@mupi.me";
     final String userTo   = u.email;
     final String userReplyTo = "contato@mupi.me";
-    
+
     new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
 
     return redirect(routes.Feed.feed());
@@ -172,10 +172,10 @@ public class Feed extends Controller {
     final String from = "noreply@mupi.me";
     final String to   = MupiParams.PROMOTE_MEETUP_EMAIL;
     final String replyTo = "noreply@mupi.me";
-    
+
     new AssyncEmailSender(subject, body, from, replyTo, to).send();
 
-    
+
     final String userSubject = "Sugestão de Evento Mupi: ";
     final String userBody    = "Olá " + p.getFirstName() + ",\n\n" +
         "Recebemos sua mensagem sobre um Evento Mupi. Em breve entraremos em contato para os próximos passos.\n\n\n" +
@@ -184,12 +184,12 @@ public class Feed extends Controller {
     final String userFrom = "contato@mupi.me";
     final String userTo   = u.email;
     final String userReplyTo = "contato@mupi.me";
-    
+
     new AssyncEmailSender(userSubject, userBody, userFrom, userReplyTo, userTo).send();
 
     return redirect(routes.Feed.feed());
   }
-  
+
   @Dynamic("editor")
   public static Result removeComment(Long id){
     final User u = Mupi.getLocalUser(session());
@@ -202,14 +202,14 @@ public class Feed extends Controller {
       return AjaxResponse.build(2, "Este comentário não é seu! Você não pode removê-lo");
     }
   }
-  
+
   @Dynamic("editor")
   public static Result removePublication(Long id){
     final User u = Mupi.getLocalUser(session());
     final models.Profile p = u.profile;
 
     Publication pub = models.Publication.find.byId(id);
-    
+
     if(pub.getProfile().getId() == p.getId() && (
         pub.getPub_typ() == conf.MupiParams.PubType.DISCUSSION ||
         pub.getPub_typ() == conf.MupiParams.PubType.IDEA ||
@@ -242,14 +242,14 @@ public class Feed extends Controller {
     for(UserEmail ue : l_ue){
       if(u.getEmail().equalsIgnoreCase(ue.getEmail()))
         System.out.println("Commenter: " + ue.getEmail());
-      else 
+      else
         System.out.println(ue.getEmail());
 
     }
     return selectFeed(getLocalInterest(), getLocalLocation());
   }
 
-  
+
 
   @Restrict(Mupi.USER_ROLE)
   public static Result commentPublication(String body, Long id){
@@ -263,7 +263,7 @@ public class Feed extends Controller {
       for(UserEmail ue : l_ue){
         if(u.getEmail().equalsIgnoreCase(ue.getEmail()))
           System.out.println("Commenter: " + ue.getEmail());
-        else 
+        else
           System.out.println(ue.getEmail());
 
       }
@@ -283,7 +283,7 @@ public class Feed extends Controller {
   @Dynamic("editor")
   public static Result publish(){
     Form<utils.Forms.PublicationBinder> bindedForm = form(utils.Forms.PublicationBinder.class).bindFromRequest();
-     
+
     Long l = bindedForm.get().location;
     Long i = bindedForm.get().interest;
 
@@ -292,7 +292,7 @@ public class Feed extends Controller {
       final models.Profile p = u.profile;
 
       String safeBody = Jsoup.clean(
-          bindedForm.get().body, 
+          bindedForm.get().body,
           Whitelist.basicWithImages().addEnforcedAttribute("a", "target", "_blank").addTags("h1", "h2")
       );
 
@@ -366,10 +366,10 @@ public class Feed extends Controller {
     Long i = MupiSession.getLocalInterest();
     Long l = MupiSession.getLocalLocation();
     List<models.Promotion> proms = Promotion.findByInterestLocation(i, l, 0, 5, "date, time", fromId).getList();
-    
+
     Integer status = 0;
     if(proms.isEmpty()) status = 2;
-    
+
     return AjaxResponse.build(status, promList.render(proms).body());
   }
 
@@ -404,10 +404,10 @@ public class Feed extends Controller {
   @Restrict(Mupi.USER_ROLE)
   public static Result selectFeed(Long i, Long l){
     final models.Profile p = Mupi.getLocalUser(session()).profile;
-    
+
     return renderFeedContent(
         0,
-        Publication.findByInterestLocation(i, l, 0, 10, "created, desc"),
+        Publication.findByInterestLocation(i, l, 0, 10, "created desc"),
         Promotion.findByInterestLocation(i, l, 0, 5, "date, time"),
         models.Interest.find.byId(i),
         models.Location.find.byId(l)
@@ -462,14 +462,14 @@ public class Feed extends Controller {
         bi = ImageHandler.createMediumPromotion(destinationFile);
         ImageIO.write(bi, extension, medium);
       }else{picturePath = BLANK_EVT;}
-      
-      
+
+
       String safeDesc = Jsoup.clean(
-          filledForm.get().getDescription(), 
+          filledForm.get().getDescription(),
           Whitelist.simpleText()
       );
-      
-      
+
+
       Promotion pr = models.Promotion.create(
         p,
         lObj,
@@ -492,12 +492,12 @@ public class Feed extends Controller {
       for(UserEmail ue : l_ue){
         if(u.getEmail().equalsIgnoreCase(ue.getEmail()))
           System.out.println("Commenter: " + ue.getEmail());
-        else 
+        else
           System.out.println(ue.getEmail());
 
       }
-      
-          
+
+
       return redirect(routes.Feed.feed());
     }catch (Exception e) {
       flash(Mupi.FLASH_ERROR_KEY, "Erro ao divulgar evento, por favor contate-nos para que possamos resolver este problema.");
@@ -541,7 +541,7 @@ public class Feed extends Controller {
       return null;
     }
   }
-  
+
   private static String textWithLinks(String text) {
     String regex1 = "(?<!http://)(www[0-9]?\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     Pattern pattern1 = Pattern.compile(regex1);
@@ -551,7 +551,7 @@ public class Feed extends Controller {
       m1.appendReplacement(sb1, "http://"+ m1.group());
     }
     text = m1.appendTail(sb1).toString();
-    
+
     String regex2 = "(https?://)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     Pattern pattern2 = Pattern.compile(regex2);
     Matcher m2 = pattern2.matcher(text);
@@ -559,7 +559,7 @@ public class Feed extends Controller {
     while(m2.find()){
       m2.appendReplacement(sb2, "<a target=\"_blank\" href=\"" + m2.group() + "\">" + m2.group() + "</a>");
     }
-    
+
     return m2.appendTail(sb2).toString();
   }
 }

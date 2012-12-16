@@ -2,6 +2,7 @@ package service;
 
 import models.User;
 import play.Application;
+import providers.MyUsernamePasswordAuthProvider;
 
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
@@ -15,6 +16,8 @@ public class MyUserServicePlugin extends UserServicePlugin {
 
 	@Override
 	public Object save(final AuthUser authUser) {
+	  System.out.println("aaaaaaaa");
+	  
 		final boolean isLinked = User.existsByAuthUserIdentity(authUser);
 		if (!isLinked) {
 			return User.create(authUser).id;
@@ -26,7 +29,7 @@ public class MyUserServicePlugin extends UserServicePlugin {
 
 	@Override
 	public Object getLocalIdentity(final AuthUserIdentity identity) {
-		// For production: Caching might be a good idea here...
+	  // For production: Caching might be a good idea here...
 		// ...and dont forget to sync the cache when users get deactivated/deleted
 		final User u = User.findByAuthUserIdentity(identity);
 		if(u != null) {
@@ -38,6 +41,7 @@ public class MyUserServicePlugin extends UserServicePlugin {
 
 	@Override
 	public AuthUser merge(final AuthUser newUser, final AuthUser oldUser) {
+	  System.out.println("bbbbbbbbb");
 		if (!oldUser.equals(newUser)) {
 			User.merge(oldUser, newUser);
 		}
@@ -46,6 +50,7 @@ public class MyUserServicePlugin extends UserServicePlugin {
 
 	@Override
 	public AuthUser link(final AuthUser oldUser, final AuthUser newUser) {
+	  System.out.println("ccccccccccc");
 		User.addLinkedAccount(oldUser, newUser);
 		return newUser;
 	}

@@ -127,7 +127,8 @@ public class MyUsernamePasswordAuthProvider
 
 	@Override
 	protected SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
-		final User u = User.findByEmail(user.getEmail());
+	  final User u = User.findByEmail(user.getEmail());
+		
 		if (u != null) {
 			if (u.status == 1) {
 				// This user exists, has its email validated and is active

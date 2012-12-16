@@ -29,6 +29,7 @@ import be.objectify.deadbolt.models.RoleHolder;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.validation.Email;
+import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthUser;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
@@ -43,7 +44,7 @@ import com.feth.play.module.pa.user.NameIdentity;
 @Table(name = "users")
 public class User extends Model implements RoleHolder {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -56,7 +57,7 @@ public class User extends Model implements RoleHolder {
 	// @Column(unique = true)
 	public String email;
 
-	
+
 	public String name;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -65,10 +66,10 @@ public class User extends Model implements RoleHolder {
 	public boolean active;
 
 	public int status;
-	
+
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date created;
-	
+
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date modified;
 
@@ -83,11 +84,11 @@ public class User extends Model implements RoleHolder {
 
 	@ManyToMany(cascade = CascadeType.ALL)
   private List<Promotion> subscriptions = new ArrayList<Promotion>();
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	public Profile profile;
-	
-	
+
+
 	public static final Finder<Long, User> find = new Finder<Long, User>(
 			Long.class, User.class);
 
@@ -100,7 +101,7 @@ public class User extends Model implements RoleHolder {
 	public List<? extends Permission> getPermissions() {
 		return permissions;
 	}
-	
+
 	public Profile getProfile(){
 		return this.profile;
 	}
@@ -111,12 +112,13 @@ public class User extends Model implements RoleHolder {
 			exp = getUsernamePasswordAuthUserFind((UsernamePasswordAuthUser) identity);
 		} else {
 			exp = getAuthUserFind(identity);
+			
 		}
 		return exp.findRowCount() > 0;
 	}
 
-	private static ExpressionList<User> getAuthUserFind(
-			final AuthUserIdentity identity) {
+	private static ExpressionList<User> getAuthUserFind(final AuthUserIdentity identity) {
+
 		return find.where().eq("active", true)
 				.eq("linkedAccounts.providerUserId", identity.getId())
 				.eq("linkedAccounts.providerKey", identity.getProvider());
@@ -138,10 +140,9 @@ public class User extends Model implements RoleHolder {
 		return getUsernamePasswordAuthUserFind(identity).findUnique();
 	}
 
-	private static ExpressionList<User> getUsernamePasswordAuthUserFind(
-			final UsernamePasswordAuthUser identity) {
-		return getEmailUserFind(identity.getEmail()).eq(
-				"linkedAccounts.providerKey", identity.getProvider());
+	private static ExpressionList<User> getUsernamePasswordAuthUserFind(final UsernamePasswordAuthUser identity) {
+	  //TODO:  Is this important? .eq("linkedAccounts.providerKey", identity.getProvider());
+		return getEmailUserFind(identity.getEmail()).eq("linkedAccounts.providerKey", identity.getProvider());
 	}
 
 	public void merge(final User otherUser) {
@@ -154,7 +155,7 @@ public class User extends Model implements RoleHolder {
 		otherUser.active = false;
 		Ebean.save(Arrays.asList(new User[] { otherUser, this }));
 	}
-	
+
 	public static User updateName(final User user, final String name) {
 		final User u = findByEmail(user.email);
 		u.name = name;
@@ -162,8 +163,8 @@ public class User extends Model implements RoleHolder {
 		u.update();
 		return u;
 	}
-	
-	
+
+
 	public static User create(final AuthUser authUser) {
 		final User user = new User();
 		user.roles = Collections.singletonList(SecurityRole
@@ -173,35 +174,56 @@ public class User extends Model implements RoleHolder {
 		user.active = true;
 		user.lastLogin = new Date();
 		user.linkedAccounts = Collections.singletonList(LinkedAccount.create(authUser));
-		
-		
+
 		
 		user.created = new Date();
 		user.modified = new Date();
-		
 		if (authUser instanceof EmailIdentity) {
-			final EmailIdentity identity = (EmailIdentity) authUser;
+		  final EmailIdentity identity = (EmailIdentity) authUser;
 			// Remember, even when getting them from FB & Co., emails should be
 			// verified within the application as a security breach there might
 			// break your security as well!
 			user.email = identity.getEmail();
 			user.status = 0;
+			user.profile = new Profile();
 		}
-
+		
+		
 		if (authUser instanceof NameIdentity) {
-			final NameIdentity identity = (NameIdentity) authUser;
-			final String name = identity.getName();
-			if (name != null) {
-				user.name = name;
-				user.profile = new Profile(name);
-			}
-			else{
-			  user.profile = new Profile();
-			}
+	
+		  if( authUser instanceof FacebookAuthUser ){
+	      final FacebookAuthUser identity = (FacebookAuthUser) authUser;
+	      user.email = identity.getEmail();
+	      user.status = (identity.isVerified() ? 1 : 0);
+	      user.name = identity.getFirstName();
+	      user.profile = new Profile(
+	          user,
+	          identity.getFirstName(),
+	          identity.getLastName(),
+	          null,
+	          null,
+	          "",
+	          (identity.getGender().trim().compareToIgnoreCase("female") == 0) ? 1 : (identity.getGender().trim().compareToIgnoreCase("male") == 0) ? 2 : 3,
+	          2,
+	          null
+	      );
+	    }
+		  else{
+  			final NameIdentity identity = (NameIdentity) authUser;
+  			final String name = identity.getName();
+  			if (name != null) {
+  				user.name = name;
+  				user.profile = new Profile(name);
+  			}
+  			else{
+  			  user.profile = new Profile();
+  			}
+		  }
 		}
 		
+
 		user.save();
-		
+
 		user.saveManyToManyAssociations("roles");
 		// user.saveManyToManyAssociations("permissions");
 		return user;
@@ -233,7 +255,7 @@ public class User extends Model implements RoleHolder {
 		u.lastLogin = new Date();
 		u.save();
 	}
-	
+
 	public static void setLastModified(final AuthUser knownUser) {
 		final User u = User.findByAuthUserIdentity(knownUser);
 		u.modified = new Date();
@@ -241,11 +263,13 @@ public class User extends Model implements RoleHolder {
 	}
 
 	public static User findByEmail(final String email) {
-		return getEmailUserFind(email).findUnique();
+	  User u = getEmailUserFind(email).findUnique();
+    return u;
 	}
 
 	private static ExpressionList<User> getEmailUserFind(final String email) {
-		return find.where().eq("active", true).eq("email", email);
+	  ExpressionList<User> u = find.where().eq("active", true).eq("email", email);
+		return u;
 	}
 
 	public LinkedAccount getAccountByProvider(final String providerKey) {
@@ -285,7 +309,7 @@ public class User extends Model implements RoleHolder {
   public Date getCreated() {
     return created;
   }
-  
+
   public String getCohortString() {
 //    Y: Year (4 characters)
 //    Q: Quarter (1 character, 1 – 4)
@@ -298,7 +322,7 @@ public class User extends Model implements RoleHolder {
 
     Calendar cal = Calendar.getInstance();
     cal.setTime(this.getCreated());
-    
+
     return "Y:"  + cal.get(Calendar.YEAR) + ";"
     		 + "Q:"  + cal.get(Calendar.MONTH % 4) + ";"
     		 + "M:"  + cal.get(Calendar.MONTH) + ";"
@@ -329,6 +353,6 @@ public class User extends Model implements RoleHolder {
   public void setEmail(String email) {
     this.email = email;
   }
-  
-  
+
+
 }
