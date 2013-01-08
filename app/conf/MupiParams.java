@@ -38,7 +38,7 @@ public class MupiParams {
   
   // Event Pagination
   public static final Integer EVS_PER_PAGE  = 9;
-  
+  public static final Integer DEMANDS_PER_PAGE  = 24;
   
   public static enum NotificationLevel {
       NONE, SIMPLE, NORMAL, ALL

@@ -38,7 +38,7 @@
 			<ul>
 			    @if(promotionsPage.hasPrev) {
 		        <li class="prev">
-		            <a href="@getPromotionPage(community("interest").value, community("location").value, promotionsPage.getPageIndex - 1)">< anterior </a>
+		            <a href="@getDemandPage(promotionsPage.getPageIndex - 1)">< anterior </a>
 		        </li>
 			    } else {
 		        <li class="prev disabled">
@@ -52,7 +52,7 @@
 			    
 			    @if(promotionsPage.hasNext) {
 		        <li class="next">
-		          <a href="@getPromotionPage(community("interest").value, community("location").value, promotionsPage.getPageIndex + 1)"> próxima ></a>
+		          <a href="@getDemandPage(promotionsPage.getPageIndex + 1)"> próxima ></a>
 		        </li>
 			    } else {
 		        <li class="next disabled">

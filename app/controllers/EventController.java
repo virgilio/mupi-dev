@@ -43,7 +43,7 @@ public class EventController extends Controller {
 				models.Interest.find.all(),
 				models.Location.find.all(),     
 				new Form<Community>(Community.class).fill(new Community(i, l)),
-				Promotion.findByPubType(p, MupiParams.EVS_PER_PAGE, "created", PubType.DEMAND),
+				Promotion.findByPubType(p, MupiParams.DEMANDS_PER_PAGE, "created", PubType.DEMAND),
 				MyUsernamePasswordAuthProvider.LOGIN_FORM,
 				MyUsernamePasswordAuthProvider.SIGNUP_FORM
 				));
