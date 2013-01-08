@@ -1,8 +1,10 @@
-@(prom : models.Promotion)
-
+@(prom : models.Promotion, loginForm: Form[_] = null, signupForm: Form[_] = null )
+@import be.objectify.deadbolt.Deadbolt
+@import helper._
 @publisherPic = @{"event/picture/medium" + prom.getPicture}
+@pub_typ = @{prom.getPublication.getPub_typ}
 
-<div class="meetup_box">
+<div class="meetup_box" prom_id="@prom.getId">
 	<a class="meetup" href="@routes.Mupi.promotion(prom.getId)" prom_id="@prom.getId" pub_typ="@prom.getPublication.getPub_typ.ordinal"> 
 		<div class="radius_overflow_fix">
 		  <div class="meetup_title_shadow"></div>
@@ -29,9 +31,9 @@
 	</a>
 	
 	
-	@{prom.getPublication.getPub_typ match {
-		case (conf.MupiParams.PubType.MUPI_EVENT)  =>
-			if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
+	@pub_typ match {
+		case (conf.MupiParams.PubType.MUPI_EVENT)  => {
+			@if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
 	          <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar inscrição">Desinscrever-me</button>
 	          <div class="mini_logo" title="Evento Mupi!"></div>
 	          <div class="subscribe_shadow meetup_info"></div>
@@ -40,24 +42,79 @@
 		          <div class="mini_logo" title="Evento Mupi!"></div>
 		          <div class="subscribe_shadow meetup_info"></div>
 		    }
+	    }
 		    
-		case (conf.MupiParams.PubType.EVENT)  =>
-		  if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
-          <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar presença">Não vou mais</button>
+		case (conf.MupiParams.PubType.EVENT)  => {
+		  @if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
+            <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar presença">Não vou mais</button>
             <div class="subscribe_shadow meetup_info"></div>
-      }else{
-          <button class="meetUp_subscription_feed meetup_info" title="Confirmar presença">Eu vou!</button>
-            <div class="subscribe_shadow meetup_info"></div>
-      }
-	
-	  case (conf.MupiParams.PubType.DEMAND)  =>
-       <button class="meetUp_subscription_feed meetup_info demand_learn_subscription 
-       			@if(!Mupi.getLocalUser(session())) { login_modal_but } 
-       			" title="Aprender">Quero Aprender</button>
-       <button class="meetUp_subscription_feed meetup_info demand_teach_subscription" title="Ensinar">Quero Ensinar</button>
-       <div class="mini_logo" title="Evento Mupi!"></div>
+	      }else{
+	        <button class="meetUp_subscription_feed meetup_info" title="Confirmar presença">Eu vou!</button>
+	        <div class="subscribe_shadow meetup_info"></div>
+	      }
+	    }
+	    
+	  	case (conf.MupiParams.PubType.DEMAND)  => {
+         <button class="meetUp_subscription_feed2 meetup_info 
+             @if(!Deadbolt.viewRoleHolderPresent()) {login_modal_but} else {demand_learn_subscription}" title="Aprender">Quero Aprender</button>
+         <button class="meetUp_subscription_feed2 meetup_info 
+         	@if(!Deadbolt.viewRoleHolderPresent()) {login_modal_but} else {demand_teach_subscription}" title="Ensinar">Quero Ensinar</button>
+         <div class="mini_logo" title="Evento Mupi!"></div>
          <div class="subscribe_shadow meetup_info"></div>
-		
-	}}
+		}
+	}
 	
+<div id="login_modal" class="modal fade hide" style="width: 585px;">
+  <div class="modal-header">
+    <h3>Você precisa fazer login ou se cadastrar para que possa continuar.</h3>
+  </div>
+  <div class="modal-body" style="float: left; width: 260px;">
+    @helper.form(routes.Mupi.doLogin) {
+      @if(loginForm.hasGlobalErrors) { 
+        <p class="error">
+          <span class="label label-important">@loginForm.globalError.message</span>
+        </p>
+      }
+      @_emailPartial(loginForm)
+      @inputPassword(
+        loginForm("password"),
+        '_showConstraints -> false,
+        '_label -> Messages("playauthenticate.login.password.placeholder")
+      )
+      <input type="submit" value="@Messages("playauthenticate.login.now")" class="btn">    
+      
+    }
+  </div> 
+  <div class="modal-body" style="float: left; width: 260px; border-left: 1px #cdcdcd dashed">
+    @helper.form(routes.Mupi.doSignup) {
+      
+        @if(signupForm.hasGlobalErrors) { 
+            <p class="error">
+            <span class="label label-important">@signupForm.globalError.message</span>
+          </p>
+        }
+        
+        @inputText(
+           signupForm("name"),
+           '_label -> Messages("playauthenticate.signup.name")
+        )
+         
+        @_emailPartial(signupForm)
+         
+        @_passwordPartial(signupForm)
+        
+        
+        <div class="clearfix terms_acceptance ">
+				  <div class="input">
+				    <input type="checkbox" name='@signupForm("terms_accepted").name' id='@signupForm("terms_accepted").name' value="true" style="display: inline; float: left">
+				    <label for='@signupForm("terms_accepted").name'>Li e aceito os <a target='_blank' href="@routes.Mupi.terms()" style="display: inline"> @Messages("mupi.navigation.terms.title") </a></label>
+				    </br>
+				  </div>
+				</div>
+        
+
+        <input type="submit" value="@Messages("playauthenticate.signup.now")" class="btn btn-primary">
+      }
+  </div>
+</div>	
 </div>

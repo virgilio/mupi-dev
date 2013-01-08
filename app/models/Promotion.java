@@ -22,6 +22,7 @@ import play.db.ebean.Model;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Page;
 
+import conf.MupiParams;
 import conf.MupiParams.PubType;
 import controllers.Mupi;
 import controllers.routes;
@@ -179,6 +180,33 @@ public class Promotion extends Model {
             .findIds()
       )
       .gt("date", new Date())
+      .orderBy(ob)
+      .findPagingList(pp)
+      .getPage(p);
+  }
+  
+  /**
+   * Find Events by Publication Type
+   * @param t event type
+   * @param p page
+   * @param pp per page
+   * @param ob order by (example: "date, time"
+   * @return A page with the containing promotions
+   
+   */
+  public static Page<Promotion> findByPubType(Integer p, Integer pp, String ob, MupiParams.PubType t) {
+    // Setting orderBy, page and perPage parameters
+    if(ob == null || ob.trim().isEmpty()) ob = "created";
+    if(p < 0) p = 0;
+    if(pp <= 0) pp = 1;
+    
+    return find.where()
+      .in("publication_id",
+          Publication.find.where()
+            .gt("status", 0)
+            .eq("pub_typ", t.ordinal())
+            .findIds()
+      )
       .orderBy(ob)
       .findPagingList(pp)
       .getPage(p);

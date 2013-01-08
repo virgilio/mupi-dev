@@ -370,7 +370,8 @@ public class Feed extends Controller {
     Integer status = 0;
     if(proms.isEmpty()) status = 2;
 
-    return AjaxResponse.build(status, promList.render(proms).body());
+    return AjaxResponse.build(status, promList.render(proms, MyUsernamePasswordAuthProvider.LOGIN_FORM,
+            MyUsernamePasswordAuthProvider.SIGNUP_FORM).body());
   }
 
 

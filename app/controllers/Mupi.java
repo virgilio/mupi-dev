@@ -120,6 +120,8 @@ public class Mupi extends Controller {
             controllers.routes.javascript.Mupi.unsubscribeFromMeetUp(),
             controllers.routes.javascript.Mupi.clearBucket(),
             controllers.routes.javascript.Feed.removeComment(),
+            controllers.routes.javascript.EventController.demandTeachMeetUp(),
+            controllers.routes.javascript.EventController.demandLearnMeetUp(),
             controllers.routes.javascript.Feed.removePublication())).as(
         "text/javascript");
   }

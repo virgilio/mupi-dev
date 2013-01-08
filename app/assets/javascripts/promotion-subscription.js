@@ -176,9 +176,43 @@ jQuery(function(){
 	
 	jQuery('.demand_learn_subscription, .demand_teach_subscription').live('click', function(){
 		var teach = jQuery(this).hasClass("demand_teach_subscription");
-		jsRoutes.controllers.Mupi.subscribeToMeetUp(meetUp.attr('prom_id')).ajax({
+		var meetUp = jQuery(this).parent();
+		console.log(meetUp.attr('prom_id'));
+		if(teach) {
+			jsRoutes.controllers.EventController.demandTeachMeetUp(meetUp.attr('prom_id')).ajax({
 				success : function(data) {
-					
+					var response = data.split("||");
+					jQuery('.page-alert').html("<div class='alert hide'> </div>");
+					jQuery('.page-alert > .alert')
+					  .addClass('alert-success')
+					  .html(response[1]);
+				},
+				error: function(){
+					jQuery('.page-alert').html("<div class='alert hide'> </div>");
+					jQuery('.page-alert > .alert')
+					  .addClass('alert-error')
+					  .html("Erro ao completar esta operação. Contate-nos através de contato@mupi.me para mais informações.");
+				}
+			});
+		} else {
+			jsRoutes.controllers.EventController.demandLearnMeetUp(meetUp.attr('prom_id')).ajax({
+				success : function(data) {
+					var response = data.split("||");
+					jQuery('.page-alert').html("<div class='alert hide'> </div>");
+					jQuery('.page-alert > .alert')
+					  .addClass('alert-success')
+					  .html(response[1]);
+				},
+				error: function(){
+					jQuery('.page-alert').html("<div class='alert hide'> </div>");
+					jQuery('.page-alert > .alert')
+					  .addClass('alert-error')
+					  .html("Erro ao completar esta operação. Contate-nos através de contato@mupi.me para mais informações.");
+				}
+			});
+		}
+//		jsRoutes.controllers.Mupi.subscribeToMeetUp(meetUp.attr('prom_id')).ajax({
+//				success : function(data) {
 //					var response = data.split("||");
 //					if(response[0] == 0) {
 //						subscribeButton.removeClass('meetUp_subscription_promotion').addClass('meetUp_unsubscription_promotion');
@@ -211,15 +245,15 @@ jQuery(function(){
 //						.addClass('alert-error')
 //						.html(response[1]);
 //					}
-				},
-				error : function() {
+//				},
+//				error : function() {
 //					jQuery('.page-alert').html("<div class='alert hide'> </div>");
 //					jQuery('.page-alert > .alert')
 //					.addClass('alert-error')
 //					.html("Erro no servidor, por favor tente novamente mais tarde");
 
-				}
-		});
+//				}
+//		});
 	});
 	
 	jQuery('#linkComments').click( function(){
@@ -227,7 +261,7 @@ jQuery(function(){
 	});
 	
 	jQuery("#login_modal").modal("hide");
-    jQuery("#login_modal_but").live('click', function(event){
+    jQuery(".login_modal_but").live('click', function(event){
         event.preventDefault();
         if(jQuery("#login_modal").is(':visible'))
         	jQuery("#login_modal").modal("hide");
@@ -239,7 +273,6 @@ jQuery(function(){
     if(window.location.hash == "#login_modal"){
     	jQuery("#login_modal").modal("show");
     }
-	
 })
 
 

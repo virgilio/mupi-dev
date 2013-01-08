@@ -1,7 +1,7 @@
-@(promotions: List[models.Promotion])
+@(promotions: List[models.Promotion], loginForm: Form[_] = null, signupForm: Form[_] = null )
 
 <script type="text/javascript" src="@routes.Assets.at("javascripts/promotion-subscription.js")"></script>
 
 @for(prom <- promotions){
-  @meetUp(prom)
+  @meetUp(prom, loginForm, signupForm)
 }
