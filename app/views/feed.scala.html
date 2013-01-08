@@ -8,7 +8,8 @@
   promotions: Page[models.Promotion],
   promoteForm: Form[models.Promotion],
   promoteMeetupForm: Form[utils.Forms.MeetUpPromotion],
-  hostMeetupForm: Form[utils.Forms.MeetUpHosting]
+  hostMeetupForm: Form[utils.Forms.MeetUpHosting],
+  loginForm: Form[_] = null, signupForm: Form[_] = null 
 )
 
 @import com.feth.play.module.pa.views.html._
@@ -53,7 +54,7 @@
 	   }
   </div>
   <div id="feed_content">
-  @feedContent(locations, interests.filter(_.getStatus() > 0), publications, promotions, selectedi, selectedl, promoteForm, promoteMeetupForm, hostMeetupForm)
+  @feedContent(locations, interests.filter(_.getStatus() > 0), publications, promotions, selectedi, selectedl, promoteForm, promoteMeetupForm, hostMeetupForm, loginForm, signupForm)
   </div>
   }
 }

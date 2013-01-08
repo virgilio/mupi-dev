@@ -30,7 +30,9 @@ public class EventController extends Controller {
 				models.Interest.find.all(),
 				models.Location.find.all(),     
 				new Form<Community>(Community.class).fill(new Community(i, l)),
-				Promotion.findByInterestLocation(i, l, p, MupiParams.EVS_PER_PAGE, "date, time")
+				Promotion.findByInterestLocation(i, l, p, MupiParams.EVS_PER_PAGE, "date, time"),
+				 MyUsernamePasswordAuthProvider.LOGIN_FORM,
+	        MyUsernamePasswordAuthProvider.SIGNUP_FORM
 				));
 	}
 

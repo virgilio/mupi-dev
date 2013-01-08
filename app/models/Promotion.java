@@ -176,6 +176,7 @@ public class Promotion extends Model {
           Publication.find.where()
             .in("interest_id", interests)
             .in("location_id", locations)
+            .ne("pub_typ", MupiParams.PubType.DEMAND)
             .gt("status", 0)
             .findIds()
       )
@@ -227,6 +228,7 @@ public class Promotion extends Model {
         .in("publication_id",
             Publication.find.where()
               .in("interest_id", interests)
+              .ne("pub_typ", MupiParams.PubType.DEMAND)
               .gt("status", 0)
               .findIds()
         )
@@ -239,6 +241,7 @@ public class Promotion extends Model {
           .in("publication_id",
               Publication.find.where()
                 .in("interest_id", interests)
+                .ne("pub_typ", MupiParams.PubType.DEMAND)
                 .gt("status", 0)
                 .findIds()
           )

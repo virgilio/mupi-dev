@@ -93,7 +93,9 @@ public class Feed extends Controller {
         Promotion.findByInterests(models.Interest.getIds(user.getProfile().getInterests()), 0l),
         form(models.Promotion.class),
         PROMOTE_MEETUP_FORM,
-        HOST_MEETUP_FORM
+        HOST_MEETUP_FORM,
+        MyUsernamePasswordAuthProvider.LOGIN_FORM,
+        MyUsernamePasswordAuthProvider.SIGNUP_FORM
       ));
     }
   }
@@ -399,7 +401,9 @@ public class Feed extends Controller {
         l,
         PROMOTION_FORM,
         PROMOTE_MEETUP_FORM,
-        HOST_MEETUP_FORM).body());
+        HOST_MEETUP_FORM,
+        MyUsernamePasswordAuthProvider.LOGIN_FORM,
+        MyUsernamePasswordAuthProvider.SIGNUP_FORM).body());
   }
 
   @Restrict(Mupi.USER_ROLE)

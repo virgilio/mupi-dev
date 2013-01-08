@@ -116,80 +116,87 @@ ref.parentNode.insertBefore(js, ref);
       <div id="promotion_header" class="span10 offset1">
         <div id="promotion_img"><img src="@routes.Mupi.at(promPic)"/></div>
         <h1>@promotion.getTitle</h1>
-        <div id="promotion_date">
-          <span class="pday">@promotion.getDate.format("dd")</span>
-          <span class="pmonth">@promotion.getDate.format("MMM")</span>
-        </div>
-        <div id="promotion_complete_date">
-          <i class="icon-calendar"></i>
-          <span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("EEEE") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span>
-        </div>
-        <div id="promotion_local">
-          <i class="icon-map-marker"></i>
-          <span id="address_val">@promotion.getAddress</span>
-          <div id="promotion_map">Não há um mapa para esta localidade</div>
-        </div>
-        <div id="promotion_link">
-          <i class="icon-external-link"></i>
-          <a class="external_link" target="_blank" href="@promotion.getLink">Link externo</a>
-        </div>
-        <div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId).absoluteURL(request)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-
-        <div id="price_box">
-            @if(promotion.getPublication.getPub_typ.compareTo(4)){
-              <label>Quanto custa?</label>
-              <span>@if(promotion.getCost == 0) {Gratuito} else {R$ @promotion.getCost}</span>
-                @if(Mupi.getLocalUser(session()) != null){
-                  @if(Mupi.getLocalUser(session()).status != 0){
-                    @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
-
-                    } else {
-                      <p class="txt_center">
-                        <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
-                      </p>
-                      <p>Ao clicar em "Fazer inscrição" nós entraremos em contato para mais informações</p>
-                    }
-                  } else {
-                    <p class="txt_center">
-                      <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
-                    </p>
-                  }
-                } else {
-                  <p class="txt_center">
-                    <button id="login_modal_but" class="meetUp_subscription_promotion2 meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
-                  
-                }
-              } else {
-                <span class="txt_center">Você vai a este evento?</span>
-                @if(Mupi.getLocalUser(session()) != null) {
-                  @if(Mupi.getLocalUser(session()).status != 0){
-                    @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
-                      <p class="txt_center">
-                        <button class="meetUp_unsubscription_promotion meetup_info subscription_button" title="Cancelar presença">Não vou mais</button>
-                      </p>
-                    } else {
-                      <p class="txt_center">
-                        <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Confirmar presença">Eu vou!</button>
-                      </p>
-                    }
-                  } else {
-                    <p class="txt_center">
-                      <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Confirmar presença">Eu vou!</button>
-                    </p>
-                  }
-                } else {
-                  <p class="txt_center">
-                      <button id="login_modal_but" class="meetUp_subscription_promotion2 meetup_info subscription_button" title="Eu vou">Eu vou!</button>
-                      
-                  </p>
-                  
-                }
-                <p>Este evento é externo ao Mupi. Ao confirmar presença
-                você não está realmente se inscrevendo no evento.</p>
-              }
-        </div>
+        
+        @if(conf.MupiParams.PubType.DEMAND != promotion.getPublication.getPub_typ){
+	        <div id="promotion_date">
+	          <span class="pday">@promotion.getDate.format("dd")</span>
+	          <span class="pmonth">@promotion.getDate.format("MMM")</span>
+	        </div>
+	        <div id="promotion_complete_date">
+	          <i class="icon-calendar"></i>
+	          <span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM"), @promotion.getDate.format("EEEE") às @promotion.getDate.format("HH")h@promotion.getDate.format("mm")  </span>
+	        </div>
+	        <div id="promotion_local">
+	          <i class="icon-map-marker"></i>
+	          <span id="address_val">@promotion.getAddress</span>
+	          <div id="promotion_map">Não há um mapa para esta localidade</div>
+	        </div>
+	        <div id="promotion_link">
+	          <i class="icon-external-link"></i>
+	          <a class="external_link" target="_blank" href="@promotion.getLink">Link externo</a>
+	        </div>
+	        <div class="fb-like" data-href="@routes.Mupi.promotion(promotion.getId).absoluteURL(request)" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+	
+	        <div id="price_box">
+	            @if(promotion.getPublication.getPub_typ.compareTo(4)){
+	              <label>Quanto custa?</label>
+	              <span>@if(promotion.getCost == 0) {Gratuito} else {R$ @promotion.getCost}</span>
+	                @if(Mupi.getLocalUser(session()) != null){
+	                  @if(Mupi.getLocalUser(session()).status != 0){
+	                    @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+	
+	                    } else {
+	                      <p class="txt_center">
+	                        <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
+	                      </p>
+	                      <p>Ao clicar em "Fazer inscrição" nós entraremos em contato para mais informações</p>
+	                    }
+	                  } else {
+	                    <p class="txt_center">
+	                      <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
+	                    </p>
+	                  }
+	                } else {
+	                  <p class="txt_center">
+	                    <button id="login_modal_but" class="meetUp_subscription_promotion2 meetup_info subscription_button" title="Fazer Inscrição">Fazer Inscrição!</button>
+	                  
+	                }
+	              } else {
+	                <span class="txt_center">Você vai a este evento?</span>
+	                @if(Mupi.getLocalUser(session()) != null) {
+	                  @if(Mupi.getLocalUser(session()).status != 0){
+	                    @if(promotion.getSubscribers.contains(Mupi.getLocalUser(session()))){
+	                      <p class="txt_center">
+	                        <button class="meetUp_unsubscription_promotion meetup_info subscription_button" title="Cancelar presença">Não vou mais</button>
+	                      </p>
+	                    } else {
+	                      <p class="txt_center">
+	                        <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Confirmar presença">Eu vou!</button>
+	                      </p>
+	                    }
+	                  } else {
+	                    <p class="txt_center">
+	                      <button class="meetUp_subscription_promotion meetup_info subscription_button" title="Confirmar presença">Eu vou!</button>
+	                    </p>
+	                  }
+	                } else {
+	                  <p class="txt_center">
+	                      <button id="login_modal_but" class="meetUp_subscription_promotion2 meetup_info subscription_button" title="Eu vou">Eu vou!</button>
+	                      
+	                  </p>
+	                  
+	                }
+	                <p>Este evento é externo ao Mupi. Ao confirmar presença
+	                você não está realmente se inscrevendo no evento.</p>
+	              }
+	        </div>
+	      }
         <span class="num_subscribers">
-            <i class="icon-group"></i><span class='n_confirmed'>@promotion.getSubscribers.size</span> confirmados
+            <i class="icon-group"></i><span class='n_confirmed'>@promotion.getSubscribers.size</span> 
+            @if(conf.MupiParams.PubType.DEMAND != promotion.getPublication.getPub_typ){
+              confirmados
+            }else { interessados }
+            
           </span>
       </div>
     </div>
@@ -198,7 +205,16 @@ ref.parentNode.insertBefore(js, ref);
         <div id="promotion_body">
           <span class="show_comments"><a href="#promotion_comments" id="linkComments"><i class="icon-comments-alt"></i> Ver comentários</a></span>
           <div id="promotion_promoter">
-            <label>Postado em </label> <i class="icon-star"></i> <span>@promotion.getPublication.getInterest.getName <i class="icon-map-marker"></i> @promotion.getPublication.getLocation.getName</span><br/>
+            @if(conf.MupiParams.PubType.DEMAND != promotion.getPublication.getPub_typ){
+              <label>Postado em </label>
+              <i class="icon-star"></i> <span>@promotion.getPublication.getInterest.getName 
+              <i class="icon-map-marker"></i> @promotion.getPublication.getLocation.getName</span>
+            }else{
+	            <label>Localidade </label> 
+	            <i class="icon-map-marker"></i> @promotion.getPublication.getLocation.getName</span>
+	          }
+            <br/>
+            
             <label>Promovido por</label>
             <a href="#" rel="clickover" data-placement="top"
         data-content="<div class='mini_profile_thumb profile_thumb'>
@@ -216,10 +232,12 @@ ref.parentNode.insertBefore(js, ref);
           </div>
 
           <div id="promotion_description">
-            <p>
-              <span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM") de @promotion.getDate.format("yyyy") às @promotion.getTime.format("HH")h@promotion.getTime.format("mm")  </span><br/>
-              <span>@promotion.getAddress</span> <br/>
-            </p>
+             @if(conf.MupiParams.PubType.DEMAND != promotion.getPublication.getPub_typ){
+	            <p>
+	              <span>@promotion.getDate.format("dd") de @promotion.getDate.format("MMMM") de @promotion.getDate.format("yyyy") às @promotion.getTime.format("HH")h@promotion.getTime.format("mm")  </span><br/>
+	              <span>@promotion.getAddress</span> <br/>
+	            </p>
+	          }
             <p>
               
             </p>

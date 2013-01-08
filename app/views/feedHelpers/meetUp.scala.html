@@ -11,14 +11,14 @@
 		  <img class="meetup_img" src="@routes.Mupi.at(publisherPic)" /> 
 		  <span class="meetup_title">@prom.getTitle</span>
 		  <div class="meetup_date meetup_info">
-		  	
+		  	@if(conf.MupiParams.PubType.DEMAND != pub_typ){
 			    <p>
 			      <i class="icon-calendar"></i> @prom.getDate.format("dd") de @prom.getDate.format("MMMM") de @prom.getDate.format("yyyy")
 			    </p>
-		    
-		    <p>
-		      <i class="icon-star"></i> @prom.getPublication.getInterest.getName
-		    </p>
+			    <p>
+			      <i class="icon-star"></i> @prom.getPublication.getInterest.getName
+			    </p>
+		    }
 		    <p>
 		      <i class="icon-map-marker"></i> @prom.getPublication.getLocation.getName
 		    </p>
@@ -26,7 +26,12 @@
 	  </div>
 	  <span class="num_subscribers meetup_info">
 	    <i class="icon-group"></i> 
-	    <span class="n_confirmed">@prom.getSubscribers.size</span> confirmados
+	    <span class="n_confirmed">@prom.getSubscribers.size</span> 
+	      @if(conf.MupiParams.PubType.DEMAND == pub_typ){ 
+	        interessados
+	      }else{
+	        confirmados
+	      }
 	  </span>
 	</a>
 	
@@ -55,12 +60,11 @@
 	    }
 	    
 	  	case (conf.MupiParams.PubType.DEMAND)  => {
-         <button class="meetUp_subscription_feed2 meetup_info 
+         <button class="meetUp_learn_but meetup_info 
              @if(!Deadbolt.viewRoleHolderPresent()) {login_modal_but} else {demand_learn_subscription}" title="Aprender">Quero Aprender</button>
-         <button class="meetUp_subscription_feed2 meetup_info 
+         <button class="meetUp_teach_but meetup_info 
          	@if(!Deadbolt.viewRoleHolderPresent()) {login_modal_but} else {demand_teach_subscription}" title="Ensinar">Quero Ensinar</button>
          <div class="mini_logo" title="Evento Mupi!"></div>
-         <div class="subscribe_shadow meetup_info"></div>
 		}
 	}
 	

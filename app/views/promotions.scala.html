@@ -1,7 +1,9 @@
 @( interests: List[models.Interest],
    locations: List[models.Location], 
    community : Form[utils.Forms.Community],
-   promotionsPage: Page[models.Promotion] )
+   promotionsPage: Page[models.Promotion],
+   loginForm: Form[_] = null,
+   signupForm: Form[_] = null )
 
 @promotions = @{promotionsPage.getList} 
 
@@ -61,6 +63,6 @@
 			    }
 			</ul>
 		</div>
-	  <div class="meetups" id="meetups">@promList(promotions)</div>
+	  <div class="meetups" id="meetups">@promList(promotions, loginForm, signupForm)</div>
 	</div>
 }

@@ -3,7 +3,8 @@
   interest: models.Interest,
   location: models.Location,
   promoteMeetupForm: Form[utils.Forms.MeetUpPromotion],
-  hostMeetupForm: Form[utils.Forms.MeetUpHosting]
+  hostMeetupForm: Form[utils.Forms.MeetUpHosting],
+  loginForm: Form[_] = null, signupForm: Form[_] = null 
 )
 
 @promotions = @{promotionsPage.getList}
@@ -16,7 +17,7 @@
   
   <h3>Próximos eventos</h3>
   
-  @promList(promotions)
+  @promList(promotions, loginForm, signupForm)
   <div id="promsFootPaginate">
       <div id="promsPaginateMsg" class="hide">Todos os eventos já estão sendo exibidos</div>
       <button id="nextPromotions"><i class="icon-caret-down"></i></button>
