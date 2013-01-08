@@ -174,9 +174,72 @@ jQuery(function(){
 		});
 	});
 	
+	jQuery('.demand_learn_subscription, .demand_teach_subscription').live('click', function(){
+		var teach = jQuery(this).hasClass("demand_teach_subscription");
+		jsRoutes.controllers.Mupi.subscribeToMeetUp(meetUp.attr('prom_id')).ajax({
+				success : function(data) {
+					
+//					var response = data.split("||");
+//					if(response[0] == 0) {
+//						subscribeButton.removeClass('meetUp_subscription_promotion').addClass('meetUp_unsubscription_promotion');
+//						if(meetUp.attr('pub_typ') == 4){
+//							jQuery('.page-alert').html("<div class='alert hide'> </div>");
+//							jQuery('.page-alert > .alert')
+//							.addClass('alert-success')
+//							.html(response[1]);	
+//							subscribeButton.text("Desinscrever-me");
+//						}
+//					    else{
+//					    	subscribeButton.text("Não vou mais");
+//					    }
+//						jQuery('.n_confirmed').each(function(){
+//							console.log(jQuery(this));
+//							jQuery(this).text(parseInt(jQuery(this).text()) + 1);
+//						});						
+//					}else if(response[0] == 2){
+//						jQuery('.page-alert').html("<div class='alert hide'> </div>");
+//						jQuery('.page-alert > .alert')
+//						.addClass('alert-success')
+//						.html(response[1]);
+//					}else if(response[0] == 4){
+//						jQuery('.page-alert').html("<div class='alert hide'> </div>");
+//						jQuery('.page-alert > .alert')
+//						.html(response[1]);
+//					}else{
+//						jQuery('.page-alert').html("<div class='alert hide'> </div>");
+//						jQuery('.page-alert > .alert')
+//						.addClass('alert-error')
+//						.html(response[1]);
+//					}
+				},
+				error : function() {
+//					jQuery('.page-alert').html("<div class='alert hide'> </div>");
+//					jQuery('.page-alert > .alert')
+//					.addClass('alert-error')
+//					.html("Erro no servidor, por favor tente novamente mais tarde");
+
+				}
+		});
+	});
+	
 	jQuery('#linkComments').click( function(){
 		jQuery("html, body").animate({ scrollTop: jQuery("#promotion_comments").offset().top - 20});
 	});
+	
+	jQuery("#login_modal").modal("hide");
+    jQuery("#login_modal_but").live('click', function(event){
+        event.preventDefault();
+        if(jQuery("#login_modal").is(':visible'))
+        	jQuery("#login_modal").modal("hide");
+        else{
+        	jQuery("#login_modal").modal("show");
+        }
+      });
+
+    if(window.location.hash == "#login_modal"){
+    	jQuery("#login_modal").modal("show");
+    }
+	
 })
 
 

@@ -57,7 +57,9 @@ POST  /feed/nextProms           controllers.Feed.nextPromotions(last: Long)
 
 
 GET   /eventos                  controllers.EventController.events(p:java.lang.Integer ?= 0)    
+GET   /euquero                  controllers.EventController.demand(p:java.lang.Integer ?= 0)    
 GET   /promotion                controllers.EventController.events(p:java.lang.Integer ?= 0)                
+GET   /demand 			controllers.EventController.demand(p:java.lang.Integer ?= 0)    
 POST  /promotion                controllers.EventController.filterEvents()
 GET   /promotion/list           controllers.EventController.events(p:java.lang.Integer ?= 0)
 
@@ -66,8 +68,8 @@ POST  /comment/remove/:id       controllers.Feed.removeComment(id: Long)
 POST  /publication/remove/:id   controllers.Feed.removePublication(id: Long)
 
 # PUBLICATION
-GET   /publication/:id          controllers.Mupi.publication(id: Long)
-POST  /publication/comment/:t/:p    controllers.Feed.commentPublication(t: String, p: Long)
+GET   /publication/:id			controllers.Mupi.publication(id: Long)
+POST  /publication/comment/:t/:p    	controllers.Feed.commentPublication(t: String, p: Long)
 
 # PROFILE
 GET   /profile           	    controllers.Profile.profile

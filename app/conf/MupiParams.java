@@ -45,11 +45,12 @@ public class MupiParams {
   }
 
   public static enum PubType {
-    DISCUSSION,
-    EVENT,
-    QUESTION,
-    IDEA,
-    MUPI_EVENT;
+    DISCUSSION, 
+    EVENT,		
+    QUESTION,	
+    IDEA,		
+    MUPI_EVENT,
+    DEMAND;
 
     static public PubType get(int id){
       for(PubType typ : PubType.values()){
