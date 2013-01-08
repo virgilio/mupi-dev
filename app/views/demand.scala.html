@@ -1,0 +1,66 @@
+@( interests: List[models.Interest],
+   locations: List[models.Location], 
+   community : Form[utils.Forms.Community],
+   promotionsPage: Page[models.Promotion] )
+
+@promotions = @{promotionsPage.getList} 
+
+@import com.feth.play.module.pa.views.html._
+@import feedHelpers._
+@import mupiHelpers._
+@import helper._ 
+@import helper.twitterBootstrap._
+
+
+@main(Messages("mupi.navigation.feed"),"") {
+	<link rel="stylesheet" href="@routes.Assets.at("stylesheets/font-awesome.css")" type="text/css" media="screen" />
+	<link rel="stylesheet" href="@routes.Assets.at("stylesheets/promotions.css")" type="text/css" media="screen" />
+	<link href="@routes.Assets.at("stylesheets/jasny-bootstrap.css")" rel="stylesheet" type="text/css" media="screen" /> 
+	
+	<script type="text/javascript" src="@routes.Assets.at("javascripts/promotions.js")"></script>
+	@**
+<!-- 	<div id="promotions_header" class="container promotions_header"> -->
+<!-- 		<div class='align_center'> -->
+<!-- 			<h1> Próximos eventos em   </h1> -->
+<!-- 			@form(routes.EventController.filterEvents, 'id -> "communitySelectionForm") { -->
+<!-- 			  <div id="interest_selector" class="interest_selector"> -->
+<!-- 					@mupiInterestSelect(field=community("interest"), interests) -->
+<!-- 				</div> -->
+<!-- 				<div id="location_selector" class="location_selector"> -->
+<!-- 					@mupiLocationSelect(field=community("location"), locations) -->
+<!-- 		    </div> -->
+<!-- 		  } -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+	**@
+	<div id="promotion_list" class="promotion_list">
+		<div id="pagination" class="pagination">
+			<ul>
+			    @if(promotionsPage.hasPrev) {
+		        <li class="prev">
+		            <a href="@getPromotionPage(community("interest").value, community("location").value, promotionsPage.getPageIndex - 1)">< anterior </a>
+		        </li>
+			    } else {
+		        <li class="prev disabled">
+		          <a> < anterior </a>
+		        </li>
+			    }
+			    
+			    <li class="current">
+			      <a>Mostrando do  @promotionsPage.getDisplayXtoYofZ(" ao "," de ")</a>
+			    </li>
+			    
+			    @if(promotionsPage.hasNext) {
+		        <li class="next">
+		          <a href="@getPromotionPage(community("interest").value, community("location").value, promotionsPage.getPageIndex + 1)"> próxima ></a>
+		        </li>
+			    } else {
+		        <li class="next disabled">
+		            <a> próxima ></a>
+		        </li>
+			    }
+			</ul>
+		</div>
+	  <div class="meetups" id="meetups">@promList(promotions)</div>
+	</div>
+}
