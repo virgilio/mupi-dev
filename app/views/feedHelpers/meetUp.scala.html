@@ -28,9 +28,9 @@
 	  </span>
 	</a>
 	
-	@**
+	
 	@{prom.getPublication.getPub_typ match {
-		case t: conf.MupiParams.PubType.MUPI_EVENT =>
+		case (conf.MupiParams.PubType.MUPI_EVENT)  =>
 			if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
 	          <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar inscrição">Desinscrever-me</button>
 	          <div class="mini_logo" title="Evento Mupi!"></div>
@@ -40,36 +40,24 @@
 		          <div class="mini_logo" title="Evento Mupi!"></div>
 		          <div class="subscribe_shadow meetup_info"></div>
 		    }
-	}}
-	
-	@if(prom.getPublication.getPub_typ.compareTo(MupiParams.PubType.MUPI_EVENT)){
-      @if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
-          <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar inscrição">Desinscrever-me</button>
-          <div class="mini_logo" title="Evento Mupi!"></div>
-          <div class="subscribe_shadow meetup_info"></div>
-      }else{
-          <button class="meetUp_subscription_feed meetup_info" title="Fazer inscrição">Quero ir!</button>
-          <div class="mini_logo" title="Evento Mupi!"></div>
-          <div class="subscribe_shadow meetup_info"></div>
-      }
-	}else if(prom.getPublication.getPub_typ.compareTo(MupiParams.PubType.EVENT)){
-      @if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
+		    
+		case (conf.MupiParams.PubType.EVENT)  =>
+		  if(prom.getSubscribers.contains(Mupi.getLocalUser(session()))){
           <button class="meetUp_unsubscription_feed meetup_info" title="Cancelar presença">Não vou mais</button>
             <div class="subscribe_shadow meetup_info"></div>
       }else{
           <button class="meetUp_subscription_feed meetup_info" title="Confirmar presença">Eu vou!</button>
             <div class="subscribe_shadow meetup_info"></div>
       }
-	}else if(prom.getPublication.getPub_typ.compareTo(MupiParams.PubType.DEMAND)){
-          <button class="meetUp_subscription_feed meetup_info demand_learn_subscription 
-          			@if(!Mupi.getLocalUser(session())) { login_modal_but } 
-          			" title="Aprender">Quero Aprender</button>
-          <button class="meetUp_subscription_feed meetup_info demand_teach_subscription" title="Ensinar">Quero Ensinar</button>
-          <div class="mini_logo" title="Evento Mupi!"></div>
-            <div class="subscribe_shadow meetup_info"></div>
-	}else {
+	
+	  case (conf.MupiParams.PubType.DEMAND)  =>
+       <button class="meetUp_subscription_feed meetup_info demand_learn_subscription 
+       			@if(!Mupi.getLocalUser(session())) { login_modal_but } 
+       			" title="Aprender">Quero Aprender</button>
+       <button class="meetUp_subscription_feed meetup_info demand_teach_subscription" title="Ensinar">Quero Ensinar</button>
+       <div class="mini_logo" title="Evento Mupi!"></div>
+         <div class="subscribe_shadow meetup_info"></div>
 		
-	} 
-	**@
+	}}
 	
 </div>
