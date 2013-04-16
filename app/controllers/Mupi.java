@@ -364,4 +364,9 @@ public class Mupi extends Controller {
     NotificationBucket.setAllNotified(user.getProfile());
     return ok();
   }
+
+  public static void escola() {
+    redirect("http://www.matchboxideas.com.br/escola");
+  }
+
 }
