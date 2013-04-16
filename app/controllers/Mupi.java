@@ -365,8 +365,8 @@ public class Mupi extends Controller {
     return ok();
   }
 
-  public static void escola() {
-    redirect("http://www.matchboxideas.com.br/escola");
+  public static Result escola() {
+    return redirect("http://www.matchboxideas.com.br/escola");
   }
 
 }
